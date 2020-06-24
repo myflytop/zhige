@@ -7,7 +7,7 @@ layer.config({
     skin: 'layer-ext-moon'
 });
 
-var isMobile = $.common.isMobile() || $(window).width() < 769;
+var isMobile = false;
 var sidebarHeight = isMobile ? '100%' : '96%';
 
 $(function() {

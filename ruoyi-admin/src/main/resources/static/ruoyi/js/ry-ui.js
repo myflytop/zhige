@@ -45,6 +45,7 @@ var table = {
         		    pagination: true,
         		    paginationLoop: false,
         		    pageSize: 10,
+        		    pageNumber: 1,
         		    pageList: [10, 25, 50],
         		    toolbar: "toolbar",
         		    striped: false,

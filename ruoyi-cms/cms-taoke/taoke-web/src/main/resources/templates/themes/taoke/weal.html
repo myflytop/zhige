@@ -11,28 +11,7 @@
     <div class="header-middle-area">
         <div class="container">
             <div class="row">
-                <!-- Logo Area Start -->
-                <div class="col-4 col-md-2 col-xl-3 m-auto text-center text-lg-left">
                     <th:block  th:include="themes/taoke/taoke_include :: logo"></th:block>
-                </div>
-                <!-- Logo Area End -->
-
-                <!-- Search Box Area Start -->
-                <div class="col-8 col-md-7 col- m-auto ">
-                    <div class="search-box-wrap">
-                        <form class="search-form d-flex" action="#" method="get">
-                            <input type="search" name="search" placeholder="想什么呢？输入找找看看"/>
-                            <button class="btn btn-search"><img src="assets/img/icons/icon-search.png"
-                                                                alt="搜索"/>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                <!-- Search Box Area End -->
-
-                <!-- Mini Cart Area Start -->
-
-                <!-- Mini Cart Area End -->
             </div>
         </div>
     </div>
@@ -48,7 +27,6 @@
                         <button class="btn btn-category d-none d-lg-inline-block"><i class="fa fa-bars"></i> 商品分类服务
                         </button>
                         <th:block  th:include="themes/taoke/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenu(29)})"></th:block>
-
                     </div>
                 </div>
                 <!-- Categories List End -->
@@ -56,7 +34,7 @@
                 <div class="col-2 col-lg-9 d-none d-lg-block">
                     <div class="main-menu-wrap">
                         <nav class="mainmenu">
-                            <th:block  th:include="themes/taoke/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(69)})"/>
+                            <th:block  th:include="themes/taoke/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(22)})"/>
                         </nav>
                     </div>
                 </div>
@@ -88,7 +66,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <th:block  th:include="themes/taoke/taoke_include :: taokeWealMenu(wealMenus=${@menuTag.getMenu(22)})"/>
+                <th:block  th:include="themes/taoke/taoke_include :: taokeWealMenu(wealMenus=${@menuTag.getMenu(62)})"/>
             </div>
         </div>
     </div>
@@ -105,94 +83,7 @@
 <!-- 结束 -->
 <!-- Start Products Area Wrapper -->
 <div class="product-area-wrapper">
-    <div class="container">
-        <div class="row">
-            <!-- Products Content Start -->
-            <div class="col-lg-9">
-                <!-- Latest Products Area -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="section-title text-center">
-                                    <h2>最受欢迎的分类</h2>
-                                    <p><a th:href="@{'/taoke/callMe'}">有什么特殊需求?</a></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <!-- Latest Product Content -->
-                            <div class="col-lg-12">
-                                <div class="product-content-wrap">
-                                    <!-- Product Tab Menu Start -->
-                                    <nav class="latest-pro-tab-menu">
-                                        <ul class="nav justify-content-center justify-content-lg-end" role="tablist">
-                                            <li><a class="active" href="#computer-products" id="computer-products-tab"
-                                                   data-toggle="tab">日用品</a></li>
-                                            <li><a href="#smartphone-products" id="smartphone-products-tab" data-toggle="tab">手机配件</a></li>
-                                            <li><a href="#camera-products" id="camera-products-tab" data-toggle="tab">鞋包服饰</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                    <!-- Product Tab Menu End -->
-
-                                    <!-- Product Tab Content Start -->
-                                    <div class="tab-content" id="latestProducts">
-                                        <th:block  th:include="themes/taoke/taoke_include :: hotTag(dailyNeed=${dailyNeed},mobile=${mobile},shoes=${shoes})"/>
-                                    </div>
-                                    <!-- Product Tab Content End -->
-                                </div>
-                            </div>
-                            <!-- Latest Product Content -->
-                        </div>
-
-                        <div class="row">
-                            <!-- Banner Area Start -->
-                            <div class="col-lg-12">
-                                <div class="banner-small">
-                                    <a th:href="@{'/taoke/shop'}">查看更多</a>
-                                </div>
-                            </div>
-                            <!-- Banner Area End -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Latest Products Area -->
-
-                <!-- New Products Area Start -->
-
-                <!-- New Products Area End -->
-            </div>
-            <!-- Products Content End -->
-            <!-- Sidebar Content Start -->
-            <div class="col-lg-3">
-                <div id="home-sidebar-wrap">
-                    <!-- Most viewed Product Start -->
-                    <div class="single-home-sidebar">
-                        <h3 class="title">最受欢迎</h3>
-                        <div class="sidebar-body">
-                            <div class="sidebar-product-carousel owl-carousel">
-                                <th:block  th:include="themes/taoke/taoke_include :: popular(populars=${populars})"/>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Most viewed Product End -->
-
-                    <!-- Sidebar Banner Start -->
-                    <div class="single-home-sidebar d-none d-lg-block">
-                        <div class="sidebar-body">
-                            <a th:href="@{'/taoke/shop'}" class="d-bock">
-                                查看更多
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Sidebar Banner End -->
-                </div>
-            </div>
-
-            <!-- Sidebar Content End -->
-        </div>
-    </div>
+    <th:block  th:include="themes/taoke/taoke_include :: hotTag(dailyNeed=${@taoKeTag.taoKeByTagId(11,20)},mobile=${@taoKeTag.taoKeByTagId(11,20)},shoes=${@taoKeTag.taoKeByTagId(11,20)})"/>
 </div>
 <!--== Start Footer Area ==-->
 <th:block  th:include="themes/taoke/taoke_include :: taokeBottom"/>

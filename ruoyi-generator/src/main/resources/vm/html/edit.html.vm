@@ -65,6 +65,25 @@
                     <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
                 </div>
             </div>
+#elseif($column.htmlType == "checkbox" && "" != $dictType)
+            <div class="form-group">
+                <label class="col-sm-3 control-label">${comment}：</label>
+                <div class="col-sm-8" th:with="type=${@dict.getType('${dictType}')}">
+                    <label th:each="dict : ${type}" class="check-box">
+                        <input name="${field}" type="checkbox" th:value="${dict.dictValue}" th:text="${dict.dictLabel}" th:attr="checked=${${className}.${field}.contains(dict.dictValue)?true:false}"#if($column.required) required#end>
+                    </label>
+                </div>
+            </div>
+#elseif($column.htmlType == "checkbox" && $dictType)
+            <div class="form-group">
+                <label class="col-sm-3 control-label">${comment}：</label>
+                <div class="col-sm-8">
+                    <label class="check-box">
+                        <input name="${field}" type="checkbox"#if($column.required) required#end> 无
+                    </label>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
 #elseif($column.htmlType == "radio" && "" != $dictType)
             <div class="form-group">    
                 <label class="col-sm-3 control-label">${comment}：</label>
@@ -192,7 +211,11 @@
                 {
                     field: 'index',
                     align: 'center',
-                    title: "序号"
+                    title: "序号",
+                    formatter: function (value, row, index) {
+                    	var columnIndex = $.common.sprintf("<input type='hidden' name='index' value='%s'>", $.table.serialNumber(index));
+                    	return columnIndex + $.table.serialNumber(index);
+                    }
                 },
 #foreach($column in $subTable.columns)
 #set($dictType=$column.dictType)
@@ -231,7 +254,6 @@
                 }]
             };
             $.table.init(options);
-            sub.resetIndex();
         });
 
         function addColumn() {
@@ -252,7 +274,6 @@
 #end
         	    }
             });
-            sub.resetIndex();
         }
 #end
     </script>
