@@ -183,7 +183,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		</set>
  		where user_id = #{userId}
 	</update>
- 	
+
+	<update id="updateUserByEmail" parameterType="SysUser">
+		update sys_user
+		<set>
+
+			<if test="password != null and password != ''">password = #{password},</if>
+			<if test="salt != null and salt != ''">salt = #{salt},</if>
+			update_time = sysdate()
+		</set>
+		where email = #{email}
+	</update>
+
  	<insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
  		insert into sys_user(
  			<if test="userId != null and userId != 0">user_id,</if>

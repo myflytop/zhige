@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.cms.system.mapper.CmsContactMapper">
+    <resultMap type="com.ruoyi.cms.system.model.po.CmsContact" id="CmsContactResult">
+        <result property="contactId"    column="contact_id"    />
+        <result property="subject"    column="subject"    />
+        <result property="content"    column="content"    />
+        <result property="handler"    column="handler"    />
+        <result property="email"    column="email"    />
+        <result property="phone"    column="phone"    />
+        <result property="visible"    column="visible"    />
+        <result property="otherContact"    column="other_contact"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="contactType"    column="contact_type"    />
+        <result property="handleResult"    column="handle_result"    />
+        <result property="handleTime"    column="handle_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="userCall"    column="user_call"    />
+    </resultMap>
+
+    <sql id="selectCmsContactVo">
+        select contact_id, user_call,subject, content, handler, email, phone, visible, other_contact, create_time, contact_type, handle_result, handle_time, create_by, remark from cms_contact
+    </sql>
+
+    <select id="selectCmsContactList" parameterType="com.ruoyi.cms.system.model.po.CmsContact" resultMap="CmsContactResult">
+        <include refid="selectCmsContactVo"/>
+        <where>
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="handler != null "> and handler = #{handler}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="otherContact != null  and otherContact != ''"> and other_contact = #{otherContact}</if>
+            <if test="contactType != null "> and contact_type = #{contactType}</if>
+            <if test="handleResult != null  and handleResult != ''"> and handle_result = #{handleResult}</if>
+            <if test="handleTime != null "> and handle_time = #{handleTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectCmsContactById" parameterType="Long" resultMap="CmsContactResult">
+        <include refid="selectCmsContactVo"/>
+        where contact_id = #{contactId}
+    </select>
+        
+    <insert id="insertCmsContact" parameterType="com.ruoyi.cms.system.model.po.CmsContact" useGeneratedKeys="true" keyProperty="contactId">
+        insert into cms_contact
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="subject != null  and subject != ''">subject,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="handler != null ">handler,</if>
+            <if test="email != null  and email != ''">email,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="visible != null ">visible,</if>
+            <if test="otherContact != null  and otherContact != ''">other_contact,</if>
+            create_time,
+            <if test="contactType != null ">contact_type,</if>
+            <if test="handleResult != null  and handleResult != ''">handle_result,</if>
+            <if test="handleTime != null ">handle_time,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="userCall != null  and userCall != ''">user_call,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="subject != null  and subject != ''">#{subject},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="handler != null ">#{handler},</if>
+            <if test="email != null  and email != ''">#{email},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="visible != null ">#{visible},</if>
+            <if test="otherContact != null  and otherContact != ''">#{otherContact},</if>
+            sysdate(),
+            <if test="contactType != null ">#{contactType},</if>
+            <if test="handleResult != null  and handleResult != ''">#{handleResult},</if>
+            <if test="handleTime != null ">#{handleTime},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="userCall != null  and userCall != ''">#{uderCall},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCmsContact" parameterType="com.ruoyi.cms.system.model.po.CmsContact">
+        update cms_contact
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subject != null  and subject != ''">subject = #{subject},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="handler != null ">handler = #{handler},</if>
+            <if test="email != null  and email != ''">email = #{email},</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="visible != null ">visible = #{visible},</if>
+            <if test="otherContact != null  and otherContact != ''">other_contact = #{otherContact},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="contactType != null ">contact_type = #{contactType},</if>
+            <if test="handleResult != null  and handleResult != ''">handle_result = #{handleResult},</if>
+            <if test="handleTime != null ">handle_time = #{handleTime},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="userCall != null  and userCall != ''">#{uderCall},</if>
+        </trim>
+        where contact_id = #{contactId}
+    </update>
+
+    <delete id="deleteCmsContactById" parameterType="Long">
+        delete from cms_contact where contact_id = #{contactId}
+    </delete>
+
+    <delete id="deleteCmsContactByIds" parameterType="String">
+        delete from cms_contact where contact_id in 
+        <foreach item="contactId" collection="array" open="(" separator="," close=")">
+            #{contactId}
+        </foreach>
+    </delete>
+    
+</mapper>

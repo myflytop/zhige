@@ -250,6 +250,11 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/ruoyi/**", "anon");
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
+        //博客淘客设置匿名访问
+        filterChainDefinitionMap.put("/taoke/**", "anon");
+        filterChainDefinitionMap.put("/blog/**", "anon");
+        //博客淘客资源匿名访问
+        filterChainDefinitionMap.put("/themes/**", "anon");
         // 退出 logout地址，shiro去清除session
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要拦截的访问
@@ -258,6 +263,12 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/register", "anon,captchaValidate");
         // 系统权限列表
         // filterChainDefinitionMap.putAll(SpringUtils.getBean(IMenuService.class).selectPermsAll());
+        // 不需要拦截的访问
+        filterChainDefinitionMap.put("/blog/user/login", "anon,captchaValidate");
+        // 不需要拦截的访问
+        filterChainDefinitionMap.put("/blog/user/register", "anon,captchaValidate");
+        // 不需要拦截的访问
+        filterChainDefinitionMap.put("/blog/user/forget", "anon,captchaValidate");
 
         Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
         filters.put("onlineSession", onlineSessionFilter());

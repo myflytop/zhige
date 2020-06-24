@@ -22,6 +22,12 @@
 									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
 								</select>
 							</li>
+							<li>
+								组别名称：<select name="configGroup" th:with="configs=${@config.getConfigGroup()}">
+								<option value="">所有</option>
+								<option th:each="config : ${configs}" th:text="${config}" th:value="${config}"></option>
+							</select>
+							</li>
 							<li class="select-time">
 								<label>创建时间： </label>
 								<input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginTime]"/>
@@ -83,6 +89,10 @@
                     field: 'configId',
                     title: '参数主键'
                 },
+				{
+					field: 'configGroup',
+					title: '组别名称'
+				},
                 {
                     field: 'configName',
                     title: '参数名称',

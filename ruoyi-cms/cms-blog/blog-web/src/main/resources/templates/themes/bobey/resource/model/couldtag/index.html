@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML5 3D动画标签云代码</title>
+<link rel="stylesheet" type="text/css" href="css/zzsc-demo.css">
+<style type="text/css">
+	#tag-cloud{
+		width:640px;
+		height:480px;
+		margin: 50px auto;
+	}
+</style>
+</head>
+<body>
+<div class="zzsc-container">
+	<div id='tag-cloud'></div>
+</div>
+
+<script src="js/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="js/jquery.svg3dtagcloud.min.js"></script>
+<script>
+	$( document ).ready( function() {
+		var entries = [ 
+			{ label: 'Back to top', url: '#', target: '_top' },
+			{ label: 'Bootstrap', url: '#', target: '_top' },
+			{ label: 'Carousel', url: '#', target: '_top' },
+			{ label: 'Countdown', url: '#', target: '_top' },
+			{ label: 'Dropdown Menu', url: '#', target: '_top' },
+			{ label: 'CodePen', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'three.js', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'Form Validation', url: '#', target: '_top' },
+			{ label: 'JS Compress', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'TinyPNG', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'Can I Use', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'URL shortener', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'Grid Layout', url: '#', target: '_top' },
+			{ label: 'Twitter', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'deviantART', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'Gulp', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'Browsersync', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'GitHub', url: 'https://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'Shadertoy', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'Tree View', url: '#', target: '_top' },
+			{ label: 'jsPerf', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'Foundation', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'CreateJS', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'Velocity.js', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'TweenLite', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'jQuery', url: 'http://www.lanrenzhijia.com/', target: '_top' },
+			{ label: 'Notification', url: '#', target: '_top' },
+			{ label: 'Parallax', url: '#', target: '_top' }
+		];
+
+		var settings = {
+
+			entries: entries,
+			width: 640,
+			height: 480,
+			radius: '65%',
+			radiusMin: 75,
+			bgDraw: true,
+			bgColor: '#494A5F',
+			opacityOver: 1.00,
+			opacityOut: 0.05,
+			opacitySpeed: 6,
+			fov: 800,
+			speed: 0.5,
+			fontFamily: 'Oswald, Arial, sans-serif',
+			fontSize: '15',
+			fontColor: '#fff',
+			fontWeight: 'normal',//bold
+			fontStyle: 'normal',//italic 
+			fontStretch: 'normal',//wider, narrower, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded
+			fontToUpperCase: true
+
+		};
+
+		//var svg3DTagCloud = new SVG3DTagCloud( document.getElementById( 'holder'  ), settings );
+		$( '#tag-cloud' ).svg3DTagCloud( settings );
+
+	} );
+	
+</script>
+</body>
+</html>

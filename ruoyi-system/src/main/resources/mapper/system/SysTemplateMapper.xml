@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysTemplateMapper">
+    
+    <resultMap type="SysTemplate" id="SysTemplateResult">
+        <result property="templateId"    column="template_id"    />
+        <result property="mouldName"    column="mould_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="built"    column="built"    />
+        <result property="templateHtml"    column="template_html"   jdbcType="LONGVARCHAR" />
+        <result property="templateData"    column="template_data"   jdbcType="LONGVARCHAR" />
+        <result property="visible"    column="visible"    />
+        <result property="templateUsed"    column="template_used"    />
+    </resultMap>
+
+    <sql id="selectSysTemplateVo">
+        select template_id, mould_name, create_by, create_time, update_by, update_time, remark, built, template_html, template_data, visible, template_used from sys_template
+    </sql>
+
+    <select id="selectSysTemplateList" parameterType="SysTemplate" resultMap="SysTemplateResult">
+        <include refid="selectSysTemplateVo"/>
+        <where>  
+            <if test="mouldName != null  and mouldName != ''"> and mould_name like concat('%', #{mouldName}, '%')</if>
+            <if test="built != null "> and built = #{built}</if>
+            <if test="templateHtml != null  and templateHtml != ''"> and template_html = #{templateHtml}</if>
+            <if test="templateData != null  and templateData != ''"> and template_data = #{templateData}</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="templateUsed != null "> and template_used = #{templateUsed}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysTemplateById" parameterType="Long" resultMap="SysTemplateResult">
+        <include refid="selectSysTemplateVo"/>
+        where template_id = #{templateId}
+    </select>
+        
+    <insert id="insertSysTemplate" parameterType="SysTemplate" useGeneratedKeys="true" keyProperty="templateId">
+        insert into sys_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mouldName != null  and mouldName != ''">mould_name,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null ">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="built != null ">built,</if>
+            <if test="templateHtml != null  and templateHtml != ''">template_html,</if>
+            <if test="templateData != null  and templateData != ''">template_data,</if>
+            <if test="visible != null ">visible,</if>
+            <if test="templateUsed != null ">template_used,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mouldName != null  and mouldName != ''">#{mouldName},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="built != null ">#{built},</if>
+            <if test="templateHtml != null  and templateHtml != ''">#{templateHtml,jdbcType=LONGVARCHAR},</if>
+            <if test="templateData != null  and templateData != ''">#{templateData,jdbcType=LONGVARCHAR},</if>
+            <if test="visible != null ">#{visible},</if>
+            <if test="templateUsed != null ">#{templateUsed},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysTemplate" parameterType="SysTemplate">
+        update sys_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mouldName != null  and mouldName != ''">mould_name = #{mouldName},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="built != null ">built = #{built},</if>
+            <if test="templateHtml != null  and templateHtml != ''">template_html = #{templateHtml},</if>
+            <if test="templateData != null  and templateData != ''">template_data = #{templateData},</if>
+            <if test="visible != null ">visible = #{visible},</if>
+            <if test="templateUsed != null ">template_used = #{templateUsed},</if>
+        </trim>
+        where template_id = #{templateId}
+    </update>
+
+    <delete id="deleteSysTemplateById" parameterType="Long">
+        delete from sys_template where template_id = #{templateId}
+    </delete>
+
+    <delete id="deleteSysTemplateByIds" parameterType="String">
+        delete from sys_template where template_id in 
+        <foreach item="templateId" collection="array" open="(" separator="," close=")">
+            #{templateId}
+        </foreach>
+    </delete>
+
+    <select id="listTemNameId" resultType="String">
+       select CONCAT(template_id,"_",mould_name) from sys_template
+    </select>
+
+    <select id="getTemData" resultType="String" parameterType="Long">
+        select template_data from sys_template where template_id=#{templateId}
+    </select>
+    
+</mapper>

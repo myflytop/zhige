@@ -28,6 +28,14 @@ public class SysConfig extends BaseEntity
     @Excel(name = "参数键名")
     private String configKey;
 
+    /** 参数值组名 */
+    @Excel(name = "参数值类型",readConverterExp = "0=布尔型,1=数值,2=字符型")
+    private Byte configValueType;
+
+    /** 参数值类型 */
+    @Excel(name = "参数值组名")
+    private String configGroup;
+
     /** 参数键值 */
     @Excel(name = "参数键值")
     private String configValue;
@@ -92,6 +100,22 @@ public class SysConfig extends BaseEntity
         this.configType = configType;
     }
 
+    public Byte getConfigValueType() {
+        return configValueType;
+    }
+
+    public void setConfigValueType(Byte configValueType) {
+        this.configValueType = configValueType;
+    }
+
+    public String getConfigGroup() {
+        return configGroup;
+    }
+
+    public void setConfigGroup(String configGroup) {
+        this.configGroup = configGroup;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -104,6 +128,8 @@ public class SysConfig extends BaseEntity
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
+            .append("configGroup",getConfigGroup())
+            .append("configValueType", getConfigValueType())
             .append("remark", getRemark())
             .toString();
     }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header('')"></head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content">
+		<div class="col-sm-12">
+			<div class="row">
+				<div class="col-sm-6 col-sm-offset-3">
+					<div class="ibox float-e-margins">
+						<div class="ibox-content">
+							<table class="table table-hover no-margins">
+								<thead>
+									<tr>
+										<th>属性</th>
+										<th>值</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>栏目ID</td>
+										<td th:text="${column.columnId}">1</td>
+									</tr>
+									<tr>
+										<td>父类目ID</td>
+										<td th:text="${column.parentId}">0%</td>
+									</tr>
+									<tr>
+										<td>目录名字</td>
+										<td th:text="${column.columnName}">0%</td>
+									</tr>
+									<tr>
+										<td>为节点吗</td>
+										<td th:if="${column.parent==true}">是</td>
+										<td th:if="${column.parent==false}">否</td>
+									</tr>
+									<tr>
+										<td>类目地址</td>
+										<td th:text="${column.columnUrl}">0%</td>
+									</tr>
+									<tr>
+										<td>打开方式</td>
+										<td th:if="${column.openType==1}">新窗口</td>
+										<td th:if="${column.openType==2}">父窗口</td>
+										<td th:if="${column.openType==3}">当前窗口</td>
+										<td th:if="${column.openType==4}">顶层窗口</td>
+									</tr>
+									<tr>
+										<td>权限标识</td>
+										<td th:text="${column.perms}">0%</td>
+									</tr>
+									<tr>
+										<td>是否显示</td>
+										<td th:if="${column.visible==1}">显示</td>
+										<td th:if="${column.visible==0}">隐藏</td>
+
+									</tr>
+									<tr>
+										<td>排序编号</td>
+										<td th:text="${column.orderNo}">0%</td>
+									</tr>
+									<tr>
+										<td>显示图标</td>
+										<td><span th:text="${column.columnIcon}"
+											style="padding-right: 10px"></span><i
+											th:class="${column.columnIcon}"></i></td>
+									</tr>
+									<tr>
+										<td>创建人</td>
+										<td th:text="${column.createBy}">0%</td>
+									</tr>
+									<tr>
+										<td>创建时间</td>
+										<td
+											th:text="${#dates.format(column.createTime,'yyyy-MM-dd HH:mm:ss')}">0%</td>
+									</tr>
+									<tr>
+										<td>修改人</td>
+										<td th:text="${column.updateBy}">0%</td>
+									</tr>
+									<tr>
+										<td>修改时间</td>
+										<td
+											th:text="${#dates.format(column.updateTime,'yyyy-MM-dd HH:mm:ss')}">0%</td>
+									</tr>
+									<tr>
+										<td>栏目备注</td>
+										<td th:text="${column.remark}">0%</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<div th:include="include :: footer"></div>
+</html>

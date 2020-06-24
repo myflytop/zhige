@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('评论列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+
+                            <li>
+                                发布人：
+                                <input type="text" name="fromBy"/>
+                            </li>
+                            <li>
+                                回复人：
+                                <input type="text" name="replyBy"/>
+                            </li>
+                            <li>
+                                文章ID：
+                                <input type="text" name="articleId"/>
+                            </li>
+                            <li>
+                                内容：
+                                <input type="text" name="content"/>
+                            </li>
+                            <li>
+                                状态：
+                                <select name="fettle" th:with="type=${@dict.getType('cms_comment_fettle')}" >
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                                </select>
+                            </li>
+                            <li>
+                                ip：
+                                <input type="text" name="ip"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <div class="btn-group">
+                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">批量操作 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" id="commentFettle" th:with="type=${@dict.getType('cms_comment_fettle')}">
+                        <li  th:each="dict : ${type}"  th:data-id="${dict.dictValue}" ><a href="javascript:void(0)" th:text="${dict.dictLabel}"></a></li>
+
+                    </ul>
+                </div>
+                <a class="btn btn-danger multiple disabled"
+                   onclick="$.operate.removeAll()"
+                   shiro:hasPermission="cms:comment:remove"> <i
+                        class="fa fa-remove"></i> 批量删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var addFlag = [[${@permission.hasPermi('cms:comment:add')}]];
+        var editFlag = [[${@permission.hasPermi('cms:comment:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('cms:comment:remove')}]];
+        var prefix = ctx + "cms/comment";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                removeUrl: prefix + "/deleteCmsCommentByIds",
+                exportUrl: prefix + "/export",
+                modalName: "评论",
+                columns: [{
+                        checkbox: true
+                },
+                    {
+                        field : 'commentId',
+                        title : '评论id',
+                        align: 'left'
+                    },
+                {
+                    field : 'articleId',
+                    title : '文章id',
+                    align: 'left'
+                },
+                {
+                    field : 'parentId',
+                    title : '父Id',
+                    align: 'left'
+                },
+                {
+                    field : 'fromBy',
+                    title : '发布人',
+                    align: 'left'
+                },
+                {
+                    field : 'replyBy',
+                    title : '回复的人',
+                    align: 'left'
+                },
+                {
+                    field : 'content',
+                    title : '内容',
+                    align: 'left'
+                },
+                {
+                    field : 'fettle',
+                    title : '状态',
+                    align: 'left',
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel([[${@dict.getType('cms_comment_fettle')}]], value);
+                    }
+                },
+                {
+                    field : 'ip',
+                    title : 'ip',
+                    align: 'left'
+                },
+                {
+                    field : 'userSystem',
+                    title : '系统',
+                    align: 'left'
+                },
+                {
+                    field : 'userBower',
+                    title : '浏览器',
+                    align: 'left'
+                },
+                {
+                    field : 'nastyCount',
+                    title : '讨厌统计',
+                    align: 'left'
+                },
+                {
+                    field : 'likeCount',
+                    title : '喜欢统计',
+                    align: 'left'
+                },
+
+                {
+                    title: '操作',
+                    align: 'left',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.commentId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+            /*评论下拉框点击事件*/
+            $('#commentFettle>li').click(function(e) {
+                //获取选中行数据
+                var pam={},ids=[],chooseData =$("#bootstrap-table").bootstrapTable('getSelections');
+                pam.fettle=$(this).attr("data-id");
+                if (chooseData.length>0)
+                {$.each(chooseData,function (index,ele) {
+                    ids.push(ele.commentId);
+                });
+                    pam.ids=ids.join();
+                    $.modal.confirm("确认要修改选中评论的属性吗？", function() {
+                        $.operate.post(prefix + "/updateCommentFettle", pam);
+                    })
+                }
+                else{
+                    $.modal.alert("请至少选择一项");
+
+                }
+            });
+        });
+    </script>
+</body>
+</html>

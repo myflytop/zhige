@@ -23,6 +23,12 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>ognl</groupId>
+            <artifactId>ognl</artifactId>
+            <version>3.1.12</version>
+        </dependency>
+
         <!-- spring-boot-devtools -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -78,7 +84,49 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
-        
+
+        <!-- 储存-->
+        <dependency>
+            <groupId>com.ruoyi.oss</groupId>
+            <artifactId>oss-web</artifactId>
+        </dependency>
+
+        <!-- 内容管理模块-->
+        <dependency>
+            <groupId>com.ruoyi.cms</groupId>
+            <artifactId>blog-admin</artifactId>
+        </dependency>
+        <!--内容前端-->
+        <dependency>
+            <groupId>com.ruoyi.cms</groupId>
+            <artifactId>blog-web</artifactId>
+        </dependency>
+        <!--websocket-->
+        <!-- <dependency>
+             <groupId>com.ruoyi.message</groupId>
+             <artifactId>message-websocket</artifactId>
+         </dependency>-->
+        <!--邮件服务-->
+        <dependency>
+            <groupId>com.ruoyi.message</groupId>
+            <artifactId>message-email</artifactId>
+        </dependency>
+        <!--redis缓存-->
+        <dependency>
+            <groupId>com.ruoyi.cache</groupId>
+            <artifactId>cache-redis</artifactId>
+        </dependency>
+        <!--淘客管理-->
+        <dependency>
+            <groupId>com.ruoyi.cms</groupId>
+            <artifactId>taoke-admin</artifactId>
+        </dependency>
+        <!--淘客前台-->
+        <dependency>
+            <groupId>com.ruoyi.cms</groupId>
+            <artifactId>taoke-web</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

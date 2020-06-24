@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,14 +53,19 @@ public class SysConfigServiceImpl implements ISysConfigService
         return configMapper.selectConfig(config);
     }
 
+    @Override
+    public SysConfig selectConfigByKey(String configKey) {
+        return configMapper.selectConfigByKey(configKey);
+    }
+
     /**
-     * 根据键名查询参数配置信息
-     * 
+     * 根据键名查询参数配置信息value
+     * 先缓存
      * @param configKey 参数key
      * @return 参数键值
      */
     @Override
-    public String selectConfigByKey(String configKey)
+    public String selectConfigValueByKey(String configKey)
     {
         String configValue = Convert.toStr(CacheUtils.get(getCacheName(), getCacheKey(configKey)));
         if (StringUtils.isNotEmpty(configValue))
@@ -150,22 +157,22 @@ public class SysConfigServiceImpl implements ISysConfigService
     }
 
     /**
-     * 校验参数键名是否唯一
-     * 
-     * @param config 参数配置信息
-     * @return 结果
-     */
-    @Override
-    public String checkConfigKeyUnique(SysConfig config)
+ * 校验参数键名是否唯一
+ *
+ * @param config 参数配置信息
+ * @return 结果
+ */
+@Override
+public String checkConfigKeyUnique(SysConfig config)
+{
+    Long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
+    SysConfig info = configMapper.selectConfigByKey(config.getConfigKey());
+    if (StringUtils.isNotNull(info) && info.getConfigId().longValue() != configId.longValue())
     {
-        Long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
-        SysConfig info = configMapper.checkConfigKeyUnique(config.getConfigKey());
-        if (StringUtils.isNotNull(info) && info.getConfigId().longValue() != configId.longValue())
-        {
-            return UserConstants.CONFIG_KEY_NOT_UNIQUE;
-        }
-        return UserConstants.CONFIG_KEY_UNIQUE;
+        return UserConstants.CONFIG_KEY_NOT_UNIQUE;
     }
+    return UserConstants.CONFIG_KEY_UNIQUE;
+}
 
     /**
      * 获取cache name
@@ -186,5 +193,38 @@ public class SysConfigServiceImpl implements ISysConfigService
     private String getCacheKey(String configKey)
     {
         return Constants.SYS_CONFIG_KEY + configKey;
+    }
+
+    /**
+     * 获取分组列表
+     * @return
+     */
+    @Override
+    public List<String> selectConfigGroup() {
+        return configMapper.selectConfigGroup();
+    }
+
+    /**
+     * 通过key更新
+     * @param sysConfig
+     * @return
+     */
+    @Override
+    public int updateConfigByKey(SysConfig sysConfig) {
+        return configMapper.updateConfigByKey(sysConfig);
+    }
+
+    /**
+     * 通过前缀查询并转化为map
+     * @param configValuePrefix
+     * @return
+     */
+    @Override
+    public Map<String, SysConfig> selectConfigMap(String configValuePrefix) {
+        SysConfig sysConfig=new SysConfig();
+        sysConfig.setConfigKey(configValuePrefix);
+        List<SysConfig> sysConfigs=configMapper.selectConfigList(sysConfig);
+        Map<String, SysConfig> configMap = sysConfigs.stream().collect(Collectors.toMap(SysConfig::getConfigKey, a->a,(k1, k2)->k1));
+        return configMap;
     }
 }

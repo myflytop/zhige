@@ -437,7 +437,87 @@ var table = {
             		}
             	});
             },
-            // 刷新表格
+			// 导入数据多参数
+			importExcelMorePam: function(formId) {
+				table.set();
+				var currentId = $.common.isEmpty(formId) ? 'importTpl' : formId;
+				layer.open({
+					type: 1,
+					fix: false,
+					//不固定
+					maxmin: true,
+					offset: '10px',
+					area: ['400px', '600px'],
+					shade: 0.3,
+					title: '导入' + table.options.modalName + '数据',
+					content: $('#' + currentId).html(),
+					success: function(index, layero){
+						$.get(ctx+"cms/tag/listTag",function(data,status){
+							$("#selectTag").empty();
+							$.each(data,function(i,e){//i是索引，e是json对象
+								$("#selectTag").append("<option value="+e.tagId+">"+e.tagName+"</option>");
+							});
+							$('#selectTag').selectpicker('refresh');
+
+						});
+						$.get(ctx+"cms/cat/listCat",function(data,status){
+							$("#selectCat").empty();
+							$.each(data,function(i,e){//i是索引，e是json对象
+								$("#selectCat").append("<option value="+e.catId+">"+e.catName+"</option>");
+							});
+							$("#selectCat").selectpicker("refresh");
+						});
+						$('#selectTag').selectpicker('refresh');
+						$("#selectCat").selectpicker("refresh");
+					},
+
+					btn: ['<i class="fa fa-check"></i> 导入', '<i class="fa fa-remove"></i> 取消'],
+					// 弹层外区域关闭
+					shadeClose: true,
+					btn1: function(index, layero){
+						var file = layero.find('#file').val();
+						if (file == '' || (!$.common.endWith(file, '.xls') && !$.common.endWith(file, '.xlsx'))){
+							$.modal.msgWarning("请选择后缀为 “xls”或“xlsx”的文件。");
+							return false;
+						}
+						var index = layer.load(2, {shade: false});
+						$.modal.disable();
+						var formData = layero.find('#'+currentId+'Form').serializeArray();
+						//获取表单数据
+						formData.push({"name":"file","value":layero.find('#file')[0].files[0]});
+						var formData1 = new FormData();
+						for (var p in formData ){
+							formData1.append(formData[p].name,formData[p].value);
+						}
+						formData1.append("tags",$('#selectTag').selectpicker('val'));
+						formData1.append("cats",$('#selectCat').selectpicker('val'));
+						$.ajax({
+							url: table.options.importUrl,
+							data: formData1,
+							cache: false,
+							contentType: false,
+							processData: false,
+							type: 'POST',
+							success: function (result) {
+								if (result.code == web_status.SUCCESS) {
+									$.modal.closeAll();
+									$.modal.alertSuccess(result.msg);
+									$.table.refresh();
+								} else if (result.code == web_status.WARNING) {
+									layer.close(index);
+									$.modal.enable();
+									$.modal.alertWarning(result.msg)
+								} else {
+									layer.close(index);
+									$.modal.enable();
+									$.modal.alertError(result.msg);
+								}
+							}
+						});
+					}
+				});
+				},
+			// 刷新表格
             refresh: function(tableId) {
             	var currentId = $.common.isEmpty(tableId) ? table.options.id : tableId;
             	$("#" + currentId).bootstrapTable('refresh', {
@@ -804,45 +884,85 @@ var table = {
             },
             // 弹出层全屏
             openFull: function (title, url, width, height) {
-            	//如果是移动端，就使用自适应大小弹窗
-            	if ($.common.isMobile()) {
-            	    width = 'auto';
-            	    height = 'auto';
-            	}
-            	if ($.common.isEmpty(title)) {
-                    title = false;
-                }
-                if ($.common.isEmpty(url)) {
-                    url = "/404.html";
-                }
-                if ($.common.isEmpty(width)) {
-                	width = 800;
-                }
-                if ($.common.isEmpty(height)) {
-                	height = ($(window).height() - 50);
-                }
-                var index = layer.open({
-            		type: 2,
-            		area: [width + 'px', height + 'px'],
-            		fix: false,
-            		//不固定
-            		maxmin: true,
-            		shade: 0.3,
-            		title: title,
-            		content: url,
-            		btn: ['确定', '关闭'],
-            		// 弹层外区域关闭
-            		shadeClose: true,
-            		yes: function(index, layero) {
-            	        var iframeWin = layero.find('iframe')[0];
-            	        iframeWin.contentWindow.submitHandler(index, layero);
-            	    },
-            	    cancel: function(index) {
-            	        return true;
-            	    }
-            	});
-                layer.full(index);
-            },
+				//如果是移动端，就使用自适应大小弹窗
+				if ($.common.isMobile()) {
+					width = 'auto';
+					height = 'auto';
+				}
+				if ($.common.isEmpty(title)) {
+					title = false;
+				}
+				if ($.common.isEmpty(url)) {
+					url = "/404.html";
+				}
+				if ($.common.isEmpty(width)) {
+					width = 800;
+				}
+				if ($.common.isEmpty(height)) {
+					height = ($(window).height() - 50);
+				}
+				var index = layer.open({
+					type: 2,
+					area: [width + 'px', height + 'px'],
+					fix: false,
+					//不固定
+					maxmin: true,
+					shade: 0.3,
+					title: title,
+					content: url,
+					btn: ['确定', '关闭'],
+					// 弹层外区域关闭
+					shadeClose: true,
+					yes: function(index, layero) {
+						var iframeWin = layero.find('iframe')[0];
+						iframeWin.contentWindow.submitHandler(index, layero);
+					},
+					cancel: function(index) {
+						return true;
+					}
+				});
+				layer.full(index);
+			},
+			openFullPage: function (title, content, width, height) {
+				//如果是移动端，就使用自适应大小弹窗
+				if ($.common.isMobile()) {
+					width = 'auto';
+					height = 'auto';
+				}
+				if ($.common.isEmpty(title)) {
+					title = false;
+				}
+				if ($.common.isEmpty(content)) {
+					content = "内容为空,请正确编写模板";
+				}
+				if ($.common.isEmpty(width)) {
+					width = 800;
+				}
+				if ($.common.isEmpty(height)) {
+					height = ($(window).height() - 50);
+				}
+				var index = layer.open({
+					type: 1,
+					area: [width + 'px', height + 'px'],
+					fix: false,
+					//不固定
+					maxmin: true,
+					shade: 0.3,
+					title: title,
+					content: content,
+					btn: ['确定', '关闭'],
+					// 弹层外区域关闭
+					shadeClose: true,
+					yes: function(index, layero) {
+						var iframeWin = layero.find('iframe')[0];
+						iframeWin.contentWindow.submitHandler(index, layero);
+					},
+					cancel: function(index) {
+						return true;
+					}
+				});
+				layer.full(index);
+			},
             // 选卡页方式打开
             openTab: function (title, url) {
             	createMenuItem(url, title);

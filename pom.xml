@@ -202,7 +202,63 @@
 	            <artifactId>ruoyi-common</artifactId>
 	            <version>${ruoyi.version}</version>
 	        </dependency>
-	        
+
+			<!--websocket模块-->
+			<dependency>
+				<groupId>com.ruoyi.message</groupId>
+				<artifactId>message-websocket</artifactId>
+				<version>${ruoyi.version}</version>
+			</dependency>
+
+			<!--邮件模块-->
+			<dependency>
+				<groupId>com.ruoyi.message</groupId>
+				<artifactId>message-email</artifactId>
+				<version>${ruoyi.version}</version>
+			</dependency>
+
+			<!--文件模块-->
+			<dependency>
+				<groupId>com.ruoyi.oss</groupId>
+				<artifactId>oss-web</artifactId>
+				<version>${ruoyi.version}</version>
+			</dependency>
+
+			<!--redis缓存模块-->
+			<dependency>
+				<groupId>com.ruoyi.cache</groupId>
+				<artifactId>cache-redis</artifactId>
+				<version>${ruoyi.version}</version>
+			</dependency>
+
+			<!--内容博客管理模块-->
+			<dependency>
+				<groupId>com.ruoyi.cms</groupId>
+				<artifactId>blog-admin</artifactId>
+				<version>${ruoyi.version}</version>
+			</dependency>
+
+			<!--内容博客前端模块-->
+			<dependency>
+				<groupId>com.ruoyi.cms</groupId>
+				<artifactId>blog-web</artifactId>
+				<version>${ruoyi.version}</version>
+			</dependency>
+
+			<!-- 淘客管理模块-->
+			<dependency>
+				<groupId>com.ruoyi.cms</groupId>
+				<artifactId>taoke-admin</artifactId>
+				<version>${ruoyi.version}</version>
+			</dependency>
+
+			<!--淘客前端模块-->
+			<dependency>
+				<groupId>com.ruoyi.cms</groupId>
+				<artifactId>taoke-web</artifactId>
+				<version>${ruoyi.version}</version>
+			</dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -213,6 +269,10 @@
 		<module>ruoyi-quartz</module>
 		<module>ruoyi-generator</module>
         <module>ruoyi-common</module>
+        <module>ruoyi-oss</module>
+        <module>ruoyi-cache</module>
+		<module>ruoyi-message</module>
+        <module>ruoyi-cms</module>
     </modules>
     <packaging>pom</packaging>
 

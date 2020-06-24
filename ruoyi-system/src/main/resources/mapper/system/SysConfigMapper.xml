@@ -13,11 +13,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createBy"      column="create_by"      />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"      column="update_by"      />
+        <result property="configGroup"      column="config_group" />
+        <result property="configValueType"  column="config_value_type" />
         <result property="updateTime"    column="update_time"    />
     </resultMap>
     
     <sql id="selectConfigVo">
-        select config_id, config_name, config_key, config_value, config_type, create_by, create_time, update_by, update_time, remark 
+        select config_id, config_name, config_key, config_value, config_type, create_by, create_time, update_by, update_time, remark,config_group,config_value_type
 		from sys_config
     </sql>
     
@@ -50,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="configKey != null and configKey != ''">
 				AND config_key like concat('%', #{configKey}, '%')
 			</if>
+            <if test="configGroup != null and configGroup != ''">AND config_group= #{configGroup}</if>
 			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
 				and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
 			</if>
@@ -59,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
     </select>
     
-    <select id="checkConfigKeyUnique" parameterType="String" resultMap="SysConfigResult">
+    <select id="selectConfigByKey" parameterType="String" resultMap="SysConfigResult">
         <include refid="selectConfigVo"/>
         where config_key = #{configKey}
     </select>
@@ -72,6 +75,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="configType != null and configType != '' ">config_type,</if>
 			<if test="createBy != null and createBy != ''">create_by,</if>
 			<if test="remark != null and remark != ''">remark,</if>
+            <if test="configValueType != null ">config_value_type,</if>
+            <if test="configGroup != null ">config_group,</if>
  			create_time
         )values(
 			<if test="configName != null and configName != ''">#{configName},</if>
@@ -80,6 +85,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="configType != null and configType != ''">#{configType},</if>
 			<if test="createBy != null and createBy != ''">#{createBy},</if>
 			<if test="remark != null and remark != ''">#{remark},</if>
+            <if test="configValueType != null ">#{configValueType},</if>
+           <if test="configGroup != null ">#{configGroup},</if>
  			sysdate()
 		)
     </insert>
@@ -93,11 +100,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="configType != null and configType != ''">config_type = #{configType},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="configValueType != null ">config_value_type=#{configValueType},</if>
+            <if test="configGroup != null ">config_group=#{configGroup},</if>
  			update_time = sysdate()
         </set>
         where config_id = #{configId}
     </update>
-	
+
+    <update id="updateConfigByKey">
+        update sys_config
+        <set>
+            <if test="configValue != null and configValue != ''">config_value = #{configValue},</if>
+            update_time = sysdate(),
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+        </set>
+        where config_key = #{configKey}
+    </update>
+
+    <select id="selectConfigGroup" resultType="string">
+        select config_group from sys_config group by config_group
+    </select>
+
     <delete id="deleteConfigByIds" parameterType="String">
         delete from sys_config where config_id in 
         <foreach item="configId" collection="array" open="(" separator="," close=")">

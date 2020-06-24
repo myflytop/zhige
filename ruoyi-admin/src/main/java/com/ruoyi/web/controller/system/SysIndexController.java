@@ -37,8 +37,8 @@ public class SysIndexController extends BaseController
         List<SysMenu> menus = menuService.selectMenusByUser(user);
         mmap.put("menus", menus);
         mmap.put("user", user);
-        mmap.put("sideTheme", configService.selectConfigByKey("sys.index.sideTheme"));
-        mmap.put("skinName", configService.selectConfigByKey("sys.index.skinName"));
+        mmap.put("sideTheme", configService.selectConfigValueByKey("sys.index.sideTheme"));
+        mmap.put("skinName", configService.selectConfigValueByKey("sys.index.skinName"));
         mmap.put("copyrightYear", Global.getCopyrightYear());
         mmap.put("demoEnabled", Global.isDemoEnabled());
         return "index";

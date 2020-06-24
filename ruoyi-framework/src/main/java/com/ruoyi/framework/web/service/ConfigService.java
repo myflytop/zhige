@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.service.ISysConfigService;
 
+import java.util.List;
+
 /**
  * RuoYi首创 html调用 thymeleaf 实现参数管理
  * 
@@ -21,8 +23,17 @@ public class ConfigService
      * @param configKey 参数键名
      * @return 参数键值
      */
-    public String getKey(String configKey)
+    public String getConfigByKey(String configKey)
     {
-        return configService.selectConfigByKey(configKey);
+        return configService.selectConfigValueByKey(configKey);
+    }
+
+    /**
+     * 获取分组列表
+     * @return
+     */
+    public List<String> getConfigGroup()
+    {
+        return configService.selectConfigGroup();
     }
 }

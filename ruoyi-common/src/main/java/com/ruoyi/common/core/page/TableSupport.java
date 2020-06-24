@@ -15,11 +15,22 @@ public class TableSupport
      */
     public static PageDomain getPageDomain()
     {
+
+        return   getPageDomain(Constants.PAGE_NUM,Constants.PAGE_SIZE,Constants.ORDER_BY_COLUMN,Constants.IS_ASC);
+    }
+
+    /**
+     * 封装分页对象
+     */
+    public static PageDomain getPageDomain(String numString,String sizeString,String orderString,String ascString)
+    {
         PageDomain pageDomain = new PageDomain();
-        pageDomain.setPageNum(ServletUtils.getParameterToInt(Constants.PAGE_NUM));
-        pageDomain.setPageSize(ServletUtils.getParameterToInt(Constants.PAGE_SIZE));
-        pageDomain.setOrderByColumn(ServletUtils.getParameter(Constants.ORDER_BY_COLUMN));
-        pageDomain.setIsAsc(ServletUtils.getParameter(Constants.IS_ASC));
+        if (!"".equals(numString)){
+            pageDomain.setPageNum(ServletUtils.getParameterToInt(numString));
+        }
+        pageDomain.setPageSize(ServletUtils.getParameterToInt(sizeString));
+        pageDomain.setOrderByColumn(ServletUtils.getParameter(orderString));
+        pageDomain.setIsAsc(ServletUtils.getParameter(ascString));
         return pageDomain;
     }
 

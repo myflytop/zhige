@@ -57,6 +57,8 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
   profiles: 
     active: druid
+    # redis 配置文件
+    include: redis
   # 文件上传
   servlet:
      multipart:
@@ -125,7 +127,7 @@ xss:
   # 过滤开关
   enabled: true
   # 排除链接（多个用逗号分隔）
-  excludes: /system/notice/*
+  excludes: /system/notice/*,/system/template/*
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
 

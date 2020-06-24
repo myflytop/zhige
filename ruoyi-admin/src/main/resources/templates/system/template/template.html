@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('数据模板列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                            模板ID：
+                                <input type="text" name="templateId"/>
+                            </li>
+                            <li>
+                              模板名：
+                                <input type="text" name="mouldName"/>
+                            </li>
+                            <li>
+                                是否内置：
+                                <select name="built" th:with="type=${@dict.getType('sys_template_visible')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                               状态：
+                                <select name="visible" th:with="type=${@dict.getType('sys_template_visible')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                              模板用途：
+                                <select name="templateUsed" th:with="type=${@dict.getType('sys_template_used')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" id="viewBtn" shiro:hasPermission="system:template:example">
+                    <i class="fa fa-eye"></i> 模板展示
+                </a>
+                <a class="btn btn-success" onclick="$.operate.addTab(0)" shiro:hasPermission="system:template:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="system:template:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:template:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:template:edit')}]];
+        var addFlag = [[${@permission.hasPermi('system:template:add')}]];
+        var removeFlag = [[${@permission.hasPermi('system:template:remove')}]];
+        var prefix = ctx + "system/template";
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add/{id}",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                modalName: "数据模板",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'templateId', 
+                    title : '模板id',
+                    visible: false
+                },
+                {
+                    field : 'mouldName', 
+                    title : '模板名'
+                },
+                {
+                    field : 'remark', 
+                    title : '备注'
+                },
+                {
+                    field : 'built', 
+                    title : '是否内置'
+                },
+                {
+                    field : 'visible',
+                    title : '状态',
+                    formatter:function(value, row, index) {
+                    return $.table.selectDictLabel([[${@dict.getType('sys_template_visible')}]], value);
+               }
+                },
+                {
+                    field : 'templateUsed',
+                    title : '模板用途',
+                    formatter:function(value, row, index) {
+                return $.table.selectDictLabel([[${@dict.getType('sys_template_used')}]], value);
+               }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.templateId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + addFlag + '" href="javascript:void(0)" onclick="$.operate.addTab(\'' + row.templateId + '\')"><i class="fa fa-edit"></i>复制 </a> ');
+        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.templateId + '\')"><i class="fa fa-remove"></i>删除</a>');
+        return actions.join('');
+        }
+        }]
+            };
+            $.table.init(options);
+            $("#viewBtn").click(function () {
+                $.modal.openTab('模板展示',prefix+"/example");
+            });
+        });
+    </script>
+</body>
+</html>

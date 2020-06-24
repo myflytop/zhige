@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header('主题管理')"></head>
+<style type="text/css" rel="stylesheet">
+style>.note {
+	padding-top: 20px;
+}
+
+.note li {
+	margin: 10px 10px 10px 10px;
+	float: left;
+	display: list-item;
+	list-style: none;
+}
+
+ul.note li>.im {
+	text-decoration: none;
+	color: #000;
+	background-color: black;
+	display: block;
+	overflow: hidden;
+	height: 250px;
+	width: 300px;
+	border-radius: 10px;
+	-moz-box-shadow: 5px 5px 7px #212121;
+	-webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+	box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+	-moz-transition: -moz-transform 0.15s linear;
+	-o-transition: -o-transform 0.15s linear;
+	-webkit-transition: -webkit-transform 0.15s linear;
+}
+
+ul.note li div span {
+	display: block;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.theme-box {
+	position: relative;
+}
+
+.theme-box img {
+	width: 324px;
+	height: 284px;
+	opacity: 1;
+	top: -10px;
+	left: -12px;
+	position: absolute;
+}
+
+.im:hover  .theme-box img {
+	opacity: 0.4;
+}
+
+.theme-box .theme-tit {
+	top: 0;
+	left: 0;
+	color: #FFFFFF;
+	padding-top: 5px;
+	position: absolute;
+}
+
+.theme-box .theme-tit small {
+	padding-left: 20px;
+	font-size: 15px;
+}
+
+.theme-box .theme-tit i {
+	color: #FFFFFF;
+}
+
+.theme-tit>.theme-con {
+	padding-top: 30px;
+	width: 300px;
+	height: 250px;
+	font-weight: bold;
+	font-size: 40px;
+	text-align: center;
+}
+
+.theme-con span {
+	margin: 0;
+	line-height: 0;
+	font-size: 20px;
+}
+
+#toolbar {
+	padding-top: 10px;
+}
+
+.theme-enable {
+	font-size: 30px;
+	padding-left: 10px;
+}
+</style>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 select-table table-striped">
+				<div class="btn-group-sm" id="toolbar" role="group">
+					<a class="btn-header" id="showForm" href="javascript:void(0)"
+						onclick="themeUpload()"> <i class="fa fa-cloud-upload"
+						aria-hidden="true"></i>安装主题
+					</a>
+				</div>
+
+				<ul class="note">
+					<li th:each="theme : ${themes}" th:with="themeVal=${theme.value}">
+						<div class="im"
+							th:style="${themeVal.themeEnabled==0}? '':'box-shadow: 5px 5px 7px rgba(69, 89, 171, 0.7)'">
+							<div class="theme-box">
+								<img alt=""
+									th:src="@{/themes/{themeName}/source/screenshots/index.png(themeName=${themeVal.themeName})}">
+								<div class="theme-tit">
+									<button style="border: none; background: none"
+										th:class="${themeVal.themeEnabled==0}?'theme-enable btn':'theme-enable btn  disabled'"
+										th:disabled="${themeVal.themeEnabled==1}"
+										th:title="${themeVal.themeEnabled==0}? '启用':''"
+										th:onclick="javascript:themeUse([[${themeVal.themeName}]])">
+										<i
+											th:class="${themeVal.themeEnabled==0}? 'fa fa-square':'fa fa-check-square'"
+											aria-hidden="true"></i>
+									</button>
+									<div class="theme-con">
+										[[${themeVal.themeName}]] <span>By&nbsp;[[${themeVal.themeAuthor}]]
+										</span> <span style="padding-top: 15px;"> <a href="#"
+											title="删除"
+											th:onclick="javascript:themeDelete([[${themeVal.themeName}]])"><i
+												class="fa fa-trash-o " aria-hidden="true"></i></a> <a href="#"
+											title="设置"><i class="fa fa-pencil-square"
+												aria-hidden="true"></i></a>
+										</span>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+
+	</div>
+	<div th:include="include :: footer"></div>
+
+	<script type="text/html" id="importTheme">
+	<form  enctype="multipart/form-data" class="form-horizontal m mt20 mb10" >
+	<div class="col-xs-offset-1">
+		<input type="file" id="file" name="file" accept=".zip,.rar,.gz"/>
+        <br>
+        <div class="form-group">
+				<label class="col-sm-3 control-label">是否覆盖：</label>
+				<div class="col-sm-8">
+					<label class="radio-box" title="覆盖上传"> <input  name="covery" type="radio" value="true"  />覆盖</label> 
+					<label class="radio-box" title="不覆盖上传"> <input  name="covery" type="radio" value="false" checked /> 不覆盖 </label> 
+				</div>
+        <font color="red" class="pull-left mt10">
+			提示：仅允许导入“.zip”,“.gz”或“.rar”格式文件！
+		</font>
+		</div>
+	</div>
+    </form>
+    </script>
+	<script type="text/javascript">
+		var prefix = ctx + "cms/theme";
+		function themeDelete(themeName) {
+			layer.confirm('你要删除当前主题吗？', {
+				btn : [ '删除', '取消' ]
+			//按钮
+			}, function() {
+				$.post(prefix+"/deleteTheme", {
+					"themeName" : themeName,
+				}, function(result, status) {
+					if (result.code == web_status.SUCCESS) {
+						
+						$.modal.closeAll();
+						$.modal.alertSuccess(result.msg);
+						location.reload();
+					} else if (result.code == web_status.WARNING) {
+
+						$.modal.alertWarning(result.msg)
+					} else {
+
+						$.modal.alertError(result.msg);
+					}
+
+				});
+			}, function() {
+				layer.closeAll();
+			});
+		}
+
+		function themeUse(themeName) {
+			layer.confirm('你要启用当前主题吗？', {
+				btn : [ '启用', '取消' ]
+			//按钮
+			}, function() {
+				var index = layer.load(2, {
+					shade : false
+				});
+				$.modal.disable();
+				$.post(prefix+"/setTheme", {
+					"themeName" : themeName,
+				}, function(result, status) {
+					if (result.code == web_status.SUCCESS) {
+						location.reload();
+						$.modal.closeAll();
+						$.modal.alertSuccess(result.msg);
+					} else if (result.code == web_status.WARNING) {
+						layer.close(index);
+						$.modal.enable();
+						$.modal.alertWarning(result.msg)
+					} else {
+						layer.close(index);
+						$.modal.enable();
+						$.modal.alertError(result.msg);
+					}
+
+				});
+			}, function() {
+				layer.closeAll();
+			});
+		}
+
+		function themeUpload() {
+			layer.open({
+						type : 1,
+						title : "上传主题",
+						closeBtn : 0, //不显示关闭按钮
+						anim : 2,
+						area : [ '420px', '240px' ],
+						btn : [ '<i class="fa fa-check"></i> 安装',
+								'<i class="fa fa-remove"></i> 取消' ],
+						shadeClose : true, //开启遮罩关闭
+						content : $("#importTheme").html(),
+						btn1 : function(index, layero) {
+							var fileName = layero.find('#file').val();
+							if (fileName == ''
+									|| (!$.common.endWith(fileName, '.gz')
+											&& !$.common.endWith(fileName,
+													'.rar') && !$.common
+											.endWith(fileName, '.zip'))) {
+								$.modal
+										.msgWarning("请选择后缀为 “gz”,“zip”或者“rar”的文件。");
+								return false;
+							}
+							var file = layero.find('#file')[0].files[0];
+							var index = layer.load(2, {
+								shade : false
+							});
+							$.modal.disable();
+							var formData = new FormData();
+							formData.append("themeFile", file);
+							formData.append("covery", $(
+									"input[name='covery']:checked").val());
+							$.ajax({
+										url : prefix+"/uploadTheme",
+										data : formData,
+										cache : false,
+										contentType : false,
+										processData : false,
+										type : 'POST',
+										success : function(result) {
+											if (result.code == web_status.SUCCESS) {
+												$.modal.closeAll();
+												$.modal
+														.alertSuccess(result.msg);
+												location.reload();
+
+											} else if (result.code == web_status.WARNING) {
+												layer.close(index);
+												$.modal.enable();
+												$.modal
+														.alertWarning(result.msg)
+											} else {
+												layer.close(index);
+												$.modal.enable();
+												$.modal.alertError(result.msg);
+											}
+
+										}
+									});
+						}
+					});
+		}
+	</script>
+
+</body>
+<form id="importForm" enctype="multipart/form-data" class="mt20 mb10"
+	style="display: none;">
+	<div class="col-xs-offset-1">
+		<input type="file" id="file" name="file" accept=".zip,.rar,.gz" /> <font
+			color="red" class="pull-left mt10">
+			提示：仅允许导入“.zip”,“.gz”或“.rar”格式文件！ </font>
+	</div>
+</form>
+</html>

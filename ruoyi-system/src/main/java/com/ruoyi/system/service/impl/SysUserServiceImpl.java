@@ -458,7 +458,7 @@ public class SysUserServiceImpl implements ISysUserService
         int failureNum = 0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
-        String password = configService.selectConfigByKey("sys.user.initPassword");
+        String password = configService.selectConfigValueByKey("sys.user.initPassword");
         for (SysUser user : userList)
         {
             try
@@ -516,5 +516,10 @@ public class SysUserServiceImpl implements ISysUserService
     public int changeStatus(SysUser user)
     {
         return userMapper.updateUser(user);
+    }
+
+    @Override
+    public int updateUserByEmail(SysUser user) {
+        return userMapper.updateUserByEmail(user);
     }
 }

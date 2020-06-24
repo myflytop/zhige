@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.system.domain.SysConfig;
 
 /**
@@ -19,12 +21,20 @@ public interface ISysConfigService
     public SysConfig selectConfigById(Long configId);
 
     /**
+     * 查询参数配置信息
+     *
+     * @param configKey 参数配置ID
+     * @return 参数配置信息
+     */
+    public SysConfig selectConfigByKey(String configKey);
+
+    /**
      * 根据键名查询参数配置信息
      * 
      * @param configKey 参数键名
      * @return 参数键值
      */
-    public String selectConfigByKey(String configKey);
+    public String selectConfigValueByKey(String configKey);
 
     /**
      * 查询参数配置列表
@@ -70,4 +80,25 @@ public interface ISysConfigService
      * @return 结果
      */
     public String checkConfigKeyUnique(SysConfig config);
+
+    /**
+     * 获取分组列表
+     * @return 分组名列表
+     */
+    List<String> selectConfigGroup();
+
+    /**
+     * 通过key修改参数配置
+     * @param sysConfig
+     * @return
+     */
+    public int updateConfigByKey(SysConfig sysConfig);
+
+    /**
+     * 获取配置文件转化为key SysConfig形式
+     * @param configValuePrefix
+     * @return
+     */
+    public Map<String,SysConfig> selectConfigMap(String configValuePrefix);
+
 }

@@ -1,16 +1,18 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.common.enums.ConfigValueTypeEnum;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.framework.web.domain.server.Sys;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.controller.BaseController;
@@ -89,6 +91,10 @@ public class SysConfigController extends BaseController
         {
             return error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
+        if(!checkType(config.getConfigValueType(),config.getConfigValue()))
+        {
+            return error("值与预期类型不符！");
+        }
         config.setCreateBy(ShiroUtils.getLoginName());
         return toAjax(configService.insertConfig(config));
     }
@@ -115,6 +121,10 @@ public class SysConfigController extends BaseController
         if (UserConstants.CONFIG_KEY_NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config)))
         {
             return error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
+        }
+        if(!checkType(config.getConfigValueType(),config.getConfigValue()))
+        {
+            return error("值与预期类型不符！");
         }
         config.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(configService.updateConfig(config));
@@ -153,5 +163,68 @@ public class SysConfigController extends BaseController
     public String checkConfigKeyUnique(SysConfig config)
     {
         return configService.checkConfigKeyUnique(config);
+    }
+
+    /**
+     * 获取分组列表
+     */
+    @GetMapping("/configGroup")
+    @ResponseBody
+    public List<String> configGroup(){
+     return  configService.selectConfigGroup();
+    }
+
+    /**
+     * 修改保存参数配置
+     * 通过key批量保存
+     * 默认设置为字符串类型
+     */
+    @RequiresPermissions("system:config:edit")
+    @Log(title = "参数管理", businessType = BusinessType.UPDATE)
+    @PostMapping("/updateByKey")
+    @ResponseBody
+    public AjaxResult editSaves(@RequestParam Map<String,String> mp){
+        int i=0;
+        for (Map.Entry<String,String> entry:mp.entrySet()){
+            SysConfig sysConfig=new SysConfig();
+            sysConfig.setConfigKey(entry.getKey());
+            sysConfig.setConfigValue(entry.getValue());
+            sysConfig.setConfigName(entry.getKey());
+            SysConfig rsConfig=configService.selectConfigByKey(sysConfig.getConfigKey());
+            if (StringUtils.isNotNull(rsConfig)) {
+                if(!checkType(rsConfig.getConfigValueType(),sysConfig.getConfigValue()))
+                {
+                    continue;
+                }
+                sysConfig.setUpdateBy(ShiroUtils.getLoginName());
+                configService.updateConfigByKey(sysConfig);
+            }
+            else {
+                sysConfig.setConfigValueType((byte) ConfigValueTypeEnum.STRING.ordinal());
+                sysConfig.setCreateBy(ShiroUtils.getLoginName());
+                configService.insertConfig(sysConfig);
+            }
+            i=+1;
+        }
+        configService.clearCache();
+        return toAjax(i);
+    }
+
+
+    /**
+     * 判断是否符合预期类型
+     * @param type
+     * @param object
+     * @return
+     */
+    private boolean checkType(int type,Object object) {
+
+        if (type == 0) {
+            return "true".equals(object) || "false".equals(object) || "".equals(object);
+        } else if (type == 1) {
+            return  NumberUtils.isCreatable(object.toString());
+        } else {
+            return true;
+        }
     }
 }
