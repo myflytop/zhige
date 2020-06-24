@@ -596,7 +596,7 @@
 		 });
 	//获取标签列表
 	function getTag(){
-		$.post(baseTag+"/listvo",function(data,status){
+		$.get(baseTag+"/listTagCountNoHide",function(data,status){
 			$("#chooseTag").empty();
 			$.each(data,function(i,e){//i是索引，e是json对象
 				$("#chooseTag").append("<option value="+e.tagId+">"+e.tagName+"("+((e.tagCount)===null?0:e.tagCount)+")</option>");
