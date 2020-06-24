@@ -63,4 +63,6 @@ public interface ICmsTaokeService {
     String importTaos(List<CmsTaoke> taokeList,Integer[] cats ,Integer[]  tags,boolean updateSupport, String operName);
 
     int updateCmsTaokePutOn(String ids, Byte fettle);
+
+   public int onTimeShelves(long currentTimeMillis);
 }

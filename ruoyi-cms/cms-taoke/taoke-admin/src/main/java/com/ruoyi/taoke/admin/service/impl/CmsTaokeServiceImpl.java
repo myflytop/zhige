@@ -174,4 +174,9 @@ public class CmsTaokeServiceImpl implements ICmsTaokeService {
         cmsArticleService.updateVisible(Convert.toLongArray(ids),fettle);
         return cmsTaokeMapper.updateCmsTaokePutOn(Convert.toStrArray(ids), fettle);
     }
+
+    @Override
+    public int onTimeShelves(long currentTimeMillis) {
+        return cmsTaokeMapper.onTimeShelves(currentTimeMillis);
+    }
 }

@@ -211,6 +211,10 @@
         <foreach item="shopId" collection="ids" open="(" separator="," close=")">
             #{shopId}
         </foreach>
+    </update>
+
+    <update id="onTimeShelves" parameterType="long">
+        update cms_taoke set shop_fettle=0 where unix_timestamp(coupon_start_time)&lt;#{currentTimeMillis} and shop_fettle=1
 
     </update>
 

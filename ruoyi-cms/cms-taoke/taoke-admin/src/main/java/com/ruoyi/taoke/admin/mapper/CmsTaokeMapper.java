@@ -77,4 +77,11 @@ public interface CmsTaokeMapper {
     int checkArticleTaokeByTaokeId(String shopId);
 
     int updateCmsTaokePutOn(@Param("ids")String[] ids,@Param("fettle") Byte fettle);
+
+    /**
+     * 时间戳之前的下架
+     * @param currentTimeMillis
+     * @return
+     */
+    int onTimeShelves(long currentTimeMillis);
 }
