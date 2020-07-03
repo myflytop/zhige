@@ -2,6 +2,7 @@ package com.ruoyi.cms.web.controller;
 
 import java.util.List;
 
+import com.ruoyi.cms.system.model.CmsConstants;
 import com.ruoyi.cms.system.service.impl.CmsColumnServiceImpl;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
@@ -79,14 +80,29 @@ public class CmsColumnController extends BaseController {
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(CmsColumn cc) {
-		cc.setCreateBy(ShiroUtils.getUserId());
-		int insetCode=columnService.insertCmsColumn(cc);
-		if(insetCode==1)
-		{
-			return toAjax(insetCode);
+		CmsColumn ccj=null;
+		if(cc.getParentId()!=0){
+			ccj=columnService.getCmsColumnById(cc.getParentId());
+			if(ccj==null||ccj.getParent()==0)
+			{
+				return error("插入点为非目录或者不存在,请检查!");
+			}
 		}
-
-		return error("验证失败请检查");
+		if(CmsConstants.NOT_UNIQUE.equals(columnService.checkColumnNameUnique(cc)))
+		{
+			return error("当前目录下,目录名重复,请检查!");
+		}
+		if (CmsConstants.NOT_UNIQUE.equals(columnService.checkColumnUrlUnique(cc)))
+		{
+			return error("路径名重复,请检查!");
+		}
+		if (cc== null) {
+			cc.setAncestors("0");
+		} else {
+			cc.setAncestors(ccj.getAncestors() + "," + cc.getParentId());
+		}
+		cc.setCreateBy(ShiroUtils.getUserId());
+		return toAjax(columnService.insertCmsColumn(cc));
 	}
 
 	/**
@@ -117,12 +133,31 @@ public class CmsColumnController extends BaseController {
 		if(cc.getParentId()==cc.getColumnId()){
 			return error("不能选择自己为父节点");
 		}
-		int upCode=columnService.updateCmsColumn(cc);
-		if(upCode==1)
-		{
-			return toAjax(upCode);
+
+		CmsColumn ccj=null;
+		if(cc.getParentId()!=0){
+			ccj=columnService.getCmsColumnById(cc.getParentId());
+			if(ccj==null||ccj.getParent()==0)
+			{
+				return error("插入点为非目录或者不存在,请检查!");
+			}
 		}
-		return error("参数验证失败");
+		if(CmsConstants.NOT_UNIQUE.equals(columnService.checkColumnNameUnique(cc)))
+		{
+			return error("当前目录下,目录名重复,请检查!");
+		}
+		if (CmsConstants.NOT_UNIQUE.equals(columnService.checkColumnUrlUnique(cc)))
+		{
+			return error("路径名重复,请检查!");
+		}
+		if (cc== null) {
+			cc.setAncestors("0");
+		} else {
+			cc.setAncestors(ccj.getAncestors() + "," + cc.getParentId());
+		}
+		cc.setUpdateBy(ShiroUtils.getUserId());
+		return toAjax(columnService.updateCmsColumn(cc));
+
 	}
 	/**
 	 * 修改栏目状态
@@ -203,5 +238,7 @@ public class CmsColumnController extends BaseController {
 	public String checkColumnUrlUnique(CmsColumn cms) {
 		return columnService.checkColumnUrlUnique(cms);
 	}
+
+
 
 }

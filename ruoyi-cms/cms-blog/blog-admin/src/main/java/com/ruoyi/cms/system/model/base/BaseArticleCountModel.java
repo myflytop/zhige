@@ -44,7 +44,7 @@ public class BaseArticleCountModel implements Serializable {
 
     /** 状态*/
     @Excel(name = "状态")
-    private Byte fettle;
+    private Byte visible;
 
     public String getArticleTitle() {
         return articleTitle;
@@ -54,8 +54,8 @@ public class BaseArticleCountModel implements Serializable {
         this.articleTitle = articleTitle;
     }
 
-    public Byte getFettle() {
-        return fettle;
+    public Byte getVisible() {
+        return visible;
     }
 
     public Date getUpdateTime() {
@@ -66,8 +66,8 @@ public class BaseArticleCountModel implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public void setFettle(Byte fettle) {
-        this.fettle = fettle;
+    public void setVisible(Byte visible) {
+        this.visible = visible;
     }
 
     public Long getArticleId() {

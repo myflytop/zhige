@@ -66,6 +66,10 @@ public interface BlogMapper {
 
    BlogCat getBlogCatByCatId(long catId);
 
+   BlogMenu getBlogMenuByMenuId(long columnId);
+
+   BlogArticle getBlogArticleByArticleId(long articleId);
+
     List<BlogCat> listHotCats(Long str[]);
 
     List<BlogTag> listHotTags(Long str[]);
@@ -74,4 +78,12 @@ public interface BlogMapper {
     List<Long> listArticleIdsByCatId(long catId);
 
     List<Long>  listArticleIdsByTagId(long tagId);
+
+    BlogMenu getBlogMenuByMenuUrl(String columnUrl);
+
+    BlogTag getBlogTagByTagUrl(String tagUrl);
+
+    BlogCat getBlogCatByCatUrl(String catUrl);
+
+    BlogArticle getBlogArticleByArticleUrl(String articleUrl );
 }

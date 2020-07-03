@@ -2,9 +2,9 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:include="
-themes/bobey/blog_include :: blogHeader(title=${blogConfig['blog.config.title'].configValue},
-keywords=${blogConfig['blog.config.keywords'].configValue},
-description=${blogConfig['blog.config.description'].configValue},
+themes/bobey/blog_include :: blogHeader(title=${blogConfig['blog.config.title'].configValue+'-'+tag.tagName},
+keywords=${blogConfig['blog.config.keywords'].configValue+','+tag.keywords},
+description=${tag.description},
 blogConfig=${blogConfig})" />
 </head>
 <body>

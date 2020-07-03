@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.ruoyi.blog.mould.BlogArticle;
 import com.ruoyi.blog.mould.BlogTag;
 import com.ruoyi.blog.mould.pam.BlogArticleSearchParam;
-import com.ruoyi.blog.service.impl.BlogServiceImpl;
+import com.ruoyi.blog.service.impl.BlogCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @Service("tagTag")
 public class TagTag {
     @Autowired
-    private BlogServiceImpl blogService;
+    private BlogCacheService blogService;
 
     /**
      * 获取所有标签
@@ -67,6 +67,12 @@ public class TagTag {
      */
     public List<BlogArticle> listArticleByCategoryId(Long tagId){
         return this.listArticleByTagId(tagId,10);
+    }
+
+
+
+    public BlogTag getBlogTagByTagUrl(String tagUrl) {
+        return blogService.getBlogTagByTagUrl(tagUrl);
     }
 
 }

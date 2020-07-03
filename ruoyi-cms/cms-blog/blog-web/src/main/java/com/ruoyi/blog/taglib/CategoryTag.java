@@ -5,7 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.ruoyi.blog.mould.BlogArticle;
 import com.ruoyi.blog.mould.BlogCat;
 import com.ruoyi.blog.mould.pam.BlogArticleSearchParam;
-import com.ruoyi.blog.service.impl.BlogServiceImpl;
+import com.ruoyi.blog.service.impl.BlogCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @Service("categoryTag")
 public class CategoryTag {
     @Autowired
-    private BlogServiceImpl blogService;
+    private BlogCacheService blogService;
 
     /**
      * 获取分类列表不分页
@@ -70,4 +70,11 @@ public class CategoryTag {
     }
 
 
+
+
+
+
+    public BlogCat getBlogCatByCatUrl(String catUrl) {
+        return blogService.getBlogCatByCatUrl(catUrl);
+    }
 }

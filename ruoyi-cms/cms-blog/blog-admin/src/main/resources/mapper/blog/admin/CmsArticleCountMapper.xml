@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
         <result column="article_title" property="articleTitle" />
 
-        <result column="fettle" property="fettle"/>
+        <result column="visible" property="visible"/>
     </resultMap>
 
     <resultMap id="CollectRecordResult" type="com.ruoyi.cms.system.model.po.record.CmsCollectRecord" extends="CmsRecordResult">
@@ -69,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select b.article_id,article_title ,article_look, article_like, article_nasty, article_discuss, article_score, article_share, article_collect from cms_article_count as a left join cms_article as  b
     </sql>
 
-    <sql id="base_record_sql"> a.article_id,article_title, a.user_id, a.create_time,a.update_time, ip, user_system, user_bower,fettle </sql>
+    <sql id="base_record_sql"> a.article_id,article_title, a.user_id, a.create_time,a.update_time, ip, user_system, user_bower,a.visible </sql>
 
     <select id="selectCmsArticleCountList" parameterType="com.ruoyi.cms.system.model.po.CmsArticleCount" resultMap="CmsArticleCountResult">
         <include refid="selectCmsArticleCountVo"/> on a.article_id =b.article_id

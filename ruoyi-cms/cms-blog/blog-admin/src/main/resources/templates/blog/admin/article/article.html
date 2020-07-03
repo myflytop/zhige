@@ -201,6 +201,18 @@
 						return $.table.selectDictLabel([[${@dict.getType('cms_article_visible')}]], value);
 					}
 		        },
+					{
+						field: 'keywords',
+						title: '关键词',
+						align: "left",
+						visible:false
+					},
+					{
+						field: 'description',
+						title: '描述',
+						align: "left",
+						visible:false
+					},
 		        {
 		            visible: editFlag == 'hidden' ? false : true,
 				    title: '是否允许评论',

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ruoyi.cms.solr.mapper.SolrMapper">
+    <resultMap id="SearchResultMap"
+               type="com.ruoyi.cms.solr.model.SearchModel">
+        <id column="article_id" property="articleId" jdbcType="BIGINT"/>
+        <result column="article_title" property="articleTitle"
+                jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime"
+                jdbcType="TIMESTAMP"/>
+        <result column="article_img" property="articleImg"
+                jdbcType="VARCHAR"/>
+        <result column="article_summary" property="articleSummary"
+                jdbcType="VARCHAR"/>
+        <result column="article_url" property="articleUrl"
+                jdbcType="VARCHAR"/>
+        <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="search_sql">
+		article_id, article_title, create_time,article_url,
+		article_img, article_summary,CAST(article_content AS CHAR) AS article_content
+	</sql>
+
+    <select id="getSearchModel" resultMap="SearchResultMap" parameterType="long">
+        select  <include refid="search_sql"/> from cms_article where visible=2 and article_id=#{articleId}
+    </select>
+
+    <select id="listSearchModel" resultMap="SearchResultMap">
+        select  <include refid="search_sql"/> from cms_article where visible=2
+    </select>
+</mapper>

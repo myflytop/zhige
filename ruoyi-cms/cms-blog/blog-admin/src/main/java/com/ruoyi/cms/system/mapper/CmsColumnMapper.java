@@ -63,7 +63,7 @@ public interface CmsColumnMapper {
 	 * @param columnUrl
 	 * @return
 	 */
-	int checkColumnUrlUnique(@Param("parentId") Long parentId,@Param("columnId") Long columnId, @Param("columnUrl") String columnUrl);
+	int checkColumnUrlUnique(@Param("columnId") Long columnId, @Param("columnUrl") String columnUrl);
 	
 	/**
 	 * 获取父类目名

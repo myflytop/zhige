@@ -54,7 +54,7 @@ public class CmsComment implements Serializable
 
     /** 状态 */
     @Excel(name = "状态")
-    private Byte fettle;
+    private Byte visible;
 
     /** ip */
     @Excel(name = "ip")
@@ -177,14 +177,14 @@ public class CmsComment implements Serializable
     {
         return commentType;
     }
-    public void setFettle(Byte fettle)
+    public void setFettle(Byte visible)
     {
-        this.fettle = fettle;
+        this.visible = visible;
     }
 
-    public Byte getFettle()
+    public Byte grtVisible()
     {
-        return fettle;
+        return visible;
     }
     public void setIp(String ip) 
     {
@@ -243,7 +243,7 @@ public class CmsComment implements Serializable
             .append("replyBy", getReplyBy())
             .append("content", getContent())
             .append("commentType", getCommentType())
-            .append("fettle", getFettle())
+            .append("visible", grtVisible())
             .append("ip", getIp())
             .append("userSystem", getUserSystem())
             .append("userBower", getUserBower())

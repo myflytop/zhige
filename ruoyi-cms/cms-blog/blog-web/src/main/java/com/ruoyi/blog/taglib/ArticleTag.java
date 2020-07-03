@@ -3,9 +3,12 @@ package com.ruoyi.blog.taglib;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.blog.mould.BlogArticle;
 import com.ruoyi.blog.mould.BlogArticleCountSort;
+import com.ruoyi.blog.mould.BlogArticleSort;
 import com.ruoyi.blog.service.impl.BlogArticleSortServiceImpl;
+import com.ruoyi.blog.service.impl.BlogCacheService;
 import com.ruoyi.blog.service.impl.BlogServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +19,7 @@ import java.util.List;
 @Service("articleTag")
 public class ArticleTag {
     @Autowired
-    private BlogServiceImpl blogService;
+    private BlogCacheService blogService;
 
     @Autowired
     private BlogArticleSortServiceImpl blogArticleSortService;
@@ -30,24 +33,6 @@ public class ArticleTag {
         PageHelper.startPage(1,pageSize,orderString);
        return blogService.listBlogArticles(null);
 
-    }
-
-    /**
-     * 依据时间排序
-     * @param pageSize 获取条数
-     * @return
-     */
-    public List<BlogArticle> listBlogArticleByTime(int  pageSize){
-        return this.listBlogArticle(pageSize,"create_time desc");
-
-    }
-
-    /**
-     * 默认依据时间排序 默认10条
-     * @return
-     */
-    public List<BlogArticle> listBlogArticleByTime(){
-        return this.listBlogArticleByTime(10);
     }
 
     /**
@@ -74,20 +59,43 @@ public class ArticleTag {
         return blogService.getBlogArticle(blogArticle);
     }
 
+    private List<BlogArticleSort> sort(int pageSize,String orderString){
+        PageHelper.startPage(1,pageSize,orderString);
+        return blogArticleSortService.listArticleSort(null);
+    }
+
+    /**
+     * 依据时间排序
+     * @param pageSize 获取条数
+     * @return
+     */
+    public List<BlogArticleSort> listBlogArticleByTime(int  pageSize){
+        return this.sort(pageSize,"create_time desc");
+
+    }
+
+    /**
+     * 默认依据时间排序 默认10条
+     * @return
+     */
+    public List<BlogArticleSort> listBlogArticleByTime(){
+        return this.listBlogArticleByTime(10);
+    }
+
     /**
      * 获取顶置文章
      * @param pageSize
      * @return
      */
-    public List<BlogArticle> listBlogArticleByTop(int pageSize){
-        return this.listBlogArticle(pageSize,"article_top desc");
+    public List<BlogArticleSort> listBlogArticleByTop(int pageSize){
+        return this.sort(pageSize,"article_top desc");
     }
 
     /**
      * 获取顶置文章
      * @return
      */
-    public List<BlogArticle> listBlogArticleByTop(){
+    public List<BlogArticleSort> listBlogArticleByTop(){
         return this.listBlogArticleByTop(10);
     }
 
@@ -99,8 +107,10 @@ public class ArticleTag {
      */
     private List<BlogArticleCountSort> listBlogArticleCountSort(int pageSize,String orderString){
         PageHelper.startPage(1,pageSize,orderString);
-        return blogArticleSortService.listArticlesCountSort();
+        return blogArticleSortService.listArticlesCountSort(null);
     }
+
+
 
     /**
      * 依据浏览量排序
@@ -208,4 +218,9 @@ public class ArticleTag {
         return blogService.getBlogArticle(article);
     }
 
+
+
+    public BlogArticle getBlogArticleByArticleUrl(String articleUrl) {
+        return blogService.getBlogArticleByArticleUrl(articleUrl);
+    }
 }

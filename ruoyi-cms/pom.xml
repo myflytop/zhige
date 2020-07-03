@@ -32,6 +32,7 @@
         <module>cms-taoke</module>
         <module>cms-shop</module>
         <module>cms-ad</module>
+        <module>cms-search</module>
     </modules>
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi-cms</artifactId>

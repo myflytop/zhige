@@ -58,7 +58,7 @@ spring:
   profiles: 
     active: druid
     # redis 配置文件
-    include: redis
+    include: redis,solr
   # 文件上传
   servlet:
      multipart:

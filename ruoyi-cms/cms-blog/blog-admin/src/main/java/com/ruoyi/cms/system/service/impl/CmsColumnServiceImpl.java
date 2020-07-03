@@ -22,26 +22,8 @@ public class CmsColumnServiceImpl implements ICmsColumnService {
 
 	@Override
 	public int insertCmsColumn(CmsColumn cmsColumn) {
-		CmsColumn cc=null;
-		if(cmsColumn.getParentId()!=0){
-			cc=columnMapper.getCmsColumnById(cmsColumn.getParentId());
-			if(cc==null||cc.getParent()==0)
-			{
-				return 0;
-			}
-		}
-			if (CmsConstants.UNIQUE.equals(checkColumnNameUnique(cmsColumn))) {
-				if (CmsConstants.UNIQUE.equals(checkColumnUrlUnique(cmsColumn))) {
-					if (cc== null) {
-						cmsColumn.setAncestors("0");
-					} else {
-						cmsColumn.setAncestors(cc.getAncestors() + "," + cmsColumn.getParentId());
-					}
-					return columnMapper.insertCmsColumn(cmsColumn);
-				}
 
-			}
-		return 0;
+		return columnMapper.insertCmsColumn(cmsColumn);
 	}
 	/**
 	 * 更新栏目
@@ -50,30 +32,8 @@ public class CmsColumnServiceImpl implements ICmsColumnService {
 	 */
 	@Override
 	public int updateCmsColumn(CmsColumn cmsColumn) {
-		CmsColumn cc=null;
-		//更新点非更节点
-		if(cmsColumn.getParentId()!=0){
-			cc=columnMapper.getCmsColumnById(cmsColumn.getParentId());
-			//更新点不存在或者更新点为导航
-			if(cc==null||cc.getParent()==0)
-			{
-				return 0;
-			}
-		}
-		if (CmsConstants.UNIQUE.equals(checkColumnNameUnique(cmsColumn))) {
-			if (CmsConstants.UNIQUE.equals(checkColumnUrlUnique(cmsColumn))) {
-							if (cc == null) {
-								cmsColumn.setAncestors("0");
-							} else {
-								cmsColumn.setAncestors(cc.getAncestors() + "," + cmsColumn.getParentId());
-							}
-						int c=	columnMapper.updateCmsColumn(cmsColumn);
-							updateChildNode(cmsColumn.getColumnId(), cmsColumn.getAncestors() + "," + cmsColumn.getColumnId());
-				return c;
-			}
-
-		}
-		return 0;
+		updateChildNode(cmsColumn.getColumnId(), cmsColumn.getAncestors() + "," + cmsColumn.getColumnId());
+		return columnMapper.updateCmsColumn(cmsColumn);
 	}
 
 	@Override
@@ -226,7 +186,7 @@ public class CmsColumnServiceImpl implements ICmsColumnService {
 		// 得到子节点列表
 		List<CmsColumn> childList = getChildList(list, t);
 		// 添加子节点列表
-		t.setChildren(childList);
+		t.setChildList(childList);
 		for (CmsColumn tChild : childList) {
 			if (hasChild(list, tChild)) {
 				// 判断是否有子节点
@@ -273,7 +233,7 @@ public class CmsColumnServiceImpl implements ICmsColumnService {
 		{
 			return CmsConstants.UNIQUE;
 		}
-		if (columnMapper.checkColumnUrlUnique(cms.getParentId(),cms.getColumnId(), cms.getColumnUrl()) == 0) {
+		if (columnMapper.checkColumnUrlUnique(cms.getColumnId(), cms.getColumnUrl()) == 0) {
 			return  CmsConstants.UNIQUE;
 		}
 		return  CmsConstants.NOT_UNIQUE;

@@ -97,11 +97,11 @@
 
 				<!-- 导航菜单 -->
 				<li class="layui-nav-item" th:each="column: ${menus.childMenus}">
-					<a th:href="${column.columnUrl==''?'javascript:void(0)':blogConfig['blog.config.index'].configValue+column.columnUrl}"
+					<a th:href="${column.columnUrl==''?'javascript:void(0)':column.columnUrl}"
 					 th:text="${column.columnName}">最新活动</a>
 					<dl th:if="${!#lists.isEmpty(column.childMenus)}" class="layui-nav-child">
 						<dd th:each="columnChild: ${column.childMenus}">
-							<a th:href="${blogConfig['blog.config.index'].configValue+columnChild.columnUrl}" th:text="${columnChild.columnName}">选项1</a>
+							<a th:href="${columnChild.columnUrl}" th:text="${columnChild.columnName}">选项1</a>
 						</dd>
 					</dl>
 				</li>
@@ -158,11 +158,11 @@
 				</shiro:guest>
 				<!-- 导航菜单 -->
 				<li class="layui-nav-item" th:each="column: ${menus.childMenus}">
-					<a th:href="${column.columnUrl==''?'javascript:void(0)':blogConfig['blog.config.index'].configValue+column.columnUrl}"
+					<a th:href="${column.columnUrl==''?'javascript:void(0)':column.columnUrl}"
 					 th:text="${column.columnName}">最新活动</a>
 					<dl th:if="${!#lists.isEmpty(column.childMenus)}" class="layui-nav-child">
 						<dd th:each="columnChild: ${column.childMenus}">
-							<a th:href="${blogConfig['blog.config.index'].configValue+columnChild.columnUrl}" th:text="${columnChild.columnName}">选项1</a>
+							<a th:href="${columnChild.columnUrl}" th:text="${columnChild.columnName}">选项1</a>
 						</dd>
 					</dl>
 				</li>
@@ -239,6 +239,7 @@
 							 th:text="${tag.tagName}">产生原因 </a>
 						</p>
 					</div>
+					<div class="item-slant reverse-slant  bg-deepgrey"></div>
 					<div class="item-slant reverse-slant  bg-deepgrey"></div>
 					<div class="item-slant"></div>
 					<div class="item-label">

@@ -9,24 +9,24 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 文章排序相关
+ */
 @Service
 public class BlogArticleSortServiceImpl implements IBlogArticleSortService {
 
     @Autowired
     private BlogArticleSortMapper blogArticleSortMapper;
     @Override
-    public List<BlogArticleSort> listArticlesByTime(BlogArticleSort blogArticleSort) {
-        return blogArticleSortMapper.listArticlesByTime(blogArticleSort);
+    public List<BlogArticleSort> listArticleSort(BlogArticleSort blogArticleSort) {
+        return blogArticleSortMapper.listArticleSort(blogArticleSort);
     }
 
-    @Override
-    public List<BlogArticleSort> listArticlesByTop(BlogArticleSort blogArticleSort) {
-        return blogArticleSortMapper.listArticlesByTop(blogArticleSort);
-    }
+
 
     @Override
-    public List<BlogArticleCountSort> listArticlesCountSort() {
-        return blogArticleSortMapper.listArticlesCountSort();
+    public List<BlogArticleCountSort> listArticlesCountSort(BlogArticleSort blogArticleSort) {
+        return blogArticleSortMapper.listArticlesCountSort(blogArticleSort);
     }
 
 }

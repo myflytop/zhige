@@ -31,7 +31,8 @@
         <result column="visible" property="visible" jdbcType="BIT"/>
         <result column="allow_comment" property="allowComment"
                 jdbcType="BIT"/>
-        <result column="keyword" property="keyword" jdbcType="VARCHAR"/>
+        <result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
         <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR"/>
     </resultMap>
 
@@ -40,7 +41,7 @@
 		article_id, article_title, create_by, create_time, update_by, update_time,
 		article_type,article_url,
 		article_build, article_top, article_img, article_summary, visible, allow_comment,
-		keyword, reprint_url,CAST(article_content AS CHAR) AS article_content
+		keywords,description, reprint_url,CAST(article_content AS CHAR) AS article_content
 	</sql>
 
     <!--插入文章-->
@@ -50,7 +51,7 @@
 		create_by,
 		create_time, article_type, article_build, article_top,
 		article_img, article_summary, visible,
-		allow_comment, keyword,
+		allow_comment, keywords,description,
 		article_content
 		)
 		values (
@@ -64,7 +65,8 @@
 	    #{articleSummary,jdbcType=VARCHAR},
 		#{visible,jdbcType=BIT},
 		#{allowComment,jdbcType=BIT},
-		#{keyword,jdbcType=VARCHAR},
+		#{keywords,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
 		#{articleContent,jdbcType=LONGVARCHAR}
 		)
 	</insert>
@@ -134,12 +136,14 @@
             <if test="allowComment != null">
                 allow_comment = #{allowComment,jdbcType=BIT},
             </if>
-            <if test="keyword != null">
-                keyword = #{keyword,jdbcType=VARCHAR},
+            <if test="keywords != null">
+                keywords = #{keywords,jdbcType=VARCHAR},
             </if>
             <if test="articleContent != null">
                 article_content = #{articleContent,jdbcType=LONGVARCHAR},
             </if>
+            <if test="keywords != null and keywords!='' ">keywords=#{keywords},</if>
+            <if test="description != null and description!='' ">description=#{description},</if>
         </set>
         where article_id = #{articleId,jdbcType=BIGINT}
     </update>

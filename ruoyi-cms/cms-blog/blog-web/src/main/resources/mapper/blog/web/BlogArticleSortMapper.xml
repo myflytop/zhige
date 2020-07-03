@@ -43,8 +43,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 article_look, article_like, article_nasty, article_discuss, article_score, article_share, article_collect
 	</sql>
 
-	<!--依据文章发布时间排序-->
-	<select id="listArticlesByTime" resultMap="ArticleSortResult" parameterType="com.ruoyi.blog.mould.BlogArticleSort">
+	<!--依据文章排序-->
+	<select id="listArticleSort" resultMap="ArticleSortResult" parameterType="com.ruoyi.blog.mould.BlogArticleSort">
 		select  <include refid="article_sort_sql"/> from cms_article
 		<where>
 			<if test="articleType != null">
@@ -55,26 +55,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			and visible=2
 		</where>
-        order by create_time desc
+
 	</select>
 
-	<!--依据顶置级别间排序-->
-    <select id="listArticlesByTop" resultMap="ArticleSortResult" parameterType="com.ruoyi.blog.mould.BlogArticleSort">
-        select  <include refid="article_sort_sql"/> from cms_article
-        <where>
-            <if test="articleType != null">
-             and  article_type = #{articleType,jdbcType=TINYINT},
-            </if>
-            <if test="articleTop != null">
-             and   article_top = #{articleTop,jdbcType=TINYINT},
-            </if>
-			and visible=2
-        </where>
-        order by article_top desc
-    </select>
 
-	<select id="listArticlesCountSort" resultMap="ArticleCountSortResult">
-		select <include refid="article_count_sort_sql" /> from cms_article a left join cms_article_count b on a.article_id=b.article_id where visible=2
+
+	<select id="listArticlesCountSort" resultMap="ArticleCountSortResult" parameterType="com.ruoyi.blog.mould.BlogArticleSort">
+		select <include refid="article_count_sort_sql" /> from cms_article a left join cms_article_count b on a.article_id=b.article_id <where>
+		<if test="articleType != null">
+			and	article_type = #{articleType,jdbcType=TINYINT},
+		</if>
+		<if test="articleTop != null">
+			and	article_top = #{articleTop,jdbcType=TINYINT},
+		</if>
+		and a.visible=2
+	</where>
 	</select>
 
 </mapper> 

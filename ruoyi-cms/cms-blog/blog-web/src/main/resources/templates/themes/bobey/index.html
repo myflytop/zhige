@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-<th:block   th:include="themes/bobey/blog_include :: blogHeader(title=${blogConfig['blog.config.title'].configValue},
-keywords=${blogConfig['blog.config.keywords'].configValue},
-description=${blogConfig['blog.config.description'].configValue},
+	<th:block   th:include="themes/bobey/blog_include :: blogHeader(title=${blogConfig['blog.config.title'].configValue+'-'+menu.columnName},
+keywords=${blogConfig['blog.config.keywords'].configValue+','+menu.keywords},
+description=${menu.description},
 blogConfig=${blogConfig})"/>
-
 </head>
 <body>
 <!--导航-->

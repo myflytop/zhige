@@ -217,6 +217,13 @@
 				<version>${ruoyi.version}</version>
 			</dependency>
 
+			<!--搜索模块-->
+			<dependency>
+				<groupId>com.ruoyi.cms</groupId>
+				<artifactId>cms-search</artifactId>
+				<version>${ruoyi.version}</version>
+			</dependency>
+
 			<!--文件模块-->
 			<dependency>
 				<groupId>com.ruoyi.oss</groupId>

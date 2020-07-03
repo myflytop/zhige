@@ -6,7 +6,6 @@ import com.ruoyi.blog.mould.BlogArticleSort;
 import java.util.List;
 
 public interface IBlogArticleSortService {
-    List<BlogArticleSort> listArticlesByTime(BlogArticleSort blogArticleSort);
-    List<BlogArticleSort> listArticlesByTop(BlogArticleSort blogArticleSort);
-    List<BlogArticleCountSort> listArticlesCountSort();
+    List<BlogArticleSort> listArticleSort(BlogArticleSort blogArticleSort);
+    List<BlogArticleCountSort> listArticlesCountSort(BlogArticleSort blogArticleSort);
 }

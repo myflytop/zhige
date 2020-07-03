@@ -1,0 +1,4 @@
+spring:
+  data:
+    solr:
+      host: http://localhost:8983/solr/collection1

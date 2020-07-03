@@ -6,6 +6,9 @@ import java.io.Serializable;
 
 import java.util.Map;
 
+/**
+ * 文章请求参数
+ */
 public class BlogArticleSearchParam implements Serializable {
     private static final long serialVersionUID = 1L;
     /*标题*/

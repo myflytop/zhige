@@ -26,7 +26,7 @@ public class BaseModel implements Serializable {
     private Date updateTime;
 
     /**状态*/
-    private Byte fettle;
+    private Byte visible;
 
     /** 备注 */
     private String remark;
@@ -40,12 +40,12 @@ public class BaseModel implements Serializable {
     /** 请求参数 */
     private Map<String, Object> params;
 
-    public Byte getFettle() {
-        return fettle;
+    public Byte getVisible() {
+        return visible;
     }
 
-    public void setFettle(Byte fettle) {
-        this.fettle = fettle;
+    public void setVisible(Byte visible) {
+        this.visible = visible;
     }
 
     public String getPerms() {

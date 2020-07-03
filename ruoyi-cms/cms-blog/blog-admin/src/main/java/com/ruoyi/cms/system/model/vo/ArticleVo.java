@@ -50,7 +50,7 @@ public class ArticleVo extends CmsArticle {
 		builder.append(", getAllowComment()=");
 		builder.append(getAllowComment());
 		builder.append(", getKeyword()=");
-		builder.append(getKeyword());
+		builder.append(getKeywords());
 		builder.append(", getArticleContent()=");
 		builder.append(getArticleContent());
 		builder.append(", getReprintUrl()=");

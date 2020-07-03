@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
-	<head>
+<head>
 		<th:block
 th:include="themes/bobey/blog_include :: blogHeader(title=${blogConfig['blog.config.title'].configValue},
-keywords=${blogConfig['blog.config.keywords'].configValue},
-description=${blogConfig['blog.config.description'].configValue},
+keywords=${blogConfig['blog.config.keywords'].configValue+','+post.keywords},
+description=${post.description},
 blogConfig=${blogConfig})" />
 	</head>
 	<body>

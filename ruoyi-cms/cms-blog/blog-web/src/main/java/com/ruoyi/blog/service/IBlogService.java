@@ -59,4 +59,12 @@ public interface IBlogService {
     List<Long> listArticleIdsByCatId(long catId);
 
     List<Long> listArticleIdsByTagId(long tagId);
+
+    BlogMenu getBlogMenuByMenuUrl(String columnUrl);
+
+    BlogTag getBlogTagByTagUrl(String tagUrl);
+
+    BlogCat getBlogCatByCatUrl(String catUrl);
+
+    BlogArticle getBlogArticleByArticleUrl(String articleUrl );
 }

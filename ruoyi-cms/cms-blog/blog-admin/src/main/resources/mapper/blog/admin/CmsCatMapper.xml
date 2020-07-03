@@ -24,6 +24,8 @@
 		<result column="perms" property="perms" jdbcType="VARCHAR" />
 		<result column="ancestors" property="ancestors"
 			jdbcType="VARCHAR" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+		<result column="description" property="description" jdbcType="VARCHAR"/>
 	</resultMap>
 
 	<resultMap id="CatCountVoResultMap" type="com.ruoyi.cms.system.model.vo.CatCountVo" extends="CatResultMap">
@@ -34,7 +36,7 @@
 		cat_id, cat_name, perms,cat_icon, visible, order_no,
 		parent_id,ancestors,
 		create_time,update_time, remark, update_by,
-		create_by,cat_url,parent
+		create_by,cat_url,parent,keywords,description
 	</sql>
 
 	<insert id="insertCmsCat" parameterType="com.ruoyi.cms.system.model.po.CmsCat" useGeneratedKeys="true" keyProperty="catId">
@@ -42,7 +44,7 @@
 		visible,perms,
 		order_no, parent_id,
 		create_time, remark,
-		create_by,cat_url,parent,ancestors)
+		create_by,cat_url,parent,ancestors,keywords,description)
 		values
 		(#{catName,jdbcType=VARCHAR}, #{catIcon,jdbcType=VARCHAR},
 		#{visible,jdbcType=BIT},
@@ -51,7 +53,10 @@
 		#{parentId,jdbcType=INTEGER},
 		sysdate(),
 		#{remark,jdbcType=VARCHAR},
-		#{createBy,jdbcType=BIGINT},#{catUrl,jdbcType=VARCHAR},#{parent,jdbcType=BIT},#{ancestors,jdbcType=VARCHAR})
+		#{createBy,jdbcType=BIGINT},#{catUrl,jdbcType=VARCHAR},
+		#{parent,jdbcType=BIT},#{ancestors,jdbcType=VARCHAR},
+		#{keywords,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR})
 	</insert>
 
 	<insert id="insertCmsCats"	parameterType="java.util.List" useGeneratedKeys="true" keyProperty="catId">
@@ -113,6 +118,8 @@
 			<if test="parent != null">
 				parent = #{parent,jdbcType=BIT},
 			</if>
+			<if test="keywords != null and keywords!='' ">keywords=#{keywords},</if>
+			<if test="description != null and description!='' ">description=#{description},</if>
 		</set>
 		where cat_id = #{catId,jdbcType=BIGINT}
 	</update>

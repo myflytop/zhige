@@ -2,6 +2,9 @@ package com.ruoyi.blog.mould;
 
 import java.io.Serializable;
 
+/**
+ * 文章用户行为 喜欢。。。
+ */
 public class BlogArticleCount implements Serializable {
     private static final long serialVersionUID = 1L;
     /** 文章Id */

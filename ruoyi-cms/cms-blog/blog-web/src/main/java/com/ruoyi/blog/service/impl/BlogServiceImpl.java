@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service("blogService")
 public class BlogServiceImpl implements IBlogService {
     @Autowired
     private BlogMapper blogMapper;
@@ -29,7 +29,6 @@ public class BlogServiceImpl implements IBlogService {
      * @return
      */
     @Override
-    @Cacheable("blogMenusTree")
     public BlogMenu listBlogMenuTree(BlogMenu blogMenu) {
         return MenuTreeUtils.getColumnTree(listBlogMenus(blogMenu),blogMenu.getColumnId());
     }
@@ -41,7 +40,6 @@ public class BlogServiceImpl implements IBlogService {
      * @return
      */
     @Override
-    @Cacheable("listBlogMenuTreeByColumnId")
     public BlogMenu listBlogMenuTreeByColumnId(Long columnId) {
         BlogMenu blogMenu=new BlogMenu();
         blogMenu.setColumnId(columnId);
@@ -50,78 +48,85 @@ public class BlogServiceImpl implements IBlogService {
     }
 
     @Override
-    @Cacheable("listBlogLinks")
     public List<BlogLink> listBlogLinks(BlogLink blogLink) {
         return blogMapper.listBlogLinks(blogLink);
     }
 
     @Override
-    @Cacheable("listBlogTags")
     public List<BlogTag> listBlogTags(BlogTag blogTag) {
         return blogMapper.listBlogTags(blogTag);
     }
     @Override
-    @Cacheable("listBlogArticles")
     public List<BlogArticle> listBlogArticles(BlogArticleSearchParam blogArticleSearchParam){
         return blogMapper.listBlogArticles(blogArticleSearchParam);
     }
 
     @Override
-    @Cacheable("getBlogArticle")
     public BlogArticle getBlogArticle(BlogArticle blogArticle) {
         return blogMapper.getBlogArticle(blogArticle);
     }
 
     @Override
-    @Cacheable("listBlogArticlesByCatId")
     public List<BlogArticle> listBlogArticlesByCatId(BlogArticleSearchParam blogArticleSearchParam){
         return blogMapper.listBlogArticlesByCatId(blogArticleSearchParam);
     }
 
     @Override
-    @Cacheable("listBlogArticlesByTagId")
     public List<BlogArticle> listBlogArticlesByTagId(BlogArticleSearchParam blogArticleSearchParam){
         return blogMapper.listBlogArticlesByTagId(blogArticleSearchParam);
     }
 
     @Override
-    @Cacheable("getBlogTagByTagId")
     public BlogTag getBlogTagByTagId(long tagId) {
         return blogMapper.getBlogTagByTagId(tagId);
     }
 
     @Override
-    @Cacheable("getBlogCatByCatId")
     public BlogCat getBlogCatByCatId(long catId) {
         return blogMapper.getBlogCatByCatId(catId);
     }
 
     @Override
-    @Cacheable("listHotCats")
     public List<BlogCat> listHotCats(Long str[]) {
         return blogMapper.listHotCats(str);
     }
-
     @Override
-    @Cacheable("listHotTags")
     public List<BlogTag> listHotTags(Long str[]) {
         return blogMapper.listHotTags(str);
     }
 
     @Override
-    @Cacheable("listArticleIdsByCatId")
     public List<Long> listArticleIdsByCatId(long catId) {
         return  blogMapper.listArticleIdsByCatId(catId);
     }
 
     @Override
-    @Cacheable("listArticleIdsByTagId")
     public List<Long> listArticleIdsByTagId(long tagId) {
         return  blogMapper.listArticleIdsByTagId(tagId);
     }
 
     @Override
-    @Cacheable("listBlogCats")
+    public BlogMenu getBlogMenuByMenuUrl(String columnUrl) {
+        return blogMapper.getBlogMenuByMenuUrl(columnUrl);
+    }
+
+    @Override
+    public BlogTag getBlogTagByTagUrl(String tagUrl) {
+        return blogMapper.getBlogTagByTagUrl(tagUrl);
+    }
+
+    @Override
+    public BlogCat getBlogCatByCatUrl(String catUrl) {
+        return blogMapper.getBlogCatByCatUrl(catUrl);
+    }
+
+    @Override
+    public BlogArticle getBlogArticleByArticleUrl(String articleUrl) {
+        return blogMapper.getBlogArticleByArticleUrl(articleUrl);
+    }
+
+
+    @Override
     public List<BlogCat> listBlogCats(BlogCat cat) {
         return blogMapper.listBlogCats(cat);
     }

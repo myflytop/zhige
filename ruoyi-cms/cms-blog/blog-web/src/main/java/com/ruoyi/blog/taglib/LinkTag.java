@@ -1,7 +1,7 @@
 package com.ruoyi.blog.taglib;
 
 import com.ruoyi.blog.mould.BlogLink;
-import com.ruoyi.blog.service.impl.BlogServiceImpl;
+import com.ruoyi.blog.service.impl.BlogCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Service("linkTag")
 public class LinkTag {
     @Autowired
-    private BlogServiceImpl blogService;
+    private BlogCacheService blogService;
 
     /**
      * 获取链接列表

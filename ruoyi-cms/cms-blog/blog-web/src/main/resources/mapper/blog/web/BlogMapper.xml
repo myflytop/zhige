@@ -22,6 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime"
 				jdbcType="TIMESTAMP" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+		<result column="description" property="description" jdbcType="VARCHAR"/>
 	</resultMap>
 
 	<resultMap type="com.ruoyi.blog.mould.BlogLink" id="LinkResult">
@@ -50,6 +52,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="tag_ico" property="tagIco" jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime"
 				jdbcType="TIMESTAMP" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+		<result column="description" property="description" jdbcType="VARCHAR"/>
         <collection property="tagCount" jdbcType="BIGINT" select="getTagCountByTagId"  ofType="long" column="tag_id"/>
 	</resultMap>
 
@@ -71,6 +75,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				jdbcType="BIGINT" />
 		<result column="create_time" property="createTime"
 				jdbcType="TIMESTAMP" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+		<result column="description" property="description" jdbcType="VARCHAR"/>
         <collection property="catCount" jdbcType="BIGINT" select="getCatCountByCatId"  ofType="long" column="cat_id"/>
 	</resultMap>
 
@@ -113,8 +119,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="visible" property="visible" jdbcType="BIT" />
 		<result column="allow_comment" property="allowComment"
 				jdbcType="BIT" />
-		<result column="keyword" property="keyword" jdbcType="VARCHAR" />
 		<result column="article_content" property="articleContent" jdbcType="LONGVARCHAR" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+		<result column="description" property="description" jdbcType="VARCHAR"/>
 		<collection property="blogCats" javaType="ArrayList" select="listCatsByArticleId" column="article_id"  ofType="com.ruoyi.blog.mould.BlogCat"/>
 		<collection property="blogTags" javaType="ArrayList" select="listTagsByArticleId" column="article_id"   ofType="com.ruoyi.blog.mould.BlogTag" />
 		<collection property="blogArticleCount" javaType="com.ruoyi.blog.mould.BlogArticleCount" select="getPostCountByArticleId" column="article_id" ofType="com.ruoyi.blog.mould.BlogArticleCount" />
@@ -123,7 +130,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<sql id="menu_sql">
 		column_id,column_name, column_icon, visible,
 		order_no, parent_id,parent,remark,
-		open_type, column_url
+		open_type, column_url,
+		keywords,description
 	</sql>
 
 	<sql id="link_sql">
@@ -132,14 +140,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<sql id="tag_sql">
 		tag_id,tag_name, remark,
-		visible,tag_ico,tag_url,create_time
+		visible,tag_ico,tag_url,create_time,
+		keywords,description
 	</sql>
 
 	<sql id="cat_sql">
 		cat_id, cat_name, cat_icon, visible, order_no,
 		parent_id,
 		create_time,remark,
-		create_by,cat_url,parent
+		create_by,cat_url,parent,
+		keywords,description
 	</sql>
 
 	<!--文章统计相关-->
@@ -176,6 +186,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by parent_id,order_no
 	</select>
 
+	<select id="getBlogMenuByMenuId" resultMap="MenuResult" parameterType="long">
+		select <include refid="menu_sql" />
+		from cms_column where column_id=#{columnId} and visible!=0
+	</select>
+
+	<select id="getBlogMenuByMenuUrl" resultMap="MenuResult" parameterType="string">
+		select <include refid="menu_sql" />
+		from cms_column where column_url=#{columnUrl} and visible!=0
+	</select>
+
+
 	<!--获取外链列表-->
 	<select id="listBlogLinks" parameterType="com.ruoyi.blog.mould.BlogMenu" resultMap="LinkResult">
 		select <include refid="link_sql"/> from cms_link
@@ -204,7 +225,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 
-    <!--获取标签-->
+    <!--通过标签Id获取标签-->
     <select id="getBlogTagByTagId"
             parameterType="long"
             resultMap="TagResult">
@@ -212,6 +233,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from cms_tag
        where tag_id=#{tagId} and  visible!=0
     </select>
+
+	<!--通过标签固定链接获取标签-->
+	<select id="getBlogTagByTagUrl" parameterType="string"
+			resultMap="TagResult">
+		select <include refid="tag_sql" />
+		from cms_tag
+		where tag_url=#{tagUrl} and  visible!=0
+	</select>
 
 	<!--获取分类列表-->
 	<select id="listBlogCats"
@@ -229,7 +258,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 
-    <!--获取标签-->
+    <!--获取类别ID获取类别-->
     <select id="getBlogCatByCatId"
             parameterType="long"
             resultMap="CatResult">
@@ -238,12 +267,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where cat_id=#{catId}  and visible!=0
     </select>
 
+     <!--通过固定链接获取类别-->
+	<select id="getBlogCatByCatUrl" parameterType="string"
+			resultMap="CatResult">
+		select <include refid="cat_sql" />
+		from cms_cat
+		where cat_url=#{catUrl}  and visible!=0
+	</select>
+
+	<!--获取用户行为统计-->
 	<select id="getPostCountByArticleId" parameterType="long" resultMap="CountResult">
 		select <include refid="blog_count_sql"/> from cms_article_count where article_id=#{article_id}
 	</select>
 
+	<!--获取文章列表-->
 	<select id="listBlogArticles" resultMap="ArticleResult" parameterType="com.ruoyi.blog.mould.pam.BlogArticleSearchParam">
-		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,keyword,
+		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
 		article_top,article_img,article_summary,allow_comment,article_build from cms_article <where>
 
 		<if test="articleTitle!=null and articleTitle != ''">
@@ -266,9 +305,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 
-
-
-
+	<!--通过文章id获取分类-->
 	<select id="listCatsByArticleId"
 			parameterType="Long"
 			resultMap="CatResult">
@@ -278,6 +315,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 
+	<!--通过文章id获取标签-->
 	<select id="listTagsByArticleId"
 		parameterType="Long"
 		resultMap="TagResult">
@@ -286,8 +324,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 where tag_id in(select tag_id from cms_article_tag where article_id=#{article_id}) and  visible!=0
 	</select>
 
+	<!--获取文章-->
 	<select id="getBlogArticle" resultMap="ArticleResult" parameterType="com.ruoyi.blog.mould.BlogArticle">
-		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,keyword,
+		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
 		article_top,article_img,article_summary,article_content,allow_comment,article_build from cms_article
 		<where>
 			article_id=#{articleId} and visible=2
@@ -297,8 +336,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 
+	<!--获取文章通过id-->
+	<select id="getBlogArticleByArticleId" resultMap="ArticleResult" parameterType="long">
+		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
+		article_top,article_img,article_summary,article_content,allow_comment,article_build from cms_article
+		where article_id=#{articleId} and visible=2
+	</select>
+
+	<!--获取文章通过固定链接-->
+	<select id="getBlogArticleByArticleUrl" resultMap="ArticleResult" parameterType="long">
+		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
+		article_top,article_img,article_summary,article_content,allow_comment,article_build from cms_article
+		where article_url=#{articleurl} and visible=2
+	</select>
+
 	<select id="listBlogArticlesByCatId" resultMap="ArticleResult" parameterType="com.ruoyi.blog.mould.pam.BlogArticleSearchParam">
-select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,keyword,
+select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
 		article_top,article_img,article_summary,allow_comment,article_build from cms_article
 		 <where>
 			 article_id in (select article_id from cms_article_cat where cat_id=#{catId}) and visible=2
@@ -323,7 +376,7 @@ select article_id, article_title, create_by, create_time,article_type,article_ur
 
 
 	<select id="listBlogArticlesByTagId"  resultMap="ArticleResult" parameterType="com.ruoyi.blog.mould.pam.BlogArticleSearchParam">
-select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,keyword,
+select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
 		article_top,article_img,article_summary,allow_comment,article_build from cms_article
 		<where>
 			article_id in (select article_id from cms_article_tag where tag_id=#{tagId})  and  visible=2
@@ -377,4 +430,5 @@ select article_id, article_title, create_by, create_time,article_type,article_ur
 	<select id="listArticleIdsByTagId" resultType="long" parameterType="long">
 		select article_id from cms_article_tag where tag_id=#{tagId}
 	</select>
+
 </mapper> 

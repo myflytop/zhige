@@ -47,7 +47,7 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 			art.setCreateBy(arVo.getCreateBy());
 			art.setReprintUrl(arVo.getReprintUrl());
 			art.setArticleUrl(arVo.getArticleUrl());
-			art.setKeyword(arVo.getKeyword());
+			art.setKeywords(arVo.getKeywords());
 			art.setArticleTop((byte) 0);
 			art.setVisible((byte) 1);
             //插入文章

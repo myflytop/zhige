@@ -48,6 +48,7 @@ public class BlogController extends CommonController {
     @BlogLog(title = "主页请求")
     @GetMapping("/index")
     public String index(ModelMap mp){
+        mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/index"));
         baseDataPut(mp);
         //缓存72条数据
         PageHelper.startPage(1, 72, "create_time desc");
@@ -86,6 +87,7 @@ public class BlogController extends CommonController {
     @GetMapping("/tag")
     public String tags(BlogTag tag, ModelMap mp){
         baseDataPut(mp);
+        mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/tag"));
         mp.put("tags",blogService.listBlogTags(tag));
         return getPreifx(redisUtils,"/tags");
     }
@@ -117,6 +119,7 @@ public class BlogController extends CommonController {
     @GetMapping("/cat")
     public String cat(BlogCat cat, ModelMap mp){
         baseDataPut(mp);
+        mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/cat"));
         mp.put("cats",blogService.listBlogCats(cat));
         return getPreifx(redisUtils,"/categories");
 
@@ -146,6 +149,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/links")
     public String links(ModelMap mp){
+        mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/link"));
         baseDataPut(mp);
         //依据分组将文章转化map
         Map<String, List<BlogLink>> linkMap=blogService.listBlogLinks(null).stream().collect(Collectors.groupingBy(BlogLink::getGroupName));
@@ -160,6 +164,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/about")
     public String about(ModelMap mp){
+        mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/about"));
         baseDataPut(mp);
         return getPreifx(redisUtils,"/about");
     }
@@ -171,6 +176,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/rank")
     public String rank(ModelMap modelMap){
+        modelMap.put("menu",blogService.getBlogMenuByMenuUrl("/blog/rank"));
         baseDataPut(modelMap);
         return getPreifx(redisUtils,"/rank");
     }
@@ -183,6 +189,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/timeLine")
     public String timeLine(ModelMap modelMap,@RequestParam(defaultValue = "1") int pageNum){
+        modelMap.put("menu",blogService.getBlogMenuByMenuUrl("/blog/timeLine"));
         baseDataPut(modelMap);
         PageHelper.startPage(pageNum,20, "create_time desc");
         List<BlogArticle> list=blogService.listBlogArticles(null);
@@ -195,7 +202,8 @@ public class BlogController extends CommonController {
     }
 
     @GetMapping("/contact")
-    public String contact(){
+    public String contact(ModelMap mp){
+        mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/cat"));
        return getPreifx(redisUtils,"/contact");
     }
 

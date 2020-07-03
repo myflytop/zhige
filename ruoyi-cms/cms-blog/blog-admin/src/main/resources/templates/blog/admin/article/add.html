@@ -69,7 +69,7 @@
 					<!-- 关键词 -->
 					<div class="form-group">
 						<div class="col-sm-12 keyinput">
-							<input class="form-control" type="text" name="keyword" id="articleKey" placeholder="关键词" />
+							<input class="form-control" type="text" name="keywords" id="articleKey" placeholder="关键词" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -178,6 +178,21 @@
 									<input type="radio" th:id="${dict.dictCode}" name="articleType" th:value="${dict.dictValue}" th:checked="${dict.default}">
 									<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
 								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- seo描述 -->
+					<div class="form-group">
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>SEO描述</h5>
+								<div class="ibox-tools">
+									<a class="collapse-link"><i class="fa fa-chevron-up"></i> </a> <a class="close-link"><i class="fa fa-times"></i></a>
+								</div>
+							</div>
+							<div class="ibox-content" style="display: block;">
+								<textarea class="form-control" rows="3" name="description"></textarea>
 							</div>
 						</div>
 					</div>

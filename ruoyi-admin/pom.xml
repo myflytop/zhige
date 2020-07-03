@@ -96,6 +96,13 @@
             <groupId>com.ruoyi.cms</groupId>
             <artifactId>blog-admin</artifactId>
         </dependency>
+
+        <!-- 内容管理模块-->
+        <dependency>
+            <groupId>com.ruoyi.cms</groupId>
+            <artifactId>cms-search</artifactId>
+        </dependency>
+
         <!--内容前端-->
         <dependency>
             <groupId>com.ruoyi.cms</groupId>

@@ -109,8 +109,8 @@ public class CmsCommentServiceImpl implements ICmsCommentService {
     }
 
     @Override
-    public int updateCmsComments(Long[] ids, Byte fettle) {
-        return cmsCommentMapper.updateCmsComments(ids,fettle);
+    public int updateCmsComments(Long[] ids, Byte visible) {
+        return cmsCommentMapper.updateCmsComments(ids,visible);
     }
 
 

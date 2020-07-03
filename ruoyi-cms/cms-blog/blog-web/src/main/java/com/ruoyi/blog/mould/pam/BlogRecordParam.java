@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
+/**
+ * 记录参数基本
+ */
 public class BlogRecordParam {
     private Long articleId;
     private Long userId;
@@ -18,7 +21,7 @@ public class BlogRecordParam {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
     private String userBower;
-    private Byte fettle;
+    private Byte visible;
     private Byte score;
     private String shareUrl;
 
@@ -89,11 +92,11 @@ public class BlogRecordParam {
     }
 
     public Byte getFettle() {
-        return fettle;
+        return visible;
     }
 
-    public void setFettle(Byte fettle) {
-        this.fettle = fettle;
+    public void setFettle(Byte visible) {
+        this.visible = visible;
     }
 
     public Byte getScore() {

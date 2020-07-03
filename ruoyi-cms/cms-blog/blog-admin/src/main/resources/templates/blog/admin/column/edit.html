@@ -76,6 +76,18 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-sm-3 control-label">关键词：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="keywords" th:value="*{keywords}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">描述：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="description" th:value="*{description}">
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-sm-3 control-label">栏目备注：</label>
 				<div class="col-sm-8">
 					<input class="form-control" type="text" name="remark"
@@ -127,9 +139,6 @@
                         type: "post",
                         dataType: "json",
                         data: {
-							"parentId": function() {
-								return $("input[name='parentId']").val();
-							},
                         	"columnUrl" : function() {
                                 return $.common.trim($("input[name=columnUrl]").val());
                             },"columnId" : function() {

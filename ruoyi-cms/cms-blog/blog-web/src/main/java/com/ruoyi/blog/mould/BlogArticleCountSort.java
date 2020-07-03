@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
+/**
+ * 文章基本展示字段
+ */
 public class BlogArticleCountSort  extends BlogArticleCount{
     private String articleTitle;
 

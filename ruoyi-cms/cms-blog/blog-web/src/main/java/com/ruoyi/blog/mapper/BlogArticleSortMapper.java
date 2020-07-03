@@ -17,7 +17,6 @@ import java.util.List;
  *
  */
 public interface BlogArticleSortMapper {
-    List<BlogArticleSort> listArticlesByTime(BlogArticleSort blogArticleSort);
-    List<BlogArticleSort> listArticlesByTop(BlogArticleSort blogArticleSort);
-    List<BlogArticleCountSort> listArticlesCountSort();
+    List<BlogArticleSort> listArticleSort(BlogArticleSort blogArticleSort);
+    List<BlogArticleCountSort> listArticlesCountSort(BlogArticleSort blogArticleSort);
 }

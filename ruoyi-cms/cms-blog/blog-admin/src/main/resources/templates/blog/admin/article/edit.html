@@ -73,7 +73,7 @@
 				<!-- 关键词 -->
 				<div class="form-group">
 					<div class="col-sm-12 keyinput">
-						<input class="form-control" type="text" name="keyword"
+						<input class="form-control" type="text" name="keywords"
 							id="articleKey" placeholder="关键词" />
 					</div>
 				</div>
@@ -176,6 +176,20 @@
 								name="allowComment" value="0" th:field="*{allowComment}">
 								关闭
 							</label>
+						</div>
+					</div>
+				</div>
+				<!-- seo描述 -->
+				<div class="form-group">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>SEO描述</h5>
+							<div class="ibox-tools">
+								<a class="collapse-link"><i class="fa fa-chevron-up"></i> </a> <a class="close-link"><i class="fa fa-times"></i></a>
+							</div>
+						</div>
+						<div class="ibox-content" style="display: block;">
+							<textarea class="form-control" rows="3" name="description" th:field="*{description}"></textarea>
 						</div>
 					</div>
 				</div>
@@ -341,7 +355,7 @@
 
 	<script type="text/javascript" th:inline="JavaScript">
 	//初始化参数
-	var tags=[[${tags}]],cats=[[${cats}]],keyword=[[*{keyword}]]
+	var tags=[[${tags}]],cats=[[${cats}]],keywords=[[*{keywords}]]
 	maxTag=[[${@config.getConfigByKey('cms.articleTag.maxNum')}]],
 	maxCat=[[${@config.getConfigByKey('cms.articleCat.maxNum')}]],
 	maxKeyword=[[${@config.getConfigByKey('cms.articleKeyword.maxNum')}]];
@@ -575,7 +589,7 @@
 		 });
 		 //添加关键词
 		 $('#articleKey').tagsinput(
-			  "add", keyword
+			  "add", keywords
 			);
 		 //选择标签
 		 $("#chooseTag").change(function(){
