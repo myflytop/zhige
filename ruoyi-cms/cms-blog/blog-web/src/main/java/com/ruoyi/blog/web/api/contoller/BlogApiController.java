@@ -19,7 +19,7 @@ import java.util.Map;
 @RequestMapping("/blog/api")
 public class BlogApiController {
     //blog配置前缀
-    private final String CONFIG_PREIGX="blog.config";
+    private final String CONFIG_PREFIX="blog.config";
     @Autowired
     private SysConfigServiceImpl sysConfigService;
 
@@ -34,7 +34,7 @@ public class BlogApiController {
     @GetMapping("/blogConfigRefresh")
     public AjaxResult refreshConfig(){
             Map<String, Object> vars = new HashMap<>();
-            vars.put("blogConfig", sysConfigService.selectConfigMap(CONFIG_PREIGX));
+            vars.put("blogConfig", sysConfigService.selectConfigMap(CONFIG_PREFIX));
             viewResolver.setStaticVariables(vars);
        return AjaxResult.success();
     }
