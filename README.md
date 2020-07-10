@@ -65,7 +65,9 @@
 7. 修改配置,需要刷新静态变量,/blog/api/blogConfigRefresh和/taoke/api/taokeConfigRefresh
 
 # 项目演示
-地址：https://pinpinduo.icu,首次加载可能有点慢,请不要随便修改导航菜单
+1. 地址：https://pinpinduo.icu
+2. 首次加载可能有点慢,请不要随便修改导航菜单
+3. 欢迎提出意见,以及反馈
 
 ## 若依简介
 
