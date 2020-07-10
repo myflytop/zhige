@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('redis缓存列表')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-danger" onclick="clearCache()" shiro:hasPermission="cache:redis:remove">
+                        <i class="fa fa-refresh"></i> 清理缓存
+                    </a>
+                </div>
+            <div>
+           <div class="col-sm-12 select-table table-striped">
+            <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>缓存类型</h5>
+                    </div>
+                    <div class="ibox-content" id="cacheType">
+                    </div>
+                </div>
+            </div>
+
+        <div class="col-sm-4">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>缓存列表</h5>
+                </div>
+                <div class="ibox-content" id="cacheList">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>缓存结果</h5>
+                </div>
+                <div class="ibox-content" id="cacheData" style="max-height: 90vh;overflow: scroll">
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+
+    	var prefix = ctx + "cache/redis";
+       $.get(prefix+'/list',function(res){
+           $("#cacheType").empty();
+           if(res.code===0&&res.data.length>0) {
+               $.each(res.data, function (i) {
+                   $("#cacheType").append('<div class="alert alert-success"><a javaScript:void(0)>' + res.data[i] + '</a></div>');
+               });
+           }
+           else {
+               $("#cacheType").append('<div class="alert alert-success">未查询到相关缓存类型！</div>');
+           }
+       });
+       $("#cacheType").on('click','div',function(){
+           $("#cacheList").empty();
+           $.get(prefix+'/list/'+$(this).text(),function(res){
+               if(res.code===0&&res.data.length>0) {
+                   $.each(res.data, function (i) {
+                       $("#cacheList").append('<div class="alert alert-info"><a javaScript:void(0)>' + res.data[i] + '</a></div>');
+                   });
+               }
+               else {
+               $("#cacheList").append('<div class="alert alert-success">未查询到相关缓存Key！</div>');
+               }
+           });
+       });
+
+        $("#cacheList").on('click','div',function(){
+            $("#cacheData").empty();
+            $.get(prefix+'/key/'+$(this).text(),function(res){
+                if(res.code===0&&res.data!=null) {
+                    $("#cacheData").append('<div class="alert alert-wrang">'+res.data+'</div>');
+                }
+                else {
+                    $("#cacheData").append('<div class="alert alert-wrang">未查询到相关缓存！</div>');
+                }
+            });
+        });
+        /** 清理参数缓存 */
+        function clearCache() {
+            $.get(prefix + "/clearCache",function (res) {
+                $.modal.msgSuccess("清理中,请稍后查看!");
+            });
+        }
+</script>
+</body>
+</html>

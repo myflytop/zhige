@@ -696,4 +696,13 @@ public class RedisUtils
             return 0;
         }
     }
+
+    /**
+     * 模糊查询key
+     * @param prefix
+     * @return
+     */
+    public Set<Object> getKeys(String prefix){
+        return redisTemplate.keys(prefix);
+    }
 }
