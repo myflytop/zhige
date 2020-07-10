@@ -1,0 +1,3 @@
+com\ruoyi\oss\natives\enums\NativeProperties.class
+com\ruoyi\oss\natives\ex\LocalException.class
+com\ruoyi\oss\natives\impl\NativeOssHandler.class

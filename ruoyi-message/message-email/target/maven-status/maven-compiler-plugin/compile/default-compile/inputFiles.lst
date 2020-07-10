@@ -1,0 +1,11 @@
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-email\src\main\java\com\ruoyi\message\mail\config\MailSenderFactory.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-email\src\main\java\com\ruoyi\message\mail\domain\MailUsedEnums.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-email\src\main\java\com\ruoyi\message\mail\domain\MailTypeEnums.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-email\src\main\java\com\ruoyi\message\mail\domain\properties\EmailProperties.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-email\src\main\java\com\ruoyi\message\mail\service\IMsgEmailService.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-email\src\main\java\com\ruoyi\message\mail\config\DefaultMailProperties.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-email\src\main\java\com\ruoyi\message\mail\domain\MsgEmail.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-email\src\main\java\com\ruoyi\message\mail\controller\MsgEmailController.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-email\src\main\java\com\ruoyi\message\mail\mapper\MsgEmailMapper.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-email\src\main\java\com\ruoyi\message\mail\service\impl\MsgEmailServiceImpl.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-email\src\main\java\com\ruoyi\message\mail\service\AbstractMailService.java

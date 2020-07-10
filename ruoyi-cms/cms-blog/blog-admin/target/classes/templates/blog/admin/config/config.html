@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('网站设置')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <div class="tabs-container">
+            <ul class="nav nav-tabs" id="config-title">
+                <li class="active"><a data-toggle="tab" href="#normal" aria-expanded="true">常规设置</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#seo" aria-expanded="false">主页SEO设置</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#article" aria-expanded="false">文章设置</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#article-sort" aria-expanded="false">展示设置</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#other" aria-expanded="false">其它设置</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#about-me" aria-expanded="false">个人主页</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#zhan" aria-expanded="false">赞赏设置</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="normal" class="tab-pane active">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-normal" >
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">网站标题：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.title" th:value="${blogConfig['blog.config.title']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">网站主页：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.index" th:value="${blogConfig['blog.config.index']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">LOGO：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.logo" th:value="${blogConfig['blog.config.logo']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">ICO：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.ico" th:value="${blogConfig['blog.config.ico']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">页脚设置：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.footer" th:value="${blogConfig['blog.config.footer']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="seo" class="tab-pane">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-seo">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">作者：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.author" th:value="${blogConfig['blog.config.author']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">版权：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.copyright" th:value="${blogConfig['blog.config.copyright']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">关键词：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.keywords" th:value="${blogConfig['blog.config.keywords']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">描述：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.description" th:value="${blogConfig['blog.config.description']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                <div id="article" class="tab-pane">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-article" >
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">默认排序：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.articleSort" th:value="${blogConfig['blog.config.articleSort']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">默认请求条数：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.articleSize" th:value="${blogConfig['blog.config.articleSize']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">分类上限：</label>
+                                <div class="col-sm-8">
+                                    <input name="cms.articleCat.maxNum" th:value="${cmsConfig['cms.articleCat.maxNum']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">标签上限：</label>
+                                <div class="col-sm-8">
+                                    <input name="cms.articleTag.maxNum" th:value="${cmsConfig['cms.articleTag.maxNum']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">关键词上限：</label>
+                                <div class="col-sm-8">
+                                    <input name="cms.articleKeyword.maxNum" th:value="${cmsConfig['cms.articleKeyword.maxNum']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="article-sort" class="tab-pane">
+                        <div class="panel-body">
+                            <form class="form-horizontal m" id="form-article-sort" >
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label is-">默认请求条数：</label>
+                                    <div class="col-sm-8">
+                                        <input name="blog.config.sort.articleSize" th:value="${blogConfig['blog.config.sort.articleSize']?.configValue}" class="form-control" type="text" >
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                </div>
+                <div id="other" class="tab-pane">
+                        <div class="panel-body">
+                            <form class="form-horizontal m" id="form-other" >
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label is-">统计代码：</label>
+                                    <div class="col-sm-8">
+                                        <input name="blog.config.countCode" th:value="${blogConfig['blog.config.countCode']?.configValue}" class="form-control" type="text" >
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                <div id="about-me" class="tab-pane">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-about-me" >
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">关于本站：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="blog.config.about.website" th:text="${blogConfig['blog.config.about.website']?.configValue}" class="form-control" type="text" >
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">关于作者：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="blog.config.about.author" th:text="${blogConfig['blog.config.about.author']?.configValue}" class="form-control" type="text" >
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">作者主页：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="blog.config.about.index" th:text="${blogConfig['blog.config.about.index']?.configValue}" class="form-control" type="text" >
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">联系我：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="blog.config.about.callme" th:text="${blogConfig['blog.config.about.callme']?.configValue}" class="form-control" type="text" >
+                                    </textarea>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div id="zhan" class="tab-pane">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-zhan" >
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">支付宝：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.countCode" th:value="${blogConfig['blog.config.zhan.zhi']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">微信：</label>
+                                <div class="col-sm-8">
+                                    <input name="blog.config.countCode" th:value="${blogConfig['blog.config.zhan.wei']?.configValue}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        </div>
+            <button type="button" class="btn btn-w-m btn-primary" id="submit-btn">修改</button>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/config";
+        var myForm="form-normal";
+        $('#config-title a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+            myForm= $(this).attr('href').replace("#","form-");
+            console.log(myForm);
+        });
+        function submitHandler() {
+            $.operate.save(prefix + "/updateByKey", $('#'+myForm).serialize());
+
+        }
+        $("#submit-btn").click(function (){
+            submitHandler();
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('淘客列表')" />
+    <th:block th:include="include :: bootstrap-select-css" />
+
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            商品名字：
+                            <input type="text" name="shopName" />
+                        </li>
+                        <li>
+                            店铺名字：
+                            <input type="text" name="homeName" />
+                        </li>
+                        <li>
+                            商品状态：<select name="shopFettle" th:with="type=${@dict.getType('taoke_shop_fettle')}">
+                            <option value="">所有</option>
+                            <option  th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                        </select>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <div class="btn-group" shiro:hasPermission="cms:taoke:edit">
+                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">状态设置 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="shopFettle" th:with="type=${@dict.getType('taoke_shop_fettle')}">
+                    <li  th:each="dict : ${type}"  th:data-id="${dict.dictValue}" ><a href="javascript:void(0)" th:text="${dict.dictLabel}"></a></li>
+                </ul>
+            </div>
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="cms:taoke:add"><i class="fa fa-plus"></i>添加</a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="cms:taoke:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="cms:taoke:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="cms:taoke:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
+            <a class="btn btn-info" onclick="$.table.importExcelMorePam()">
+                <i class="fa fa-upload"></i> 导入
+            </a>
+
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<th:block th:include="include :: bootstrap-select-js" />
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('cms:taoke:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('cms:taoke:remove')}]];
+    var prefix = ctx + "cms/taoke";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            importUrl: prefix + "/importData",
+            importTemplateUrl:prefix+"/exportTemplate",
+            modalName: "淘客",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'shopId',
+                    title: '商品id',
+                    visible: false
+                },
+                {
+                    field: 'shopName',
+                    title: '商品名字',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'shopImg',
+                    title: '商品主图',
+                    formatter: function(value, row, index) {
+                         return  $.table.imageView(value);
+                    }
+
+                },
+                {
+                    field: 'shopIndex',
+                    title: '商品主页',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'homeName',
+                    title: '店铺名字',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'shopPrice',
+                    title: '商品价格',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'shopSales',
+                    title: '商品月销量',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'incomeRatio',
+                    title: '收入比例',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'commission',
+                    title: '佣金',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'wangName',
+                    title: '商家旺旺名',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'sortUrl',
+                    title: '淘宝客短链接',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'taokeUrl',
+                    title: '淘宝客长链接',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'couponCount',
+                    title: '优惠卷总量',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'couponNum',
+                    title: '优惠卷剩余量',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'couponPrice',
+                    title: '优惠卷价值',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'couponStartTime',
+                    title: '优惠卷开始时间',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'couponEndTime',
+                    title: '优惠卷结束时间',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'couponUrl',
+                    title: '优惠卷领取地址',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'couponCode',
+                    title: '优惠券淘口',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'couponSortUrl',
+                    title: '优惠卷领取短链',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'marketIs',
+                    title: '是否为营销',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'groupNum',
+                    title: '拼团人数',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'groupPrice',
+                    title: '拼团价',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'groupCommission',
+                    title: '团队佣金比例',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'groupStartTime',
+                    title: '拼团开始时间',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'groupEndTime',
+                    title: '拼团结束时间',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'remark',
+                    title: '备注',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'shopFettle',
+                    title: '商品状态',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'shopContent',
+                    title: '内容描述',
+                    visible: false,
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.shopId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.shopId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+
+    /*淘客下拉框点击事件*/
+    $('#shopFettle>li').click(function(e) {
+        //获取选中行数据
+        var pam={},ids=[],chooseData =$("#bootstrap-table").bootstrapTable('getSelections');
+        pam.fettle=$(this).attr("data-id");
+        if (chooseData.length>0)
+        {$.each(chooseData,function (index,ele) {
+            ids.push(ele.shopId);
+        });
+            pam.ids=ids.join();
+            $.modal.confirm("确认要修改选的标签状态吗？", function() {
+                $.operate.post(prefix + "/putOn", pam);
+            })
+        }
+        else{
+            $.modal.alert("请至少选择一项");
+        }
+    });
+
+</script>
+<!-- 导入区域 -->
+<script id="importTpl" type="text/template">
+    <form enctype="multipart/form-data" class="mt20 mb10" id="importTplForm">
+        <div class="ibox float-e-margins" style="height: 455px">
+            <div class="ibox-content">
+                <div class="form-group">
+                    <label class="font-noraml">选择文件</label>
+                    <input type="file" id="file" name="file"/>
+                </div>
+                <div class="form-group" style="width: 200px">
+                    <label class="font-noraml">选择标签</label>
+                    <select class="form-control noselect2 selectpicker" th:data-max-options="${@config.getConfigByKey('cms.articleTag.maxNum')}"  data-live-search="true" id="selectTag" th:data-none-selected-text="'选择标签最多'+${@config.getConfigByKey('cms.articleTag.maxNum')}+'个'" multiple>
+
+                    </select>
+                </div>
+                <div class="form-group" style="width: 200px">
+                    <label class="font-noraml">选择类别</label>
+                    <select class="form-control noselect2 selectpicker" th:data-max-options="${@config.getConfigByKey('cms.articleCat.maxNum')}"  data-live-search="true" id="selectCat" th:data-none-selected-text="'选择类别最多'+${@config.getConfigByKey('cms.articleCat.maxNum')}+'个'" multiple>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>覆盖更新：</label> <input type="radio" name="updateSupport" value="true" title="如果数据已经存在，更新这条数据。">
+                    <br>
+                    <label> 跳过更新：</label> <input type="radio"  name="updateSupport"  value="false" checked title="如果数据已经存在，跳过数据。">
+                </div>
+                <div class="form-group">
+                    <span class="pull-left mt10" style="color: red; ">
+                        提示：仅允许导入“xls”或“xlsx”格式文件！
+                    </span>
+                    <br>
+                    <br>
+                    <a onclick="$.table.importTemplate()" style="float: left" class="btn btn-default btn-xs"><i class="fa fa-file-excel-o"></i> 下载模板</a>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</script>
+
+</body>
+</html>

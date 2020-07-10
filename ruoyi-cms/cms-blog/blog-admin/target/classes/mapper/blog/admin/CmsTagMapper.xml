@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.cms.system.mapper.CmsTagMapper">
+    <resultMap id="TagResultMap"
+               type="com.ruoyi.cms.system.model.po.CmsTag">
+        <id column="tag_id" property="tagId" jdbcType="BIGINT"/>
+        <result column="tag_name" property="tagName" jdbcType="VARCHAR"/>
+        <result column="create_by" property="createBy"
+                jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime"
+                jdbcType="TIMESTAMP"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="update_by" property="updateBy"
+                jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime"
+                jdbcType="TIMESTAMP"/>
+        <result column="visible" property="visible" jdbcType="BIT"/>
+        <result column="tag_url" property="tagUrl" jdbcType="VARCHAR"/>
+        <result column="tag_ico" property="tagIco" jdbcType="VARCHAR"/>
+        <result column="perms" property="perms" jdbcType="VARCHAR"/>
+        <result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="TagCountVoResultMap" type="com.ruoyi.cms.system.model.vo.TagCountVo" extends="TagResultMap">
+        <collection property="tagCount" jdbcType="BIGINT" select="getTagCountByTagId" ofType="long" column="tag_id"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		tag_id,tag_name, create_by, create_time, remark,
+		update_by, update_time,visible,tag_ico,perms,tag_url,keywords,description
+	</sql>
+
+
+    <!--单条插入 返回主键-->
+    <insert id="insertCmsTag" parameterType="com.ruoyi.cms.system.model.po.CmsTag" useGeneratedKeys="true"
+            keyProperty="tagId">
+		insert into cms_tag (tag_name,
+		create_by,create_time,remark,tag_url,tag_ico,perms,visible,keywords,description)
+		values
+		(
+		#{tagName,jdbcType=VARCHAR},
+		#{createBy,jdbcType=TIMESTAMP},
+		sysdate(),
+		#{remark,jdbcType=VARCHAR},#{tagUrl,jdbcType=VARCHAR},#{tagIco,jdbcType=VARCHAR},#{perms,jdbcType=VARCHAR},#{visible,jdbcType=VARCHAR},#{keywords,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR})
+	</insert>
+
+    <!--批量插入 批量返回主键-->
+    <insert id="insertCmsTags" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="tagId">
+        insert into cms_tag (tag_name,
+        create_by,create_time,remark,tag_url,tag_ico,perms,keywords,description)
+        values
+        <foreach collection="cmsTags" item="cmsTag" index="index" separator=",">
+            (
+            #{cmsTag.tagName,jdbcType=VARCHAR},
+            #{cmsTag.createBy,jdbcType=TIMESTAMP},
+            sysdate(),
+            #{cmsTag.remark,jdbcType=VARCHAR},#{cmsTag.tagUrl,jdbcType=VARCHAR},#{cmsTag.tagIco,jdbcType=VARCHAR},#{cmsTag.perms,jdbcType=VARCHAR},#{keywords,jdbcType=VARCHAR},
+			#{description,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--删除单条-->
+    <delete id="deleteCmsTagById" parameterType="java.lang.Long">
+		delete from cms_tag
+		where tag_id = #{tagId,jdbcType=INTEGER} and tag_id not in (select tag_id from cms_article_tag)
+	</delete>
+
+    <!--获取一条标签通过ID-->
+    <select id="getCmsTagById" resultMap="TagResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from cms_tag
+        where tag_id = #{tagId,jdbcType=BIGINT}
+    </select>
+
+    <select id="listCmsTagByArticleTagId" parameterType="java.lang.Long" resultMap="TagResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cms_tag where tag_id in (select tag_id from cms_article_tag
+        where article_id=#{articleId})
+    </select>
+
+    <!--获取一条带统计标签通过ID-->
+    <select id="getCmsTagCountById" resultMap="TagCountVoResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from cms_tag
+        where tag_id = #{tagId,jdbcType=BIGINT}
+    </select>
+
+    <!--获取带统计标签列表 模糊查询-->
+    <select id="listCmsTag"
+            parameterType="com.ruoyi.cms.system.model.po.CmsTag"
+            resultMap="TagResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cms_tag
+        <where>
+            <if test="tagName!=null">
+                AND tag_name like concat('%', #{tagName,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="visible!=null">
+                AND visible= #{visible,jdbcType=BIT}
+            </if>
+            <if test="createBy!=null">
+                and create_by=#{createBy,jdbcType=BIGINT}
+            </if>
+            <if test="updateBy!=null">
+                and update_by=#{updateBy,jdbcType=BIGINT}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="listCmsTagCountByTag"
+            parameterType="com.ruoyi.cms.system.model.po.CmsTag"
+            resultMap="TagCountVoResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cms_tag
+        <where>
+
+            <if test="tagName!=null">
+                AND tag_name like concat('%', #{tagName,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="visible!=null">
+                AND visible= #{visible,jdbcType=BIT}
+            </if>
+            <if test="createBy!=null">
+                and create_by=#{createBy,jdbcType=BIGINT}
+            </if>
+            <if test="updateBy!=null">
+                and update_by=#{updateBy,jdbcType=BIGINT}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+    <!--更新-->
+    <update id="updateCmsTagById"
+            parameterType="com.ruoyi.cms.system.model.po.CmsTag">
+        update cms_tag
+        <set>
+            <if test="tagName != null">
+                tag_name =#{tagName,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            <if test="true">
+                update_time = sysdate(),
+            </if>
+            <if test="tagIco != null">
+                tag_ico = #{tagIco,jdbcType=VARCHAR},
+            </if>
+            <if test="tagUrl != null">
+                tag_url = #{tagUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="perms!= null">
+                perms = #{perms,jdbcType=VARCHAR},
+            </if>
+            <if test="visible != null">
+                visible = #{visible,jdbcType=BIT},
+            </if>
+			<if test="keywords != null and keywords!='' ">keywords=#{keywords},</if>
+			<if test="description != null and description!='' ">description=#{description},</if>
+        </set>
+        where tag_id = #{tagId,jdbcType=BIGINT}
+    </update>
+
+
+    <update id="updateTagVisible">
+        update cms_tag set visible=#{visible} where tag_id in (
+        <foreach collection="tagIds" separator="," item="tagId">
+            #{tagId}
+        </foreach>
+        )
+    </update>
+    <!--检查标签名-->
+    <select id="checkTagNameUnique" resultType="int">
+        select count(1) from cms_tag where <if test="tagId!=null">tag_id not in(#{tagId}) and</if> tag_name=#{tagName}
+    </select>
+
+    <!--检查标签路径-->
+    <select id="checkTagUrlUnique" resultType="int">
+        select count(1) from cms_tag where <if test="tagId!=null">tag_id not in(#{tagId}) and</if> tag_url=#{tagUrl}
+    </select>
+
+
+    <select id="listCmsTagNoHide" resultMap="TagResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cms_tag where visible!=0
+    </select>
+
+
+    <select id="listTagCountVoByTag" resultMap="TagCountVoResultMap"
+            parameterType="com.ruoyi.cms.system.model.po.CmsTag">
+        select
+        <include refid="Base_Column_List"/>
+        from cms_tag
+        <where>
+            <if test="tagName != null and tagName != ''">
+                AND tag_name like contag('%', #{tagName}, '%')
+            </if>
+            <if test="visible != null">
+                AND visible = #{visible}
+            </if>
+            <if test="parent != null">
+                AND parent = #{parent}
+            </if>
+            <if test="createBy!=null">
+                and create_by=#{createBy,jdbcType=BIGINT}
+            </if>
+            <if test="updateBy!=null">
+                and update_by=#{updateBy,jdbcType=BIGINT}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="listTagCountVoNoHide" resultMap="TagCountVoResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cms_tag where visible!=0
+    </select>
+
+    <select id="getTagCountByTagId" resultType="long" parameterType="long">
+        select count(1) from cms_article_tag where tag_id=#{tag_id}
+    </select>
+</mapper>

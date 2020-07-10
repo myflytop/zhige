@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.taoke.admin.mapper.CmsTaokeMapper">
+    <resultMap type="com.ruoyi.taoke.admin.model.CmsTaoke" id="CmsTaokeResult">
+        <result property="shopId" column="shop_id"/>
+        <result property="shopName" column="shop_name"/>
+        <result property="shopImg" column="shop_img"/>
+        <result property="shopIndex" column="shop_index"/>
+        <result property="homeName" column="home_name"/>
+        <result property="shopPrice" column="shop_price"/>
+        <result property="shopSales" column="shop_sales"/>
+        <result property="incomeRatio" column="income_ratio"/>
+        <result property="commission" column="commission"/>
+        <result property="wangName" column="wang_name"/>
+        <result property="sortUrl" column="sort_url"/>
+        <result property="taokeUrl" column="taoke_url"/>
+        <result property="couponCount" column="coupon_count"/>
+        <result property="couponNum" column="coupon_num"/>
+        <result property="couponPrice" column="coupon_price"/>
+        <result property="couponStartTime" column="coupon_start_time"/>
+        <result property="couponEndTime" column="coupon_end_time"/>
+        <result property="couponUrl" column="coupon_url"/>
+        <result property="couponCode" column="coupon_code"/>
+        <result property="couponSortUrl" column="coupon_sort_url"/>
+        <result property="marketIs" column="market_is"/>
+        <result property="groupNum" column="group_num"/>
+        <result property="groupPrice" column="group_price"/>
+        <result property="groupCommission" column="group_commission"/>
+        <result property="groupStartTime" column="group_start_time"/>
+        <result property="groupEndTime" column="group_end_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="shopFettle" column="shop_fettle"/>
+        <result property="shopContent" column="shop_content"/>
+    </resultMap>
+
+    <sql id="selectCmsTaokeVo">
+        select shop_id, shop_name, shop_img, shop_index, home_name, shop_price, shop_sales, income_ratio, commission, wang_name, sort_url, taoke_url, coupon_count, coupon_num, coupon_price, coupon_start_time, coupon_end_time, coupon_url, coupon_code, coupon_sort_url, market_is, group_num, group_price, group_commission, group_start_time, group_end_time, create_time, update_time, remark, shop_fettle, shop_content from cms_taoke
+    </sql>
+
+    <select id="selectCmsTaokeList" parameterType="com.ruoyi.taoke.admin.model.CmsTaoke" resultMap="CmsTaokeResult">
+        <include refid="selectCmsTaokeVo"/>
+        <where>
+            <if test="shopName != null  and shopName != ''">and shop_name like concat('%', #{shopName}, '%')</if>
+            <if test="shopImg != null  and shopImg != ''">and shop_img = #{shopImg}</if>
+            <if test="shopIndex != null  and shopIndex != ''">and shop_index = #{shopIndex}</if>
+            <if test="homeName != null  and homeName != ''">and home_name like concat('%', #{homeName}, '%')</if>
+            <if test="shopPrice != null ">and shop_price = #{shopPrice}</if>
+            <if test="shopSales != null ">and shop_sales = #{shopSales}</if>
+            <if test="incomeRatio != null ">and income_ratio = #{incomeRatio}</if>
+            <if test="commission != null ">and commission = #{commission}</if>
+            <if test="wangName != null  and wangName != ''">and wang_name like concat('%', #{wangName}, '%')</if>
+            <if test="sortUrl != null  and sortUrl != ''">and sort_url = #{sortUrl}</if>
+            <if test="taokeUrl != null  and taokeUrl != ''">and taoke_url = #{taokeUrl}</if>
+            <if test="couponCount != null ">and coupon_count = #{couponCount}</if>
+            <if test="couponNum != null ">and coupon_num = #{couponNum}</if>
+            <if test="couponPrice != null ">and coupon_price = #{couponPrice}</if>
+            <if test="couponStartTime != null ">and coupon_start_time = #{couponStartTime}</if>
+            <if test="couponEndTime != null ">and coupon_end_time = #{couponEndTime}</if>
+            <if test="couponUrl != null  and couponUrl != ''">and coupon_url = #{couponUrl}</if>
+            <if test="couponCode != null  and couponCode != ''">and coupon_code = #{couponCode}</if>
+            <if test="couponSortUrl != null  and couponSortUrl != ''">and coupon_sort_url = #{couponSortUrl}</if>
+            <if test="marketIs != null  and marketIs != ''">and market_is = #{marketIs}</if>
+            <if test="groupNum != null ">and group_num = #{groupNum}</if>
+            <if test="groupPrice != null ">and group_price = #{groupPrice}</if>
+            <if test="groupCommission != null ">and group_commission = #{groupCommission}</if>
+            <if test="groupStartTime != null ">and group_start_time = #{groupStartTime}</if>
+            <if test="groupEndTime != null ">and group_end_time = #{groupEndTime}</if>
+            <if test="shopFettle != null ">and shop_fettle = #{shopFettle}</if>
+            <if test="shopContent != null  and shopContent != ''">and shop_content = #{shopContent}</if>
+        </where>
+    </select>
+
+    <select id="selectCmsTaokeById" parameterType="String" resultMap="CmsTaokeResult">
+        <include refid="selectCmsTaokeVo"/>
+        where shop_id = #{shopId}
+    </select>
+
+    <insert id="insertCmsTaoke" parameterType="com.ruoyi.taoke.admin.model.CmsTaoke">
+        insert into cms_taoke
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shopId != null  and shopId != ''">shop_id,</if>
+            <if test="shopName != null  and shopName != ''">shop_name,</if>
+            <if test="shopImg != null  and shopImg != ''">shop_img,</if>
+            <if test="shopIndex != null  and shopIndex != ''">shop_index,</if>
+            <if test="homeName != null  and homeName != ''">home_name,</if>
+            <if test="shopPrice != null ">shop_price,</if>
+            <if test="shopSales != null ">shop_sales,</if>
+            <if test="incomeRatio != null ">income_ratio,</if>
+            <if test="commission != null ">commission,</if>
+            <if test="wangName != null  and wangName != ''">wang_name,</if>
+            <if test="sortUrl != null  and sortUrl != ''">sort_url,</if>
+            <if test="taokeUrl != null  and taokeUrl != ''">taoke_url,</if>
+            <if test="couponCount != null ">coupon_count,</if>
+            <if test="couponNum != null ">coupon_num,</if>
+            <if test="couponPrice != null ">coupon_price,</if>
+            <if test="couponStartTime != null ">coupon_start_time,</if>
+            <if test="couponEndTime != null ">coupon_end_time,</if>
+            <if test="couponUrl != null  and couponUrl != ''">coupon_url,</if>
+            <if test="couponCode != null  and couponCode != ''">coupon_code,</if>
+            <if test="couponSortUrl != null  and couponSortUrl != ''">coupon_sort_url,</if>
+            <if test="marketIs != null ">market_is,</if>
+            <if test="groupNum != null ">group_num,</if>
+            <if test="groupPrice != null ">group_price,</if>
+            <if test="groupCommission != null ">group_commission,</if>
+            <if test="groupStartTime != null ">group_start_time,</if>
+            <if test="groupEndTime != null ">group_end_time,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="shopFettle != null ">shop_fettle,</if>
+            <if test="shopContent != null  and shopContent != ''">shop_content,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shopId != null  and shopId != ''">#{shopId},</if>
+            <if test="shopName != null  and shopName != ''">#{shopName},</if>
+            <if test="shopImg != null  and shopImg != ''">#{shopImg},</if>
+            <if test="shopIndex != null  and shopIndex != ''">#{shopIndex},</if>
+            <if test="homeName != null  and homeName != ''">#{homeName},</if>
+            <if test="shopPrice != null ">#{shopPrice},</if>
+            <if test="shopSales != null ">#{shopSales},</if>
+            <if test="incomeRatio != null ">#{incomeRatio},</if>
+            <if test="commission != null ">#{commission},</if>
+            <if test="wangName != null  and wangName != ''">#{wangName},</if>
+            <if test="sortUrl != null  and sortUrl != ''">#{sortUrl},</if>
+            <if test="taokeUrl != null  and taokeUrl != ''">#{taokeUrl},</if>
+            <if test="couponCount != null ">#{couponCount},</if>
+            <if test="couponNum != null ">#{couponNum},</if>
+            <if test="couponPrice != null ">#{couponPrice},</if>
+            <if test="couponStartTime != null ">#{couponStartTime},</if>
+            <if test="couponEndTime != null ">#{couponEndTime},</if>
+            <if test="couponUrl != null  and couponUrl != ''">#{couponUrl},</if>
+            <if test="couponCode != null  and couponCode != ''">#{couponCode},</if>
+            <if test="couponSortUrl != null  and couponSortUrl != ''">#{couponSortUrl},</if>
+            <if test="marketIs != null ">#{marketIs},</if>
+            <if test="groupNum != null ">#{groupNum},</if>
+            <if test="groupPrice != null ">#{groupPrice},</if>
+            <if test="groupCommission != null ">#{groupCommission},</if>
+            <if test="groupStartTime != null ">#{groupStartTime},</if>
+            <if test="groupEndTime != null ">#{groupEndTime},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="shopFettle != null ">#{shopFettle},</if>
+            <if test="shopContent != null  and shopContent != ''">#{shopContent},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCmsTaoke" parameterType="com.ruoyi.taoke.admin.model.CmsTaoke">
+        update cms_taoke
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopName != null  and shopName != ''">shop_name = #{shopName},</if>
+            <if test="shopImg != null  and shopImg != ''">shop_img = #{shopImg},</if>
+            <if test="shopIndex != null  and shopIndex != ''">shop_index = #{shopIndex},</if>
+            <if test="homeName != null  and homeName != ''">home_name = #{homeName},</if>
+            <if test="shopPrice != null ">shop_price = #{shopPrice},</if>
+            <if test="shopSales != null ">shop_sales = #{shopSales},</if>
+            <if test="incomeRatio != null ">income_ratio = #{incomeRatio},</if>
+            <if test="commission != null ">commission = #{commission},</if>
+            <if test="wangName != null  and wangName != ''">wang_name = #{wangName},</if>
+            <if test="sortUrl != null  and sortUrl != ''">sort_url = #{sortUrl},</if>
+            <if test="taokeUrl != null  and taokeUrl != ''">taoke_url = #{taokeUrl},</if>
+            <if test="couponCount != null ">coupon_count = #{couponCount},</if>
+            <if test="couponNum != null ">coupon_num = #{couponNum},</if>
+            <if test="couponPrice != null ">coupon_price = #{couponPrice},</if>
+            <if test="couponStartTime != null ">coupon_start_time = #{couponStartTime},</if>
+            <if test="couponEndTime != null ">coupon_end_time = #{couponEndTime},</if>
+            <if test="couponUrl != null  and couponUrl != ''">coupon_url = #{couponUrl},</if>
+            <if test="couponCode != null  and couponCode != ''">coupon_code = #{couponCode},</if>
+            <if test="couponSortUrl != null  and couponSortUrl != ''">coupon_sort_url = #{couponSortUrl},</if>
+            <if test="marketIs != null ">market_is = #{marketIs},</if>
+            <if test="groupNum != null ">group_num = #{groupNum},</if>
+            <if test="groupPrice != null ">group_price = #{groupPrice},</if>
+            <if test="groupCommission != null ">group_commission = #{groupCommission},</if>
+            <if test="groupStartTime != null ">group_start_time = #{groupStartTime},</if>
+            <if test="groupEndTime != null ">group_end_time = #{groupEndTime},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="shopFettle != null ">shop_fettle = #{shopFettle},</if>
+            <if test="shopContent != null  and shopContent != ''">shop_content = #{shopContent},</if>
+        </trim>
+        where shop_id = #{shopId}
+    </update>
+
+     <!--文章关联淘客-->
+    <insert id="insertCmsArticleTaoke">
+        insert into cms_article_taoke(article_id,shop_id) values (#{articleId},#{shopId})
+    </insert>
+
+    <delete id="deleteCmsTaokeById" parameterType="String">
+        delete from cms_taoke where shop_id = #{shopId}
+    </delete>
+
+    <select id="checkArticleTaokeByTaokeId" resultType="int">
+        select count(1) from cms_article_taoke where shop_id=#{shopId}
+    </select>
+
+    <delete id="deleteCmsTaokeByIds" parameterType="String">
+        delete from cms_taoke where shop_id in
+        <foreach item="shopId" collection="array" open="(" separator="," close=")">
+            #{shopId}
+        </foreach>
+    </delete>
+
+    <update id="updateCmsTaokePutOn">
+        update cms_taoke set shop_fettle=#{fettle} where shop_id in
+        <foreach item="shopId" collection="ids" open="(" separator="," close=")">
+            #{shopId}
+        </foreach>
+    </update>
+
+    <update id="onTimeShelves" parameterType="long">
+        update cms_taoke set shop_fettle=0 where unix_timestamp(coupon_start_time)&lt;#{currentTimeMillis} and shop_fettle=1
+
+    </update>
+
+</mapper>

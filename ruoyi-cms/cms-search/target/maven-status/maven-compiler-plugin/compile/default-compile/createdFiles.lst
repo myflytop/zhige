@@ -1,0 +1,4 @@
+com\ruoyi\cms\solr\mapper\SolrMapper.class
+com\ruoyi\cms\solr\model\SearchModel.class
+com\ruoyi\cms\solr\web\SolrController.class
+com\ruoyi\cms\solr\service\SolrService.class

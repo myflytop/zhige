@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('邮件配置')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-email-config">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮箱服务器地址：</label>
+                <div class="col-sm-8">
+                    <input name="email_host" class="form-control" type="text" th:value="${mail['email_host'].configValue}">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮箱协议：</label>
+                <div class="col-sm-8">
+                    <input name="email_protocol" class="form-control" type="text"th:value="${mail['email_protocol'].configValue}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">邮箱端口：</label>
+                <div class="col-sm-8">
+                    <input name="email_ssl_port" class="form-control" type="text" th:value="${mail['email_ssl_port'].configValue}">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮箱账号：</label>
+                <div class="col-sm-8">
+                    <input name="email_username" class="form-control" type="text" th:value="${mail['email_username'].configValue}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">邮箱密码|授权码：</label>
+                <div class="col-sm-8">
+                    <input name="email_password" class="form-control" type="text" th:value="${mail['email_password'].configValue}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">邮件开关：</label>
+                <div class="col-sm-8">
+                    <label class="toggle-switch switch-solid">
+
+                        <input type="checkbox" id="email_enabled" th:checked="${mail['email_enabled'].configValue == 'true' ? true : false}">
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/config";
+        $("#form-email-config").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            var data = $("#form-email-config").serializeArray();
+            var status = $("input[id='email_enabled']").is(':checked') == true ? "true" : "false";
+            data.push({"name": "email_enabled", "value": status});
+            if ($.validate.form()) {
+               $.operate.save(prefix + "/updateByKey", data);
+            }
+        }
+
+        $("input[name='sendTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

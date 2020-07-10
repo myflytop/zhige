@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.cms.system.mapper.CmsColumnMapper">
+
+    <resultMap type="com.ruoyi.cms.system.model.po.CmsColumn"
+               id="CmsColumnResult">
+        <id column="column_id" property="columnId" jdbcType="BIGINT"/>
+        <result column="column_name" property="columnName"
+                jdbcType="VARCHAR"/>
+        <result column="column_icon" property="columnIcon"
+                jdbcType="VARCHAR"/>
+        <result column="visible" property="visible" jdbcType="BIT"/>
+        <result property="columnLocate" column="column_locate" jdbcType="BIT"/>
+        <result column="order_no" property="orderNo" jdbcType="TINYINT"/>
+        <result column="parent_id" property="parentId"
+                jdbcType="BIGINT"/>
+        <result column="parent" property="parent" jdbcType="BIT"/>
+        <result column="create_time" property="createTime"
+                jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime"
+                jdbcType="TIMESTAMP"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="open_type" property="openType" jdbcType="BIT"/>
+        <result column="perms" property="perms" jdbcType="VARCHAR"/>
+        <result column="column_url" property="columnUrl"
+                jdbcType="VARCHAR"/>
+        <result column="ancestors" property="ancestors"
+                jdbcType="VARCHAR"/>
+        <result column="update_by" property="updateBy"
+                jdbcType="BIGINT"/>
+        <result column="create_by" property="createBy"
+                jdbcType="BIGINT"/>
+        <result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_Sql">
+		column_id,ancestors, column_name, column_locate,column_icon, visible,
+		order_no, parent_id,
+		parent, create_time,update_time, remark,
+		open_type, perms, column_url, update_by, create_by,keywords,description
+	</sql>
+
+    <insert id="insertCmsColumn"
+            parameterType="com.ruoyi.cms.system.model.po.CmsColumn">
+		insert into cms_column (column_name, column_icon,
+		visible, order_no,
+		parent_id,parent,
+		create_time,remark,
+		open_type,
+		perms,
+		column_url, create_by,ancestors
+		,keywords,description,column_locate)
+		values
+		(#{columnName,jdbcType=VARCHAR},
+		#{columnIcon,jdbcType=VARCHAR},
+		#{visible,jdbcType=BIT},
+		#{orderNo,jdbcType=TINYINT},
+		#{parentId,jdbcType=BIGINT},#{parent,jdbcType=BIT},
+		sysdate(),#{remark,jdbcType=VARCHAR},
+		#{openType,jdbcType=BIT},#{perms,jdbcType=VARCHAR},
+		#{columnUrl,jdbcType=VARCHAR},
+		#{createBy,jdbcType=BIGINT},#{ancestors,jdbcType=VARCHAR},
+		#{keywords,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{columnLocate,jdbcType=VARCHAR})
+	</insert>
+
+    <update id="updateCmsColumn"
+            parameterType="com.ruoyi.cms.system.model.po.CmsColumn">
+        update cms_column
+        <set>
+            <if test="columnName != null">
+                column_name = #{columnName,jdbcType=VARCHAR},
+            </if>
+            <if test="columnIcon != null">
+                column_icon = #{columnIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="ancestors != null">
+                ancestors = #{ancestors,jdbcType=VARCHAR},
+            </if>
+            <if test="columnLocate != null">
+                column_locate = #{columnLocate,jdbcType=BIT},
+            </if>
+            <if test="visible != null">
+                visible = #{visible,jdbcType=BIT},
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=TINYINT},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="parent != null">
+                parent = #{parent,jdbcType=BIT},
+            </if>
+            <if test="true">
+                update_time = sysdate(),
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="openType != null">
+                open_type = #{openType,jdbcType=BIT},
+            </if>
+            <if test="perms != null">
+                perms = #{perms,jdbcType=VARCHAR},
+            </if>
+            <if test="columnUrl != null">
+                column_url = #{columnUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+			<if test="keywords != null and keywords!='' ">keywords=#{keywords},</if>
+			<if test="description != null and description!='' ">description=#{description},</if>
+        </set>
+        where column_id = #{columnId,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteCmsColumnById" parameterType="java.lang.Long">
+		delete from
+		cms_column where column_id = #{columnId,jdbcType=BIGINT}
+	</delete>
+
+
+    <select id="listCmsColumn"
+            parameterType="com.ruoyi.cms.system.model.po.CmsColumn"
+            resultMap="CmsColumnResult">
+        select
+        <include refid="Base_Column_Sql"/>
+        from cms_column
+        <where>
+            <if test="columnName != null and columnName != ''">
+                AND column_name like concat('%', #{columnName}, '%')
+            </if>
+            <if test="visible != null">
+                AND visible = #{visible}
+            </if>
+            <if test="columnLocate != null">
+               AND column_locate = #{columnLocate}
+            </if>
+            <if test="parent != null">
+                AND parent = #{parent}
+            </if>
+        </where>
+        order by parent_id, order_no
+    </select>
+
+    <!--获取一条类目所有信息 -->
+    <select id="getCmsColumnById" parameterType="java.lang.Long"
+            resultMap="CmsColumnResult">
+        select
+        <include refid="Base_Column_Sql"/>
+        from cms_column
+        where column_id=#{columnId}
+    </select>
+
+    <update id="updateTagVisible">
+		update cms_column set  visible=#{visible} where column_id=#{columnId} or
+		find_in_set(#{columnId},ancestors)
+	</update>
+
+    <!-- 通过 parentId获取子节点 -->
+    <select id="listCmsColumnById" parameterType="java.lang.Long"
+            resultMap="CmsColumnResult">
+        select
+        <include refid="Base_Column_Sql"/>
+        from cms_column
+        where parent_id=#{parentId}
+    </select>
+
+    <!-- 栏目名唯一验证,同级别下目录不允许重复 -->
+    <select id="checkColumnNameUnique" resultType="int">
+        select count(1) from cms_column
+        where (
+        <if test="columnId!=null">column_id not in (#{columnId}) and</if>
+        parent_id=#{parentId} and column_name=#{columnName})
+    </select>
+
+    <!-- 判断是否为目录 没有查到 为null 报错 转换 为 -1 -->
+    <select id="checkColumnParent" resultType="int"
+            parameterType="long">
+		select ifnull(sum(parent),-1) as "parent" from
+		cms_column where column_id=#{paerntId}
+	</select>
+
+    <!-- 确定地址唯一 -->
+    <select id="checkColumnUrlUnique" resultType="int">
+        select count(1) from cms_column where
+        <if test="columnId!=null">
+            column_id !=(#{columnId}) and
+        </if>
+        column_url=#{columnUrl}
+    </select>
+    <!-- 获取栏目名 -->
+    <select id="getCmsColumnNameById" resultType="string"
+            parameterType="java.lang.Long">
+		select column_name from cms_column
+		where
+		column_id=#{columnId}
+	</select>
+
+    <!--统计子节点个数-->
+    <select id="countCmsColumnById" resultType="int"
+            parameterType="java.lang.Long">
+		select count(1) from cms_column
+		where
+		parent_id=#{columnId}
+	</select>
+
+    <select id="listCmsColumnView"
+            parameterType="com.ruoyi.cms.system.model.po.CmsColumn"
+            resultMap="CmsColumnResult">
+        selectdistinct column_id,ancestors, column_name, column_icon,
+        parent_id,parent,
+        remark, order_no,open_type, column_url
+        from cms_column
+        <where>
+            <if test="columnId!=null">
+                column_id=#{columnId} or
+                FIND_IN_SET(#{columnId},ancestors)
+            </if>
+        </where>
+        order by order_no
+    </select>
+
+    <select id="listColumnIdsById" resultType="long" parameterType="long">
+        select column_id from cms_column where parent_id=#{columnId} and parent="1"
+    </select>
+
+    <update id="updateAncestors">
+        update cms_column set ancestors=#{ancestors} where parent_id=#{parentId}
+    </update>
+
+
+
+</mapper>

@@ -1,0 +1,12 @@
+com\ruoyi\message\mail\service\AbstractMailService.class
+com\ruoyi\message\mail\controller\MsgEmailController.class
+com\ruoyi\message\mail\service\IMsgEmailService.class
+com\ruoyi\message\mail\domain\MailTypeEnums.class
+com\ruoyi\message\mail\config\DefaultMailProperties.class
+com\ruoyi\message\mail\service\impl\MsgEmailServiceImpl.class
+com\ruoyi\message\mail\domain\properties\EmailProperties.class
+com\ruoyi\message\mail\service\AbstractMailService$Callback.class
+com\ruoyi\message\mail\domain\MailUsedEnums.class
+com\ruoyi\message\mail\domain\MsgEmail.class
+com\ruoyi\message\mail\mapper\MsgEmailMapper.class
+com\ruoyi\message\mail\config\MailSenderFactory.class

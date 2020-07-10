@@ -1,0 +1,11 @@
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-websocket\src\main\java\com\ruoyi\message\websocket\model\Group.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-websocket\src\main\java\com\ruoyi\message\websocket\controller\MessageStompController.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-websocket\src\main\java\com\ruoyi\message\websocket\MessageUtils.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-websocket\src\main\java\com\ruoyi\message\websocket\authen\WebSocketUserAuthentication.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-websocket\src\main\java\com\ruoyi\message\websocket\interceptor\WebSocketHandshakeInterceptor.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-websocket\src\main\java\com\ruoyi\message\websocket\controller\WebSocketController.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-websocket\src\main\java\com\ruoyi\message\websocket\interceptor\WebSocketChannelInterceptor.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-websocket\src\main\java\com\ruoyi\message\websocket\model\Message.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-websocket\src\main\java\com\ruoyi\message\websocket\config\WebSocketConfig.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-websocket\src\main\java\com\ruoyi\message\websocket\WebsocketApplication.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-message\message-websocket\src\main\java\com\ruoyi\message\websocket\handler\MyPrincipalHandshakeHandler.java

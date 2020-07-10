@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.blog.mapper.BlogMapper">
+	<resultMap type="com.ruoyi.blog.mould.BlogMenu"
+		id="MenuResult">
+		<id column="column_id" property="columnId" jdbcType="BIGINT" />
+		<result column="column_name" property="columnName"
+			jdbcType="VARCHAR" />
+		<result column="column_icon" property="columnIcon"
+			jdbcType="VARCHAR" />
+		<result column="visible" property="visible" jdbcType="BIT" />
+		<result property="columnLocate" column="column_locate" jdbcType="BIT"/>
+		<result column="order_no" property="orderNo" jdbcType="TINYINT" />
+		<result column="parent_id" property="parentId"
+			jdbcType="BIGINT" />
+		<result column="parent" property="parent" jdbcType="BIT" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="open_type" property="openType" jdbcType="BIT" />
+		<result column="perms" property="perms" jdbcType="VARCHAR" />
+		<result column="column_url" property="columnUrl"
+			jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime"
+				jdbcType="TIMESTAMP" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+		<result column="description" property="description" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<resultMap type="com.ruoyi.blog.mould.BlogLink" id="LinkResult">
+		<result property="linkId"    column="link_id"    />
+		<result property="linkUrl"    column="link_url"    />
+		<result property="linkName"    column="link_name"    />
+		<result property="linkSuggest"    column="link_suggest"    />
+		<result property="otherMsg"    column="other_msg"    />
+		<result property="linkFavicon"    column="link_favicon"    />
+		<result property="visible"    column="visible"    />
+		<result property="remark"    column="remark"    />
+		<result column="order_no" property="orderNo"  />
+		<result column="group_name" property="groupName"  />
+		<result column="open_type" property="openType"/>
+		<result column="create_time" property="createTime"
+				jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="TagResult"
+			   type="com.ruoyi.blog.mould.BlogTag">
+		<id column="tag_id" property="tagId" jdbcType="BIGINT" />
+		<result column="tag_name" property="tagName" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="visible" property="visible" jdbcType="BIT" />
+		<result column="tag_url" property="tagUrl" jdbcType="VARCHAR" />
+		<result column="tag_ico" property="tagIco" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime"
+				jdbcType="TIMESTAMP" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+		<result column="description" property="description" jdbcType="VARCHAR"/>
+        <collection property="tagCount" jdbcType="BIGINT" select="getTagCountByTagId"  ofType="long" column="tag_id"/>
+	</resultMap>
+
+	<resultMap id="CatResult"
+			   type="com.ruoyi.blog.mould.BlogCat">
+		<id column="cat_id" property="catId" jdbcType="BIGINT" />
+		<result column="cat_name" property="catName" jdbcType="VARCHAR" />
+		<result column="cat_icon" property="catIcon" jdbcType="VARCHAR" />
+		<result column="visible" property="visible" jdbcType="BIT" />
+		<result column="cat_url" property="catUrl" jdbcType="VARCHAR" />
+		<result column="order_no" property="orderNo" jdbcType="TINYINT" />
+		<result column="parent" property="parent" jdbcType="BIT" />
+		<result column="parent_id" property="parentId"
+				jdbcType="INTEGER" />
+		<result column="create_time" property="createTime"
+				jdbcType="TIMESTAMP" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="create_by" property="createBy"
+				jdbcType="BIGINT" />
+		<result column="create_time" property="createTime"
+				jdbcType="TIMESTAMP" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+		<result column="description" property="description" jdbcType="VARCHAR"/>
+        <collection property="catCount" jdbcType="BIGINT" select="getCatCountByCatId"  ofType="long" column="cat_id"/>
+	</resultMap>
+
+	<resultMap type="com.ruoyi.blog.mould.BlogArticleCount" id="CountResult">
+		<result property="articleId"    column="article_id"    />
+		<result property="articleLook"    column="article_look"    />
+		<result property="articleLike"    column="article_like"    />
+		<result property="articleNasty"    column="article_nasty"    />
+		<result property="articleDiscuss"    column="article_discuss"    />
+		<result property="articleScore"    column="article_score"    />
+		<result property="articleShare"    column="article_share"    />
+		<result property="articleCollect"    column="article_collect"    />
+	</resultMap>
+
+
+
+	<resultMap id="ArticleResult"
+			   type="com.ruoyi.blog.mould.BlogArticle">
+		<id column="article_id" property="articleId" jdbcType="BIGINT" />
+		<result column="article_title" property="articleTitle"
+				jdbcType="VARCHAR" />
+		<result column="create_by" property="createBy"
+				jdbcType="BIGINT" />
+		<result column="create_time" property="createTime"
+				jdbcType="TIMESTAMP" />
+		<result column="article_type" property="articleType"
+				jdbcType="TINYINT" />
+		<result column="article_build" property="articleBuild"
+				jdbcType="TINYINT" />
+		<result column="article_top" property="articleTop"
+				jdbcType="TINYINT" />
+		<result column="article_img" property="articleImg"
+				jdbcType="VARCHAR" />
+		<result column="article_summary" property="articleSummary"
+				jdbcType="VARCHAR" />
+		<result column="article_url" property="articleUrl"
+				jdbcType="VARCHAR" />
+		<result column="reprint_url" property="reprintUrl"
+				jdbcType="VARCHAR" />
+		<result column="visible" property="visible" jdbcType="BIT" />
+		<result column="allow_comment" property="allowComment"
+				jdbcType="BIT" />
+		<result column="article_content" property="articleContent" jdbcType="LONGVARCHAR" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+		<result column="description" property="description" jdbcType="VARCHAR"/>
+		<collection property="blogCats" javaType="ArrayList" select="listCatsByArticleId" column="article_id"  ofType="com.ruoyi.blog.mould.BlogCat"/>
+		<collection property="blogTags" javaType="ArrayList" select="listTagsByArticleId" column="article_id"   ofType="com.ruoyi.blog.mould.BlogTag" />
+		<collection property="blogArticleCount" javaType="com.ruoyi.blog.mould.BlogArticleCount" select="getPostCountByArticleId" column="article_id" ofType="com.ruoyi.blog.mould.BlogArticleCount" />
+	</resultMap>
+
+	<sql id="menu_sql">
+		column_id,column_name, column_icon, visible,
+		order_no, parent_id,parent,remark,
+		open_type, column_url,
+		keywords,description,column_locate
+	</sql>
+
+	<sql id="link_sql">
+     link_id,open_type,order_no,group_name, link_url, link_name, link_suggest, other_msg, link_favicon, visible, remark
+    </sql>
+
+	<sql id="tag_sql">
+		tag_id,tag_name, remark,
+		visible,tag_ico,tag_url,create_time,
+		keywords,description
+	</sql>
+
+	<sql id="cat_sql">
+		cat_id, cat_name, cat_icon, visible, order_no,
+		parent_id,
+		create_time,remark,
+		create_by,cat_url,parent,
+		keywords,description
+	</sql>
+
+	<!--文章统计相关-->
+	<sql id="blog_count_sql">
+      article_id, article_look, article_like, article_nasty, article_discuss, article_score, article_share, article_collect
+    </sql>
+
+
+	<!--首页展示所需-->
+	<sql id="article_sql">
+    aticle_top, article_img, article_summaryr,article_id, article_title, create_by, create_time,article_type,article_url
+    </sql>
+
+    <!--获取导航菜单-->
+	<select id="listBlogMenus" parameterType="com.ruoyi.blog.mould.BlogMenu" resultMap="MenuResult">
+		select
+		<include refid="menu_sql" />
+		from cms_column
+		<where>
+			<if test="columnName != null and columnName != ''">
+				AND column_name like concat('%', #{columnName}, '%')
+			</if>
+			<if test="visible != null and visible != 0">
+				AND visible = #{visible}
+			</if>
+			<if test="parentId != null">
+				AND parentId = #{parent_id}
+			</if>
+			<if test="columnId!=null">
+			and (column_id=#{columnId} or
+				FIND_IN_SET(#{columnId},ancestors))
+			</if>
+		</where>
+		order by parent_id,order_no
+	</select>
+
+	<select id="getBlogMenuByMenuId" resultMap="MenuResult" parameterType="long">
+		select <include refid="menu_sql" />
+		from cms_column where column_id=#{columnId} and visible!=0
+	</select>
+
+	<select id="getBlogMenuByMenuUrl" resultMap="MenuResult" parameterType="string">
+		select <include refid="menu_sql" />
+		from cms_column where column_url=#{columnUrl} and visible!=0
+	</select>
+
+
+	<!--获取外链列表-->
+	<select id="listBlogLinks" parameterType="com.ruoyi.blog.mould.BlogMenu" resultMap="LinkResult">
+		select <include refid="link_sql"/> from cms_link
+		<where>
+			<if test="groupName != null  and groupName != ''"> and group_name = #{groupName}</if>
+			<if test="linkName != null  and linkName != ''"> and link_name like concat('%', #{linkName}, '%')</if>
+			<if test="linkSuggest != null  and linkSuggest != ''"> and link_suggest = #{linkSuggest}</if>
+            <if test="visible != null and visible != 0"> and visible = #{visible}</if>
+		</where>
+		order by group_name
+	</select>
+
+	<!--获取标签列表-->
+	<select id="listBlogTags"
+			parameterType="com.ruoyi.blog.mould.BlogTag"
+			resultMap="TagResult">
+		select <include refid="tag_sql" />
+		from cms_tag
+		<where>
+			<if test="tagName!=null">
+				AND tag_name like concat('%', #{tagName,jdbcType=VARCHAR}, '%')
+			</if>
+            <if test="visible != null and visible != 0">
+				AND visible= #{visible,jdbcType=BIT}
+			</if>
+		</where>
+	</select>
+
+    <!--通过标签Id获取标签-->
+    <select id="getBlogTagByTagId"
+            parameterType="long"
+            resultMap="TagResult">
+        select <include refid="tag_sql" />
+        from cms_tag
+       where tag_id=#{tagId} and  visible!=0
+    </select>
+
+	<!--通过标签固定链接获取标签-->
+	<select id="getBlogTagByTagUrl" parameterType="string"
+			resultMap="TagResult">
+		select <include refid="tag_sql" />
+		from cms_tag
+		where tag_url=#{tagUrl} and  visible!=0
+	</select>
+
+	<!--获取分类列表-->
+	<select id="listBlogCats"
+			parameterType="com.ruoyi.blog.mould.BlogCat"
+			resultMap="CatResult">
+		select <include refid="cat_sql" />
+		from cms_cat
+		<where>
+			<if test="catName!=null">
+				AND cat_name like concat('%', #{catName,jdbcType=VARCHAR}, '%')
+			</if>
+            <if test="visible != null and visible != 0">
+				AND visible= #{visible,jdbcType=BIT}
+			</if>
+		</where>
+	</select>
+
+    <!--获取类别ID获取类别-->
+    <select id="getBlogCatByCatId"
+            parameterType="long"
+            resultMap="CatResult">
+        select <include refid="cat_sql" />
+        from cms_cat
+        where cat_id=#{catId}  and visible!=0
+    </select>
+
+     <!--通过固定链接获取类别-->
+	<select id="getBlogCatByCatUrl" parameterType="string"
+			resultMap="CatResult">
+		select <include refid="cat_sql" />
+		from cms_cat
+		where cat_url=#{catUrl}  and visible!=0
+	</select>
+
+	<!--获取用户行为统计-->
+	<select id="getPostCountByArticleId" parameterType="long" resultMap="CountResult">
+		select <include refid="blog_count_sql"/> from cms_article_count where article_id=#{article_id}
+	</select>
+
+	<!--获取文章列表-->
+	<select id="listBlogArticles" resultMap="ArticleResult" parameterType="com.ruoyi.blog.mould.pam.BlogArticleSearchParam">
+		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
+		article_top,article_img,article_summary,allow_comment,article_build from cms_article <where>
+
+		<if test="articleTitle!=null and articleTitle != ''">
+			and article_title like concat('%', #{articleTitle}, '%')
+		</if>
+		<if test="createBy!=null">
+			and create_by=#{createBy}
+		</if>
+		<if test="articleType!=null">
+			and article_type=#{articleType}
+		</if>
+		<if test="articleTop!=null">
+			and article_top=#{articleTop}
+		</if>
+			and visible=2
+		<if test="articleBuild!=null">
+			and article_build=#{articleBuild}
+		</if>
+	</where>
+
+	</select>
+
+	<!--通过文章id获取分类-->
+	<select id="listCatsByArticleId"
+			parameterType="Long"
+			resultMap="CatResult">
+		select <include refid="cat_sql" />
+		from cms_cat
+		where cat_id in(select cat_id from cms_article_cat where article_id=#{article_id}) and visible!=0
+
+	</select>
+
+	<!--通过文章id获取标签-->
+	<select id="listTagsByArticleId"
+		parameterType="Long"
+		resultMap="TagResult">
+		select <include refid="tag_sql" />
+		from cms_tag
+		 where tag_id in(select tag_id from cms_article_tag where article_id=#{article_id}) and  visible!=0
+	</select>
+
+	<!--获取文章-->
+	<select id="getBlogArticle" resultMap="ArticleResult" parameterType="com.ruoyi.blog.mould.BlogArticle">
+		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
+		article_top,article_img,article_summary,article_content,allow_comment,article_build from cms_article
+		<where>
+			article_id=#{articleId} and visible=2
+			<if test="articleType!=null">
+				and article_type=#{articleType}
+			</if>
+		</where>
+	</select>
+
+	<!--获取文章通过id-->
+	<select id="getBlogArticleByArticleId" resultMap="ArticleResult" parameterType="long">
+		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
+		article_top,article_img,article_summary,article_content,allow_comment,article_build from cms_article
+		where article_id=#{articleId} and visible=2
+	</select>
+
+	<!--获取文章通过固定链接-->
+	<select id="getBlogArticleByArticleUrl" resultMap="ArticleResult" parameterType="long">
+		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
+		article_top,article_img,article_summary,article_content,allow_comment,article_build from cms_article
+		where article_url=#{articleurl} and visible=2
+	</select>
+
+	<select id="listBlogArticlesByCatId" resultMap="ArticleResult" parameterType="com.ruoyi.blog.mould.pam.BlogArticleSearchParam">
+select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
+		article_top,article_img,article_summary,allow_comment,article_build from cms_article
+		 <where>
+			 article_id in (select article_id from cms_article_cat where cat_id=#{catId}) and visible=2
+			 <if test="articleTitle!=null and articleTitle != ''">
+				 and article_title like concat('%', #{articleTitle}, '%')
+			 </if>
+			 <if test="createBy!=null">
+				 and create_by=#{createBy}
+			 </if>
+			 <if test="articleType!=null">
+				 and article_type=#{articleType}
+			 </if>
+			 <if test="articleTop!=null">
+				 and article_top=#{articleTop}
+			 </if>
+			 <if test="articleBuild!=null">
+				 and article_build=#{articleBuild}
+			 </if>
+		 </where>
+	</select>
+
+
+
+	<select id="listBlogArticlesByTagId"  resultMap="ArticleResult" parameterType="com.ruoyi.blog.mould.pam.BlogArticleSearchParam">
+select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
+		article_top,article_img,article_summary,allow_comment,article_build from cms_article
+		<where>
+			article_id in (select article_id from cms_article_tag where tag_id=#{tagId})  and  visible=2
+			<if test="articleTitle!=null and articleTitle != ''">
+				and article_title like concat('%', #{articleTitle}, '%')
+			</if>
+			<if test="createBy!=null">
+				and create_by=#{createBy}
+			</if>
+			<if test="articleType!=null">
+				and article_type=#{articleType}
+			</if>
+			<if test="articleTop!=null">
+				and article_top=#{articleTop}
+			</if>
+			<if test="articleBuild!=null">
+				and article_build=#{articleBuild}
+			</if>
+		</where>
+
+
+	</select>
+
+    <!--获取文章关联标签个数-->
+	<select id="getTagCountByTagId" resultType="long" parameterType="long">
+        select count(1) from cms_article_tag as b ,cms_article as a where (a.article_id=b.article_id and tag_id=#{tag_id} and  a.visible=2)
+    </select>
+
+    <!--获取文章关联分类个数-->
+    <select id="getCatCountByCatId" resultType="long" parameterType="long">
+        select count(1) from cms_article_cat as b ,cms_article as a where (a.article_id=b.article_id and cat_id=#{cat_id} and  a.visible=2)
+    </select>
+
+	<select id="listHotCats" resultMap="CatResult" parameterType="long">
+		select distinct <include refid="cat_sql" /> from cms_cat where cat_id in (select cat_id from (select cat_id from cms_article_cat where article_id in
+		<foreach collection="array" item="articleId" open="(" separator="," close=")">
+		#{articleId}
+	</foreach> )as t)  where visible!=0
+	</select>
+
+	<select id="listHotTags" resultMap="TagResult" parameterType="long">
+		select distinct <include refid="tag_sql" />from cms_tag where tag_id in (select tag_id from (select tag_id from cms_article_tag where article_id in
+		<foreach collection="array" item="articleId" open="(" separator="," close=")">
+			#{articleId}
+		</foreach>)as t)  where visible!=0
+	</select>
+
+	<select id="listArticleIdsByCatId" resultType="long" parameterType="long">
+		select article_id from cms_article_cat where cat_id=#{catId}
+	</select>
+	<select id="listArticleIdsByTagId" resultType="long" parameterType="long">
+		select article_id from cms_article_tag where tag_id=#{tagId}
+	</select>
+
+</mapper> 

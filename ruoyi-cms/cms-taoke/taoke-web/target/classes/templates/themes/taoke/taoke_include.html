@@ -1,0 +1,1005 @@
+<!-- 通用头部 -->
+<div th:fragment=taokeHeader((title,keywords,description)>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title th:text="${title}"></title>
+	<meta name="description" th:content="${description}">
+	<meta name="keywords" th:content="${keywords}">
+	<meta name="author" th:content="${taokeConfig['taoke.config.author']?.configValue}">
+	<meta name="copyright" th:content="${taokeConfig['taoke.config.copyright']?.configValue}">
+	<!--=== Favicon ===-->
+	<link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+	<link rel="Shortcut Icon" th:href="@{taokeConfig['taoke.config.ico']?.configValue}" type="image/x-icon" />
+	<!--== Google Fonts ==-->
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700" rel="stylesheet">
+	<!--=== Bootstrap CSS ===-->
+	<link th:href="@{/themes/taoke/assets/css/vendor/bootstrap.min.css}" rel="stylesheet">
+	<!--=== Font-Awesome CSS ===-->
+	<link th:href="@{/themes/taoke/assets/css/vendor/font-awesome.css}" rel="stylesheet">
+	<!--=== Plugins CSS ===-->
+	<link th:href="@{/themes/taoke/assets/css/plugins.css}" rel="stylesheet">
+	<!--=== Helper CSS ===-->
+	<link th:href="@{/themes/taoke/assets/css/helper.min.css}" rel="stylesheet">
+	<!--=== Main Style CSS ===-->
+	<link th:href="@{/themes/taoke/assets/css/style.css}" rel="stylesheet">
+
+	<!-- Modernizer JS -->
+	<script th:src="@{/themes/taoke/assets/js/vendor/modernizr-2.8.3.min.js}"></script>
+
+	<!--[if lt IE 9]>
+	<script src="http://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+	<![endif]-->
+
+</div>
+
+<!--网站logo-->
+<div  th:fragment=logo>
+	<div class="col-4 col-md-2 col-xl-3 m-auto text-center text-lg-left">
+		<a th:href="${taokeConfig['taoke.config.index']?.configValue}" class="logo-wrap d-block">
+			<img th:src="${taokeConfig['taoke.config.logo']?.configValue}" th:alt="${taokeConfig['taoke.config.title']?.configValue}" class="img-fluid"/>
+		</a>
+	</div>
+	<!-- Logo Area End -->
+
+	<!-- Search Box Area Start -->
+	<div class="col-8 col-md-7 col- m-auto ">
+		<div class="search-box-wrap">
+			<form class="search-form d-flex" action="#" method="get">
+				<input type="search" name="search" placeholder="想什么呢？输入找找看看"/>
+				<button class="btn btn-search"><img th:src="@{/themes/taoke/assets/img/icons/icon-search.png}"
+													alt="搜索"/>
+				</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!--排行bander-->
+<div  th:fragment=rankBander(newPut,onSeal,maxCoupon)>
+
+	<div class="product-content-wrap">
+		<!-- Product Tab Menu Start -->
+		<nav class="product-teb-menu">
+			<ul class="nav justify-content-center" role="tablist">
+				<li><a class="active" href="#new-products" id="new-product-tab" data-toggle="tab">最近更新</a></li>
+				<li><a href="#sale-products" id="sale-product-tab" data-toggle="tab">热销推荐</a></li>
+				<li><a href="#feature-products" id="feature-product-tab" data-toggle="tab">最大折扣
+				</a></li>
+			</ul>
+		</nav>
+		<!-- Product Tab Menu End -->
+
+		<!-- Product Tab Content Start -->
+		<div class="tab-content" id="productContent">
+			<div class="tab-pane fade show active" id="new-products" role="tabpanel">
+				<div class="products-wrapper">
+					<div class="product-carousel owl-carousel">
+						<!-- Single Product Start -->
+						<div class="single-product-item" th:each="prod:${onSeal}">
+							<figure class="product-thumb">
+								<a th:href="${prod.couponSortUrl}"><img th:src="${prod.shopImg}"
+																		alt="Product"></a>
+								<a  class="btn btn-round btn-cart" title="Quick View"
+									th:href="${prod.couponSortUrl}"><i
+										class="fa fa-eye"></i></a>
+							</figure>
+							<div class="product-details">
+								<h2 class="product-title"><a th:href="${prod.couponSortUrl}" th:text="${prod.shopName}">Rival Field
+									Messenger</a></h2>
+								<div class="rating">
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+								</div>
+								<span class="product-price" th:text="${'宝贝价格:￥('+prod.shopPrice+'-'+prod.couponPrice+')'}">$40.99</span>
+
+								<div class="product-meta">
+									<!--加入购物车-->
+									<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart" title="Add to Cart"><i
+											class="fa fa-shopping-cart"></i></a>
+									<!--喜欢-->
+									<a  class="btn btn-round btn-cart"
+										title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+									<!--详情页-->
+									<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+									   title="Add to Compare"><i class="fa fa-exchange"></i></a>
+								</div>
+							</div>
+						</div>
+
+						<!-- Single Product End -->
+					</div>
+				</div>
+			</div>
+
+			<div class="tab-pane fade" id="sale-products" role="tabpanel">
+				<div class="products-wrapper">
+					<div class="product-carousel owl-carousel">
+						<!-- Single Product Start -->
+						<div class="single-product-item" th:each="prod:${newPut}">
+
+
+							<figure class="product-thumb">
+								<a th:href="${prod.couponSortUrl}"><img th:src="${prod.shopImg}"
+																		alt="Product"></a>
+								<a  class="btn btn-round btn-cart" title="Quick View"
+									th:href="${prod.couponSortUrl}"><i
+										class="fa fa-eye"></i></a>
+							</figure>
+							<div class="product-details">
+								<h2 class="product-title"><a th:href="${prod.couponSortUrl}" th:text="${prod.shopName}">Rival Field
+									Messenger</a></h2>
+								<div class="rating">
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+								</div>
+								<span class="product-price" th:text="${'宝贝价格:￥('+prod.shopPrice+'-'+prod.couponPrice+')'}">$40.99</span>
+
+								<div class="product-meta">
+									<!--加入购物车-->
+									<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart" title="Add to Cart"><i
+											class="fa fa-shopping-cart"></i></a>
+									<!--喜欢-->
+									<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+									   title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+									<!--详情页-->
+									<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+									   title="Add to Compare"><i class="fa fa-exchange"></i></a>
+								</div>
+							</div>
+						</div>
+						<!-- Single Product End -->
+					</div>
+				</div>
+			</div>
+
+			<div class="tab-pane fade" id="feature-products" role="tabpanel">
+				<div class="products-wrapper">
+					<div class="product-carousel owl-carousel">
+						<!-- Single Product Start -->
+						<div class="single-product-item" th:each="prod:${maxCoupon}">
+
+							<figure class="product-thumb">
+								<a th:href="${prod.couponSortUrl}"><img th:src="${prod.shopImg}"
+																		alt="Product"></a>
+								<a  class="btn btn-round btn-cart" title="Quick View"
+									th:href="${prod.couponSortUrl}"><i
+										class="fa fa-eye"></i></a>
+							</figure>
+							<div class="product-details">
+								<h2 class="product-title"><a th:href="${prod.couponSortUrl}" th:text="${prod.shopName}">Rival Field
+									Messenger</a></h2>
+								<div class="rating">
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+								</div>
+								<span class="product-price" th:text="${'宝贝价格:￥('+prod.shopPrice+'-'+prod.couponPrice+')'}">$40.99</span>
+
+								<div class="product-meta">
+									<!--加入购物车-->
+									<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart" title="Add to Cart"><i
+											class="fa fa-shopping-cart"></i></a>
+									<!--喜欢-->
+									<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+									   title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+									<!--详情页-->
+									<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+									   title="Add to Compare"><i class="fa fa-exchange"></i></a>
+								</div>
+							</div>
+						</div>
+						<!-- Single Product End -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Product Tab Content End -->
+	</div>
+
+</div>
+
+<!--商品列表-->
+<div th:fragment=taos(taos)>
+	<div class="col-lg-3 col-md-4 col-sm-6"  th:each="prod:${taos}">
+		<div class="single-product-item">
+			<figure class="product-thumb">
+				<a th:href="${prod.couponSortUrl}"><img th:src="${prod.shopImg}"
+														alt="Product"></a>
+				<a class="btn btn-round btn-cart" title="Quick View"
+				   th:href="${prod.couponSortUrl}"><i
+						class="fa fa-eye"></i></a>
+			</figure>
+			<div class="product-details">
+				<h2 class="product-title"><a th:href="${prod.couponSortUrl}" th:text="${prod.shopName}">Rival Field
+					Messenger</a></h2>
+				<div class="rating">
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+				</div>
+				<span class="product-price" th:text="${'宝贝价格:￥('+prod.shopPrice+'-'+prod.couponPrice+')'}">$40.99</span>
+
+				<div class="product-meta">
+					<!--加入购物车-->
+					<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart" title="Add to Cart"><i
+							class="fa fa-shopping-cart"></i></a>
+					<!--喜欢-->
+					<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+					   title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+					<!--详情页-->
+					<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+					   title="Add to Compare"><i class="fa fa-exchange"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 通用JS -->
+<div th:fragment=taokeFooter>
+	<!--=======================Javascript============================-->
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+	<!--=== Jquery Min Js ===-->
+
+	<script th:src="@{/themes/taoke/assets/js/vendor/jquery-3.3.1.min.js}"></script>
+	<!--=== Jquery Migrate Min Js ===-->
+	<script th:src="@{/themes/taoke/assets/js/vendor/jquery-migrate-1.4.1.min.js}"></script>
+	<!--=== Popper Min Js ===-->
+	<script th:src="@{/themes/taoke/assets/js/vendor/popper.min.js}"></script>
+	<!--=== Bootstrap Min Js ===-->
+	<script th:src="@{/themes/taoke/assets/js/vendor/bootstrap.min.js}"></script>
+	<!--=== Ajax Mail Js ===-->
+	<script th:src="@{/themes/taoke/assets/js/ajax-mail.js}"></script>
+	<!--=== Plugins Min Js ===-->
+	<script th:src="@{/themes/taoke/assets/js/plugins.js}"></script>
+	<!--=== Active Js ===-->
+	<script th:src="@{/themes/taoke/assets/js/active.js}"></script>
+
+	<script>
+		$(".product-sort_by").on("click",'li',function (e) {
+			var preifx=ctx+"taoke/shop";
+			var val = $(this).text();
+			var dataVal = $(this).attr("data-value");
+			if(dataVal.length>0)
+			{var strs = dataVal.split(",");
+				self.location.href=preifx+"?isAsc="+strs[1]+"&orderByColumn="+strs[0];
+			}
+			else{
+				self.location.href=preifx;
+			}
+		});
+	</script>
+</div>
+
+<!-- 导航服务 -->
+<div th:fragment=taokeMenu(taokeMenu)>
+	<ul class="main-navbar clearfix">
+		<li th:each="column: ${taokeMenu.childMenus}" th:class="${!#lists.isEmpty(column.childMenus)?'dropdown-show':''}">
+			<a th:href="${column.columnUrl==''?'javascript:void(0)':taokeConfig['taoke.config.index']?.configValue+column.columnUrl}"
+			   th:class="${(!#lists.isEmpty(column.childMenus))?'arrow-toggle':''}" th:text="${column.columnName}">Home</a>
+			<ul class="dropdown-nav sub-dropdown" th:if="${!#lists.isEmpty(column.childMenus)}">
+				<li th:each="columnChild: ${column.childMenus}">
+					<a th:href="${taokeConfig['taoke.config.index']?.configValue+columnChild.columnUrl}" th:text="${columnChild.columnName}">Home
+						Layout 1</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+
+<!-- 商品分类服务 -->
+<div th:fragment=goodMenu(goodMenu)>
+	<ul class="category-list-menu"  style="display: none">
+		<li  th:each="columnOne,columnOneStat: ${goodMenu.childMenus}" th:class="${columnOneStat.index>6?'category-item-parent dropdown-show hidden':'category-item-parent dropdown-show'}" >
+			<a href="javascript:void(0)" class="category-item arrow-toggle">
+				<!--<img th:src="${column1.columnIcon}" th:alt="${column1.columnName}" />-->
+				<span th:text="${columnOne.columnName}">Computer</span>
+			</a>
+			<ul class="mega-menu-wrap dropdown-nav">
+				<li class="mega-menu-item"  th:each="columnTwo: ${columnOne.childMenus}">
+					<a href="javascript:void(0)" class="mega-item-title" th:text="${columnTwo.columnName}">Laptop</a>
+					<ul>
+						<li th:each="columnThree: ${columnTwo.childMenus}">
+							<a th:href="${taokeConfig['taoke.config.index']?.configValue+'/shop?catId='+columnThree.columnId}" th:text="${columnThree.columnName}">Has
+								Laptop Price</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li class="category-item-parent">
+			<a href="javascrip:void(0)" class="category-item btn-more">更多分类</a>
+		</li>
+	</ul>
+</div>
+
+<!--首页轮播大图-->
+<div th:fragment=carousel(carousels)>
+	<div class="home-slider-carousel owl-carousel">
+		<div  th:each="carousel,carouselStatus:${carousels}" th:class="${'single-slide-item slide-item_'+carouselStatus.index}" th:style="${'background-image: url('+carousel.shopImg+')'}">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="slider-text">
+							<!--商品名-->
+							<h2 th:text="${carousel.shopName}">Ajaira Mobile</h2>
+							<!--商品价格-->
+							<h3 th:text="${'宝贝价格:'+carousel.shopPrice+'￥'}">With Dollbee Speaker</h3>
+							<h3 th:text="${'优惠券价值:'+carousel.couponPrice+'￥'}">With Dollbee Speaker</h3>
+							<!--店铺名-->
+							<h4 th:text="${carousel.homeName}">Can Smooth Sound</h4>
+							<a th:href="${carousel.couponSortUrl}" class="btn" >立即领取</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--热门标签-->
+<div th:fragment=hotTag(dailyNeed,mobile,shoes)>
+
+	<div class="container">
+		<div class="row">
+			<!-- Products Content Start -->
+			<div class="col-lg-9">
+				<!-- Latest Products Area -->
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="row">
+							<div class="col-12">
+								<div class="section-title text-center">
+									<h2>最受欢迎的分类</h2>
+									<p><a th:href="@{'/taoke/callMe'}">有什么特殊需求?</a></p>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<!-- Latest Product Content -->
+							<div class="col-lg-12">
+								<div class="product-content-wrap">
+									<!-- Product Tab Menu Start -->
+									<nav class="latest-pro-tab-menu">
+										<ul class="nav justify-content-center justify-content-lg-end" role="tablist">
+											<li><a class="active" href="#computer-products" id="computer-products-tab"
+												   data-toggle="tab">日用品</a></li>
+											<li><a href="#smartphone-products" id="smartphone-products-tab" data-toggle="tab">手机配件</a></li>
+											<li><a href="#camera-products" id="camera-products-tab" data-toggle="tab">鞋包服饰</a>
+											</li>
+										</ul>
+									</nav>
+									<!-- Product Tab Menu End -->
+
+									<!-- Product Tab Content Start -->
+									<div class="tab-content" id="latestProducts">
+										<div class="tab-pane fade show active" id="computer-products" role="tabpanel">
+											<div class="products-wrapper">
+												<div class="latest-product-carousel owl-carousel">
+													<div class="single-product-item" th:each="prod:${dailyNeed}">
+
+														<figure class="product-thumb">
+															<a th:href="${prod.couponSortUrl}"><img th:src="${prod.shopImg}"
+																									alt="Product"></a>
+															<a class="btn btn-round btn-cart" title="Quick View"
+															   th:href="${prod.couponSortUrl}"><i
+																	class="fa fa-eye"></i></a>
+														</figure>
+														<div class="product-details">
+															<h2 class="product-title"><a th:href="${prod.couponSortUrl}" th:text="${prod.shopName}">Rival Field
+																Messenger</a></h2>
+															<div class="rating">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+															</div>
+															<span class="product-price" th:text="${'宝贝价格:￥('+prod.shopPrice+'-'+prod.couponPrice+')'}">$40.99</span>
+
+															<div class="product-meta">
+																<!--加入购物车-->
+																<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart" title="Add to Cart"><i
+																		class="fa fa-shopping-cart"></i></a>
+																<!--喜欢-->
+																<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+																   title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+																<!--详情页-->
+																<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+																   title="Add to Compare"><i class="fa fa-exchange"></i></a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="tab-pane fade" id="smartphone-products" role="tabpanel">
+											<div class="products-wrapper">
+												<div class="latest-product-carousel owl-carousel">
+													<div class="single-product-item" th:each="prod:${mobile}">
+
+														<figure class="product-thumb">
+															<a th:href="${prod.couponSortUrl}"><img th:src="${prod.shopImg}"
+																									alt="Product"></a>
+															<a class="btn btn-round btn-cart" title="Quick View"
+															   th:href="${prod.couponSortUrl}"><i
+																	class="fa fa-eye"></i></a>
+														</figure>
+														<div class="product-details">
+															<h2 class="product-title"><a th:href="${prod.couponSortUrl}" th:text="${prod.shopName}">Rival Field
+																Messenger</a></h2>
+															<div class="rating">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+															</div>
+															<span class="product-price" th:text="${'宝贝价格:￥('+prod.shopPrice+'-'+prod.couponPrice+')'}">$40.99</span>
+
+															<div class="product-meta">
+																<!--加入购物车-->
+																<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart" title="Add to Cart"><i
+																		class="fa fa-shopping-cart"></i></a>
+																<!--喜欢-->
+																<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+																   title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+																<!--详情页-->
+																<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+																   title="Add to Compare"><i class="fa fa-exchange"></i></a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="tab-pane fade" id="camera-products" role="tabpanel">
+											<div class="products-wrapper">
+												<div class="latest-product-carousel owl-carousel">
+													<div class="single-product-item" th:each="prod:${shoes}">
+
+														<figure class="product-thumb">
+															<a th:href="${prod.couponSortUrl}"><img th:src="${prod.shopImg}"
+																									alt="Product"></a>
+															<a class="btn btn-round btn-cart" title="Quick View"
+															   th:href="${prod.couponSortUrl}"><i
+																	class="fa fa-eye"></i></a>
+														</figure>
+														<div class="product-details">
+															<h2 class="product-title"><a th:href="${prod.couponSortUrl}" th:text="${prod.shopName}">Rival Field
+																Messenger</a></h2>
+															<div class="rating">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+															</div>
+															<span class="product-price" th:text="${'宝贝价格:￥('+prod.shopPrice+'-'+prod.couponPrice+')'}">$40.99</span>
+
+															<div class="product-meta">
+																<!--加入购物车-->
+																<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart" title="Add to Cart"><i
+																		class="fa fa-shopping-cart"></i></a>
+																<!--喜欢-->
+																<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+																   title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+																<!--详情页-->
+																<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+																   title="Add to Compare"><i class="fa fa-exchange"></i></a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- Product Tab Content End -->
+								</div>
+							</div>
+							<!-- Latest Product Content -->
+						</div>
+
+						<div class="row">
+							<!-- Banner Area Start -->
+							<div class="col-lg-12">
+								<div class="banner-small">
+									<a th:href="@{'/taoke/shop'}">查看更多</a>
+								</div>
+							</div>
+							<!-- Banner Area End -->
+						</div>
+					</div>
+				</div>
+				<!-- Latest Products Area -->
+
+				<!-- New Products Area Start -->
+
+				<!-- New Products Area End -->
+			</div>
+			<!-- Products Content End -->
+			<!-- Sidebar Content Start -->
+			<div class="col-lg-3">
+				<div id="home-sidebar-wrap">
+					<!-- Most viewed Product Start -->
+					<div class="single-home-sidebar">
+						<h3 class="title">最受欢迎</h3>
+						<div class="sidebar-body">
+							<div class="sidebar-product-carousel owl-carousel">
+								<th:block  th:include="themes/taoke/taoke_include :: popular(populars=${@taoKeTag.taoKeTuiGroup(20)})"/>
+							</div>
+						</div>
+					</div>
+					<!-- Most viewed Product End -->
+
+					<!-- Sidebar Banner Start -->
+					<div class="single-home-sidebar d-none d-lg-block">
+						<div class="sidebar-body">
+							<a th:href="@{'/taoke/shop'}" class="d-bock">
+								查看更多
+							</a>
+						</div>
+					</div>
+					<!-- Sidebar Banner End -->
+				</div>
+			</div>
+
+			<!-- Sidebar Content End -->
+		</div>
+	</div>
+
+
+
+</div>
+
+<!--最受欢迎-->
+<div th:fragment=popular(populars)>
+	<div  th:each="prods,prodStatus:${populars}" class="sidebar-product-carousel owl-carousel">
+		<div class="sidebar-carousel-item"  >
+			<div class="product-small-list">
+				<!-- Single Product Start -->
+				<div class="single-pro-item d-flex" th:each="prod:${prods}">
+					<a th:href="${prod.couponSortUrl}" class="product-thumb">
+						<img th:src="${prod.shopImg}" alt="Product">
+					</a>
+					<div class="pro-details">
+						<h2>
+							<a th:href="${prod.couponSortUrl}" th:title="${prod.shopName}" th:text="${#strings.substring(prod.shopName,0,#strings.length(prod.shopName)>8?8:#strings.length(prod.shopName))}">Compete Hoodie</a>
+						</h2>
+						<span class="pro-price" th:text="${'￥('+prod.shopPrice+'-'+prod.couponPrice+')'}">$30.33</span>
+					</div>
+				</div>
+				<!-- Single Product End -->
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--分页列表-->
+<div  th:fragment=taokePages(pages,pam)>
+	<div class="row" th:if="${pages.total>0}">
+		<!-- Start Shop Page Content -->
+		<div class="col-lg-12">
+			<div class="shop-page-content-wrap">
+				<div class="products-settings-option d-block d-md-flex">
+					<div class="product-cong-left d-flex align-items-center">
+						<ul class="product-view d-flex align-items-center">
+							<li class="box-gird current"><i class="fa fa-th"></i></li>
+							<li class="list"><i class="fa fa-list-ul"></i></li>
+						</ul>
+						<span class="show-items"><span th:text="${'当前第：'+pages.pageNum+'页  '}"></span> <span th:text="'共'+${pages.pages}+'页'"></span></span>
+					</div>
+
+					<div class="product-sort_by d-flex align-items-center mt-3 mt-md-0">
+						<label for="sort">排序:</label>
+						<select name="sort" id="sort">
+							<option value="">默认排行</option>
+							<option value="shopPrice,asc">价格由低到高</option>
+							<option value="shopPrice,desc">价格由高到低</option>
+							<option value="couponPrice,asc">优惠卷由低到高</option>
+							<option value="couponPrice,desc">优惠卷由高到低</option>
+						</select>
+					</div>
+				</div>
+				<div class="shop-page-products-wrap">
+					<div class="products-wrapper">
+						<div class="row">
+							<!-- Single Product Start -->
+							<div class="col-lg-3 col-sm-6" th:each="prod:${pages.rows}">
+								<div class="single-product-item" >
+									<figure class="product-thumb">
+										<a th:href="${prod.couponSortUrl}"><img th:src="${prod.shopImg}"
+																				alt="Product"></a>
+										<a  class="btn btn-round btn-cart" title="Quick View"
+											th:href="${prod.couponSortUrl}"><i
+												class="fa fa-eye"></i></a>
+									</figure>
+									<div class="product-details">
+										<h2 class="product-title"><a th:href="${prod.couponSortUrl}" th:text="${prod.shopName}">Rival Field
+											Messenger</a></h2>
+										<div class="rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<span class="product-price" th:text="${'宝贝价格:￥('+prod.shopPrice+'-'+prod.couponPrice+')'}">$40.99</span>
+
+										<div class="product-meta">
+											<!--加入购物车-->
+											<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart" title="Add to Cart"><i
+													class="fa fa-shopping-cart"></i></a>
+											<!--喜欢-->
+											<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+											   title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+											<!--详情页-->
+											<a th:href="${prod.couponSortUrl}" class="btn btn-round btn-cart"
+											   title="Add to Compare"><i class="fa fa-exchange"></i></a>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<!-- Single Product End -->
+						</div>
+					</div>
+				</div>
+				<!--分页显示
+           小于4页 1 12 123 1234
+           大于4页小于8页   1...3456..max  1... max-3 max-2 max-1 max
+                -->
+
+
+
+				<div class="products-settings-option d-block d-md-flex">
+					<nav class="page-pagination">
+						<ul class="pagination"  th:if="${pages.pages>0}">
+							<li th:if="${pages.pageNum>1}"><a   th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum=1&pageSize='+pages.pageSize}">1</a></li>
+							<li th:if="${pages.pageNum>1}"><a  th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum='+(pages.pageNum-1)+'&pageSize='+pages.pageSize}" aria-label="上一页">&laquo;</a></li>
+							<!--显示1-5页 页数少于6页 全部显示-->
+							<li th:if="${pages.pages<6}" th:each="i:${#numbers.sequence(1,pages.pages)}"><a  th:class="${(i==pages.pageNum)}?'current':''" th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}" th:text="${i}">1</a></li>
+							<!--大于5页 当前页小于4 全部显示-->
+							<li th:if="${pages.pages>5 and pages.pageNum<4}" th:each="i:${#numbers.sequence(1,5)}"><a th:class="${(i==pages.pageNum)}?'current':''" th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}"  th:text="${i}"></a></li>
+							<!--大于5页 显示中间-->
+							<li th:if="${pages.pages>5 and (pages.pages-pages.pageNum)>5 and pages.pageNum>3}" th:each="i:${#numbers.sequence(pages.pageNum-2,pages.pageNum+2)}"><a th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}" th:text="${i}" th:class="${(i==pages.pageNum)}?'current':''">2</a></li>
+							<!--控制靠近尾页 -->
+							<li th:if="${pages.pages>5 and (pages.pages-pages.pageNum)<6 and (pages.pages-pages.pageNum)>2 and pages.pageNum>3}" th:each="i:${#numbers.sequence(pages.pageNum-2,pages.pageNum+2)}"><a th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}"  th:text="${i}" th:class="${(i==pages.pageNum)}?'current':''">3</a></li>
+
+							<!--后5页全部显示-->
+							<li th:if="${pages.pages>5 and (pages.pages-pages.pageNum)<3}" th:each="i:${#numbers.sequence(pages.pages-4,pages.pages)}" ><a th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}" th:text="${i}" th:class="${(i==pages.pageNum)}?'current':''" >&raquo;</a></li>
+
+							<li  th:if="${pages.pageNum<pages.pages}"><a href="#" aria-label="下一页" th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum='+(pages.pageNum+1)+'&pageSize='+pages.pageSize}">&raquo;</a></li>
+							<li  th:if="${pages.pageNum<pages.pages}"><a href="#" th:text="${pages.pages}" th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum='+pages.pages+'&pageSize='+pages.pageSize}"></a></li>
+						</ul>
+					</nav>
+
+					<div class="product-per-page d-flex align-items-center mt-3 mt-md-0">
+						<label>每页展示</label>
+						<nav class="page-pagination">
+							<ul class="pagination">
+								<li >
+									<a th:class="${pages.pageSize==20?'current':''}" th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum=1&pageSize='+20}">20</a>
+								</li>
+								<li >
+									<a th:class="${pages.pageSize==40?'current':''}" th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum=1&pageSize='+40}">40</a>
+								</li>
+								<li >
+									<a th:class="${pages.pageSize==60?'current':''}" th:href="${taokeConfig['taoke.config.index'].configValue+'/shop'+pam+'&pageNum=1&pageSize='+60}">60</a>
+
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Shop Page Content -->
+	</div>
+	<div th:if="${pages.total==0}">
+		未找到请求数据,有什么需求请告诉我们！
+		<br>
+		微信：hua634866553
+		<br>
+		<a href="/">返回主页</a>
+	</div>
+</div>
+
+<div th:fragment=taokeBottom>
+	<footer id="footer-area">
+		<!-- Footer Widget Area Start -->
+
+		<!-- Footer Widget Area End -->
+
+		<!-- Footer Bottom Area -->
+		<div class="footer-bttom-area">
+			<div class="container">
+				<div class="row">
+					<!-- Copyright Text Area -->
+					<div class="col-md-6 m-auto text-center text-md-left order-last order-md-first">
+						<span>Powered by © 2020 <a href="https://bobey.site">止戈</a></span>
+						<span>
+								<a href="http://beian.miit.gov.cn/" target="_blank">黔ICP备19001474号-1</a>
+							</span>
+					</div>
+					<!-- Copyright Text Area -->
+
+					<!-- Payment Method Area -->
+					<div class="col-md-6 m-auto text-center text-md-right">
+						<div class="payment-support">
+							<img src="assets/img/payment.png" alt="Payment" class="d-inline-block" />
+						</div>
+					</div>
+					<!-- Payment Method Area -->
+				</div>
+			</div>
+		</div>
+		<!-- Footer Bottom Area -->
+	</footer>
+</div>
+
+<!-- 福利列表 -->
+<div  th:fragment=taokeWealGoods(posts)>
+	<div class="row" >
+		<!-- Start Shop Page Content -->
+		<div class="col-lg-12" th:if="${posts.total>0}">
+			<div class="shop-page-content-wrap">
+				<div class="products-settings-option d-block d-md-flex">
+					<div class="product-cong-left d-flex align-items-center">
+						<ul class="product-view d-flex align-items-center">
+							<li class="box-gird current"><i class="fa fa-th"></i></li>
+							<li class="list"><i class="fa fa-list-ul"></i></li>
+						</ul>
+						<span class="show-items"><span th:text="${'当前第：'+posts.pageNum+'页  '}"></span> <span th:text="'共'+${posts.pages}+'页'"></span></span>
+					</div>
+				</div>
+				<div class="shop-page-products-wrap">
+					<div class="products-wrapper">
+						<div class="row">
+							<!-- Single Product Start -->
+							<div class="col-lg-3 col-sm-6" th:each="post,postStat:${posts.rows}">
+								<div class="single-product-item">
+									<figure class="product-thumb">
+										<a th:href="${taokeConfig['taoke.config.index'].configValue+'/weal/post/'+post.articleId}">  <img th:with="imgs=${T(com.ruoyi.blog.utils.ThymeleafUtils).split(post.articleImg)},rando=${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*10),1,0)},iul=@{/themes/bobey/resource/images/thumbs/}"
+																																		  th:src="${imgs==null?(iul+rando+'.jpg'):#strings.substring(imgs[0],1,#strings.length(imgs[0])-1)}"  style="width: 100%"    th:alt="${post.articleTitle}">
+										</a>
+										<a class="btn btn-round btn-cart" title="Quick View"
+										   th:href="${taokeConfig['taoke.config.index'].configValue+'/weal/post/'+post.articleId}"><i
+												class="fa fa-eye"></i></a>
+									</figure>
+									<div class="product-details">
+										<h2 class="product-title"><a th:href="${taokeConfig['taoke.config.index'].configValue+'/weal/post/'+post.articleId}" th:text="${post.articleTitle}">Rival Field
+											Messenger</a></h2>
+										<div class="rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<!-- Single Product End -->
+						</div>
+					</div>
+				</div>
+				<!--分页显示
+           小于4页 1 12 123 1234
+           大于4页小于8页   1...3456..max  1... max-3 max-2 max-1 max
+                -->
+				<div class="products-settings-option d-block d-md-flex">
+					<nav class="page-pagination">
+						<ul class="pagination"  th:if="${posts.pages>0}">
+							<li th:each="i:${#numbers.sequence(1,posts.pages)}"><a th:href="${taokeConfig['taoke.config.index'].configValue+'/weal/'+i}"  th:text="${i}" th:class="${(i==posts.pageNum)}?'current':''">3</a></li>
+						</ul>
+					</nav>
+
+				</div>
+			</div>
+		</div>
+		<!-- End Shop Page Content -->
+	</div>
+	<div th:if="${posts.total==0}">
+		未找到请求数据,有什么需求请告诉我们！
+		<br>
+		微信：hua634866553
+		<br>
+		<a href="/">返回主页</a>
+	</div>
+</div>
+
+<!-- 福利菜单 -->
+<div th:fragment=taokeWealMenu(wealMenus)>
+	<div id="product-area-wrapper">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="product-content-wrap">
+						<!-- Product Tab Menu Start -->
+						<nav class="product-teb-menu">
+							<ul class="nav justify-content-center" role="tablist">
+								<li th:each="weal,wealStatus : ${wealMenus.childMenus}">
+									<a th:class="${wealStatus.index==0?'active':''}" th:href="${'#p-'+weal.columnId}"  th:id="${'p-'+weal.columnId+'-tab'}" data-toggle="tab" th:text="${weal.columnName}">New
+										Products</a>
+								</li>
+							</ul>
+						</nav>
+						<!-- Product Tab Menu End -->
+
+						<!-- Product Tab Content Start -->
+						<div class="tab-content" id="productContent">
+							<div th:each="weal,wealStatus:${wealMenus.childMenus}"  th:class="${wealStatus.index==0?'tab-pane fade show active':'tab-pane fade show '}" th:id="${'p-'+weal.columnId}"
+								 role="tabpanel">
+								<div class="products-wrapper">
+									<div class="product-carousel owl-carousel">
+										<!-- Single Product Start -->
+										<div class="single-product-item" th:each="myWeal:${weal.childMenus}">
+											<figure class="product-thumb">
+												<a th:href="${taokeConfig['taoke.config.index']?.configValue+'/weal'+myWeal.columnUrl}"><img th:src="${myWeal.columnIcon}"
+																																			 th:alt="Product"></a>
+												<a th:href="${taokeConfig['taoke.config.index']?.configValue+'/weal'+myWeal.columnUrl}" class="btn btn-round btn-cart"
+												   th:title="${myWeal.columnName}">
+													<i class="fa fa-eye"></i></a>
+											</figure>
+											<div class="product-details">
+												<h2 class="product-title"><a th:href="${taokeConfig['taoke.config.index']?.configValue+'/weal'+myWeal.columnUrl}"
+																			 th:text="${myWeal.columnName}">Compete Track
+													Tote</a></h2>
+											</div>
+										</div>
+										<!-- Single Product End -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Product Tab Content End -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 福利领取|方法页面 -->
+<div th:fragment=taokeWealGood(post,postRecs,postTops)>
+	<div class="row">
+		<!-- Single Blog Page Content -->
+		<div class="col-lg-8">
+			<article class="single-blog-content-wrap">
+				<div class="post-header">
+					<div class="post-meta">
+						<h2 th:text="${post.articleTitle}">Financial Investment: The Right Way</h2>
+						<div class="post-info">
+							<a href="javaScript:void(0)"><i class="fa fa-user"></i> <span th:text="${post.createBy}">Albert Flores</span></a>
+							<a href="#"><i class="fa fa-calendar"></i> <span th:text="${#dates.format(post.createTime,'yyyy-MM-dd HH:mm')}">08/20/2018</span></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="post-content" th:utext="${post.articleContent}">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisici elit. Culpa, dolorem earum eius eum,
+						exercitationem explicabo facilis harum sillo ipsum isted odio placeated quaerated quisquam
+						ratione suscipit tempora temporibus veniam. Ab ad aliquam amet at blanditiis delectus
+						distinctio dolorem eaque eum, eveniet id, non nulla obcaecati perferendis ratione repellat
+						sapiente soluta.</p>
+
+					<p>Lorem ipsum dolor sit amet, consectetur adipisici elit. Culpa, dolorem earum eius eum,
+						exercitationem explicabo facilis harum sillo ipsum isted odio placeated quaerated quisquam
+						ratione suscipit tempora temporibus veniam. Ab ad aliquam amet at blanditiis delectus
+						distinctio dolorem eaque eum, eveniet id, non nulla obcaecati perferendis ratione repellat
+						sapiente soluta.</p>
+
+					<blockquote class="blockquote">
+						<p>Placeated quaerated quisquam rationed suscipite tempora temporibus veniam. Ab ad aliquam
+							amet at blanditiis delectus distinctio dolorem eaque eum, eveniet id, non nulla
+							obcaecati perferendis ratione repellat sapiente soluta</p>
+					</blockquote>
+
+					<p>It is a long established fact that a reader will be distracted by the readable content of a
+						page when looking at its layout. The point of using Lorem Ipsum is that it has a
+						more-or-less normal distribution of letters, as posed to using Content here, content here',
+						making it look like readable</p>
+
+					<img src="assets/img/single-blog-2.jpg" class="img-fluid" alt="Blog"/>
+
+					<p>It is a long established fact that a reader will be distracted by the readable content of a
+						page when looking at its layout. The point of using Lorem Ipsum is that it has a
+						more-or-less normal distribution of letters, as posed to using Content here, content here',
+						making it look like readable</p>
+				</div>
+
+				<div class="post-footer d-block d-sm-flex justify-content-sm-between align-items-center">
+					<ul class="tags">
+						<li th:each="tag:${post.blogTags}"><a  th:href="${taokeConfig['taoke.config.index'].configValue+'/weal/ticket/'+tag.tagId}"
+															   th:title="${tag.tagName}" th:text="${tag.tagName}">个人网站</a></li>
+						<li th:each="cat:${post.blogCats}"><a  th:href="${taokeConfig['taoke.config.index'].configValue+'/weal/category/'+cat.catId}"
+															   th:title="${cat.catName}" th:text="${cat.catName}"></a></li>
+					</ul>
+
+
+
+					<div class="post-share mt-3 mt-sm-0">
+						<a href="#"><i class="fa fa-facebook"></i></a>
+						<a href="#"><i class="fa fa-twitter"></i></a>
+						<a href="#"><i class="fa fa-reddit"></i></a>
+						<a href="#"><i class="fa fa-digg"></i></a>
+					</div>
+				</div>
+			</article>
+		</div>
+		<!-- Single Blog Page Content -->
+
+		<!-- Sidebar Area Start -->
+		<div class="col-lg-4">
+			<div id="sidebar-area-wrap">
+
+				<!-- Single Sidebar Item Start -->
+				<div class="single-sidebar-wrap">
+					<h2 class="sidebar-title">最近发布</h2>
+					<div class="sidebar-body">
+						<div class="recent-post-sidebar">
+							<!-- Single Recent Posts Start -->
+							<div class="single-post-item d-flex" th:each="postHot:${postRecs}">
+								<a href="single-blog.html" class="post-thumb">
+									<img th:with="imgs=${T(com.ruoyi.blog.utils.ThymeleafUtils).split(postHot.articleImg)},rando=${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*10),1,0)},iul=@{/themes/bobey/resource/images/thumbs/}"
+										 th:src="${imgs==null?(iul+rando+'.jpg'):#strings.substring(imgs[0],1,#strings.length(imgs[0])-1)}" th:alt="${postHot.articleTitle}" />
+								</a>
+								<div class="product-details">
+									<h2><a href="single-blog.html" th:text="${postHot.articleTitle}">Lorem ipsum onsectetur adipisicing</a></h2>
+									<span class="date" th:text="${#dates.format(postHot.createTime,'yyyy-MM-dd HH:mm')}">20, Aug 2018</span>
+									<a th:href="${taokeConfig['taoke.config.index'].configValue+'/weal/post/'+postHot.articleId}" class="btn-readmore">查看 <i class="fa fa-long-arrow-right"></i></a>
+								</div>
+							</div>
+							<!-- Single Recent Posts End -->
+						</div>
+					</div>
+				</div>
+				<!-- Single Sidebar Item End -->
+
+				<!-- Single Sidebar Item Start -->
+				<div class="single-sidebar-wrap">
+					<h2 class="sidebar-title">热门福利</h2>
+					<div class="sidebar-body">
+						<div class="recent-post-sidebar">
+							<!-- Single Recent Posts Start -->
+							<div class="single-post-item d-flex" th:each="postHot:${postTops}">
+								<a href="single-blog.html" class="post-thumb">
+									<img th:with="imgs=${T(com.ruoyi.blog.utils.ThymeleafUtils).split(postHot.articleImg)},rando=${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*10),1,0)},iul=@{/themes/bobey/resource/images/thumbs/}"
+										 th:src="${imgs==null?(iul+rando+'.jpg'):#strings.substring(imgs[0],1,#strings.length(imgs[0])-1)}" th:alt="${postHot.articleTitle}" />
+								</a>
+								<div class="product-details">
+									<h2><a href="single-blog.html" th:text="${postHot.articleTitle}">Lorem ipsum onsectetur adipisicing</a></h2>
+									<span class="date" th:text="${#dates.format(postHot.createTime,'yyyy-MM-dd HH:mm')}">20, Aug 2018</span>
+									<a th:href="${taokeConfig['taoke.config.index'].configValue+'/weal/post/'+postHot.articleId}" class="btn-readmore">查看 <i class="fa fa-long-arrow-right"></i></a>
+								</div>
+							</div>
+							<!-- Single Recent Posts End -->
+
+						</div>
+					</div>
+				</div>
+				<!-- Single Sidebar Item End -->
+
+			</div>
+		</div>
+		<!-- Sidebar Area Start -->
+	</div>
+</div>

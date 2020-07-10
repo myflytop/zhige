@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block   th:include="themes/bobey/blog_include :: blogHeader(title=${blogConfig['blog.config.title'].configValue+'-'+menu.columnName},
+keywords=${blogConfig['blog.config.keywords'].configValue+','+menu.keywords},
+description=${menu.description},
+blogConfig=${blogConfig})"/>
+</head>
+	<body>
+	<th:block th:include="themes/bobey/blog_include::menu(menus=${@menuTag.getMenu(21)},blogConfig=${blogConfig})"/>
+		<!-- 主体部分 -->
+		<section class="bobey-main-box">
+			<div class="layui-row ">
+				<div class="layui-col-md9  bobey-left-box" id="miao-left">
+					<div class="bobey-left-content">
+					<th:block th:include="themes/bobey/blog_include::blogArticle(post=${post})" />
+					</div>
+				</div>
+
+				<!-- 主体部分右边 -->
+				<div class="layui-col-md3 bobey-right-box">
+				<th:block th:include="themes/bobey/blog_include::rightCommen"/></div>
+			</div>
+
+		</section>
+
+		<!-- 底部导航 -->
+		<th:block th:include="themes/bobey/blog_include::bottom" />
+		<th:block th:include="themes/bobey/blog_include::footer_js" />
+
+		<script th:inline="JavaScript">
+			$(document).ready(function() {
+
+				var tags = [[${tags}]],entries = [];
+				$.each(tags, function(index, element) {
+					entries.push({
+						label: element.tagName,
+						url: [[${blogConfig['blog.config.index'].configValue}]]+"/tag/"+element.tagId,
+						target: '_top'
+					})
+				});
+
+				var settings = {
+					entries: entries,
+					width: $('#bobey-tags').width(),
+					height: $('#bobey-tags').width(),
+					radius: '60%',
+					radiusMin: 75,
+					bgDraw: true,
+					bgColor: '#494A5F',
+					opacityOver: 1.00,
+					opacityOut: 0.05,
+					opacitySpeed: 6,
+					fov: 800,
+					speed: 0.5,
+					fontFamily: 'Oswald, Arial, sans-serif',
+					fontSize: '15',
+					fontColor: '#fff',
+					fontWeight: 'normal', //bold
+					fontStyle: 'normal', //italic 
+					fontStretch: 'normal', //wider, narrower, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded
+					fontToUpperCase: true
+				};
+
+				//var svg3DTagCloud = new SVG3DTagCloud( document.getElementById( 'holder'  ), settings );
+				$('#tag-cloud').svg3DTagCloud(settings);
+
+			});
+
+			layui.use(['element', 'carousel', 'layer'], function() {
+				var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+				var layer = layui.layer;
+				var carousel = layui.carousel;
+
+				//建造实例
+				carousel.render({
+					elem: '#test1',
+					width: '100%' //设置容器宽度
+						,
+					arrow: 'always' //始终显示箭头
+					//,anim: 'updown' //切换动画方式
+				});
+
+				window.onresize = function() {
+					location.reload();
+				}
+
+				$(".bobey-aside-button").click(function() {
+					$(".bobey-nav-aside").css("display", "block");
+
+					if ($(".bobey-nav-aside").hasClass("slideInDown")) {
+
+						$(".bobey-nav-aside").removeClass("slideInDown");
+						$(".bobey-nav-aside").addClass("slideOutUp");
+						$("body").css("overflow-y", "auto");
+					} else {
+
+						$(".bobey-nav-aside").removeClass("slideOutUp");
+						$(".bobey-nav-aside").addClass("slideInDown");
+						$("body").css("overflow-y", "hidden");
+
+					}
+
+				});
+				//监听导航点击
+				element.on('nav(demo)', function(elem) {
+					console.log(elem);
+
+				});
+			});
+			$(".side_con>li").mousemove(function() {
+				$(".side_con>li").removeClass("on");
+				$(this).addClass("on");
+			})
+			// grab an element
+			var elem = document.querySelector("nav");
+			var headroom = new Headroom(elem, {
+				"tolerance": 5,
+				"offset": 205,
+				"classes": {
+					"initial": "animated",
+					"pinned": "slideInDown",
+					"unpinned": "slideOutUp"
+				}
+			});
+			headroom.init();
+		</script>
+	</body>
+
+</html>

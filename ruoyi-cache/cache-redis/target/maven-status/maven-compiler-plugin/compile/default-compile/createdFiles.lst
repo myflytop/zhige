@@ -1,0 +1,9 @@
+com\ruoyi\cache\redis\config\StringRedisSerializer.class
+com\ruoyi\cache\redis\util\RedisUtils.class
+com\ruoyi\cache\redis\config\RedisConfig$1.class
+com\ruoyi\cache\redis\controller\RedisController.class
+com\ruoyi\cache\redis\annotation\RedisCache.class
+com\ruoyi\cache\redis\aspect\RedisAspect.class
+com\ruoyi\cache\redis\annotation\RedisEvict.class
+com\ruoyi\cache\redis\config\FastJsonRedisSerializer.class
+com\ruoyi\cache\redis\config\RedisConfig.class

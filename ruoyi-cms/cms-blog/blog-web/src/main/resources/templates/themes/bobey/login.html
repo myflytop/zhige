@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block   th:include="themes/bobey/blog_include :: blogHeader(title=${blogConfig['blog.config.title'].configValue},
+keywords=${blogConfig['blog.config.keywords'].configValue},
+description=${blogConfig['blog.config.description'].configValue},
+blogConfig=${blogConfig})"/>
+
+</head>
+<body style="background-color: #f5f0f0">
+
+<th:block th:include="themes/bobey/blog_include::menu(menus=${@menuTag.getMenu(21)},blogConfig=${blogConfig})"/>
+
+<!-- 主体部分 -->
+<section style="padding-top: 70px">
+    <div >
+        <!-- login start -->
+        <div id="login">
+            <p>登录</p>
+            <form class="layui-form" id="signupForm" >
+                <div class="layui-form-item">
+                    <label class="layui-form-label">账号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="username" required="required|phone" lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" required="required" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">验证码</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="validateCode"   lay-verify="required|number" placeholder="验证码" maxlength="5" autocomplete="off" class="layui-input" id="usercode">
+                        <img th:src="@{/captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">记住我</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" id="rememberme" name="rememberme" lay-skin="switch">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn"   id="btnSubmit" lay-submit=""  lay-filter="login">立即提交</button>
+                        <a th:href="@{/blog/user/forget}" rel="nofollow" class="layui-btn layui-btn-primary">忘记密码</a>
+                    </div>
+                </div>
+            </form>
+            <fieldset class="layui-elem-field">
+                <legend>注册 / 第三方登录</legend>
+                <div class="layui-field-box">
+                    <a th:href="@{/blog/user/register}" rel="nofollow" class="layui-btn layui-btn-info layui-btn-xs">注册</a>
+                    <!--<a href="" rel="nofollow" class="layui-btn layui-btn-info layui-btn-xs">QQ登录</a>
+                    <a href="" rel="nofollow" class="layui-btn layui-btn-info layui-btn-xs">Github登录</a>-->
+                </div>
+            </fieldset>
+        </div>
+        <!-- login end -->
+    </div>
+
+</section>
+<style>
+    /*登录样式*/
+    #login {
+        width: 350px;
+        height: 500px;
+        margin: 0 auto;
+        background-color: #FFF;
+        border-radius: 5px;
+
+    }
+
+    #login p {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    #login form {
+        padding: 10px;
+    }
+
+
+
+    #login .layui-form .layui-form-item .layui-input-block {
+        margin-left: 80px;
+        padding-right: 40px;
+    }
+
+    #login .layui-elem-field legend {
+        text-align: center;
+    }
+
+    #login .layui-field-box {
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    #login .layui-elem-field {
+        margin-top: 20px;
+        border-bottom: 0;
+        border-left: 0;
+        border-right: 0;
+    }
+
+    #usercode {
+        width: 65px;
+        margin-right: 10px;
+        float: left;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .imgcode{
+        width: 88px;
+        height: 38px;
+    }
+
+    #sendCode {
+        padding: 0 10px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    footer{
+        position: fixed;
+        bottom: 0;
+        width: 100vw;
+    }
+
+</style>
+<!-- 底部导航 -->
+<th:block th:include="themes/bobey/blog_include::bottom"/>
+<th:block th:include="themes/bobey/blog_include::footer_js"/>
+<script src="../static/ajax/libs/validate/jquery.validate.min.js" th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
+<script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script src="../static/ruoyi/js/ry-ui.js" th:src="@{/ruoyi/js/ry-ui.js?v=4.1.0}"></script>
+<script th:inline="JavaScript">
+
+
+    layui.use(['layer','form'], function() {
+        var layer = layui.layer;
+        var form = layui.form;
+
+
+        $(function () {
+            validateKickout();
+            $('.imgcode').click(function () {
+                var url = ctx + "captcha/captchaImage?type=" + captchaType + "&s=" + Math.random();
+                $(".imgcode").attr("src", url);
+            });
+        });
+
+        function login() {
+            var username = $.common.trim($("input[name='username']").val());
+            var password = $.common.trim($("input[name='password']").val());
+            var validateCode = $("input[name='validateCode']").val();
+            var rememberMe = $("input[name='rememberme']").is(':checked');
+            $.ajax({
+                type: "post",
+                url: ctx + "blog/user/login",
+                data: {
+                    "username": username,
+                    "password": password,
+                    "validateCode": validateCode,
+                    "rememberMe": rememberMe
+                },
+                success: function (r) {
+                    if (r.code == 0) {
+                        /*跳转到博客主页*/
+                        location.href = ctx + 'blog/index';
+                    } else {
+                        $.modal.closeLoading();
+                        $('.imgcode').click();
+                        $(".code").val("");
+                        $.modal.msg(r.msg);
+                    }
+                }
+            });
+        }
+
+        function validateKickout() {
+            if (getParam("kickout") == 1) {
+                layer.alert("<font color='red'>您已在别处登录，请您修改密码或重新登录</font>", {
+                        icon: 0,
+                        title: "系统提示"
+                    },
+                    function (index) {
+                        //关闭弹窗
+                        layer.close(index);
+                        if (top != self) {
+                            top.location = self.location;
+                        } else {
+                            var url = location.search;
+                            if (url) {
+                                var oldUrl = window.location.href;
+                                var newUrl = oldUrl.substring(0, oldUrl.indexOf('?'));
+                                self.location = newUrl;
+                            }
+                        }
+                    });
+            }
+        }
+
+        function getParam(paramName) {
+            var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURI(r[2]);
+            return null;
+        }
+
+    });
+</script>
+
+</body>
+
+</html>

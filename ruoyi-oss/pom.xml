@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ruoyi</artifactId>
+        <groupId>com.ruoyi</groupId>
+        <version>4.3.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <description>储存模块</description>
+    <packaging>pom</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <coobird.thumbnailator>0.4.8</coobird.thumbnailator>
+        <upyun.sdk.version>4.0.1</upyun.sdk.version>
+        <aliyun.sdk.version>3.0.0</aliyun.sdk.version>
+        <qiniu.sdk.version>7.2.18</qiniu.sdk.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-io</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+            </dependency>
+
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>${coobird.thumbnailator}</version>
+            </dependency>
+            <!-- 又拍云SDK -->
+            <dependency>
+                <groupId>com.upyun</groupId>
+                <artifactId>java-sdk</artifactId>
+                <version>${upyun.sdk.version}</version>
+            </dependency>
+
+            <!-- 阿里云SDK-->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun.sdk.version}</version>
+            </dependency>
+
+            <!-- 七牛云SDK-->
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>${qiniu.sdk.version}</version>
+            </dependency>
+            <!-- 获取文件类型 -->
+            <dependency>
+                <groupId>org.apache.tika</groupId>
+                <artifactId>tika-core</artifactId>
+                <version>1.20</version>
+            </dependency>
+
+            <!--公共接口-->
+            <dependency>
+                <groupId>com.ruoyi.oss</groupId>
+                <artifactId>oss-api</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+            <!--本地储存-->
+            <dependency>
+                <groupId>com.ruoyi.oss</groupId>
+                <artifactId>oss-native</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+            <!--管理页面-->
+            <dependency>
+                <groupId>com.ruoyi.oss</groupId>
+                <artifactId>oss-web</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+            <!--七牛云-->
+            <dependency>
+                <groupId>com.ruoyi.oss</groupId>
+                <artifactId>oss-qiniu</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+           <!--又拍云-->
+            <dependency>
+                <groupId>com.ruoyi.oss</groupId>
+                <artifactId>oss-upyun</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+            <!--阿里云-->
+            <dependency>
+                <groupId>com.ruoyi.oss</groupId>
+                <artifactId>oss-aliyun</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <groupId>com.ruoyi</groupId>
+    <artifactId>ruoyi-oss</artifactId>
+    <modules>
+        <module>oss-api</module>
+        <module>oss-aliyun</module>
+        <module>oss-native</module>
+        <module>oss-qiniu</module>
+        <module>oss-upyun</module>
+        <module>oss-web</module>
+    </modules>
+
+</project>

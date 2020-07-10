@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>EasyFS文件服务器</title>
+    <link rel="stylesheet" href="assets/layui/css/layui.css">
+    <link rel="stylesheet" href="assets/common.css">
+    <style>
+        .formBtn {
+            background: #FBFBFB;
+            border: 1px solid #e6e6e6;
+            color: #333;
+        }
+
+        .formBtn:hover {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="layui-container">
+        <div class="layui-logo">
+            <img src="assets/images/logo.png"/><cite> EasyFS<span class="layui-hide-xs">文件服务器</span></cite>
+        </div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item" lay-unselect>
+                <a href="index.html"><i class="layui-icon">&#xe65c;</i> 返回</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="layui-container" style="padding-top: 15px;">
+    <div class="layui-card">
+        <div class="layui-card-header">在表单中使用</div>
+        <div class="layui-card-body">
+            <div class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">请上传</label>
+                    <div class="layui-input-block">
+                        <input id="edtF" type="text" class="layui-input"/>
+                        <button id="btnSel" class="layui-btn formBtn" style="position: absolute;right: 0;top:0;">选择
+                        </button>
+                        <button id="btnV" class="layui-btn formBtn" style="position: absolute;top: 0;right: 65px;">查看
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-text">
+                详细使用说明请查看：<a href="https://gitee.com/whvse/easy-fs" target="_blank">开发文档</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-card">
+        <div class="layui-card-header">在富文本编辑器中使用</div>
+        <div class="layui-card-body">
+            <textarea id="richTV" style="display: none;">
+                <p><img src="./assets/layui/images/face/46.gif" alt="[互粉]">&nbsp;<img
+                        src="./assets/layui/images/face/46.gif" alt="[互粉]">&nbsp;<img
+                        src="./assets/layui/images/face/46.gif" alt="[互粉]">&nbsp;<b><span>EasyFS</span><span
+                        class="layui-hide-xs">文件服务器</span></b></p>
+            </textarea>
+        </div>
+    </div>
+
+</div>
+
+<div style="text-align: center;margin: 60px 0 20px 0;">
+    <a style="color: #777;" href="http://easyweb.vip" target="_blank">easyweb.vip 版权所有</a>
+</div>
+
+<script type="text/javascript" src="assets/layui/layui.js"></script>
+<script type="text/javascript" src="assets/config.js"></script>
+<script>
+    layui.use(['jquery', 'layer', 'element', 'form', 'layedit'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var element = layui.element;
+        var form = layui.form;
+        var layedit = layui.layedit;
+
+        // 表单选择
+        $('#btnSel').click(function () {
+            layer.open({
+                type: 2,
+                title: '选择文件',
+                content: 'fileChoose.html?accept=image',
+                area: ['600px', '420px'],
+                offset: '50px',
+                shade: .1,
+                fixed: false,
+                resize: false,
+                end: function () {
+                    if (typeof(mFsUrls) != "undefined" && mFsUrls.length > 0) {
+                        $('#edtF').val(mFsUrls[0]);
+                        mFsUrls = undefined;
+                    }
+                }
+            });
+        });
+        // 查看
+        $('#btnV').click(function () {
+            var url = $('#edtF').val();
+            if (!url) {
+                layer.msg('请先选择', {icon: 2});
+            } else {
+                layer.photos({
+                    photos: {data: [{src: url}]}, anim: 5, shade: .1, closeBtn: 2
+                });
+            }
+        });
+
+        // 渲染编辑器
+        var edtIndex = layedit.build('richTV', {
+            height: 550,
+            tool: ['strong', 'italic', 'underline', 'del', '|', 'left', 'center', 'right', 'link', 'unlink', 'face', 'image', 'help']
+        });
+
+        // 重写帮助事件
+        $('.layedit-tool-help').removeAttr('layedit-event');
+        $('.layedit-tool-help').on('click', function (e) {
+            window.open('https://gitee.com/whvse/easy-fs');
+        });
+        // 重写图片事件
+        $('.layedit-tool-image').removeAttr('layedit-event');
+        $('.layedit-tool-image input').remove();
+        $('.layedit-tool-image').on('click', function (e) {
+            layer.open({
+                type: 2,
+                title: '选择文件',
+                content: 'fileChoose.html?accept=image&exts=png,jpg&multi=true&maxNum=3',
+                area: ['600px', '420px'],
+                offset: '50px',
+                shade: .1,
+                fixed: false,
+                resize: false,
+                end: function () {
+                    if (typeof(mFsUrls) != "undefined" && mFsUrls.length > 0) {
+                        var strs = '';
+                        for (var i = 0; i < mFsUrls.length; i++) {
+                            strs += '<br><img src="' + mFsUrls[i] + '" style="max-width: 100%;" />';
+                        }
+                        try {
+                            layedit.setContent(edtIndex, strs, true);
+                        } catch (e) {
+                        }
+                        layedit.sync(edtIndex);
+                        mFsUrls = undefined;
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+</body>
+</html>

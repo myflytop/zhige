@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.cms.comment.mapper.CmsCommentMapper">
+    
+    <resultMap type="com.ruoyi.cms.comment.model.CmsComment" id="CmsCommentResult">
+        <result property="commentId"    column="comment_id"    />
+        <result property="articleId"    column="article_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="fromBy"    column="from_by"    />
+        <result property="replyBy"    column="reply_by"    />
+        <result property="content"    column="content"    />
+        <result property="commentType"    column="comment_type"    />
+        <result property="visible"    column="visible"    />
+        <result property="ip"    column="ip"    />
+        <result property="userSystem"    column="user_system"    />
+        <result property="userBower"    column="user_bower"    />
+        <result property="nastyCount"    column="nasty_count"    />
+        <result property="likeCount"    column="like_count"    />
+        <result property="remark"    column="remark"    />
+        <result property="parentName" column="parent_name" />
+    </resultMap>
+
+    <resultMap id="CmsCommentRecordResult" type="com.ruoyi.cms.comment.model.CmsCommentRecord">
+
+    <result column="comment_id" property="commentId"/>
+
+    <result column="user_id" property="userId"/>
+
+    <result column="create_time" property="createTime"/>
+
+    <result column="update_time" property="updateTime"/>
+
+    <result column="ip" property="ip"/>
+
+    <result column="visible" property="visible"/>
+
+    <result column="user_system" property="userSystem"/>
+
+    <result column="user_bower" property="userBower"/>
+
+    <result column="article_d" property="articleD"/>
+
+</resultMap>
+
+    <sql id="selectCmsCommentRecordVo">select comment_id, user_id, create_time, update_time, ip, visible, user_system, user_bower, article_id from cms_comment_record </sql>
+
+    <sql id="getCmsCommentVo">
+        select comment_id, article_id, parent_id, create_time, from_by, reply_by, content, comment_type, visible, ip, user_system, user_bower, nasty_count, like_count, remark from cms_comment
+    </sql>
+
+    <select id="listCmsComment" parameterType="com.ruoyi.cms.comment.model.CmsComment" resultMap="CmsCommentResult">
+        <include refid="getCmsCommentVo"/>
+        <where>  
+            <if test="articleId != null "> and article_id = #{articleId}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="fromBy != null "> and from_by = #{fromBy}</if>
+            <if test="replyBy != null"> and reply_by = #{replyBy}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="commentType != null "> and comment_type = #{commentType}</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="ip != null  and ip != ''"> and ip = #{ip}</if>
+            <if test="userSystem != null  and userSystem != ''"> and user_system = #{userSystem}</if>
+            <if test="userBower != null  and userBower != ''"> and user_bower = #{userBower}</if>
+            <if test="nastyCount != null "> and nasty_count = #{nastyCount}</if>
+            <if test="likeCount != null "> and like_count = #{likeCount}</if>
+        </where>
+        order by parent_id
+    </select>
+
+
+
+    <select id="listCmsCommentByParentId" parameterType="Long" resultMap="CmsCommentResult">
+        <include refid="getCmsCommentVo"/>
+         where parent_id=#{parentId}
+    </select>
+    
+    <select id="getCmsCommentById" parameterType="Long" resultMap="CmsCommentResult">
+        select t.comment_id, t.article_id, t.parent_id, t.create_time, t.from_by, t.reply_by, t.content, t.comment_type, t.visible, t.ip, t.user_system, t.user_bower, t.nasty_count, t.like_count, t.remark, p.content
+        from cms_comment t
+        where t.comment_id = #{commentId}
+    </select>
+        
+    <insert id="insertCmsComment" parameterType="com.ruoyi.cms.comment.model.CmsComment" useGeneratedKeys="true" keyProperty="commentId">
+        insert into cms_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null ">article_id,</if>
+            <if test="parentId != null ">parent_id,</if>
+            <if test="true">create_time,</if>
+            <if test="fromBy != null  and fromBy != ''">from_by,</if>
+            <if test="replyBy != null  and replyBy != ''">reply_by,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="commentType != null ">comment_type,</if>
+            <if test="visible != null ">visible,</if>
+            <if test="ip != null  and ip != ''">ip,</if>
+            <if test="userSystem != null  and userSystem != ''">user_system,</if>
+            <if test="userBower != null  and userBower != ''">user_bower,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null ">#{articleId},</if>
+            <if test="parentId != null ">#{parentId},</if>
+            <if test="true">sysdate(),</if>
+            <if test="fromBy != null  and fromBy != ''">#{fromBy},</if>
+            <if test="replyBy != null  and replyBy != ''">#{replyBy},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="commentType != null ">#{commentType},</if>
+            <if test="visible != null ">#{visible},</if>
+            <if test="ip != null  and ip != ''">#{ip},</if>
+            <if test="userSystem != null  and userSystem != ''">#{userSystem},</if>
+            <if test="userBower != null  and userBower != ''">#{userBower},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <insert id="insertCmsCommentRecord" parameterType="com.ruoyi.cms.comment.model.CmsCommentRecord">
+        insert into cms_comment_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            user_id,
+            <if test="articleId != null ">article_id,</if>
+            <if test="commentId != null ">comment_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="visible != null ">visible,</if>
+            <if test="ip != null  and ip != ''">ip,</if>
+            <if test="userSystem != null  and userSystem != ''">user_system,</if>
+            <if test="userBower != null  and userBower != ''">user_bower,</if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{userId},
+            <if test="articleId != null ">#{articleId},</if>
+            <if test="commentId != null ">#{commentId},</if>
+            <if test="true">sysdate(),</if>
+            <if test="visible != null ">#{visible},</if>
+            <if test="ip != null  and ip != ''">#{ip},</if>
+            <if test="userSystem != null  and userSystem != ''">#{userSystem},</if>
+            <if test="userBower != null  and userBower != ''">#{userBower},</if>
+        </trim>
+    </insert>
+
+    <select id="listCmsCommentRecord"  parameterType="com.ruoyi.cms.comment.model.CmsCommentRecord" resultMap="CmsCommentRecordResult">
+        <include refid="selectCmsCommentRecordVo"/>
+        <where>
+            <if test="articleId != null "> and article_id = #{articleId}</if>
+            <if test="userId != null"> and user_id = #{userId}</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="userSystem != null  and userSystem != ''"> and user_system = #{userSystem}</if>
+            <if test="userBower != null  and userBower != ''"> and user_bower = #{userBower}</if>
+        </where>
+    </select>
+
+    <update id="updateCmsComment" parameterType="com.ruoyi.cms.comment.model.CmsComment">
+        update cms_comment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="articleId != null ">article_id = #{articleId},</if>
+            <if test="parentId != null ">parent_id = #{parentId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="fromBy != null  and fromBy != ''">from_by = #{fromBy},</if>
+            <if test="replyBy != null  and replyBy != ''">reply_by = #{replyBy},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="commentType != null ">comment_type = #{commentType},</if>
+            <if test="visible != null ">visible = #{visible},</if>
+            <if test="ip != null  and ip != ''">ip = #{ip},</if>
+            <if test="userSystem != null  and userSystem != ''">user_system = #{userSystem},</if>
+            <if test="userBower != null  and userBower != ''">user_bower = #{userBower},</if>
+            <if test="nastyCount != null ">nasty_count = #{nastyCount},</if>
+            <if test="likeCount != null ">like_count = #{likeCount},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where comment_id = #{commentId}
+    </update>
+
+
+    <delete id="deleteCmsCommentRecordByIds" parameterType="Long">
+        delete from cms_comment_record where comment_id in
+        <foreach collection="array" item="commentId" open="(" separator="," close=")">
+            #{commentId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteCmsCommentByIds" parameterType="Long">
+        delete from cms_comment where comment_id in
+        <foreach collection="array" item="commentId" open="(" separator="," close=")">
+            #{commentId}
+        </foreach>
+    </delete>
+
+
+
+    <update id="updateCmsComments">
+        update cms_comment set visible=#{visible}
+        where comment_id in
+         <foreach item="commentId" collection="ids" open="(" separator="," close=")">
+        #{commentId}
+    </foreach>
+
+    </update>
+
+    <select id="checkCmsCommentRecord" parameterType="com.ruoyi.cms.comment.model.CmsCommentRecord" resultType="int">
+        select count(1) from cms_comment_record where user_id=#{userId} and comment_id=#{commentId}
+    </select>
+    
+</mapper>

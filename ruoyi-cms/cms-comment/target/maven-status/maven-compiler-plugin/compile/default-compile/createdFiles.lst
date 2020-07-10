@@ -1,0 +1,11 @@
+com\ruoyi\cms\comment\model\enums\CommentRecordFettleEnums.class
+com\ruoyi\cms\comment\web\CommentController.class
+com\ruoyi\cms\comment\servie\impl\CmsCommentServiceImpl.class
+com\ruoyi\cms\comment\web\CommentAdminController.class
+com\ruoyi\cms\comment\model\CmsComment.class
+com\ruoyi\cms\comment\model\enums\CommentFettleEnums.class
+com\ruoyi\cms\comment\mapper\CmsCommentMapper.class
+com\ruoyi\cms\comment\model\CmsCommentRecord.class
+com\ruoyi\cms\comment\servie\ICmsCommentService.class
+com\ruoyi\cms\comment\model\CommentConstants.class
+com\ruoyi\cms\comment\model\enums\CommentPreifxEnum.class

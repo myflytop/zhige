@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ruoyi.cms.system.mapper.CmsCatMapper">
+	<resultMap id="CatResultMap"
+		type="com.ruoyi.cms.system.model.po.CmsCat">
+		<id column="cat_id" property="catId" jdbcType="BIGINT" />
+		<result column="cat_name" property="catName" jdbcType="VARCHAR" />
+		<result column="cat_icon" property="catIcon" jdbcType="VARCHAR" />
+		<result column="visible" property="visible" jdbcType="BIT" />
+		<result column="cat_url" property="catUrl" jdbcType="VARCHAR" />
+		<result column="order_no" property="orderNo" jdbcType="TINYINT" />
+		<result column="parent" property="parent" jdbcType="BIT" />
+		<result column="parent_id" property="parentId"
+			jdbcType="INTEGER" />
+		<result column="create_time" property="createTime"
+			jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="update_by" property="updateBy"
+			jdbcType="BIGINT" />
+		<result column="create_by" property="createBy"
+			jdbcType="BIGINT" />
+		<result column="perms" property="perms" jdbcType="VARCHAR" />
+		<result column="ancestors" property="ancestors"
+			jdbcType="VARCHAR" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+		<result column="description" property="description" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<resultMap id="CatCountVoResultMap" type="com.ruoyi.cms.system.model.vo.CatCountVo" extends="CatResultMap">
+		<collection property="catCount" jdbcType="BIGINT" select="getCatCountByCatId"  ofType="long" column="cat_id"/>
+	</resultMap>
+
+	<sql id="Base_Cat_List">
+		cat_id, cat_name, perms,cat_icon, visible, order_no,
+		parent_id,ancestors,
+		create_time,update_time, remark, update_by,
+		create_by,cat_url,parent,keywords,description
+	</sql>
+
+	<insert id="insertCmsCat" parameterType="com.ruoyi.cms.system.model.po.CmsCat" useGeneratedKeys="true" keyProperty="catId">
+		insert into cms_cat (cat_name, cat_icon,
+		visible,perms,
+		order_no, parent_id,
+		create_time, remark,
+		create_by,cat_url,parent,ancestors,keywords,description)
+		values
+		(#{catName,jdbcType=VARCHAR}, #{catIcon,jdbcType=VARCHAR},
+		#{visible,jdbcType=BIT},
+		#{perms,jdbcType=VARCHAR},
+		#{orderNo,jdbcType=TINYINT},
+		#{parentId,jdbcType=INTEGER},
+		sysdate(),
+		#{remark,jdbcType=VARCHAR},
+		#{createBy,jdbcType=BIGINT},#{catUrl,jdbcType=VARCHAR},
+		#{parent,jdbcType=BIT},#{ancestors,jdbcType=VARCHAR},
+		#{keywords,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insertCmsCats"	parameterType="java.util.List" useGeneratedKeys="true" keyProperty="catId">
+		insert into cms_cat (cat_name, cat_icon,
+		visible,perms,
+		order_no, parent_id,
+		create_time, remark,
+		create_by,cat_url,parent,ancestors)
+		values <foreach collection="cmsCats" item="cmsTag" index="index" separator=",">
+		(#{catName,jdbcType=VARCHAR}, #{catIcon,jdbcType=VARCHAR},
+		#{visible,jdbcType=BIT},
+		#{perms,jdbcType=VARCHAR},
+		#{orderNo,jdbcType=TINYINT},
+		#{parentId,jdbcType=INTEGER},
+		sysdate(),
+		#{remark,jdbcType=VARCHAR},
+		#{createBy,jdbcType=BIGINT},#{catUrl,jdbcType=VARCHAR},#{parent,jdbcType=BIT},#{ancestors,jdbcType=VARCHAR})
+	</foreach>
+	</insert>
+
+
+	<update id="updateCmsCat"
+		parameterType="com.ruoyi.cms.system.model.po.CmsCat">
+		update cms_cat
+		<set>
+			<if test="catName != null and catName != ''">
+				cat_name = #{catName,jdbcType=VARCHAR},
+			</if>
+			<if test="perms != null and perms != ''">
+				perms = #{perms,jdbcType=VARCHAR},
+			</if>
+			<if test="catIcon != null">
+				cat_icon = #{catIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="visible != null">
+				visible = #{visible,jdbcType=BIT},
+			</if>
+			<if test="orderNo != null">
+				order_no = #{orderNo,jdbcType=TINYINT},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="true">
+				update_time = sysdate(),
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="ancestors != null">
+				ancestors = #{ancestors,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=BIGINT},
+			</if>
+			<if test="catUrl != null and catUrl != ''">
+				cat_url = #{catUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="parent != null">
+				parent = #{parent,jdbcType=BIT},
+			</if>
+			<if test="keywords != null and keywords!='' ">keywords=#{keywords},</if>
+			<if test="description != null and description!='' ">description=#{description},</if>
+		</set>
+		where cat_id = #{catId,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateTagVisible">
+		update cms_cat set  visible=#{visible} where cat_id=#{catId} or
+		find_in_set(#{catId},ancestors)
+
+	</update>
+
+
+	<delete id="deleteCmsCatById" parameterType="java.lang.Long">
+		delete from cms_cat
+		where cat_id = #{catId,jdbcType=BIGINT}  and cat_id not in (select cat_id from cms_article_cat)
+	</delete>
+
+	<select id="listCmsCatByCat" resultMap="CatResultMap"
+		parameterType="com.ruoyi.cms.system.model.po.CmsCat">
+		select
+		<include refid="Base_Cat_List" />
+		from cms_cat
+		<where>
+			<if test="catName != null and catName != ''">
+				AND cat_name like concat('%', #{catName}, '%')
+			</if>
+			<if test="visible != null">
+				AND visible = #{visible}
+			</if>
+			<if test="parent != null">
+				AND parent = #{parent}
+			</if>
+			<if test="createBy!=null">
+				and create_by=#{createBy,jdbcType=BIGINT}
+			</if>
+			<if test="updateBy!=null">
+				and update_by=#{updateBy,jdbcType=BIGINT}
+			</if>
+			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>
+		</where>
+		order by order_no
+	</select>
+
+	<select id="listCmsCatNoHide" resultMap="CatResultMap"	>
+		select
+		<include refid="Base_Cat_List" />
+		from cms_cat where visible!=0
+		order by order_no
+	</select>
+
+
+	<select id="listCatCountVoByCat" resultMap="CatCountVoResultMap"
+			parameterType="com.ruoyi.cms.system.model.po.CmsCat">
+		select
+		<include refid="Base_Cat_List" />
+		from cms_cat
+		<where>
+			<if test="catName != null and catName != ''">
+				AND cat_name like concat('%', #{catName}, '%')
+			</if>
+			<if test="visible != null">
+				AND visible = #{visible}
+			</if>
+			<if test="parent != null">
+				AND parent = #{parent}
+			</if>
+			<if test="createBy!=null">
+				and create_by=#{createBy,jdbcType=BIGINT}
+			</if>
+			<if test="updateBy!=null">
+				and update_by=#{updateBy,jdbcType=BIGINT}
+			</if>
+			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>
+		</where>
+		order by order_no
+	</select>
+
+	<select id="listCatCountVoNoHide" resultMap="CatCountVoResultMap">
+		select
+		<include refid="Base_Cat_List" />
+		from cms_cat where visible!=0
+		order by order_no
+	</select>
+
+	<select id="getCatCountByCatId" resultType="long" parameterType="long">
+        select count(1) from cms_article_cat where cat_id=#{cat_id}
+    </select>
+
+
+	<select id="getCmsCatById" resultMap="CatResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Cat_List" />
+		from cms_cat
+		where cat_id = #{catId,jdbcType=BIGINT}
+	</select>
+
+	<!-- 通过 parentId获取子节点 -->
+	<select id="listCmsCatByParentIdId" parameterType="java.lang.Long"
+		resultMap="CatResultMap">
+		select
+		<include refid="Base_Cat_List" />
+		from cms_column
+		where parent_id=#{parentId}
+	</select>
+
+	<select id="listCmsCatByArticleTagId" parameterType="java.lang.Long" resultMap="CatResultMap">
+		select <include refid="Base_Cat_List" /> from cms_cat where cat_id in (select
+		cat_id from cms_article_cat
+		where article_id=#{articleId})
+	</select>
+
+	<select id="checkCatUrlUnique" resultType="int">
+		select count(1) from
+		cms_cat
+		where
+		<if test="catId!=null">cat_id not in (#{catId}) and </if>
+		cat_url=#{catUrl}
+
+	</select>
+
+	<select id="checkCatNameUnique" resultType="int">
+		select count(1) from
+		cms_cat
+		where
+		<if test="catId!=null">cat_id not in (#{catId}) and</if>
+		parent_id=#{parentId} and cat_name=#{catName}
+	</select>
+
+	<select id="getCatNameById" resultType="string"
+		parameterType="java.lang.Long">
+		select cat_name from cms_cat
+		where cat_id=#{catId}
+	</select>
+
+	<!-- 统计子节点 -->
+	<select id="countCatByParentId" resultType="int"
+		parameterType="java.lang.Long">
+		select count(1) from cms_cat
+		where parent_id=#{catId}
+	</select>
+
+	<select id="countArticleByCatId" parameterType="long" resultType="int">
+		select count(1) from cms_article_cat
+		where cat_id=#{catId}
+	</select>
+
+	<select id="listCatIds" resultType="int" parameterType="long">
+		select
+		cat_id from cms_article_cat
+		where article_id=#{articleId}
+	</select>
+
+	<select id="checkCatArticle" parameterType="long">
+      select
+		count(0)  from cms_article_cat
+		where cat_id=#{catId}
+	</select>
+
+	<select id="listCats" resultType="string" parameterType="long">
+		select CONCAT(cat_id,"_",cat_name) from cms_cat where cat_id in (select
+		cat_id from cms_article_cat
+		where article_id=#{articleId})
+	</select>
+
+	<insert id="insertCmsArticleCats">
+		<if test="cats.length>0">
+			insert into cms_article_cat(article_id,cat_id)
+			values
+			<foreach collection="cats" separator="," item="catId">
+				(#{articleId},#{catId})</foreach>
+		</if>
+	</insert>
+
+	<delete id="deleteArticleCatByIds" parameterType="Long">
+		delete from cms_article_cat where article_id in (
+		<foreach collection="articleIds" separator=","
+			item="articleId">
+			#{articleId}</foreach>
+		)
+	</delete>
+
+	<delete id="removeArticleCat">
+		delete from cms_article_cat where article_id=#{articleId} and
+		cat_id=#{catId}
+	</delete>
+
+	<insert id="insertArticleCat">
+		insert into cms_article_cat(article_id,cat_id) values(#{articleId},#{catId})
+	</insert>
+
+	<!--通过父节点获取子节点-->
+	<select id="listCmsCatView"
+		parameterType="com.ruoyi.cms.system.model.po.CmsCat"
+		resultMap="CatResultMap">
+		select distinct cat_id, cat_name, cat_icon, visible, order_no,
+		parent_id,ancestors, remark,cat_url,parent
+		from cms_cat
+		<where>
+			<if test="catId!=null"> cat_id=#{catId} or FIND_IN_SET(#{catId},ancestors)
+			</if>
+		</where>
+	</select>
+
+    <select id="listCatIdsById" resultType="long" parameterType="long">
+        select cat_id from cms_cat where parent_id=#{catId} and parent="1"
+    </select>
+    
+    <update id="updateAncestors">
+        update cms_cat set ancestors=#{ancestors} where parent_id=#{parentId}
+    </update>
+
+</mapper>

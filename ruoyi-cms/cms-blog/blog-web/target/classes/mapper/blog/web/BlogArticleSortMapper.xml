@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.blog.mapper.BlogArticleSortMapper">
+	<resultMap id="ArticleSortResult"
+			   type="com.ruoyi.blog.mould.BlogArticleSort">
+		<id column="article_id" property="articleId" jdbcType="BIGINT" />
+		<result column="article_title" property="articleTitle"
+				jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime"
+				jdbcType="TIMESTAMP" />
+		<result column="article_top" property="articleTop"
+				jdbcType="TINYINT" />
+		<result column="article_img" property="articleImg"
+				jdbcType="VARCHAR" />
+		<result column="article_url" property="articleUrl"
+				jdbcType="VARCHAR" />
+		<result column="visible" property="visible" jdbcType="BIT" />
+		<result column="article_type" property="articleType"
+				jdbcType="TINYINT" />
+	</resultMap>
+
+
+	<resultMap id="ArticleCountSortResult"  type="com.ruoyi.blog.mould.BlogArticleCountSort" extends="ArticleSortResult">
+		<result property="articleLook"    column="article_look"    />
+		<result property="articleLike"    column="article_like"    />
+		<result property="articleNasty"    column="article_nasty"    />
+		<result property="articleDiscuss"    column="article_discuss"    />
+		<result property="articleScore"    column="article_score"    />
+		<result property="articleShare"    column="article_share"    />
+		<result property="articleCollect"    column="article_collect"    />
+	</resultMap>
+
+
+
+	<sql id="article_sort_sql">
+		article_id,article_title,create_time,article_top,article_img,article_url,visible,article_type
+	</sql>
+
+	<sql id="article_count_sort_sql">
+		a.article_id,article_title,create_time,article_top,article_img,article_url,visible,article_type,
+		 article_look, article_like, article_nasty, article_discuss, article_score, article_share, article_collect
+	</sql>
+
+	<!--依据文章排序-->
+	<select id="listArticleSort" resultMap="ArticleSortResult" parameterType="com.ruoyi.blog.mould.BlogArticleSort">
+		select  <include refid="article_sort_sql"/> from cms_article
+		<where>
+			<if test="articleType != null">
+			and	article_type = #{articleType,jdbcType=TINYINT},
+			</if>
+			<if test="articleTop != null">
+			and	article_top = #{articleTop,jdbcType=TINYINT},
+			</if>
+			and visible=2
+		</where>
+
+	</select>
+
+
+
+	<select id="listArticlesCountSort" resultMap="ArticleCountSortResult" parameterType="com.ruoyi.blog.mould.BlogArticleSort">
+		select <include refid="article_count_sort_sql" /> from cms_article a left join cms_article_count b on a.article_id=b.article_id <where>
+		<if test="articleType != null">
+			and	article_type = #{articleType,jdbcType=TINYINT},
+		</if>
+		<if test="articleTop != null">
+			and	article_top = #{articleTop,jdbcType=TINYINT},
+		</if>
+		and a.visible=2
+	</where>
+	</select>
+
+</mapper> 

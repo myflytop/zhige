@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block   th:include="themes/bobey/blog_include :: blogHeader(title=${blogConfig['blog.config.title'].configValue+'-'+menu.columnName},
+keywords=${blogConfig['blog.config.keywords'].configValue+','+menu.keywords},
+description=${menu.description},
+blogConfig=${blogConfig})"/>
+</head>
+<body>
+<!--导航-->
+<th:block th:include="themes/bobey/blog_include::menu(menus=${@menuTag.getMenu(21)},blogConfig=${blogConfig})"/>
+	<!-- 主体部分 -->
+
+	<section class="bobey-main-box">
+		<div class="layui-row">
+			<!-- 主体部分左边 -->
+			<div class="layui-col-md9  bobey-left-box">
+				<div class="bobey-left-content">
+			<th:block th:include="themes/bobey/blog_include::blogArticles(posts=${@articleTag.indexPosts(72)})"/>
+				</div>
+			</div>
+			<!-- 主体部分右边 -->
+			<div class="layui-col-md3 bobey-right-box" >
+				<th:block th:include="themes/bobey/blog_include::rightCommen"/>
+			</div>
+		</div>
+
+	</section>
+
+	<!-- 底部导航 -->
+	<th:block th:include="themes/bobey/blog_include::bottom"/>
+	<th:block th:include="themes/bobey/blog_include::footer_js"/>
+
+	<script th:inline="JavaScript">
+	//模拟分页
+	$(".bobey-post-page>div>a").click(function(){
+		$(".bobey-post-page>div>a").removeClass("page-this");
+		$(this).addClass("page-this");
+		$(".bobey-post-list").hide();
+		$(".post-page-"+$(this).html()).show();
+	});
+    $(".bobey-post-list").hide();
+    $(".post-page-1").show();
+	</script>
+</body>
+
+</html>

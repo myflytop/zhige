@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.cms.system.mapper.CmsLinkMapper">
+
+    <resultMap type="com.ruoyi.cms.system.model.po.CmsLink" id="CmsLinkResult">
+        <result property="linkId"    column="link_id"    />
+        <result property="linkUrl"    column="link_url"    />
+        <result property="linkName"    column="link_name"    />
+        <result property="linkSuggest"    column="link_suggest"    />
+        <result property="otherMsg"    column="other_msg"    />
+        <result property="linkFavicon"    column="link_favicon"    />
+        <result property="visible"    column="visible"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createBy"    column="create_by"    />
+        <result column="order_no" property="orderNo"  />
+        <result column="group_name" property="groupName"  />
+        <result column="open_type" property="openType"/>
+    </resultMap>
+
+    <sql id="selectCmsLinkVo">
+        select link_id,open_type,order_no,group_name, link_url, link_name, link_suggest, other_msg, link_favicon, visible, remark, create_time, update_time, update_by, create_by from cms_link
+    </sql>
+
+    <select id="selectCmsLinkList" parameterType="com.ruoyi.cms.system.model.po.CmsLink" resultMap="CmsLinkResult">
+        <include refid="selectCmsLinkVo"/>
+        <where>
+            <if test="groupName != null  and groupName != ''"> and group_name = #{groupName}</if>
+            <if test="linkName != null  and linkName != ''"> and link_name like concat('%', #{linkName}, '%')</if>
+            <if test="linkSuggest != null  and linkSuggest != ''"> and link_suggest = #{linkSuggest}</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+        </where>
+    </select>
+    
+    <select id="selectCmsLinkById" parameterType="Long" resultMap="CmsLinkResult">
+        <include refid="selectCmsLinkVo"/>
+        where link_id = #{linkId}
+    </select>
+        
+    <insert id="insertCmsLink" parameterType="com.ruoyi.cms.system.model.po.CmsLink" useGeneratedKeys="true" keyProperty="linkId">
+        insert into cms_link
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="linkUrl != null  and linkUrl != ''">link_url,</if>
+            <if test="linkName != null  and linkName != ''">link_name,</if>
+            <if test="groupName != null  and groupName != ''">group_name,</if>
+            <if test="orderNo != null  ">order_no,</if>
+            <if test="linkSuggest != null  and linkSuggest != ''">link_suggest,</if>
+            <if test="otherMsg != null  and otherMsg != ''">other_msg,</if>
+            <if test="linkFavicon != null  and linkFavicon != ''">link_favicon,</if>
+            <if test="visible != null ">visible,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null ">update_by,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="openType != null and openType!='' ">open_type,</if>
+
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="linkUrl != null  and linkUrl != ''">#{linkUrl},</if>
+            <if test="linkName != null  and linkName != ''">#{linkName},</if>
+            <if test="groupName != null  and groupName != ''">#{groupName},</if>
+            <if test="orderNo != null  ">#{orderNo},</if>
+            <if test="linkSuggest != null  and linkSuggest != ''">#{linkSuggest},</if>
+            <if test="otherMsg != null  and otherMsg != ''">#{otherMsg},</if>
+            <if test="linkFavicon != null  and linkFavicon != ''">#{linkFavicon},</if>
+            <if test="visible != null ">#{visible},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="openType != null and openType!='' ">#{openType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCmsLink" parameterType="com.ruoyi.cms.system.model.po.CmsLink">
+        update cms_link
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="linkUrl != null  and linkUrl != ''">link_url = #{linkUrl},</if>
+            <if test="linkName != null  and linkName != ''">link_name = #{linkName},</if>
+            <if test="orderNo!=null">order_no=#{orderNo},</if>
+            <if test="groupName != null  and groupName != ''">group_name=#{groupName},</if>
+            <if test="linkSuggest != null  and linkSuggest != ''">link_suggest = #{linkSuggest},</if>
+            <if test="otherMsg != null  and otherMsg != ''">other_msg = #{otherMsg},</if>
+            <if test="linkFavicon != null  and linkFavicon != ''">link_favicon = #{linkFavicon},</if>
+            <if test="visible != null ">visible = #{visible},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="openType != null and openType!='' ">open_type=#{openType},</if>
+
+        </trim>
+        where link_id = #{linkId}
+    </update>
+
+    <delete id="deleteCmsLinkById" parameterType="Long">
+        delete from cms_link where link_id = #{linkId}
+    </delete>
+
+    <delete id="deleteCmsLinkByIds" parameterType="String">
+        delete from cms_link where link_id in 
+        <foreach item="linkId" collection="array" open="(" separator="," close=")">
+            #{linkId}
+        </foreach>
+    </delete>
+    
+</mapper>

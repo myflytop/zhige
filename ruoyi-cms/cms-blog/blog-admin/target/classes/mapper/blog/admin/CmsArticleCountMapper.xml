@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.cms.system.mapper.CmsArticleCountMapper">
+    
+    <resultMap type="com.ruoyi.cms.system.model.po.CmsArticleCount" id="CmsArticleCountResult">
+        <result property="articleId"    column="article_id"    />
+        <result column="article_title" property="articleTitle" />
+        <result property="articleLook"    column="article_look"    />
+        <result property="articleLike"    column="article_like"    />
+        <result property="articleNasty"    column="article_nasty"    />
+        <result property="articleDiscuss"    column="article_discuss"    />
+        <result property="articleScore"    column="article_score"    />
+        <result property="articleShare"    column="article_share"    />
+        <result property="articleCollect"    column="article_collect"    />
+    </resultMap>
+
+
+    <resultMap id="CmsRecordResult" type="com.ruoyi.cms.system.model.base.BaseArticleCountModel">
+
+        <result column="article_id" property="articleId"/>
+
+        <result column="user_id" property="userId"/>
+
+        <result column="create_time" property="createTime"/>
+
+        <result column="update_time" property="updateTime"/>
+
+        <result column="ip" property="ip"/>
+
+        <result column="user_system" property="userSystem"/>
+
+        <result column="user_bower" property="userBower"/>
+
+        <result column="article_title" property="articleTitle" />
+
+        <result column="visible" property="visible"/>
+    </resultMap>
+
+    <resultMap id="CollectRecordResult" type="com.ruoyi.cms.system.model.po.record.CmsCollectRecord" extends="CmsRecordResult">
+        <id column="look_id" property="lookId"/>
+    </resultMap>
+
+    <resultMap id="LikeRecordResult" type="com.ruoyi.cms.system.model.po.record.CmsLikeRecord" extends="CmsRecordResult">
+        <id column="like_id" property="likeId"/>
+    </resultMap>
+
+    <resultMap id="LookRecordResult" type="com.ruoyi.cms.system.model.po.record.CmsLookRecord" extends="CmsRecordResult">
+        <id column="look_id" property="lookId"/>
+    </resultMap>
+
+    <resultMap id="NastyRecordResult" type="com.ruoyi.cms.system.model.po.record.CmsNastyRecord" extends="CmsRecordResult">
+        <id column="nasty_id" property="nastyId"/>
+    </resultMap>
+
+    <resultMap id="ScoreRecordResult" type="com.ruoyi.cms.system.model.po.record.CmsScoreRecord" extends="CmsRecordResult">
+        <id column="score_id" property="scoreId"/>
+        <result column="score" property="score"/>
+    </resultMap>
+
+    <resultMap id="ShareRecordResult" type="com.ruoyi.cms.system.model.po.record.CmsShareRecord" extends="CmsRecordResult">
+        <id column="share_id" property="shareId"/>
+        <result property="shareUrl" column="share_url"/>
+    </resultMap>
+
+
+    <sql id="selectCmsArticleCountVo">
+        select b.article_id,article_title ,article_look, article_like, article_nasty, article_discuss, article_score, article_share, article_collect from cms_article_count as a left join cms_article as  b
+    </sql>
+
+    <sql id="base_record_sql"> a.article_id,article_title, a.user_id, a.create_time,a.update_time, ip, user_system, user_bower,a.visible </sql>
+
+    <select id="selectCmsArticleCountList" parameterType="com.ruoyi.cms.system.model.po.CmsArticleCount" resultMap="CmsArticleCountResult">
+        <include refid="selectCmsArticleCountVo"/> on a.article_id =b.article_id
+         <where>
+        <if test="articleId!=null">and a.article_id=#{articleId}</if>
+         </where>
+    </select>
+
+    <select id="listCollectRecord" resultMap="CollectRecordResult">
+        select <include refid="base_record_sql"/>,collect_id from cms_collect_record as a left join cms_article as b on a.article_id=b.article_id
+        <if test="articleId!=null">and a.article_id=#{articleId}</if>
+    </select>
+
+    <select id="listLikeRecord" resultMap="LikeRecordResult">
+        select <include refid="base_record_sql"/>,like_id from cms_like_record as a left join cms_article as b on a.article_id=b.article_id
+    </select>
+    <select id="listLookRecord" resultMap="LookRecordResult">
+        select <include refid="base_record_sql"/>,look_id from cms_look_record as a left join cms_article as b on a.article_id=b.article_id
+        <where>
+            <if test="articleId!=null">and a.article_id=#{articleId}</if>
+        </where>
+
+    </select>
+    <select id="listNastyRecord" resultMap="NastyRecordResult">
+        select <include refid="base_record_sql"/>,nasty_id from cms_nasty_record as  a left join cms_article as b on a.article_id=b.article_id
+        <if test="articleId!=null">and a.article_id=#{articleId}</if>
+    </select>
+    <select id="listScoreRecord" resultMap="ScoreRecordResult">
+        select <include refid="base_record_sql"/>,score_id,score from cms_score_record as  a left join cms_article as b on a.article_id=b.article_id
+        <if test="articleId!=null">and a.article_id=#{articleId}</if>
+    </select>
+    <select id="listShareRecord" resultMap="ShareRecordResult">
+        select <include refid="base_record_sql"/>,share_id,share_url from cms_share_record as  a left join cms_article as b on a.article_id=b.article_id
+        <if test="articleId!=null">and a.article_id=#{articleId}</if>
+    </select>
+
+</mapper>

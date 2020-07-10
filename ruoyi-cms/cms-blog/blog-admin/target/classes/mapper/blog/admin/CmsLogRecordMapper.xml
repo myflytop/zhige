@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.cms.system.mapper.CmsLogRecordMapper">
+    <resultMap  id="RecordMap" type="com.ruoyi.cms.system.model.po.record.CmsLogRecord" >
+        <result property="logId"    column="log_id"    />
+        <result property="title"    column="title"    />
+        <result property="businessType"    column="business_type"    />
+        <result property="method"    column="method"    />
+        <result property="requestMethod"    column="request_method"    />
+        <result property="operatorType"    column="operator_type"    />
+        <result property="operUrl"    column="oper_url"    />
+        <result property="operIp"    column="oper_ip"    />
+        <result property="operLocation"    column="oper_location"    />
+        <result property="operParam"    column="oper_param"    />
+        <result property="jsonResult"    column="json_result"    />
+        <result property="status"    column="status"    />
+        <result property="errorMsg"    column="error_msg"    />
+        <result property="operTime"    column="oper_time"    />
+        <result property="operBower"    column="oper_bower"    />
+        <result property="operSystem"    column="oper_system"    />
+    </resultMap>
+    <sql id="selectCmsLogRecordVo">
+        select log_id, title, business_type, method, request_method, operator_type, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time, oper_bower, oper_system from cms_log_record
+    </sql>
+
+    <select id="listCmsLogRecord"  parameterType="com.ruoyi.cms.system.model.po.record.CmsLogRecord"  resultMap="RecordMap">
+        <include refid="selectCmsLogRecordVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title LIKE CONCAT('%',#{title},'%')</if>
+            <if test="businessType != null "> and business_type = #{businessType}</if>
+            <if test="method != null  and method != ''"> and method = #{method}</if>
+            <if test="requestMethod != null  and requestMethod != ''"> and request_method = #{requestMethod}</if>
+            <if test="operatorType != null "> and operator_type = #{operatorType}</if>
+            <if test="operUrl != null  and operUrl != ''"> and oper_url = #{operUrl}</if>
+            <if test="operIp != null  and operIp != ''"> and oper_ip = #{operIp}</if>
+            <if test="operLocation != null  and operLocation != ''"> and oper_location = #{operLocation}</if>
+            <if test="operParam != null  and operParam != ''"> and oper_param = #{operParam}</if>
+            <if test="jsonResult != null  and jsonResult != ''"> and json_result = #{jsonResult}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="errorMsg != null  and errorMsg != ''"> and error_msg = #{errorMsg}</if>
+            <if test="operTime != null "> and oper_time = #{operTime}</if>
+            <if test="operBower != null  and operBower != ''"> and oper_bower = #{operBower}</if>
+            <if test="operSystem != null  and operSystem != ''"> and oper_system = #{operSystem}</if>
+        </where>
+    </select>
+
+    <delete id="deleteCmsLogRecordById" parameterType="Long">
+        delete from cms_log_record where log_id = #{logId}
+    </delete>
+
+    <delete id="deleteCmsLogRecordByIds" parameterType="String">
+        delete from cms_log_record where log_id in
+        <foreach item="logId" collection="array" open="(" separator="," close=")">
+            #{logId}
+        </foreach>
+    </delete>
+
+</mapper>

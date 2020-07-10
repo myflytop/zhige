@@ -1,0 +1,290 @@
+<!-- 通用CSS -->
+<head th:fragment=header(title)>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<title th:text="${title}"></title>
+	<link rel="shortcut icon" href="favicon.ico">
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+	<!-- bootstrap-table 表格插件样式 -->
+	<link th:href="@{/ajax/libs/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet"/>
+	<link th:href="@{/css/animate.css}" rel="stylesheet"/>
+	<link th:href="@{/css/style.css?v=20200318}" rel="stylesheet"/>
+	<link th:href="@{/ruoyi/css/ry-ui.css}" rel="stylesheet"/>
+</head>
+
+<!-- 通用JS -->
+<div th:fragment="footer">
+    <a id="scroll-up" href="#" class="btn btn-sm display"><i class="fa fa-angle-double-up"></i></a>
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<!-- bootstrap-table 表格插件 -->
+	<script th:src="@{/ajax/libs/bootstrap-table/bootstrap-table.min.js?v=20200529}"></script>
+	<script th:src="@{/ajax/libs/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+	<script th:src="@{/ajax/libs/bootstrap-table/extensions/mobile/bootstrap-table-mobile.js}"></script>
+	<script th:src="@{/ajax/libs/bootstrap-table/extensions/toolbar/bootstrap-table-toolbar.min.js}"></script>
+	<script th:src="@{/ajax/libs/bootstrap-table/extensions/columns/bootstrap-table-fixed-columns.js}"></script>
+	<!-- jquery-validate 表单验证插件 -->
+	<script th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+	<script th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
+	<script th:src="@{/ajax/libs/validate/jquery.validate.extend.js}"></script>
+	<!-- jquery-validate 表单树插件 -->
+	<script th:src="@{/ajax/libs/bootstrap-treetable/bootstrap-treetable.js}"></script>
+	<!-- jquery-export 表格导出插件 -->
+	<script th:src="@{/ajax/libs/bootstrap-table/extensions/export/bootstrap-table-export.js}"></script>
+	<script th:src="@{/ajax/libs/bootstrap-table/extensions/export/tableExport.js}"></script>
+	<!-- 遮罩层 -->
+	<script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+    <script th:src="@{/ajax/libs/iCheck/icheck.min.js}"></script>
+	<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+	<script th:src="@{/ajax/libs/layui/layui.js}"></script>
+	<script th:src="@{/ruoyi/js/common.js?v=4.3.0}"></script>
+	<script th:src="@{/ruoyi/js/ry-ui.js?v=4.3.0}"></script>
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+</div>
+
+<!-- ztree树插件 -->
+<div th:fragment="ztree-css">
+    <link th:href="@{/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="ztree-js">
+    <script th:src="@{/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js}"></script>
+</div>
+
+<!-- select2下拉框插件 -->
+<div th:fragment="select2-css">
+    <link th:href="@{/ajax/libs/select2/select2.min.css}" rel="stylesheet"/>
+    <link th:href="@{/ajax/libs/select2/select2-bootstrap.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="select2-js">
+    <script th:src="@{/ajax/libs/select2/select2.min.js}"></script>
+</div>
+
+<!-- bootstrap-select下拉框插件 -->
+<div th:fragment="bootstrap-select-css">
+    <link th:href="@{/ajax/libs/bootstrap-select/bootstrap-select.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="bootstrap-select-js">
+    <script th:src="@{/ajax/libs/bootstrap-select/bootstrap-select.js}"></script>
+</div>
+
+<!-- datetimepicker日期和时间插件 -->
+<div th:fragment="datetimepicker-css">
+    <link th:href="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="datetimepicker-js">
+    <script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.js}"></script>
+</div>
+
+<!-- ui布局插件 -->
+<div th:fragment="layout-latest-css">
+    <link th:href="@{/ajax/libs/jquery-layout/jquery.layout-latest.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="layout-latest-js">
+    <script th:src="@{/ajax/libs/jquery-layout/jquery.layout-latest.js}"></script>
+</div>
+
+<!-- summernote富文本编辑器插件 -->
+<div th:fragment="summernote-css">
+    <link th:href="@{/ajax/libs/summernote/summernote.css}" rel="stylesheet"/>
+	<link th:href="@{/ajax/libs/summernote/summernote-bs3.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="summernote-js">
+    <script th:src="@{/ajax/libs/summernote/summernote.min.js}"></script>
+	<script th:src="@{/ajax/libs/summernote/summernote-zh-CN.js}"></script>
+</div>
+
+<!-- cropbox图像裁剪插件 -->
+<div th:fragment="cropbox-css">
+    <link th:href="@{/ajax/libs/cropbox/cropbox.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="cropbox-js">
+    <script th:src="@{/ajax/libs/cropbox/cropbox.js}"></script>
+</div>
+
+<!-- jasny功能扩展插件 -->
+<div th:fragment="jasny-bootstrap-css">
+    <link th:href="@{/ajax/libs/jasny/jasny-bootstrap.min.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="jasny-bootstrap-js">
+    <script th:src="@{/ajax/libs/jasny/jasny-bootstrap.min.js}"></script>
+</div>
+
+<!-- fileinput文件上传插件 -->
+<div th:fragment="bootstrap-fileinput-css">
+    <link th:href="@{/ajax/libs/bootstrap-fileinput/fileinput.min.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="bootstrap-fileinput-js">
+    <script th:src="@{/ajax/libs/bootstrap-fileinput/fileinput.min.js}"></script>
+</div>
+
+<!-- duallistbox双列表框插件 -->
+<div th:fragment="bootstrap-duallistbox-css">
+    <link th:href="@{/ajax/libs/duallistbox/bootstrap-duallistbox.min.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="bootstrap-duallistbox-js">
+    <script th:src="@{/ajax/libs/duallistbox/bootstrap-duallistbox.min.js}"></script>
+</div>
+
+<!-- suggest搜索自动补全 -->
+<div th:fragment="bootstrap-suggest-js">
+    <script th:src="@{/ajax/libs/suggest/bootstrap-suggest.min.js}"></script>
+</div>
+
+<!-- typeahead搜索自动补全 -->
+<div th:fragment="bootstrap-typeahead-js">
+    <script th:src="@{/ajax/libs/typeahead/bootstrap3-typeahead.min.js}"></script>
+</div>
+
+<!-- 多级联动下拉 -->
+<div th:fragment="jquery-cxselect-js">
+    <script th:src="@{/ajax/libs/cxselect/jquery.cxselect.min.js}"></script>
+</div>
+
+<!-- jsonview格式化和语法高亮JSON格式数据查看插件 -->
+<div th:fragment="jsonview-css">
+    <link th:href="@{/ajax/libs/jsonview/jquery.jsonview.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="jsonview-js">
+    <script th:src="@{/ajax/libs/jsonview/jquery.jsonview.js}"></script>
+</div>
+
+<!-- jquery.steps表单向导插件 -->
+<div th:fragment="jquery-steps-css">
+    <link th:href="@{/ajax/libs/staps/jquery.steps.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="jquery-steps-js">
+    <script th:src="@{/ajax/libs/staps/jquery.steps.min.js}"></script>
+</div>
+
+<!-- ECharts百度统计图表插件 -->
+<div th:fragment="echarts-js">
+    <script th:src="@{/ajax/libs/report/echarts/echarts-all.js}"></script>
+</div>
+
+<!-- peity图表组合插件 -->
+<div th:fragment="peity-js">
+    <script th:src="@{/ajax/libs/report/peity/jquery.peity.min.js}"></script>
+</div>
+
+<!-- sparkline线状图插件 -->
+<div th:fragment="sparkline-js">
+    <script th:src="@{/ajax/libs/report/sparkline/jquery.sparkline.min.js}"></script>
+</div>
+
+<!-- 表格拖拽插件 -->
+<div th:fragment="bootstrap-table-reorder-js">
+	<script th:src="@{/ajax/libs/bootstrap-table/extensions/reorder/bootstrap-table-reorder.js}"></script>
+	<script th:src="@{/ajax/libs/bootstrap-table/extensions/reorder/jquery.tablednd.js}"></script>
+</div>
+
+<!-- 表格行内编辑插件 -->
+<div th:fragment="bootstrap-editable-css">
+    <link th:href="@{/ajax/libs/bootstrap-table/extensions/editable/bootstrap-editable.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="bootstrap-table-editable-js">
+	<script th:src="@{/ajax/libs/bootstrap-table/extensions/editable/bootstrap-editable.min.js}"></script>
+    <script th:src="@{/ajax/libs/bootstrap-table/extensions/editable/bootstrap-table-editable.js}"></script>
+</div>
+
+<!-- 全屏插件 -->
+<div th:fragment="fullscreen-js">
+    <script th:src="@{/ajax/libs/fullscreen/jquery.fullscreen.js}"></script>
+</div>
+
+
+<!-- 代码高亮插件 -->
+<div th:fragment="codemirror-js">
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/lib/codemirror.js}"></script>
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/addon/fold/foldcode.js}"></script>
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/addon/fold/foldgutter.js}"></script>
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/addon/fold/brace-fold.js}"></script>
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/addon/fold/xml-fold.js}"></script>
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/addon/fold/indent-fold.js}"></script>
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/addon/fold/comment-fold.js}"></script>
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/mode/javascript/javascript.js}"></script>
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/mode/xml/xml.js}"></script>
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/mode/css/css.js}"></script>
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/mode/htmlmixed/htmlmixed.js}"></script>
+	<script th:src="@{/ajax/libs/codemirror-5.52.2/lib/formatting.js}"></script>
+</div>
+
+<!-- 代码高亮插件 -->
+<div th:fragment="codemirror-css">
+	<link rel="stylesheet" th:href="@{/ajax/libs/codemirror-5.52.2/lib/codemirror.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/codemirror-5.52.2/addon/fold/foldgutter.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/codemirror-5.52.2/theme/erlang-dark.css}">
+</div>
+
+<div  th:fragment="wysiwyg-editor-css">
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/froala_editor.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/froala_style.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/code_view.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/draggable.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/colors.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/emoticons.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/image_manager.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/image.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/line_breaker.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/table.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/char_counter.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/video.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/fullscreen.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/file.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/quick_insert.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/help.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/third_party/spell_checker.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/wysiwyg-editor-master/css/plugins/special_characters.css}">
+	<link rel="stylesheet" th:href="@{/ajax/libs/codemirror-5.52.2/lib/codemirror.css}">
+</div>
+
+<div th:fragment="wysiwyg-editor-js">
+	<script  th:src="@{/ajax/libs/codemirror-5.52.2/lib/codemirror.js}"></script>
+	<script  th:src="@{/ajax/libs/codemirror-5.52.2/mode/xml/xml.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/froala_editor.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/align.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/char_counter.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/code_beautifier.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/code_view.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/colors.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/draggable.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/emoticons.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/entities.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/file.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/font_size.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/font_family.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/fullscreen.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/image.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/image_manager.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/line_breaker.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/inline_style.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/link.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/lists.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/paragraph_format.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/paragraph_style.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/quick_insert.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/quote.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/table.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/save.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/url.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/video.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/help.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/print.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/third_party/spell_checker.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/special_characters.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/plugins/word_paste.min.js}"></script>
+	<script  th:src="@{/ajax/libs/wysiwyg-editor-master/js/languages/zh_cn.js}"></script>
+</div>
+
+<!-- json编辑 -->
+<div th:fragment="jsonmate-js">
+	<script th:src="@{/ajax/libs/jsonmate/jquery.jsoneditor.js}"></script>
+</div>
+<!-- json编辑 -->
+<div th:fragment="jsonmate-css">
+	<link rel="stylesheet" th:href="@{/ajax/libs/jsonmate/jsoneditor.css}">
+</div>

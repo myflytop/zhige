@@ -1,0 +1,8 @@
+com\ruoyi\oss\api\OssHandler.class
+com\ruoyi\oss\api\OssResult.class
+com\ruoyi\oss\api\utils\FileType.class
+com\ruoyi\oss\api\SupportType.class
+com\ruoyi\oss\api\enums\OssEnum.class
+com\ruoyi\oss\api\ResultData.class
+com\ruoyi\oss\api\enums\SupportTypeEnum.class
+com\ruoyi\oss\api\utils\FileTypes.class

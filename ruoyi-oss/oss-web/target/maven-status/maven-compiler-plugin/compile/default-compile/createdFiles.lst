@@ -1,0 +1,3 @@
+com\ruoyi\oss\factory\OssFactory.class
+com\ruoyi\oss\OssApplication.class
+com\ruoyi\oss\web\controller\OssHanderController.class

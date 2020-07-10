@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.blog.mapper.BlogRecordMapper">
+	<insert id="insertRecord" parameterType="com.ruoyi.blog.mould.pam.BlogRecordParam">
+			insert into ${recordTable}
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="articleId != null ">article_id,</if>
+				<if test="userId != null ">user_id,</if>
+				<if test="true">create_time,</if>
+				<if test="ip != null and ip != ''">ip,</if>
+				<if test="userSystem != null and userSystem != ''">user_system,</if>
+				<if test="userBower != null and userBower != ''">user_bower,</if>
+				<if test="shareUrl != null and shareUrl != ''">share_url,</if>
+				<if test="score != null and score != ''">score,</if>
+			</trim>
+			<trim prefix="values (" suffix=")" suffixOverrides=",">
+				<if test="articleId != null ">#{articleId},</if>
+				<if test="userId != null ">#{userId},</if>
+				<if test="true">sysdate(),</if>
+				<if test="ip != null and ip != ''">#{ip},</if>
+				<if test="userSystem != null and userSystem != ''">#{userSystem},</if>
+				<if test="userBower != null and userBower != ''">#{userBower},</if>
+				<if test="shareUrl != null and shareUrl != ''">#{shareUrl},</if>
+				<if test="score != null and score != ''">#{score},</if>
+			</trim>
+	</insert>
+
+	<insert id="insertBlogPostCount" parameterType="com.ruoyi.blog.mould.BlogArticleCount">
+		insert into cms_article_count
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="articleId != null ">article_id,</if>
+			<if test="articleLook != null ">article_look,</if>
+			<if test="articleLike != null ">article_like,</if>
+			<if test="articleNasty != null ">article_nasty,</if>
+			<if test="articleDiscuss != null ">article_discuss,</if>
+			<if test="articleScore != null ">article_score,</if>
+			<if test="articleShare != null ">article_share,</if>
+			<if test="articleCollect != null ">article_collect,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="articleId != null ">#{articleId},</if>
+			<if test="articleLook != null ">#{articleLook},</if>
+			<if test="articleLike != null ">#{articleLike},</if>
+			<if test="articleNasty != null ">#{articleNasty},</if>
+			<if test="articleDiscuss != null ">#{articleDiscuss},</if>
+			<if test="articleScore != null ">#{articleScore},</if>
+			<if test="articleShare != null ">#{articleShare},</if>
+			<if test="articleCollect != null ">#{articleCollect},</if>
+		</trim>
+	</insert>
+
+	<!--更新文章统计记录-->
+<!--	<update id="updateBlogPostCount" >
+		update cms_article_count
+		<choose>
+			<when test="countColumn=='article_score'">
+            set ${countColumn}=(select AVG(score) from cms_score_record where article_id=#{articleId})
+			</when>
+			<otherwise>
+			set ${countColumn}=${countColumn}+1
+			</otherwise>
+		</choose>
+    where article_id=#{articleId}
+	</update>-->
+
+	<insert id="updateBlogPostCount">
+		insert into cms_article_count(article_id,${countColumn}) values (#{articleId},1)
+		ON DUPLICATE KEY UPDATE
+		<choose>
+			<when test="countColumn=='article_score'">
+				${countColumn}=(select AVG(score) from cms_score_record where article_id=#{articleId})
+			</when>
+			<otherwise>
+				 ${countColumn}=${countColumn}+1
+			</otherwise>
+		</choose>
+	</insert>
+
+
+
+	<select id="countRecord" resultType="int" parameterType="com.ruoyi.blog.mould.pam.BlogRecordParam">
+		select count(1) from ${recordTable} where user_id=#{userId} and article_id=#{articleId};
+	</select>
+
+
+
+</mapper> 

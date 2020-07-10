@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header('栏目列表')"></head>
+<style type="text/css">
+.ellipsis .btn-group{
+    position: absolute;
+    margin-top: -10px;
+}
+</style>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="menu-form">
+					<div class="select-list">
+						<ul>
+							<li>栏目名称：<input type="text" name="columnName" />
+							</li>
+							<li>栏目状态：<select name="visible" th:with="type=${@dict.getType('cms_column_visible')}" >
+								<option value="">所有</option>
+								<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							</select>
+							</li>
+							<li>栏目类型：<select name="parent" th:with="type=${@dict.getType('cms_column_type')}" >
+								<option value="">所有</option>
+								<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							</select>
+							</li>
+							</li>
+							<li><a class="btn btn-primary btn-rounded btn-sm"
+								onclick="$.treeTable.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm"
+								onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<div class="btn-group" shiro:hasPermission="cms:column:edit">
+					<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">状态 <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" id="columnVisible" th:with="type=${@dict.getType('cms_column_visible')}">
+						<li  th:each="dict : ${type}"  th:data-id="${dict.dictValue}" ><a href="javascript:void(0)" th:text="${dict.dictLabel}"></a></li>
+					</ul>
+				</div>
+				<a class="btn btn-success" onclick="$.operate.add(0)"
+					shiro:hasPermission="system:menu:add"> <i class="fa fa-plus"></i>
+					新增
+				</a> <a class="btn btn-primary" onclick="$.operate.edit()"
+					shiro:hasPermission="system:menu:edit"> <i class="fa fa-edit"></i>
+					修改
+				</a> <a class="btn btn-info" id="expandAllBtn"> <i
+					class="fa fa-exchange"></i> 展开/折叠
+				</a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-tree-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+
+	<div th:include="include :: footer"></div>
+	<script th:inline="javascript">
+		var addFlag = [[${@permission.hasPermi('cms:column:add')}]];
+		var editFlag = [[${@permission.hasPermi('cms:column:edit')}]];
+		var removeFlag = [[${@permission.hasPermi('cms:column:remove')}]];	
+		var detailFlag  = [[${@permission.hasPermi('cms:column:detail')}]];
+		var datas = [[${@dict.getType('sys_show_hide')}]];
+		var prefix = ctx + "cms/column";
+		
+		$(function() {
+			
+		    var options = {
+		        code: "columnId",
+		        parentCode: 'parentId',
+		        uniqueId: "columnId",
+		        expandAll: false,
+		        expandFirst: false,
+		        url: prefix + "/list",
+		        detailUrl: prefix + "/detail/{id}",
+		        createUrl: prefix + "/add/{id}",
+		        updateUrl: prefix + "/edit/{id}",
+		        removeUrl: prefix + "/remove/{id}",
+		        modalName: "内容栏目",
+		        columns: [{
+                    field: 'selectItem', 
+                    radio: true
+                 },{
+					field: 'columnId',
+					title: '栏目Id'
+				},
+                 {
+		            title: '栏目名称',
+		            field: 'columnName',
+		            formatter: function(value, row, index) {
+		                if ($.common.isEmpty(row.columnIcon)) {
+		                    return row.columnName;
+		                } else {
+		                    return '<i class="' + row.columnIcon + '"></i> <span class="nav-label">' + row.columnName + '</span>';
+		                }
+		            }
+		        },
+		        {
+		            field: 'orderNo',
+		            title: '排序',
+		            align: "left"
+		        },
+		        {
+		            field: 'columnUrl',
+		            title: '栏目地址',
+		            align: "left"
+		        },
+		        {
+		            field: 'visible',
+		            title: '状态',
+		            align: "left",
+		            formatter: function(value, row, index) {
+						return $.table.selectDictLabel([[${@dict.getType('cms_column_visible')}]], value);
+		            }
+		        }, {
+		            field: 'parent',
+		            title: '栏目类型',
+		            align: "left",
+					formatter: function(value, row, index) {
+							return $.table.selectDictLabel([[${@dict.getType('cms_column_type')}]], value);
+						}
+		        },
+					{
+						field: 'keywords',
+						title: '关键词',
+						align: "left",
+						visible:false
+					},
+					{
+						field: 'description',
+						title: '描述',
+						align: "left",
+						visible:false
+					},
+		        {
+		            field: 'openType',
+		            title: '打开方式',
+		            align: "left",
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel([[${@dict.getType('cms_column_open')}]], value);
+					}
+		        },
+		       /* {
+		            field: 'perms',
+		            title: '权限标识',
+		            align: "left",
+		        },*/
+		        {
+		            title: '详情',
+		            align: "left",
+		            formatter: function(value, row, index) {            	
+		                return '<a class="btn btn-warning btn-xs ' + detailFlag + '" href="#" onclick="$.operate.detail(\'' + row.columnId + '\')"><i class="fa fa-search"></i>详细</a> ';
+		            }
+		        },
+		        {
+		            title: '操作',
+		            align: "left",
+		            formatter: function(value, row, index) {
+		                var actions = [];	               
+		                actions.push('<a class="' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.columnId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+		                actions.push('<a class="' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.columnId + '\')"><i class="fa fa-trash"></i>删除</a>');
+		                if(row.parent){
+		                actions.push('<a class="' + addFlag + '" href="#" onclick="$.operate.add(\'' + row.columnId + '\')"><i class="fa fa-plus"></i>添加下级菜单</a> ');
+		                }
+		                return $.table.dropdownToggle(actions.join(''));
+		            }
+		        }]
+		    };
+		    $.treeTable.init(options);
+		});
+		//修改类目状态
+		$('#columnVisible>li').click(function(e) {
+			//获取选中的行
+			var pam ={},chooseData =$("#" + table.options.id).bootstrapTreeTable('getSelections');
+			if (chooseData.length>0)
+			{
+				pam.columnId=chooseData[0].columnId;
+				pam.visible=$(this).attr("data-id");
+				$.modal.confirm("确认要修改选的栏目状态吗？子节点将修改为一样的状态！", function() {
+					$.operate.post(prefix + "/editColumnVisible", pam);
+				})
+			}
+			else{
+				$.modal.alert("请选择一项");
+
+			}
+		});
+	</script>
+</body>
+</html>

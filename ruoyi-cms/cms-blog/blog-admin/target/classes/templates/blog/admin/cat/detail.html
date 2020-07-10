@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header('')"></head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content">
+		<div class="col-sm-12">
+			<div class="row">
+				<div class="col-sm-6 col-sm-offset-3">
+					<div class="ibox float-e-margins">
+						<div class="ibox-content">
+							<table class="table table-hover no-margins">
+								<thead>
+									<tr>
+										<th>属性</th>
+										<th>值</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>栏目ID</td>
+										<td th:text="${cat.catId}">1</td>
+									</tr>
+									<tr>
+										<td>类目ID</td>
+										<td th:text="${cat.parentId}">0%</td>
+									</tr>
+									<tr>
+										<td>目录名字</td>
+										<td th:text="${cat.catName}">0%</td>
+									</tr>
+									<tr>
+										<td>是否显示</td>
+										<td th:if="${cat.visible==1}">显示</td>
+										<td th:if="${cat.visible==0}">隐藏</td>
+
+									</tr>
+									<tr>
+										<td>为节点吗</td>
+										<td th:if="${cat.parent==1}">是</td>
+										<td th:if="${cat.visible==0}">否</td>
+
+									</tr>
+									<tr>
+										<td>排序编号</td>
+										<td th:text="${cat.orderNo}">0%</td>
+									</tr>
+									<tr>
+										<td>显示图标</td>
+										<td><span th:text="${cat.catIcon}"
+											style="padding-right: 10px"></span><i
+											th:class="${cat.catIcon}"></i></td>
+									</tr>
+									<tr>
+										<td>类目路径</td>
+										<td><span th:text="${cat.catUrl}"
+											style="padding-right: 10px"></td>
+									</tr>
+									<tr>
+										<td>创建人</td>
+										<td th:text="${cat.createBy}">0%</td>
+									</tr>
+									<tr>
+										<td>创建时间</td>
+										<td
+											th:text="${#dates.format(cat.createTime,'yyyy-MM-dd HH:mm:ss')}">0%</td>
+									</tr>
+									<tr>
+										<td>修改人</td>
+										<td th:text="${cat.updateBy}">0%</td>
+									</tr>
+									<tr>
+										<td>修改时间</td>
+										<td
+											th:text="${#dates.format(cat.updateTime,'yyyy-MM-dd HH:mm:ss')}">0%</td>
+									</tr>
+									<tr>
+										<td>栏目备注</td>
+										<td th:text="${cat.remark}">0%</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<div th:include="include :: footer"></div>
+</html>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.message.mail.mapper.MsgEmailMapper">
+    
+    <resultMap type="MsgEmail" id="MsgEmailResult">
+        <result property="mailId"    column="mail_id"    />
+        <result property="fromEmail"    column="from_email"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="toEmail"    column="to_email"    />
+        <result property="subject"    column="subject"    />
+        <result property="content"    column="content"    />
+        <result property="emailType"    column="email_type"    />
+        <result property="sendTime"    column="send_time"    />
+        <result property="copyTo"    column="copy_to"    />
+        <result property="remark"    column="remark"    />
+        <result property="emailUse"    column="email_use"    />
+        <result property="bccTo"    column="bcc_to"    />
+    </resultMap>
+
+    <sql id="selectMsgEmailVo">
+        select mail_id, from_email, create_by, create_time, to_email, subject, content, email_type, send_time, copy_to,bcc_to, remark, email_use from msg_email
+    </sql>
+
+    <select id="selectMsgEmailList" parameterType="MsgEmail" resultMap="MsgEmailResult">
+        <include refid="selectMsgEmailVo"/>
+        <where>  
+            <if test="fromEmail != null  and fromEmail != ''"> and from_email = #{fromEmail}</if>
+            <if test="toEmail != null  and toEmail != ''"> and to_email = #{toEmail}</if>
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="emailType != null "> and email_type = #{emailType}</if>
+            <if test="sendTime != null "> and send_time = #{sendTime}</if>
+            <if test="copyTo != null  and copyTo != ''"> and copy_to = #{copyTo}</if>
+            <if test="emailUse != null "> and email_use = #{emailUse}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsgEmailById" parameterType="Long" resultMap="MsgEmailResult">
+        <include refid="selectMsgEmailVo"/>
+        where mail_id = #{mailId}
+    </select>
+        
+    <insert id="insertMsgEmail" parameterType="MsgEmail">
+        insert into msg_email
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mailId != null ">mail_id,</if>
+            <if test="fromEmail != null  and fromEmail != ''">from_email,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="toEmail != null  and toEmail != ''">to_email,</if>
+            <if test="subject != null  and subject != ''">subject,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="emailType != null ">email_type,</if>
+            send_time,
+            <if test="copyTo != null  and copyTo != ''">copy_to,</if>
+            <if test="bccTo != null  and bccTo != ''">bcc_to,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="emailUse != null ">email_use,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mailId != null ">#{mailId},</if>
+            <if test="fromEmail != null  and fromEmail != ''">#{fromEmail},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="toEmail != null  and toEmail != ''">#{toEmail},</if>
+            <if test="subject != null  and subject != ''">#{subject},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="emailType != null ">#{emailType},</if>
+              sysdate(),
+            <if test="copyTo != null  and copyTo != ''">#{copyTo},</if>
+            <if test="bccTo != null  and bccTo != ''">#{bccTo},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="emailUse != null ">#{emailUse},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsgEmail" parameterType="MsgEmail">
+        update msg_email
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fromEmail != null  and fromEmail != ''">from_email = #{fromEmail},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="toEmail != null  and toEmail != ''">to_email = #{toEmail},</if>
+            <if test="subject != null  and subject != ''">subject = #{subject},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="emailType != null ">email_type = #{emailType},</if>
+            <if test="sendTime != null ">send_time = #{sendTime},</if>
+            <if test="copyTo != null  and copyTo != ''">copy_to = #{copyTo},</if>
+            <if test="bccTo != null  and bccTo != ''">bcc_to = #{bccTo},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="emailUse != null ">email_use = #{emailUse},</if>
+        </trim>
+        where mail_id = #{mailId}
+    </update>
+
+    <delete id="deleteMsgEmailById" parameterType="Long">
+        delete from msg_email where mail_id = #{mailId}
+    </delete>
+
+    <delete id="deleteMsgEmailByIds" parameterType="String">
+        delete from msg_email where mail_id in 
+        <foreach item="mailId" collection="array" open="(" separator="," close=")">
+            #{mailId}
+        </foreach>
+    </delete>
+    
+</mapper>

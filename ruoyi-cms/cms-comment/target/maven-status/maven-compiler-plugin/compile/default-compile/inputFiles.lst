@@ -1,0 +1,11 @@
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-cms\cms-comment\src\main\java\com\ruoyi\cms\comment\model\CommentConstants.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-cms\cms-comment\src\main\java\com\ruoyi\cms\comment\model\enums\CommentPreifxEnum.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-cms\cms-comment\src\main\java\com\ruoyi\cms\comment\model\enums\CommentRecordFettleEnums.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-cms\cms-comment\src\main\java\com\ruoyi\cms\comment\model\CmsComment.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-cms\cms-comment\src\main\java\com\ruoyi\cms\comment\mapper\CmsCommentMapper.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-cms\cms-comment\src\main\java\com\ruoyi\cms\comment\model\enums\CommentFettleEnums.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-cms\cms-comment\src\main\java\com\ruoyi\cms\comment\model\CmsCommentRecord.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-cms\cms-comment\src\main\java\com\ruoyi\cms\comment\web\CommentAdminController.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-cms\cms-comment\src\main\java\com\ruoyi\cms\comment\web\CommentController.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-cms\cms-comment\src\main\java\com\ruoyi\cms\comment\servie\impl\CmsCommentServiceImpl.java
+D:\gitL\ruoyi4.-2\RuoYi\ruoyi-cms\cms-comment\src\main\java\com\ruoyi\cms\comment\servie\ICmsCommentService.java

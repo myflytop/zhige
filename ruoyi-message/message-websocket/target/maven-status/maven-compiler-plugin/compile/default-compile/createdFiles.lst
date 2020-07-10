@@ -1,0 +1,14 @@
+com\ruoyi\message\websocket\interceptor\WebSocketChannelInterceptor.class
+com\ruoyi\message\websocket\config\WebSocketConfig.class
+com\ruoyi\message\websocket\model\Message.class
+com\ruoyi\message\websocket\handler\MyPrincipalHandshakeHandler.class
+com\ruoyi\message\websocket\authen\WebSocketUserAuthentication.class
+com\ruoyi\message\websocket\controller\WebSocketController.class
+com\ruoyi\message\websocket\controller\MessageStompController.class
+com\ruoyi\message\websocket\MessageUtils$2.class
+com\ruoyi\message\websocket\MessageUtils.class
+com\ruoyi\message\websocket\model\Group.class
+com\ruoyi\message\websocket\WebsocketApplication.class
+com\ruoyi\message\websocket\interceptor\WebSocketChannelInterceptor$1.class
+com\ruoyi\message\websocket\MessageUtils$1.class
+com\ruoyi\message\websocket\interceptor\WebSocketHandshakeInterceptor.class

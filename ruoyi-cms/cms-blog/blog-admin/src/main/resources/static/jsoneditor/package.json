@@ -1,0 +1,48 @@
+{
+  "name": "jsoneditor",
+  "version": "6.1.0",
+  "main": "./index",
+  "description": "A web-based tool to view, edit, format, and validate JSON",
+  "tags": [
+    "json",
+    "editor",
+    "viewer",
+    "formatter"
+  ],
+  "author": "Jos de Jong <wjosdejong@gmail.com>",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/josdejong/jsoneditor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/josdejong/jsoneditor.git"
+  },
+  "bugs": "https://github.com/josdejong/jsoneditor/issues",
+  "scripts": {
+    "build": "gulp",
+    "start": "gulp watch",
+    "test": "mocha test"
+  },
+  "dependencies": {
+    "ajv": "6.10.0",
+    "brace": "0.11.1",
+    "javascript-natural-sort": "0.7.1",
+    "jmespath": "0.15.0",
+    "json-source-map": "0.4.0",
+    "mobius1-selectr": "2.4.12",
+    "picomodal": "3.0.0",
+    "vanilla-picker": "2.8.2"
+  },
+  "devDependencies": {
+    "date-format": "2.0.0",
+    "fancy-log": "1.3.3",
+    "gulp": "4.0.2",
+    "gulp-clean-css": "4.2.0",
+    "gulp-concat-css": "3.1.0",
+    "jsdom": "15.1.1",
+    "json-loader": "0.5.7",
+    "mkdirp": "0.5.1",
+    "mocha": "6.1.4",
+    "uglify-js": "3.6.0",
+    "webpack": "4.35.2"
+  }
+}

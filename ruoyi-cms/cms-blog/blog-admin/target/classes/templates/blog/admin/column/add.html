@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header('新增栏目')"></head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-column-add">
+			<input id="treeId" name="parentId" type="hidden"
+				th:value="${parentId}" />
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">上级栏目：</label>
+				<div class="col-sm-8">
+					<div class="input-group">
+						<input class="form-control" type="text"
+							onclick="selectColumnTree()" id="treeName" readonly="true"
+							th:value="${parentName}"> <span class="input-group-addon"><i
+							class="fa fa-search"></i></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">栏目类型：</label>
+				<div class="col-sm-8">
+					<div class="radio-box" th:each="dict : ${@dict.getType('cms_column_type')}">
+						<input type="radio" th:id="${dict.dictCode}" name="parent" th:value="${dict.dictValue}" th:checked="${dict.default}" required>
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">栏目名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="columnName"
+						id="columnName" required>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">链接地点：</label>
+				<div class="col-sm-8">
+				<div class="radio-box" th:each="dict : ${@dict.getType('cms_column_locate')}">
+					<input type="radio" th:id="${dict.dictCode}" name="columnLocate" th:value="${dict.dictValue}" th:checked="${dict.default}" required>
+					<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+				</div>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">栏目地址：</label>
+				<div class="col-sm-8">
+					<input id="url" placeholder="选择地址" name="columnUrl" class="form-control" type="text">
+					<div class="ms-parent" style="width: 100%;">
+						<div class="url-drop animated flipInX"
+							 style="display: none; max-height: 200px; overflow-y: auto">
+							<div>
+								<h5>分类</h5>
+								<ul style="padding: 0">
+									<li th:each="cat:${cats}" class="btn btn-primary " th:text="${cat.catName}" th:title="${'/cat/'+cat.catId}" style="margin: 2px"></li>
+								</ul>
+								<h5>标签</h5>
+								<ul style="padding: 0">
+									<li th:each="tag:${tags}" class="btn btn-primary " th:text="${tag.tagName}" th:title="${'/tag/'+tag.tagId}" style="margin: 2px"></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">权限标识：</label>
+				<div class="col-sm-8">
+					<input id="perms" name="perms" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">打开方式：</label>
+				<div class="col-sm-8">
+					<div class="radio-box" th:each="dict : ${@dict.getType('cms_column_open')}">
+						<input type="radio" th:id="${dict.dictCode}" name="parent" th:value="${dict.dictValue}" th:checked="${dict.default}" required>
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">栏目排序：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="orderNo" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">栏目备注：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="remark">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">关键词：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="keywords">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">描述：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="description">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">栏目图标：</label>
+				<div class="col-sm-8">
+					<input id="icon" name="columnIcon" class="form-control" type="text"
+						placeholder="选择图标">
+					<div class="ms-parent" style="width: 100%;">
+						<div class="icon-drop  animated flipInX"
+							style="display: none; max-height: 200px; overflow-y: auto">
+							<div data-th-include="system/menu/icon"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">栏目状态：</label>
+					<div class="col-sm-8">
+						<div class="col-sm-8">
+							<div class="radio-box" th:each="dict : ${@dict.getType('cms_column_visible')}">
+								<input type="radio" th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}" th:checked="${dict.default}">
+								<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+							</div>
+						</div>
+					</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script>
+        var prefix = ctx + "cms/column";
+        $("#form-column-add").validate({
+        	rules:{
+        		openType:{
+        			required:true,
+        		},
+        		isParent:{
+        			required:true,		
+        		},
+        		orderNo:{
+        			digits:true
+        		},
+        		columnUrl:{
+        			remote: {
+                        url: prefix + "/checkColumnUrlUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                        	"columnUrl" : function() {
+                                return $.common.trim($("input[name=columnUrl]").val());
+                            },"parentId": function() {
+								return $("input[name='parentId']").val();
+							}
+                        },
+                        dataFilter: function(data, type) {
+                        	return $.validate.unique(data);
+                        }
+        			}
+        		},
+        		columnName:{
+        			required:true,
+        			rangelength:[2,8],
+        			remote: {
+                        url: prefix + "/checkColumnNameUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                        	"parentId": function() {
+		                		return $("input[name='parentId']").val();
+		                    },
+                        	"columnName" : function() {
+                                return $.common.trim($("#columnName").val());
+                            }
+                        },
+                        dataFilter: function(data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+        	},
+        	messages: {
+        		"columnName": {
+                    remote: "导航名已存在"
+                },
+                "columnUrl": {
+                    remote: "导航路径已存在"
+                }
+            },
+            focusCleanup: true
+        });
+        
+        function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-column-add').serialize());
+	        }
+	    }
+
+        $(function() {
+        	$("input[name='columnIcon']").focus(function() {
+                $(".icon-drop").show();
+            });
+        	$("#form-column-add").click(function(event) {
+        	    var obj = event.srcElement || event.target;
+        	    if (!$(obj).is("input[name='columnIcon']")) {
+        	    	$(".icon-drop").hide();
+        	    }
+        	});
+        	$(".icon-drop").find(".ico-list i").on("click", function() {
+        		$('#icon').val($(this).attr('class'));
+            });
+
+            $("input[name='columnUrl']").focus(function() {
+                $(".url-drop").show();
+            });
+        	$("#form-column-add").click(function(event) {
+        	    var obj = event.srcElement || event.target;
+        	    if (!$(obj).is("input[name='columnUrl']")) {
+        	    	$(".url-drop").hide();
+        	    }
+        	});
+        	$(".url-drop").find("li").on("click", function() {
+        		$('#url').val($(this).attr('title'));
+            });
+
+        	$('input[name="parent"]').on('ifChecked', function(event){    		
+        		var isParent = $(event.target).val();
+        		if (isParent == 1) {
+                    $("#url").parents(".form-group").hide();
+                    $("#op").parents(".form-group").hide();       
+                } else if (isParent == 0) {
+                	$("#url").parents(".form-group").show();              
+                    $("#op").parents(".form-group").show();
+                } 
+        	});  
+        });
+
+        /*栏目管理-新增-选择菜单树*/
+        function selectColumnTree() {
+        	var treeId = $("#treeId").val();
+        	var columnId = treeId > 0 ? treeId : 1;
+        	var url = prefix + "/selectColumnTree/" + columnId;
+			var options = {
+				title: '栏目选择',
+				width: "380",
+				url: url,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+		function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);
+   			$("#treeId").val(body.find('#treeId').val());
+   			$("#treeName").val(body.find('#treeName').val());
+   			layer.close(index);
+		}
+    </script>
+</body>
+</html>

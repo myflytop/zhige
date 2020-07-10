@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block   th:include="themes/bobey/blog_include :: blogHeader(title=${blogConfig['blog.config.title'].configValue+'-'+menu.columnName},
+keywords=${blogConfig['blog.config.keywords'].configValue+','+menu.keywords},
+description=${menu.description},
+blogConfig=${blogConfig})"/>
+</head>
+<body>
+<th:block th:include="themes/bobey/blog_include::menu(menus=${@menuTag.getMenu(21)},blogConfig=${blogConfig})"/>
+<!-- 主体部分 -->
+<section class="bobey-main-box">
+    <div class="layui-row ">
+        <div class="layui-col-md9  bobey-left-box" id="miao-left">
+            <div class="bobey-left-content">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md4">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                <a href="news_hot"><i class="layui-icon layui-icon-login-weibo" style="color: orange"></i>&nbsp;微博热搜排行</a>
+                            </div>
+                            <div class="layui-card-body cardBody">
+                                <ul>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">1</span>
+                                        <span class="hot_title"><a href="https://s.weibo.com//weibo?q=%23%E7%99%BD%E7%99%BE%E4%BD%95%E6%96%B9%E5%90%A6%E8%AE%A4%E5%8F%82%E5%8A%A0%E4%B9%98%E9%A3%8E%E7%A0%B4%E6%B5%AA%E7%9A%84%E5%A7%90%E5%A7%90%23&amp;Refer=top" target="_blank">白百何方否认参加乘风破浪的姐姐</a></span>
+                                        <span class="hot_look">2602978</span>
+
+                                        <span class="layui-badge layui-bg-orange hot_mark">热</span>
+
+
+
+
+
+                                    </li>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">2</span>
+                                        <span class="hot_title"><a href="https://s.weibo.com//weibo?q=%23%E8%A7%A3%E5%B0%81%E5%90%8E%E6%AD%A6%E6%B1%89%E5%A9%9A%E7%BA%B1%E8%AE%A2%E5%8D%95%E5%A4%A7%E5%A2%9E%23&amp;Refer=top" target="_blank">解封后武汉婚纱订单大增</a></span>
+                                        <span class="hot_look">1797915</span>
+
+
+
+
+                                        <span class="layui-badge layui-bg-black hot_mark">新</span>
+
+
+                                    </li>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">3</span>
+                                        <span class="hot_title"><a href="https://s.weibo.com//weibo?q=%E7%A7%A6%E7%89%9B%E6%AD%A3%E5%A8%81%E7%A9%BA%E9%99%8D%E5%BC%A0%E6%B2%AB%E5%87%A1%E7%9B%B4%E6%92%AD&amp;Refer=top" target="_blank">秦牛正威空降张沫凡直播</a></span>
+                                        <span class="hot_look">1602374</span>
+
+
+
+                                        <span class="layui-badge layui-bg-blue hot_mark">荐</span>
+
+
+
+                                    </li>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">4</span>
+                                        <span class="hot_title"><a href="https://s.weibo.com//weibo?q=%23%E6%9C%80%E5%BC%BA%E5%A4%A7%E8%84%91%E5%98%89%E5%AE%BE%E9%98%B5%E5%AE%B9%23&amp;Refer=top" target="_blank">最强大脑嘉宾阵容</a></span>
+                                        <span class="hot_look">1567866</span>
+
+
+
+
+                                        <span class="layui-badge layui-bg-black hot_mark">新</span>
+
+
+                                    </li>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">5</span>
+                                        <span class="hot_title"><a href="https://s.weibo.com//weibo?q=%23%E6%9D%A8%E6%B4%8B%E5%8C%BB%E7%94%9F%E9%80%A0%E5%9E%8B%23&amp;Refer=top" target="_blank">杨洋医生造型</a></span>
+                                        <span class="hot_look">1549871</span>
+
+
+                                        <span class="layui-badge hot_mark">沸</span>
+
+
+
+
+                                    </li>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">6</span>
+                                        <span class="hot_title"><a href="https://s.weibo.com//weibo?q=%23%E5%AD%9F%E7%BE%8E%E5%B2%90%E5%91%A8%E9%9C%87%E5%8D%97%E5%88%9B3%E8%88%9E%E5%8F%B0%E9%A2%84%E5%91%8A%23&amp;Refer=top" target="_blank">孟美岐周震南创3舞台预告</a></span>
+                                        <span class="hot_look">1481823</span>
+
+
+
+
+
+                                    </li>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">7</span>
+                                        <span class="hot_title"><a href="https://s.weibo.com//weibo?q=%23%E5%BD%93%E4%BD%A0%E7%9A%84%E7%8C%AB%E5%BE%97%E7%BD%AA%E4%BA%86%E4%B8%80%E5%8F%AA%E8%AE%B0%E4%BB%87%E7%9A%84%E9%B8%9F%23&amp;Refer=top" target="_blank">当你的猫得罪了一只记仇的鸟</a></span>
+                                        <span class="hot_look">1021062</span>
+
+
+
+
+                                        <span class="layui-badge layui-bg-black hot_mark">新</span>
+
+
+                                    </li>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">8</span>
+                                        <span class="hot_title"><a href="https://s.weibo.com//weibo?q=%23%E6%B3%B3%E8%A1%A3%E5%A9%9A%E7%BA%B1%23&amp;Refer=top" target="_blank">泳衣婚纱</a></span>
+                                        <span class="hot_look">862652</span>
+
+
+
+
+
+                                    </li>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">9</span>
+                                        <span class="hot_title"><a href="https://s.weibo.com//weibo?q=%23%E4%B8%A4%E4%BD%8D%E7%9A%AE%E8%82%A4%E5%8F%98%E9%BB%91%E5%8C%BB%E7%94%9F%E5%8F%AF%E6%85%A2%E6%85%A2%E6%81%A2%E5%A4%8D%23&amp;Refer=top" target="_blank">两位皮肤变黑医生可慢慢恢复</a></span>
+                                        <span class="hot_look">702123</span>
+
+
+
+
+
+                                    </li>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">10</span>
+                                        <span class="hot_title"><a href="https://s.weibo.com//weibo?q=%23%E7%BE%8E%E5%9B%BD%E5%89%AF%E6%80%BB%E7%BB%9F%E5%BD%AD%E6%96%AF%E5%8A%A9%E6%89%8B%E7%A1%AE%E8%AF%8A%E6%96%B0%E5%86%A0%E8%82%BA%E7%82%8E%23&amp;Refer=top" target="_blank">美国副总统彭斯助手确诊新冠肺炎</a></span>
+                                        <span class="hot_look">622994</span>
+
+
+
+
+
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                <a href="movies_hot"><i class="layui-icon layui-icon-video" style="color: orange"></i>&nbsp;影视点击排行</a>
+                            </div>
+                            <div class="layui-card-body cardBody">
+                                <ul>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">1</span>
+                                        <span class="hot_title"><a href="movie_detail/tv/QLFqbn7lSzTtOH.html" target="_blank">猎狐</a></span>
+                                        <span class="hot_look">王凯王鸥跨国侦破经济大案</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">2</span>
+                                        <span class="hot_title"><a href="movie_detail/tv/Q4FrbX7lSzbrMX.html" target="_blank">秋蝉</a></span>
+                                        <span class="hot_look">叶冲花式喂药投食哄何樱</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">3</span>
+                                        <span class="hot_title"><a href="movie_detail/va/ZcUncXNyAJc8Ez.html" target="_blank">王牌对王牌 第5季</a></span>
+                                        <span class="hot_look">王牌五周年收官之夜!</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">4</span>
+                                        <span class="hot_title"><a href="movie_detail/va/ZMYka3Nz72E2DT.html" target="_blank">青春有你第2季</a></span>
+                                        <span class="hot_look">第17期上 主题考核公演开启！刘...</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">5</span>
+                                        <span class="hot_title"><a href="movie_detail/va/asIob3Nz72c8DD.html" target="_blank">向往的生活 第四季</a></span>
+                                        <span class="hot_look">蘑菇屋家人回归温馨重聚！</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">6</span>
+                                        <span class="hot_title"><a href="movie_detail/tv/QrZpcH7lSzTpOH.html" target="_blank">清平乐</a></span>
+                                        <span class="hot_look">王凯江疏影奏盛世之音</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">7</span>
+                                        <span class="hot_title"><a href="movie_detail/tv/Qbpwan7lSzbqMX.html" target="_blank">韫色过浓</a></span>
+                                        <span class="hot_look">傲娇女明星扑倒冰山男医生</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">8</span>
+                                        <span class="hot_title"><a href="movie_detail/tv/PrVtaH7lSzXsMX.html" target="_blank">天醒之路</a></span>
+                                        <span class="hot_look">陈飞宇熊梓淇携手闯江湖</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">9</span>
+                                        <span class="hot_title"><a href="movie_detail/tv/QLZtan7lSzTmN3.html" target="_blank">龙岭迷窟</a></span>
+                                        <span class="hot_look">潘粤明张雨绮刺激探险</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">10</span>
+                                        <span class="hot_title"><a href="movie_detail/ct/OUPkaZ7kNY7vDj.html" target="_blank">斗罗大陆</a></span>
+                                        <span class="hot_look">超燃！武魂崛起之路</span>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                <a href="novels_hot"><i class="layui-icon layui-icon-read" style="color: orange"></i>&nbsp;小说热度排行</a>
+                            </div>
+                            <div class="layui-card-body cardBody">
+                                <ul>
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">1</span>
+                                        <span class="hot_title"><a href="javascript:novel_search('日月风华')">日月风华</a></span>
+                                        <span class="hot_look">沙漠 | 架空 连载</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">2</span>
+                                        <span class="hot_title"><a href="javascript:novel_search('逆天邪神')">逆天邪神</a></span>
+                                        <span class="hot_look">火星引力 | 玄幻 连载</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">3</span>
+                                        <span class="hot_title"><a href="javascript:novel_search('我只有两千五百岁')">我只有两千五百岁</a></span>
+                                        <span class="hot_look">步行天下 | 都市 连载</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">4</span>
+                                        <span class="hot_title"><a href="javascript:novel_search('大国名厨')">大国名厨</a></span>
+                                        <span class="hot_look">烟斗老哥 | 都市 连载</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">5</span>
+                                        <span class="hot_title"><a href="javascript:novel_search('剑来')">剑来</a></span>
+                                        <span class="hot_look">烽火戏诸侯 | 仙侠 连载</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">6</span>
+                                        <span class="hot_title"><a href="javascript:novel_search('剑仙在此')">剑仙在此</a></span>
+                                        <span class="hot_look">乱世狂刀 | 异世 连载</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">7</span>
+                                        <span class="hot_title"><a href="javascript:novel_search('赘婿出山')">赘婿出山</a></span>
+                                        <span class="hot_look">李闲鱼 | 都市 连载</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">8</span>
+                                        <span class="hot_title"><a href="javascript:novel_search('剑当扬')">剑当扬</a></span>
+                                        <span class="hot_look">五月又二十 | 修真 连载</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">9</span>
+                                        <span class="hot_title"><a href="javascript:novel_search('最强狂兵')">最强狂兵</a></span>
+                                        <span class="hot_look">烈焰滔滔 | 都市 连载</span>
+                                    </li>
+
+
+                                    <li>
+                                        <span class="layui-badge-rim hot_num">10</span>
+                                        <span class="hot_title"><a href="javascript:novel_search('国医无双')">国医无双</a></span>
+                                        <span class="hot_look">步履无声 | 都市 连载</span>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主体部分右边 -->
+        <div class="layui-col-md3 bobey-right-box">
+        <th:block th:include="themes/bobey/blog_include::rightCommen"/>
+		</div>
+    </div>
+
+</section>
+
+<!-- 底部导航 -->
+<th:block th:include="themes/bobey/blog_include::bottom" />
+<th:block th:include="themes/bobey/blog_include::footer_js" />
+
+</body>
+
+</html>

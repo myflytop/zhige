@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+		<th:block
+th:include="themes/bobey/blog_include :: blogHeader(title=${blogConfig['blog.config.title'].configValue},
+keywords=${blogConfig['blog.config.keywords'].configValue+','+post.keywords},
+description=${post.description},
+blogConfig=${blogConfig})" />
+	</head>
+	<body>
+	<th:block th:include="themes/bobey/blog_include::menu(menus=${@menuTag.getMenu(21)},blogConfig=${blogConfig})"/>
+		<!-- 主体部分 -->
+		<section class="bobey-main-box">
+			<div class="layui-row ">
+				<div class="layui-col-md9  bobey-left-box" id="miao-left">
+					<div class="bobey-left-content">
+					<th:block th:include="themes/bobey/blog_include::blogArticle(post=${post},comments=${comments})" />
+					</div>
+				</div>
+
+				<!-- 主体部分右边 -->
+				<div class="layui-col-md3 bobey-right-box">
+				<th:block th:include="themes/bobey/blog_include::rightCommen"/>
+				</div>
+			</div>
+
+		</section>
+
+		<!-- 底部导航 -->
+		<th:block th:include="themes/bobey/blog_include::bottom" />
+		<th:block th:include="themes/bobey/blog_include::footer_js" />
+
+		<script th:inline="JavaScript">
+            layui.use(['element'], function() {
+				var layedit = layui.layedit;
+
+				function toLogin() {
+					layer.confirm('你还未登陆!', {
+						btn: ['登陆', '取消'] //按钮
+					}, function () {
+						location.href = ctx + 'blog/user/login';
+					}, function () {
+						layer.close();
+					});
+				}
+
+				//点赞，踩，分享，收藏，评分
+				const lookUrl = ctx + "blog/record/addLookRecord", likeUrl = ctx + "blog/record/addLikeRecord",
+						nastyUrl = ctx + "blog/record/addNastyRecord"
+						, shareUrl = ctx + "blog/record/addShareRecord", scoreUrl = ctx + "blog/record/addScoreRecord",
+						collectUrl = ctx + "blog/record/addCollectRecord",
+						commentUrl = ctx + "comment",
+						userUrl = ctx + "blog/user";
+				const userId = $('#userId').val();
+				const postRecord = {
+					lookRecord: function () {
+						this.ajaxPost();
+					},
+					likeRecord: function () {
+
+					},
+					nastyRecord: function () {
+
+					},
+					shareRecord: function () {
+
+					},
+					scoreRecord: function () {
+
+					},
+					collectRecord: function () {
+
+					},
+					ajaxPost: function (url, data, callback) {
+						$.post(url, data, function (result) {
+
+						});
+					}
+				};
+				$.post(lookUrl, {articleId: $("#articleId").val()}, function (result) {
+
+				});
+				$("#post-like").click(function () {
+					if (userId == '') {
+						toLogin();
+					} else {
+						$.post(likeUrl, {articleId: $("#articleId").val()}, function (result) {
+							layer.msg(result.msg);
+						});
+					}
+				});
+				$("#post-nasty").click(function () {
+					if (userId == '') {
+						toLogin();
+					} else {
+						$.post(nastyUrl, {articleId: $("#articleId").val()}, function (result) {
+							layer.msg(result.msg);
+						});
+					}
+				});
+
+				//编辑器索引
+				var ind;
+
+				$(".comment-ok").click(function () {
+					var commentData = $(this).data().comment.split(",");// 在每个逗号(,)处进行分解。
+					var dataObj = {
+						'parentId': commentData[0],
+						'articleId': commentData[1],
+						'replyBy': commentData[2],
+						'fromBy': userId
+					};
+					if (userId == '') {
+						toLogin();
+					} else {
+						$.get(userUrl + "/isLogin/" + userId, function (result) {
+							if (result.code == 0) {
+								layer.open({
+									type: 1,
+									title: '评论',
+									closeBtn: 0, //不显示关闭按钮
+									anim: 2,
+									area: '340px',
+									offset: '100px',
+									shadeClose: true, //开启遮罩关闭
+									content: '<div ><textarea id="demo" style="display: none;"></textarea></div>',
+									success: function (layero, index) {
+										ind = layedit.build('demo', {
+											tool: [
+												'strong' //加粗
+												, 'italic' //斜体
+												, 'underline' //下划线
+												, 'del' //删除线
+												, '|' //分割线
+												, 'left' //左对齐
+												, 'center' //居中对齐
+												, 'right' //右对齐
+												, 'link' //超链接
+												, 'unlink' //清除链接
+											]
+										}); //建立编辑器
+									},
+									btn: ['取消', '评论'],
+									yes: function (index, layero) {
+										layer.close(index);
+									},
+									btn2: function (index, layero) {
+										var content = layedit.getContent(ind);
+										if (content == '') {
+											layer.msg("评论不能为空！");
+										} else {
+											dataObj['content'] = content;
+											$.post(commentUrl + "/add", dataObj, function (result) {
+												if (result.code == 0) {
+													location.reload();
+												} else {
+													layer.msg(result.msg);
+												}
+											})
+										}
+									},
+								});
+							} else {
+								location.reload();
+							}
+						})
+					}
+				});
+
+			});
+		</script>
+	</body>
+
+</html>

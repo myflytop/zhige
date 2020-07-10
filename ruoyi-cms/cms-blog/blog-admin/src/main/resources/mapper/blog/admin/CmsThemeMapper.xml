@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ruoyi.cms.system.mapper.CmsThemeMapper" >
+  <resultMap id="BaseResultMap" type="com.ruoyi.cms.system.model.po.CmsTheme" >
+    <id column="theme_id" property="themeId" jdbcType="INTEGER" />
+    <result column="theme_name" property="themeName" jdbcType="VARCHAR" />
+    <result column="theme_author" property="themeAuthor" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="theme_info" property="themeInfo" jdbcType="VARCHAR" />
+    <result column="theme_enabled" property="themeEnabled" jdbcType="TINYINT" />
+    <result column="theme_touch" property="themeTouch" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="INTEGER" />
+    <result column="theme_update" property="themeUpdate" jdbcType="VARCHAR" />
+     <result column="theme_version" property="themeVersion" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    theme_id, theme_name, theme_author,theme_update,theme_version,create_time, theme_info, theme_enabled, theme_touch,create_by
+  </sql>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    
+    from cms_theme
+    where theme_id = #{themeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByName" parameterType="string" >
+    delete from cms_theme
+    where theme_Name = #{themeName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ruoyi.cms.system.model.po.CmsTheme" useGeneratedKeys="true" keyColumn="theme_id" keyProperty="themeId">
+    insert into cms_theme (theme_name, theme_author, 
+      create_time, theme_info, theme_enabled, 
+      theme_touch, create_by,theme_upadte,theme_version)
+    values ( #{themeName,jdbcType=VARCHAR}, #{themeAuthor,jdbcType=VARCHAR}, 
+      sysdate(), #{themeInfo,jdbcType=VARCHAR}, #{themeEnabled,jdbcType=TINYINT}, 
+      #{themeTouch,jdbcType=VARCHAR}, #{createBy,jdbcType=INTEGER},#{themeUpdate,jdbcType=VARCHAR},,#{themeVersion,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ruoyi.cms.system.model.po.CmsTheme" useGeneratedKeys="true" keyColumn="theme_id" keyProperty="themeId" >
+    insert into cms_theme
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="themeId != null" >
+        theme_id,
+      </if>
+      <if test="themeName != null" >
+        theme_name,
+      </if>
+      <if test="themeAuthor != null" >
+        theme_author,
+      </if>
+      <if test="true" >
+        create_time,
+      </if>
+      <if test="themeInfo != null" >
+        theme_info,
+      </if>
+      <if test="themeEnabled != null" >
+        theme_enabled,
+      </if>
+      <if test="themeTouch != null" >
+        theme_touch,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="themeUpdate != null" >
+        theme_update,
+      </if>
+      <if test="themeVersion != null" >
+        theme_version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="themeId != null" >
+        #{themeId,jdbcType=INTEGER},
+      </if>
+      <if test="themeName != null" >
+        #{themeName,jdbcType=VARCHAR},
+      </if>
+      <if test="themeAuthor != null" >
+        #{themeAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="true" >
+      sysdate(),
+      </if>
+      <if test="themeInfo != null" >
+        #{themeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="themeEnabled != null" >
+        #{themeEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="themeTouch != null" >
+        #{themeTouch,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="themeUpdate != null" >
+        #{themeUpdate,jdbcType=VARCHAR},
+      </if>
+      <if test="themeVersion != null" >
+        #{themeVersion,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateById"  >
+    update cms_theme
+    <set >
+      <if test="themeName != null" >
+        theme_name = #{themeName,jdbcType=VARCHAR},
+      </if>
+      <if test="themeAuthor != null" >
+        theme_author = #{themeAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="themeInfo != null" >
+        theme_info = #{themeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="themeEnabled != null" >
+        theme_enabled = #{themeEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="themeTouch != null" >
+        theme_touch = #{themeTouch,jdbcType=VARCHAR},
+      </if>
+      <if test="themeUpdate != null" >
+        theme_update = #{themeUpdate,jdbcType=VARCHAR},
+      </if>
+       <if test="themeVersion != null" >
+        theme_version = #{themeVersion,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where theme_id = #{themeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateThemeEnable">
+  update cms_theme set theme_enabled = CASE theme_name
+        WHEN #{oldName} THEN 0
+        WHEN #{newName} THEN 1
+    END where theme_name in (#{newName},#{oldName})
+  </update>
+    <select id="selectThemeByUsed" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cms_theme
+        where theme_enabled=1
+    </select>
+<!--  获取主题列表-->
+  <select id="listThemes" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_theme
+  </select>
+</mapper>

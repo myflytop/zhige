@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<head xmlns="http://www.w3.org/1999/html">
+    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-'+seo.columnName},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
+</head>
+<body>
+<!--== Start Header Section ==-->
+<header id="header-area" class="header__2"  xmlns="http://www.w3.org/1999/html">
+    <!-- Start PreHeader Area -->
+ <div class="preheader-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-lg-6">
+                    <div class="preheader-contact-info d-flex align-items-center justify-content-between justify-content-md-start">
+                        <div class="single-contact-info">
+                            <span class="contact-icon">
+                                <i class="fa fa-envelope"></i>
+                            </span>
+                            <a href="mailto:your@example.com" class="contact-text">
+                                <strong>邮箱:</strong> <a th:href="'mailto:'+${taokeConfig['taoke.config.contact.mail']?.configValue}" th:text="${taokeConfig['taoke.config.contact.mail']?.configValue}">your@email.here</a>
+                            </a>
+                        </div>
+                        <div class="single-contact-info">
+                            <span class="contact-icon">
+                                <i class="fa fa-phone"></i>
+                            </span>
+                            <a href="" class="contact-text">
+                                <strong>联系电话:</strong>  <a href="javaScript:void(0)" th:text="${taokeConfig['taoke.config.contact.phone']?.configValue}">+231 40596971</a>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End PreHeader Area -->
+
+    <!-- Start Header Middle Area -->
+    <div class="header-middle-area">
+        <div class="container">
+            <div class="row">
+                <th:block  th:include="themes/taoke/taoke_include :: logo"></th:block>
+            </div>
+        </div>
+    </div>
+    <!-- End Header Middle Area -->
+
+    <!-- Start Main Menu Area -->
+    <div class="navigation-area" id="fixheader">
+        <div class="container">
+            <div class="row">
+                <!-- Categories List Start -->
+                <div class="col-10 col-lg-3">
+                    <div class="categories-list-wrap">
+                        <button class="btn btn-category d-none d-lg-inline-block"><i class="fa fa-bars"></i> 商品分类服务
+                        </button>
+                        <th:block  th:include="themes/taoke/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenu(29)})"></th:block>
+
+                    </div>
+                </div>
+                <!-- Categories List End -->
+                <!-- Main Menu Start -->
+                <div class="col-2 col-lg-9 d-none d-lg-block">
+                    <div class="main-menu-wrap">
+                        <nav class="mainmenu">
+                            <th:block  th:include="themes/taoke/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(22)})"/>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Main Menu End -->
+            </div>
+        </div>
+    </div>
+    <!-- End Main Menu Area -->
+</header>
+<!--== End Header Section ==-->
+
+<!--== Start Slider Area ==-->
+<div class="slider-area-wrap">
+    <th:block  th:include="themes/taoke/taoke_include :: carousel(carousels=${@taoKeTag.taoKeByTagId(5)})"/>
+</div>
+<!--== End Slider Area ==-->
+
+<!--== Start Feature Products  Area ==-->
+<div id="product-area-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <th:block  th:include="themes/taoke/taoke_include :: rankBander(newPut=${@taoKeTag.taoKeSortByCreateTime(20)},onSeal=${@taoKeTag.taoKeSortByShopSales(20)},maxCoupon=${@taoKeTag.taoKeSortByCouponPrice(20)})"/>
+            </div>
+            <div class="col-12">
+                <div class="view-more-btn">
+                    <a class="btn-hero btn-load-more" th:href="@{'/taoke/shop'}">获取更多</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--== End Feature Products  Area ==-->
+                <!-- 开始 -->
+<section class="our-product section-space">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="section-title text-center">
+                                    <h2>最近上架</h2>
+                                    <p><a th:href="@{'/taoke/callMe'}">有什么特殊需求?</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mtn-40">
+                            <!-- product single item start -->
+                            <th:block  th:include="themes/taoke/taoke_include :: taos(taos=${@taoKeTag.taoKeSortByCreateTime(40)})"/>
+                            <!-- product single item end -->
+                            <div class="col-12">
+                                <div class="view-more-btn">
+                                    <a class="btn-hero btn-load-more" th:href="@{'/taoke/shop'}">获取更多</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</section>
+                <!-- 结束 -->
+<!-- Start Products Area Wrapper -->
+<div class="product-area-wrapper">
+    <th:block  th:include="themes/taoke/taoke_include :: hotTag(dailyNeed=${@taoKeTag.taoKeByTagId(11,20)},mobile=${@taoKeTag.taoKeByTagId(11,20)},shoes=${@taoKeTag.taoKeByTagId(11,20)})"/>
+</div>
+<!-- End Products Area Wrapper -->
+
+<!-- Start Popular Categories -->
+
+<!-- End Popular Categories -->
+
+<!--== Start Recent Post & Reviews Area ==-->
+
+<!--== End Recent Post & Reviews Area ==-->
+
+<!--== Start Brand Carousel Area ==-->
+
+<!--== End Brand Carousel Area ==-->
+
+<!--== Start Call To Action ==-->
+
+<!--== End Call To Action ==-->
+
+<!--== Start Newsletter Area ==-->
+
+<!--== End Newsletter Area ==-->
+
+<!--== Start Footer Area ==-->
+<th:block  th:include="themes/taoke/taoke_include :: taokeBottom"/>
+<!--== End Footer Area ==-->
+
+
+<!-- Scroll to Top Start -->
+<a href="#" class="scrolltotop"><i class="fa fa-angle-up"></i></a>
+<!-- Scroll to Top End -->
+
+<!--== Product Quick View Modal Area Wrap ==-->
+<div class="modal" id="quickView" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"><img src="assets/img/icons/cancel.png" alt="Close" class="img-fluid" /></span>
+            </button>
+            <div class="modal-body">
+                <div class="quick-view-content single-product-page-content">
+                    <div class="row">
+                        <!-- Product Thumbnail Start -->
+                        <div class="col-lg-5 col-md-6">
+                            <div class="product-thumbnail-wrap">
+                                <div class="product-thumb-carousel owl-carousel">
+                                    <div class="single-thumb-item">
+                                        <a href="single-product.html"><img class="img-fluid" src="assets/img/single-pro-1.jpg" alt="Product" /></a>
+                                    </div>
+
+                                    <div class="single-thumb-item">
+                                        <a href="single-product.html"><img class="img-fluid" src="assets/img/single-pro-2.jpg" alt="Product" /></a>
+                                    </div>
+
+                                    <div class="single-thumb-item">
+                                        <a href="single-product.html"><img class="img-fluid" src="assets/img/single-pro-3.jpg" alt="Product" /></a>
+                                    </div>
+
+                                    <div class="single-thumb-item">
+                                        <a href="single-product.html"><img class="img-fluid" src="assets/img/single-pro-4.jpg" alt="Product" /></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Product Thumbnail End -->
+
+                        <!-- Product Details Start -->
+                        <div class="col-lg-7 col-md-6 mt-5 mt-md-0">
+                            <div class="product-details">
+                                <h2><a href="single-product.html">Crown Summit Backpack</a></h2>
+
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+
+                                <span class="price">$52.00</span>
+
+                                <div class="product-info-stock-sku">
+                                    <span class="product-stock-status text-success">In Stock</span>
+                                    <span class="product-sku-status ml-5"><strong>SKU</strong> MH03</span>
+                                </div>
+
+                                <p class="products-desc">Ideal for cold-weathered training worked lorem ipsum outdoors, the Chaz Hoodie promises superior warmth with every wear. Thick material blocks out the wind as ribbed cuffs and bottom band seal in body heat Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, reprehenderit.</p>
+                                <div class="shopping-option-item">
+                                    <h4>Color</h4>
+                                    <ul class="color-option-select d-flex">
+                                        <li class="color-item black">
+                                            <div class="color-hvr">
+                                                <span class="color-fill"></span>
+                                                <span class="color-name">Black</span>
+                                            </div>
+                                        </li>
+
+                                        <li class="color-item green">
+                                            <div class="color-hvr">
+                                                <span class="color-fill"></span>
+                                                <span class="color-name">green</span>
+                                            </div>
+                                        </li>
+
+                                        <li class="color-item orange">
+                                            <div class="color-hvr">
+                                                <span class="color-fill"></span>
+                                                <span class="color-name">Orange</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="product-quantity d-flex align-items-center">
+                                    <div class="quantity-field">
+                                        <label for="qty">Qty</label>
+                                        <input type="number" id="qty" min="1" max="100" value="1" />
+                                    </div>
+
+                                    <a href="cart.html" class="btn">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Product Details End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--== Product Quick View Modal Area End ==-->
+
+<!--=======================Javascript============================-->
+<th:block  th:include="themes/taoke/taoke_include :: taokeFooter"></th:block>
+</body>
+</html>
