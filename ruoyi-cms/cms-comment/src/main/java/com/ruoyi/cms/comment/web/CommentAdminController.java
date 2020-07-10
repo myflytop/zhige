@@ -1,8 +1,6 @@
 package com.ruoyi.cms.comment.web;
 
 import com.ruoyi.cms.comment.model.CmsComment;
-import com.ruoyi.cms.comment.model.CmsCommentRecord;
-import com.ruoyi.cms.comment.model.enums.CommentFettleEnums;
 import com.ruoyi.cms.comment.servie.impl.CmsCommentServiceImpl;
 import com.ruoyi.cms.common.web.controller.CommonController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -12,7 +10,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**

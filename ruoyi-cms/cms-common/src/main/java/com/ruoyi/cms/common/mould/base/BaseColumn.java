@@ -37,6 +37,9 @@ public class BaseColumn extends SeoBaseModel {
     //祖级列表
     private String ancestors;
 
+    //站内导航还是站外
+    private Byte columnLocate;
+
     public Long getColumnId() {
         return columnId;
     }
@@ -120,6 +123,14 @@ public class BaseColumn extends SeoBaseModel {
         this.ancestors = ancestors;
     }
 
+    public Byte getColumnLocate() {
+        return columnLocate;
+    }
+
+    public void setColumnLocate(Byte columnLocate) {
+        this.columnLocate = columnLocate;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("com.ruoyi.cms.common.mould.base.BaseColumn{");
@@ -143,6 +154,7 @@ public class BaseColumn extends SeoBaseModel {
         sb.append(", remark='").append(getRemark()).append('\'');
         sb.append(", searchValue='").append(getSearchValue()).append('\'');
         sb.append(", params=").append(getParams());
+        sb.append(", =columnLocate").append(getColumnLocate());
         sb.append('}');
         return sb.toString();
     }

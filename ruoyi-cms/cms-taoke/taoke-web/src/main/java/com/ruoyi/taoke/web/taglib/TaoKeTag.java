@@ -2,10 +2,12 @@ package com.ruoyi.taoke.web.taglib;
 
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.blog.service.impl.BlogServiceImpl;
+import com.ruoyi.cache.redis.constant.CacheConstant;
 import com.ruoyi.taoke.web.model.TaokeModel;
 import com.ruoyi.taoke.web.model.parm.TaokeParm;
 import com.ruoyi.taoke.web.service.impl.TaokeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,9 +30,12 @@ public class TaoKeTag {
      * @param pageSize
      * @return
      */
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeSortByCreateTime(int pageSize){
         return this.taoKeSort(pageSize,"create_time  desc");
     }
+
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeSortByCreateTime(){
         return this.taoKeSortByCreateTime(10);
     }
@@ -40,10 +45,12 @@ public class TaoKeTag {
      * @param pageSize
      * @return
      */
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeSortByShopSales(int pageSize){
         return this.taoKeSort(pageSize,"shop_sales  desc");
     }
 
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeSortByShopSales(){
         return this.taoKeSortByShopSales(10);
     }
@@ -53,9 +60,11 @@ public class TaoKeTag {
      * @param pageSize
      * @return
      */
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeSortByCouponPrice(int pageSize){
         return this.taoKeSort(pageSize,"coupon_price  desc");
     }
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeSortByCouponPrice(){
         return this.taoKeSortByCouponPrice(10);
     }
@@ -65,9 +74,11 @@ public class TaoKeTag {
      * @param pageSize
      * @return
      */
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeSortByShopPrice(int pageSize){
         return this.taoKeSort(pageSize,"shop_price  desc");
     }
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeSortByShopPrice(){
         return this.taoKeSortByCouponPrice(10);
     }
@@ -76,6 +87,7 @@ public class TaoKeTag {
      *通过标签获取淘客
      * @return
      */
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeByTagId(long tagId,int pageSize){
         TaokeParm taokeParm=new TaokeParm();
         taokeParm.setTagId(tagId);
@@ -91,6 +103,7 @@ public class TaoKeTag {
      *通过标签获取淘客
      * @return
      */
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeByTagId(long tagId){
         return this.taoKeByTagId(tagId,10);
     }
@@ -100,6 +113,7 @@ public class TaoKeTag {
      *通过类别取淘客
      * @return
      */
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeByCatId(long catId,int pageSize){
         TaokeParm taokeParm=new TaokeParm();
         taokeParm.setCatId(catId);
@@ -111,12 +125,12 @@ public class TaoKeTag {
         }
         return null;
     }
-
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeByCatId(long catId){
 
         return this.taoKeByCatId(catId,10);
     }
-
+    @Cacheable(CacheConstant.TAKE_CACHE_NAME)
     public List<TaokeModel> taoKeTui(int pageSize){
         return this.taoKeSort(pageSize,"create_time desc");
     }

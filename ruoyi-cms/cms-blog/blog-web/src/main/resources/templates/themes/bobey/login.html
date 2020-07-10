@@ -9,7 +9,7 @@ blogConfig=${blogConfig})"/>
 </head>
 <body style="background-color: #f5f0f0">
 
-<th:block th:include="themes/bobey/blog_include::menu(menus=${menus},blogConfig=${blogConfig})"/>
+<th:block th:include="themes/bobey/blog_include::menu(menus=${@menuTag.getMenu(21)},blogConfig=${blogConfig})"/>
 
 <!-- 主体部分 -->
 <section style="padding-top: 70px">
@@ -142,19 +142,19 @@ blogConfig=${blogConfig})"/>
 <script th:inline="JavaScript">
 
 
-    layui.use([ 'element', 'carousel', 'layer','form'], function() {
-        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+    layui.use(['layer','form'], function() {
         var layer = layui.layer;
         var form = layui.form;
-        var carousel = layui.carousel;
 
-        $(function() {
+
+        $(function () {
             validateKickout();
-            $('.imgcode').click(function() {
+            $('.imgcode').click(function () {
                 var url = ctx + "captcha/captchaImage?type=" + captchaType + "&s=" + Math.random();
                 $(".imgcode").attr("src", url);
             });
         });
+
         function login() {
             var username = $.common.trim($("input[name='username']").val());
             var password = $.common.trim($("input[name='password']").val());
@@ -166,10 +166,10 @@ blogConfig=${blogConfig})"/>
                 data: {
                     "username": username,
                     "password": password,
-                    "validateCode" : validateCode,
+                    "validateCode": validateCode,
                     "rememberMe": rememberMe
                 },
-                success: function(r) {
+                success: function (r) {
                     if (r.code == 0) {
                         /*跳转到博客主页*/
                         location.href = ctx + 'blog/index';
@@ -189,17 +189,17 @@ blogConfig=${blogConfig})"/>
                         icon: 0,
                         title: "系统提示"
                     },
-                    function(index) {
+                    function (index) {
                         //关闭弹窗
                         layer.close(index);
                         if (top != self) {
                             top.location = self.location;
                         } else {
-                            var url  =  location.search;
+                            var url = location.search;
                             if (url) {
-                                var oldUrl  = window.location.href;
-                                var newUrl  = oldUrl.substring(0,  oldUrl.indexOf('?'));
-                                self.location  = newUrl;
+                                var oldUrl = window.location.href;
+                                var newUrl = oldUrl.substring(0, oldUrl.indexOf('?'));
+                                self.location = newUrl;
                             }
                         }
                     });
@@ -213,55 +213,7 @@ blogConfig=${blogConfig})"/>
             return null;
         }
 
-
-
-        //监听提交
-        form.on('submit(login)', function(data){
-           login();
-            return false;
-        });
-
-        window.onresize = function() {
-            location.reload();
-        }
-
-        $(".bobey-aside-button").click(function() {
-            $(".bobey-nav-aside").css("display", "block");
-
-            if ($(".bobey-nav-aside").hasClass("slideInDown")) {
-
-                $(".bobey-nav-aside").removeClass("slideInDown");
-                $(".bobey-nav-aside").addClass("slideOutUp");
-                $("body").css("overflow-y", "auto");
-            } else {
-
-                $(".bobey-nav-aside").removeClass("slideOutUp");
-                $(".bobey-nav-aside").addClass("slideInDown");
-                $("body").css("overflow-y", "hidden");
-
-            }
-
-        });
     });
-    $(".side_con>li").mousemove(function() {
-        $(".side_con>li").removeClass("on");
-        $(this).addClass("on");
-    })
-    // grab an element
-    var elem = document.querySelector("nav");
-    var headroom = new Headroom(elem, {
-        "tolerance" : 5,
-        "offset" : 205,
-        "classes" : {
-            "initial" : "animated",
-            "pinned" : "slideInDown",
-            "unpinned" : "slideOutUp"
-        }
-    });
-    headroom.init();
-
-
-
 </script>
 
 </body>

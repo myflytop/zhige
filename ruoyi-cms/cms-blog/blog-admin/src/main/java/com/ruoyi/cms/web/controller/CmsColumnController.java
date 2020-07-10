@@ -3,7 +3,9 @@ package com.ruoyi.cms.web.controller;
 import java.util.List;
 
 import com.ruoyi.cms.system.model.CmsConstants;
+import com.ruoyi.cms.system.service.impl.CmsCatServiceImpl;
 import com.ruoyi.cms.system.service.impl.CmsColumnServiceImpl;
+import com.ruoyi.cms.system.service.impl.CmsTagServiceImpl;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -34,6 +36,10 @@ public class CmsColumnController extends BaseController {
 	@Autowired
 	private CmsColumnServiceImpl columnService;
 	private String prefix = "blog/admin/column";
+	@Autowired
+	private CmsTagServiceImpl tagService;
+	@Autowired
+	private CmsCatServiceImpl catService;
 
 	/**
 	 * 栏目管理首页
@@ -71,6 +77,8 @@ public class CmsColumnController extends BaseController {
 		} else {
 			parentId = 0L;
 		}
+		mmap.put("cats",catService.listCmsCat());
+		mmap.put("tags",tagService.listCmsTag());
 		mmap.put("parentId", parentId);
 		mmap.put("parentName", parentName);
 		return prefix + "/add";
@@ -133,7 +141,6 @@ public class CmsColumnController extends BaseController {
 		if(cc.getParentId()==cc.getColumnId()){
 			return error("不能选择自己为父节点");
 		}
-
 		CmsColumn ccj=null;
 		if(cc.getParentId()!=0){
 			ccj=columnService.getCmsColumnById(cc.getParentId());
@@ -238,7 +245,5 @@ public class CmsColumnController extends BaseController {
 	public String checkColumnUrlUnique(CmsColumn cms) {
 		return columnService.checkColumnUrlUnique(cms);
 	}
-
-
 
 }

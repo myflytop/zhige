@@ -50,11 +50,6 @@ public class BlogController extends CommonController {
     public String index(ModelMap mp){
         mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/index"));
         baseDataPut(mp);
-        //缓存72条数据
-        PageHelper.startPage(1, 72, "create_time desc");
-        List<BlogArticle> list=blogService.listBlogArticles(null);
-        PageData pageOne=PageData.getData(list);
-        mp.put("posts", pageOne);
       return getPreifx(redisUtils,"/index");
     }
 
@@ -149,9 +144,9 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/links")
     public String links(ModelMap mp){
-        mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/link"));
+        mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/links"));
         baseDataPut(mp);
-        //依据分组将文章转化map
+        //依据分组名将链接转化为分组
         Map<String, List<BlogLink>> linkMap=blogService.listBlogLinks(null).stream().collect(Collectors.groupingBy(BlogLink::getGroupName));
         mp.put("links",linkMap);
         return getPreifx(redisUtils,"/links");

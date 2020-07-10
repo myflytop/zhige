@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="column_icon" property="columnIcon"
 			jdbcType="VARCHAR" />
 		<result column="visible" property="visible" jdbcType="BIT" />
+		<result property="columnLocate" column="column_locate" jdbcType="BIT"/>
 		<result column="order_no" property="orderNo" jdbcType="TINYINT" />
 		<result column="parent_id" property="parentId"
 			jdbcType="BIGINT" />
@@ -131,7 +132,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		column_id,column_name, column_icon, visible,
 		order_no, parent_id,parent,remark,
 		open_type, column_url,
-		keywords,description
+		keywords,description,column_locate
 	</sql>
 
 	<sql id="link_sql">

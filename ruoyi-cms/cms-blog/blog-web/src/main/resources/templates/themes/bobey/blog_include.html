@@ -50,8 +50,8 @@
 			color: #3385cf;
 		}
 	</style>
-
 </head>
+
 
 <!-- 通用JS -->
 <div th:fragment="footer_js">
@@ -61,18 +61,93 @@
 	<script th:src="@{/themes/bobey/resource/model/couldtag/js/jquery.svg3dtagcloud.min.js}"></script>
 	<script th:src="@{/themes/bobey/resource/js/tagcloud.js}"></script>
 	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
-	<script>
-		/*3D标签云*/
-		tagcloud({
-			selector: ".tagcloud",  //元素选择器
-			fontsize: 16,       //基本字体大小, 单位px
-			radius: 100,         //滚动半径, 单位px
-			mspeed: "normal",   //滚动最大速度, 取值: slow, normal(默认), fast
-			ispeed: "normal",   //滚动初速度, 取值: slow, normal(默认), fast
-			direction: 135,     //初始滚动方向, 取值角度(顺时针360): 0对应top, 90对应left, 135对应right-bottom(默认)...
-			keep: false          //鼠标移出组件后是否继续随鼠标滚动, 取值: false, true(默认) 对应 减速至初速度滚动, 随鼠标滚动
+	<script th:inline="JavaScript">
+		$(document).ready(function() {
+			layui.use([ 'element'], function() {
+				var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
 		});
+			/*3D标签云*/
+			tagcloud({
+				selector: ".tagcloud",  //元素选择器
+				fontsize: 16,       //基本字体大小, 单位px
+				radius: 100,         //滚动半径, 单位px
+				mspeed: "normal",   //滚动最大速度, 取值: slow, normal(默认), fast
+				ispeed: "normal",   //滚动初速度, 取值: slow, normal(默认), fast
+				direction: 135,     //初始滚动方向, 取值角度(顺时针360): 0对应top, 90对应left, 135对应right-bottom(默认)...
+				keep: false          //鼠标移出组件后是否继续随鼠标滚动, 取值: false, true(默认) 对应 减速至初速度滚动, 随鼠标滚动
+			});
+			var tags = [[${@tagTag.listTag()}]],entries = [];
+			$.each(tags, function(index, element) {
+				entries.push({
+					label: element.tagName,
+					url: [[${blogConfig['blog.config.index'].configValue}]]+"/tag/"+element.tagId,
+					target: '_top'
+				})
+			});
 
+			var settings = {
+				entries : entries,
+				width : $('#bobey-tags').width(),
+				height : $('#bobey-tags').width(),
+				radius : '60%',
+				radiusMin : 75,
+				bgDraw : true,
+				bgColor : '#494A5F',
+				opacityOver : 1.00,
+				opacityOut : 0.05,
+				opacitySpeed : 6,
+				fov : 800,
+				speed : 0.5,
+				fontFamily : 'Oswald, Arial, sans-serif',
+				fontSize : '15',
+				fontColor : '#fff',
+				fontWeight : 'normal',//bold
+				fontStyle : 'normal',//italic
+				fontStretch : 'normal',//wider, narrower, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded
+				fontToUpperCase : true
+			};
+
+			//var svg3DTagCloud = new SVG3DTagCloud( document.getElementById( 'holder'  ), settings );
+			$('#tag-cloud').svg3DTagCloud(settings);
+
+			window.onresize = function() {
+				location.reload();
+			}
+
+			$(".bobey-aside-button").click(function() {
+				$(".bobey-nav-aside").css("display", "block");
+
+				if ($(".bobey-nav-aside").hasClass("slideInDown")) {
+
+					$(".bobey-nav-aside").removeClass("slideInDown");
+					$(".bobey-nav-aside").addClass("slideOutUp");
+					$("body").css("overflow-y", "auto");
+				} else {
+
+					$(".bobey-nav-aside").removeClass("slideOutUp");
+					$(".bobey-nav-aside").addClass("slideInDown");
+					$("body").css("overflow-y", "hidden");
+
+				}
+
+			});
+		$(".side_con>li").mousemove(function() {
+			$(".side_con>li").removeClass("on");
+			$(this).addClass("on");
+		})
+		// grab an element
+		var elem = document.querySelector("nav");
+		var headroom = new Headroom(elem, {
+			"tolerance" : 5,
+			"offset" : 205,
+			"classes" : {
+				"initial" : "animated",
+				"pinned" : "slideInDown",
+				"unpinned" : "slideOutUp"
+			}
+		});
+		headroom.init();
+		});
 	</script>
 </div>
 

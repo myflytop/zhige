@@ -7,6 +7,7 @@ import com.ruoyi.blog.mould.BlogArticleSort;
 import com.ruoyi.blog.service.impl.BlogArticleSortServiceImpl;
 import com.ruoyi.blog.service.impl.BlogCacheService;
 import com.ruoyi.blog.service.impl.BlogServiceImpl;
+import com.ruoyi.cms.common.mould.support.PageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -71,7 +72,6 @@ public class ArticleTag {
      */
     public List<BlogArticleSort> listBlogArticleByTime(int  pageSize){
         return this.sort(pageSize,"create_time desc");
-
     }
 
     /**
@@ -222,5 +222,13 @@ public class ArticleTag {
 
     public BlogArticle getBlogArticleByArticleUrl(String articleUrl) {
         return blogService.getBlogArticleByArticleUrl(articleUrl);
+    }
+
+    /*首页缓存*/
+    public PageData indexPosts(long pageSize){
+        PageHelper.startPage(1, 72, "create_time desc");
+        List<BlogArticle> list=blogService.listBlogArticles(null);
+        PageData pageOne=PageData.getData(list);
+        return pageOne;
     }
 }

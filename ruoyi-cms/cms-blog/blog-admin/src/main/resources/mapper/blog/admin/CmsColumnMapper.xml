@@ -12,6 +12,7 @@
         <result column="column_icon" property="columnIcon"
                 jdbcType="VARCHAR"/>
         <result column="visible" property="visible" jdbcType="BIT"/>
+        <result property="columnLocate" column="column_locate" jdbcType="BIT"/>
         <result column="order_no" property="orderNo" jdbcType="TINYINT"/>
         <result column="parent_id" property="parentId"
                 jdbcType="BIGINT"/>
@@ -37,7 +38,7 @@
 
 
     <sql id="Base_Column_Sql">
-		column_id,ancestors, column_name, column_icon, visible,
+		column_id,ancestors, column_name, column_locate,column_icon, visible,
 		order_no, parent_id,
 		parent, create_time,update_time, remark,
 		open_type, perms, column_url, update_by, create_by,keywords,description
@@ -52,7 +53,7 @@
 		open_type,
 		perms,
 		column_url, create_by,ancestors
-		,keywords,description)
+		,keywords,description,column_locate)
 		values
 		(#{columnName,jdbcType=VARCHAR},
 		#{columnIcon,jdbcType=VARCHAR},
@@ -64,7 +65,8 @@
 		#{columnUrl,jdbcType=VARCHAR},
 		#{createBy,jdbcType=BIGINT},#{ancestors,jdbcType=VARCHAR},
 		#{keywords,jdbcType=VARCHAR},
-		#{description,jdbcType=VARCHAR})
+		#{description,jdbcType=VARCHAR},
+		#{columnLocate,jdbcType=VARCHAR})
 	</insert>
 
     <update id="updateCmsColumn"
@@ -79,6 +81,9 @@
             </if>
             <if test="ancestors != null">
                 ancestors = #{ancestors,jdbcType=VARCHAR},
+            </if>
+            <if test="columnLocate != null">
+                column_locate = #{columnLocate,jdbcType=BIT},
             </if>
             <if test="visible != null">
                 visible = #{visible,jdbcType=BIT},
@@ -134,6 +139,9 @@
             </if>
             <if test="visible != null">
                 AND visible = #{visible}
+            </if>
+            <if test="columnLocate != null">
+               AND column_locate = #{columnLocate}
             </if>
             <if test="parent != null">
                 AND parent = #{parent}

@@ -8,13 +8,11 @@
 	<meta name="keywords" th:content="${keywords}">
 	<meta name="author" th:content="${taokeConfig['taoke.config.author']?.configValue}">
 	<meta name="copyright" th:content="${taokeConfig['taoke.config.copyright']?.configValue}">
-
 	<!--=== Favicon ===-->
 	<link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
-
+	<link rel="Shortcut Icon" th:href="@{taokeConfig['taoke.config.ico']?.configValue}" type="image/x-icon" />
 	<!--== Google Fonts ==-->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700" rel="stylesheet">
-
 	<!--=== Bootstrap CSS ===-->
 	<link th:href="@{/themes/taoke/assets/css/vendor/bootstrap.min.css}" rel="stylesheet">
 	<!--=== Font-Awesome CSS ===-->

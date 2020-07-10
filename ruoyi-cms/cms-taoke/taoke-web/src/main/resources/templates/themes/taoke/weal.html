@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <head xmlns="http://www.w3.org/1999/html">
-    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title='拼拼多优惠导购_福利购',keywords='9.9包邮，低价特卖，优惠卷,有好货,福利,薅羊毛',description='领取优惠卷,少花钱,多惠购')"/>
+    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-福利列表'},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
+
 </head>
 <body>
 <!--== Start Header Section ==-->

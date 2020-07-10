@@ -15,7 +15,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Map;
-
 @RestController
 @RequestMapping("/cms/solr")
 public class SolrController {
@@ -76,7 +75,7 @@ public class SolrController {
             params.setStart((pageNum-1)*pageSize);
             params.setRows(pageSize);
 
-            //默认域
+            //默认域 默认查询标题
             params.set("df", "article_title");
 
             //只查询指定域

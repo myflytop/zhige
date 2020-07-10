@@ -2,7 +2,7 @@ package com.ruoyi.blog.service.impl;
 
 import com.ruoyi.blog.mould.*;
 import com.ruoyi.blog.mould.pam.BlogArticleSearchParam;
-import com.ruoyi.cms.common.constant.CacheConstant;
+import com.ruoyi.cache.redis.constant.CacheConstant;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -53,75 +53,51 @@ public class BlogCacheService extends BlogServiceImpl {
     }
 
     @Override
-    @Cacheable(CacheConstant.POST_CACHE_NAME)
+    @Cacheable(CacheConstant.POSTS_CACHE_NAME)
     public BlogArticle getBlogArticle(BlogArticle blogArticle) {
         return super.getBlogArticle(blogArticle);
     }
 
     @Override
-    @Cacheable("listBlogArticlesByCatId")
+    @Cacheable(CacheConstant.POST_CACHE_NAME)
     public List<BlogArticle> listBlogArticlesByCatId(BlogArticleSearchParam blogArticleSearchParam) {
         return super.listBlogArticlesByCatId(blogArticleSearchParam);
     }
 
     @Override
-    @Cacheable("listBlogArticlesByTagId")
+    @Cacheable(CacheConstant.TAGS_CACHE_NAME)
     public List<BlogArticle> listBlogArticlesByTagId(BlogArticleSearchParam blogArticleSearchParam) {
         return super.listBlogArticlesByTagId(blogArticleSearchParam);
     }
 
     @Override
-    @Cacheable("getBlogTagByTagId")
-    public BlogTag getBlogTagByTagId(long tagId) {
-        return super.getBlogTagByTagId(tagId);
-    }
-
-    @Override
-    @Cacheable("getBlogCatByCatId")
-    public BlogCat getBlogCatByCatId(long catId) {
-        return super.getBlogCatByCatId(catId);
-    }
-
-    @Override
-    @Cacheable("listHotCats")
+    @Cacheable(CacheConstant.CATS_CACHE_NAME)
     public List<BlogCat> listHotCats(Long[] str) {
         return super.listHotCats(str);
     }
 
     @Override
-    @Cacheable("listHotTags")
+    @Cacheable(CacheConstant.TAGS_CACHE_NAME)
     public List<BlogTag> listHotTags(Long[] str) {
         return super.listHotTags(str);
     }
 
     @Override
-    public List<Long> listArticleIdsByCatId(long catId) {
-        return super.listArticleIdsByCatId(catId);
-    }
-
-    @Override
-    public List<Long> listArticleIdsByTagId(long tagId) {
-        return super.listArticleIdsByTagId(tagId);
-    }
-
-    @Override
+    @Cacheable(CacheConstant.MENU_CACHE_NAME)
     public BlogMenu getBlogMenuByMenuUrl(String columnUrl) {
         return super.getBlogMenuByMenuUrl(columnUrl);
     }
 
     @Override
+    @Cacheable(CacheConstant.TAGS_CACHE_NAME)
     public BlogTag getBlogTagByTagUrl(String tagUrl) {
         return super.getBlogTagByTagUrl(tagUrl);
     }
 
     @Override
+    @Cacheable(CacheConstant.CATS_CACHE_NAME)
     public BlogCat getBlogCatByCatUrl(String catUrl) {
         return super.getBlogCatByCatUrl(catUrl);
-    }
-
-    @Override
-    public BlogArticle getBlogArticleByArticleUrl(String articleUrl) {
-        return super.getBlogArticleByArticleUrl(articleUrl);
     }
 
 

@@ -7,7 +7,7 @@ description=${menu.description},
 blogConfig=${blogConfig})"/>
 </head>
 	<body>
-		<th:block th:include="themes/bobey/blog_include::menu(menus=${menus},blogConfig=${blogConfig})" />
+	<th:block th:include="themes/bobey/blog_include::menu(menus=${@menuTag.getMenu(21)},blogConfig=${blogConfig})"/>
 		<!-- 主体部分 -->
 		<section class="bobey-main-box">
 			<div class="layui-row ">

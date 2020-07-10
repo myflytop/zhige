@@ -31,7 +31,7 @@ function login() {
         },
         success: function(r) {
             if (r.code == 0) {
-                location.href = ctx + 'index';
+                location.href = ctx + 'admin';
             } else {
             	$.modal.closeLoading();
             	$('.imgcode').click();

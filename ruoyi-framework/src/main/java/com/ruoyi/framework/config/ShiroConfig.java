@@ -249,9 +249,12 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/ajax/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/ruoyi/**", "anon");
+        filterChainDefinitionMap.put("/root.txt", "anon");
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
+
         //博客淘客设置匿名访问
         filterChainDefinitionMap.put("/taoke/**", "anon");
+        filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/blog/**", "anon");
         //博客淘客资源匿名访问
         filterChainDefinitionMap.put("/themes/**", "anon");

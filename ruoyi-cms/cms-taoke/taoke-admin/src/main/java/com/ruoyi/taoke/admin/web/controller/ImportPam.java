@@ -1,4 +1,4 @@
-package com.ruoyi.taoke.admin.controller;
+package com.ruoyi.taoke.admin.web.controller;
 
 import org.springframework.web.multipart.MultipartFile;
 

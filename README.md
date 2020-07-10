@@ -1,31 +1,58 @@
 # 若依内容管理系统简介
 1.  模板管理：用户可以自定义模板，填充对应的数据以便应付不同需求。
 2.  主题管理：支持主题上传，切换以及模板，切换不用重启服务器。
-3.  缓存管理：支持Redis缓存，提高系统相应速度。
-4.  栏目管理：前端菜单管理，支持多级树，可以应付复杂的导航。
-5.  分类管理：支持多级树，完全可以应付复杂分类。
-6.  标签管理：标签用于标记文章特色。
+3.  缓存管理：支持Redis缓存，提高系统相应速度。同时支持查看缓存,重置缓存。
+4.  栏目管理：前端菜单管理，支持多级树，可以应付复杂的导航,已支持额外SEO字段。
+5.  分类管理：支持多级树，完全可以应付复杂分类,已支持额外SEO字段。
+6.  标签管理：标签用于标记文章特色,已支持额外SEO字段。
 7.  文章管理：支持不同类型，多关键字的文章发布。
 8.  储存管理：按时间归类，目前至此本地和七牛，后续会有扩展。
 9.  邮件管理：邮件在线配置，发送，支持多种类型邮件发送。
-10. websocket模块：包含websocket模块，基本案例单聊，群聊。
+10. websocket模块：内含websocket模块，基本案例单聊，群聊。
 11. 配置管理：完整的网站配置，方便SEO，个性化设置。
 12. 标签开发：简化主题制作，直接调用Service。
-13. 支持用户：丰富内容系统，方便二次开发论坛。
+13. 支持用户：丰富内容系统，方便二次开发。
+14. 内置淘宝：支持批量上传优惠卷
+15. 文章检索系统：使用solr检索文章
+16. 链接管理：支持分组,方便做导航类网站
+17. 文章相关操作：包含评论,浏览记录,评分,收藏等
 ...
 <table>
     <tr>
-        <td><img src="http://image.bobey.site/%E7%81%AB%E7%8B%90%E6%88%AA%E5%9B%BE_2020-06-06T05-52-07.470Z.png"/></td>
-        <td><img src="http://image.bobey.site/%E7%81%AB%E7%8B%90%E6%88%AA%E5%9B%BE_2020-06-06T05-52-36.451Z.png"/></td>
+        <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-17-58.888Z_bea53a3e3992411fbb19fc4bf110ca44.png"/></td>
+        <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-18-47.326Z_0dababe1f6504073bbc5f5b4acf03c49.png"/></td>
     </tr>
- <tr>
-         <td><img src="http://image.bobey.site/%E7%81%AB%E7%8B%90%E6%88%AA%E5%9B%BE_2020-06-06T05-52-58.308Z.png"/></td>
-         <td><img src="http://image.bobey.site/%E7%81%AB%E7%8B%90%E6%88%AA%E5%9B%BE_2020-06-06T05-52-58.308Z.png"/></td>
-     </tr><tr>
-                  <td><img src="http://image.bobey.site/%E7%81%AB%E7%8B%90%E6%88%AA%E5%9B%BE_2020-06-06T05-53-30.578Z.png"/></td>
-                  <td><img src="http://image.bobey.site/%E7%81%AB%E7%8B%90%E6%88%AA%E5%9B%BE_2020-06-06T05-53-50.508Z.png"/></td>
+    <tr>
+         <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-19-27.145Z_2f844738e5934fa0a63778166f069440.png"/></td>
+         <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-23-29.915Z_8ba3734cbb7046389334e9b6ff8e0fc1.png"/></td>
+     </tr>
+      <tr>
+              <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-23-52.807Z_3fd7f8395421435ba76aa56d293e41ae.png"/></td>
+              <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-24-21.337Z_193493110dec4615a83cca1e21d08c44.png"/></td>
+      </tr>
+       <tr>
+               <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-24-42.599Z_380c6fbbed90427d87d6e65b74c969bb.png"/></td>
+               <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-25-07.965Z_0bd4080dc90a4ea186967b5a93a899ff.png"/></td>
+     </tr>
+     <tr>
+   <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-25-25.220Z_423b799f9bf74be0a66a35b13a05e81c.png"/></td>
+                 <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-25-42.175Z_1c1b25d0a7764cab9845a7dc2afb62c6.png"/></td>
+    </tr>
+     <tr>
+     <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-25-57.235Z_28af556dd9dc4c18909eb03d8bcbadeb.png"/></td>
+     <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-26-47.443Z_0f6816585b7b4bd0b89d0967d51ec660.png"/></td>
+     </tr>
+    <tr>
+                  <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-27-24.764Z_03629c87ba3e439aab7361c146c4cdaa.png"/></td>
+                   <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-28-01.312Z_917396099c25473f894af6f6556732f8.png"/></td>
               </tr>
-	
+                <tr>
+                     <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T03-28-09.932Z_e5dd2b3af1d74d8aa42ff16398bd13d7.png"/></td>
+                     <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T04-55-18.571Z_af7c3327e8af442bb64ef74d5f0a31da.png"/></td>
+                 </tr>
+                 <tr>                                       
+                     <td><img src="http://image.bobey.site//upload/2020/7/火狐截图_2020-07-10T04-55-52.202Z_9c8c597a8a82418eb766cd1e7bf1ffdb.png"/></td>
+                 </tr>                                          
 </table>
 ## 平台简介
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <head xmlns="http://www.w3.org/1999/html">
-    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title='拼拼多优惠导购_联系我们',keywords='9.9包邮，低价特卖，优惠卷,有好货',description='领取优惠卷,少花钱,多惠购')"/>
+    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-'+seo.columnName},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
 </head>
 <body>
 <!--== Start Header Section ==-->
@@ -26,7 +26,7 @@
                     <div class="categories-list-wrap">
                         <button class="btn btn-category d-none d-lg-inline-block"><i class="fa fa-bars"></i> 商品分类服务
                         </button>
-                        <th:block  th:include="themes/taoke/taoke_include :: goodMenu(goodMenu=${goodMenu})"></th:block>
+                        <th:block  th:include="themes/taoke/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenu(29)})"></th:block>
 
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                 <div class="col-2 col-lg-9 d-none d-lg-block">
                     <div class="main-menu-wrap">
                         <nav class="mainmenu">
-                            <th:block  th:include="themes/taoke/taoke_include :: taokeMenu(taokeMenu=${taokeMenu})"/>
+                            <th:block  th:include="themes/taoke/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(22)})"/>
                         </nav>
                     </div>
                 </div>

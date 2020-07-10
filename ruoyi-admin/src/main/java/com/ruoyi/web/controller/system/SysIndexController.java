@@ -27,9 +27,9 @@ public class SysIndexController extends BaseController
     @Autowired
     private ISysConfigService configService;
 
-    // 系统首页
-    @GetMapping("/index")
-    public String index(ModelMap mmap)
+    // 后台系统首页
+    @GetMapping(value ={ "/admin","/admin/index"})
+    public String indexAdmin(ModelMap mmap)
     {
         // 取身份信息
         SysUser user = ShiroUtils.getSysUser();
@@ -43,6 +43,12 @@ public class SysIndexController extends BaseController
         mmap.put("demoEnabled", Global.isDemoEnabled());
         return "index";
     }
+    //默认跳转到淘客首页
+    @GetMapping("/index")
+    public String indexWeb(){
+        return "redirect:/taoke";
+    }
+
 
     // 切换主题
     @GetMapping("/system/switchSkin")

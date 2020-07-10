@@ -9,7 +9,7 @@ blogConfig=${blogConfig})"/>
 </head>
 <body>
 
-<th:block th:include="themes/bobey/blog_include::menu(menus=${menus},blogConfig=${blogConfig})"/>
+<th:block th:include="themes/bobey/blog_include::menu(menus=${@menuTag.getMenu(21)},blogConfig=${blogConfig})"/>
 <!-- 主体部分 -->
 <section class="bobey-main-box">
     <div class="layui-container">
@@ -152,8 +152,6 @@ blogConfig=${blogConfig})"/>
         var form = layui.form;
         var carousel = layui.carousel;
 
-
-
         $(function() {
             validateKickout();
             $('.imgcode').click(function() {
@@ -267,50 +265,7 @@ blogConfig=${blogConfig})"/>
             return false;
         });
 
-        window.onresize = function() {
-            location.reload();
-        }
-
-        $(".bobey-aside-button").click(function() {
-            $(".bobey-nav-aside").css("display", "block");
-
-            if ($(".bobey-nav-aside").hasClass("slideInDown")) {
-
-                $(".bobey-nav-aside").removeClass("slideInDown");
-                $(".bobey-nav-aside").addClass("slideOutUp");
-                $("body").css("overflow-y", "auto");
-            } else {
-
-                $(".bobey-nav-aside").removeClass("slideOutUp");
-                $(".bobey-nav-aside").addClass("slideInDown");
-                $("body").css("overflow-y", "hidden");
-
-            }
-
-        });
-        //监听导航点击
-        element.on('nav(demo)', function(elem) {
-
-            console.log(elem);
-
-        });
     });
-    $(".side_con>li").mousemove(function() {
-        $(".side_con>li").removeClass("on");
-        $(this).addClass("on");
-    })
-    // grab an element
-    var elem = document.querySelector("nav");
-    var headroom = new Headroom(elem, {
-        "tolerance" : 5,
-        "offset" : 205,
-        "classes" : {
-            "initial" : "animated",
-            "pinned" : "slideInDown",
-            "unpinned" : "slideOutUp"
-        }
-    });
-    headroom.init();
 </script>
 
 

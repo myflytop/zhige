@@ -1,4 +1,4 @@
-package com.ruoyi.taoke.admin.controller;
+package com.ruoyi.taoke.admin.web.controller;
 
 import com.ruoyi.cms.common.enums.ConfigPreifxEnum;
 import com.ruoyi.taoke.admin.model.CmsTaoke;

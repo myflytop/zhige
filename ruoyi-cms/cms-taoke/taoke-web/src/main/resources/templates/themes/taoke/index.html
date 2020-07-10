@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <head xmlns="http://www.w3.org/1999/html">
-    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title='拼拼多优惠导购',keywords='9.9包邮，低价特卖，优惠卷,有好货',description='领取优惠卷,少花钱,多惠购')"/>
+    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-'+seo.columnName},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
 </head>
 <body>
 <!--== Start Header Section ==-->
 <header id="header-area" class="header__2"  xmlns="http://www.w3.org/1999/html">
     <!-- Start PreHeader Area -->
-   <!-- <div class="preheader-area">
+ <div class="preheader-area">
         <div class="container">
             <div class="row">
                 <div class="col-md-5 col-lg-6">
@@ -17,7 +17,7 @@
                                 <i class="fa fa-envelope"></i>
                             </span>
                             <a href="mailto:your@example.com" class="contact-text">
-                                <strong>邮箱:</strong> your@email.here
+                                <strong>邮箱:</strong> <a th:href="'mailto:'+${taokeConfig['taoke.config.contact.mail']?.configValue}" th:text="${taokeConfig['taoke.config.contact.mail']?.configValue}">your@email.here</a>
                             </a>
                         </div>
                         <div class="single-contact-info">
@@ -25,39 +25,14 @@
                                 <i class="fa fa-phone"></i>
                             </span>
                             <a href="" class="contact-text">
-                                <strong>联系电话:</strong> (+1) 866-540-3229
+                                <strong>联系电话:</strong>  <a href="javaScript:void(0)" th:text="${taokeConfig['taoke.config.contact.phone']?.configValue}">+231 40596971</a>
                             </a>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-7 col-lg-6 mt-xs-10">
-                    <div class="site-setting-menu">
-                        <ul class="nav justify-content-center justify-content-md-end">
-                            <li><a href="my-account.html">我的账户</a></li>
-                            <li><a href="wishlist.html">收藏夹</a></li>
-                            <li><a href="login-register.html">登陆</a></li>
-                            <li class="switcher dropdown-show"><a href="#" class="arrow-toggle">语言</a>
-                                <ul class="dropdown-nav">
-                                    <li><a href="#">Bengali</a></li>
-                                    <li><a href="#">Chinese</a></li>
-                                    <li><a href="#">Hindi</a></li>
-                                    <li><a href="#">Urdu</a></li>
-                                </ul>
-                            </li>
-                            <li class="switcher dropdown-show"><a href="#" class="arrow-toggle">货币</a>
-                                <ul class="dropdown-nav">
-                                    <li><a href="#">BDT</a></li>
-                                    <li><a href="#">AUD</a></li>
-                                    <li><a href="#">CAD</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
-    </div>-->
+    </div>
     <!-- End PreHeader Area -->
 
     <!-- Start Header Middle Area -->
@@ -135,7 +110,7 @@
                         </div>
                         <div class="row mtn-40">
                             <!-- product single item start -->
-                            <th:block  th:include="themes/taoke/taoke_include :: taos(taos=${taos})"/>
+                            <th:block  th:include="themes/taoke/taoke_include :: taos(taos=${@taoKeTag.taoKeSortByCreateTime(40)})"/>
                             <!-- product single item end -->
                             <div class="col-12">
                                 <div class="view-more-btn">
