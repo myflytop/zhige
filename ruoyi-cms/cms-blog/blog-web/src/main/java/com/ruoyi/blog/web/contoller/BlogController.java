@@ -46,7 +46,7 @@ public class BlogController extends CommonController {
      * @return
      */
     @BlogLog(title = "主页请求")
-    @GetMapping("/index")
+    @GetMapping(value = {"/","/index"})
     public String index(ModelMap mp){
         mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/index"));
         baseDataPut(mp);
