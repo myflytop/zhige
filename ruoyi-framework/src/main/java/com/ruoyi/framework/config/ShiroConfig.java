@@ -252,12 +252,16 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/root.txt", "anon");
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
 
-        //博客淘客设置匿名访问
-        filterChainDefinitionMap.put("/taoke/**", "anon");
+        //首页匿名访问
         filterChainDefinitionMap.put("/", "anon");
+        //淘客设置匿名访问
+        filterChainDefinitionMap.put("/taoke/**", "anon");
+        //boke设置匿名访问
         filterChainDefinitionMap.put("/blog/**", "anon");
-        //博客淘客资源匿名访问
-        filterChainDefinitionMap.put("/themes/**", "anon");
+        //博客静态资源匿名访问
+        filterChainDefinitionMap.put("/themes/**/resource/**", "anon");
+        //淘客静态资源匿名访问
+        filterChainDefinitionMap.put("/taoke/web/assets/**", "anon");
         // 退出 logout地址，shiro去清除session
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要拦截的访问
@@ -272,6 +276,8 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/blog/user/register", "anon,captchaValidate");
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/blog/user/forget", "anon,captchaValidate");
+        // 文件下载不需要拦截
+        filterChainDefinitionMap.put("/oss/download/**", "anon");
 
         Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
         filters.put("onlineSession", onlineSessionFilter());

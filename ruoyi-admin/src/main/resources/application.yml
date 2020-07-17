@@ -20,6 +20,8 @@ server:
   servlet:
     # 应用的访问路径
     context-path: /
+    # 缓存的临时目录
+    location: ${java.io.tmpdir}
   tomcat:
     # tomcat的URI编码
     uri-encoding: UTF-8
@@ -27,7 +29,9 @@ server:
     max-threads: 800
     # Tomcat启动初始化的线程数，默认值25
     min-spare-threads: 30
- 
+    # 存放Tomcat的日志、Dump等文件的临时文件夹，默认为系统的tmp文件夹
+    basedir: ${java.io.tmpdir}
+
 # 日志配置
 logging:
   level:

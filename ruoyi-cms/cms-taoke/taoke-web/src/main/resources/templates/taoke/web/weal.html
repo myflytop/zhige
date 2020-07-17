@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <head xmlns="http://www.w3.org/1999/html">
-    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-'+seo.columnName},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
+    <th:block  th:include="taoke/web/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-福利列表'},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
+
 </head>
 <body>
 <!--== Start Header Section ==-->
@@ -11,7 +12,7 @@
     <div class="header-middle-area">
         <div class="container">
             <div class="row">
-                <th:block  th:include="themes/taoke/taoke_include :: logo"></th:block>
+                    <th:block  th:include="taoke/web/taoke_include :: logo"></th:block>
             </div>
         </div>
     </div>
@@ -26,8 +27,7 @@
                     <div class="categories-list-wrap">
                         <button class="btn btn-category d-none d-lg-inline-block"><i class="fa fa-bars"></i> 商品分类服务
                         </button>
-                        <th:block  th:include="themes/taoke/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenu(29)})"></th:block>
-
+                        <th:block  th:include="taoke/web/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenu(29)})"></th:block>
                     </div>
                 </div>
                 <!-- Categories List End -->
@@ -35,7 +35,7 @@
                 <div class="col-2 col-lg-9 d-none d-lg-block">
                     <div class="main-menu-wrap">
                         <nav class="mainmenu">
-                            <th:block  th:include="themes/taoke/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(22)})"/>
+                            <th:block  th:include="taoke/web/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(22)})"/>
                         </nav>
                     </div>
                 </div>
@@ -47,17 +47,14 @@
 </header>
 <!--== End Header Section ==-->
 
-
-<!--== End Header Section ==-->
-
 <div class="page-breadcrumb-wrap">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-breadcrumb">
                     <ul class="nav">
-                        <li><a href="@{'/taoke'}">Home</a></li>
-                        <li><a th:href="@{'/taoke/callMe'}" class="active">联系我们</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a th:href="@{'/taoke/shop'}" class="active">Shop</a></li>
                     </ul>
                 </div>
             </div>
@@ -66,86 +63,31 @@
 </div>
 <!--== End Page Breadcrumb ==-->
 
-<div id="page-content-wrapper">
+<div id="product-area-wrapper">
     <div class="container">
         <div class="row">
-            <!-- Start Contact Info  -->
-            <div class="col-lg-6">
-                <div class="contact-info-wrap contact-method">
-                    <h2>联系信息</h2>
-                    <div th:utext="${taokeConfig['taoke.config.contact.content']?.configValue}">If you have any problems,suggestions and feedback then please feel free to contact with us.
-                        Choose our communication soruces. We will love to hear from you.</div>
-
-                    <div class="contact-info-items">
-                        <div class="single-contact-info">
-                            <h3><i class="fa fa-phone"></i> 电话</h3>
-                            <a href="javaScript:void(0)" th:text="${taokeConfig['taoke.config.contact.phone']?.configValue}">+231 40596971</a>
-                        </div>
-
-                        <div class="single-contact-info">
-                            <h3><i class="fa fa-envelope"></i> 邮件</h3>
-                            <a th:href="'mailto:'+${taokeConfig['taoke.config.contact.mail']?.configValue}" th:text="${taokeConfig['taoke.config.contact.mail']?.configValue}">your@email.here</a>
-                        </div>
-
-                        <div class="single-contact-info">
-                            <h3><i class="fa fa-map-marker"></i> 地址</h3>
-                            <a href="javaScript:void(0)"  th:text="${taokeConfig['taoke.config.contact.location']?.configValue}">San Francisco, CA 94111, United States</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-lg-12">
+                <th:block  th:include="taoke/web/taoke_include :: taokeWealMenu(wealMenus=${@menuTag.getMenu(62)})"/>
             </div>
-            <!-- End Contact Info  -->
-
-            <!-- Start Contact Form -->
-            <div class="col-lg-6">
-                <div class="contact-form-wrap contact-method">
-                    <h2>联系我们</h2>
-                    <form action="#" method="post" id="contact-form">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="single-input-item">
-                                    <input type="text" name="userCall" placeholder="称呼" required />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="single-input-item">
-                                    <input type="text" name="phone" placeholder="电话" required />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="single-input-item">
-                            <input type="email" name="email" placeholder="邮件" required  />
-                        </div>
-
-                        <div class="single-input-item">
-                            <input type="text" name="subject" placeholder="主题" required/>
-                        </div>
-
-                        <div class="single-input-item">
-                            <textarea name="content" cols="30" rows="5" placeholder="内容" required></textarea>
-                        </div>
-
-                        <div class="single-input-item">
-                            <button class="btn" type="submit" name="submit">发送</button>
-                        </div>
-                        <!-- Show Succes or Error Message -->
-                        <div class="form-message"></div>
-                    </form>
-                </div>
-            </div>
-            <!-- End Contact Form -->
         </div>
     </div>
 </div>
-<!--== End Page Breadcrumb ==-->
+
 
 <!--== Page Content Wrapper Start ==-->
-
+<div id="page-content-wrapper">
+    <div class="container">
+        <th:block  th:include="taoke/web/taoke_include :: taokeWealGoods(posts=${wealPosts})"></th:block>
+    </div>
+</div>
 
 <!-- 结束 -->
 <!-- Start Products Area Wrapper -->
+<div class="product-area-wrapper">
+    <th:block  th:include="taoke/web/taoke_include :: hotTag(dailyNeed=${@taoKeTag.taoKeByTagId(11,20)},mobile=${@taoKeTag.taoKeByTagId(11,20)},shoes=${@taoKeTag.taoKeByTagId(11,20)})"/>
+</div>
 <!--== Start Footer Area ==-->
-<th:block  th:include="themes/taoke/taoke_include :: taokeBottom"/>
+<th:block  th:include="taoke/web/taoke_include :: taokeBottom"/>
 <!--== End Footer Area ==-->
 
 <!-- Scroll to Top Start -->
@@ -253,6 +195,6 @@
 <!--== Product Quick View Modal Area End ==-->
 
 <!--=======================Javascript============================-->
-<th:block  th:include="themes/taoke/taoke_include :: taokeFooter"></th:block>
+<th:block  th:include="taoke/web/taoke_include :: taokeFooter"></th:block>
 </body>
 </html>

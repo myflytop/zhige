@@ -87,7 +87,7 @@ public static  String getSuffex(String fileName,int index){
         else if ("png".equalsIgnoreCase(suffix)||"jpeg".equalsIgnoreCase(suffix)||"jpg".equalsIgnoreCase(suffix)||"ico".equalsIgnoreCase(suffix)) {
             type = "img";
         } else {
-            type = "floder";
+            type = "dir";
         }
         return type;
     }

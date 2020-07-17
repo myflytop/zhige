@@ -14,7 +14,9 @@ import com.ruoyi.cms.system.model.support.ThemeTreeNode;
 import com.ruoyi.cms.system.service.impl.CmsThemeServiceImpl;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.oss.api.utils.FileTypes;
+import com.ruoyi.oss.api.utils.OssUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,11 +78,15 @@ public class CmsThemeController {
 	public AjaxResult themeUpload(@RequestParam("themeFile") MultipartFile file, @RequestParam(value ="covery", defaultValue = "false", required = false) boolean covery,HttpServletRequest request
 			)
 			throws Throwable {
+		if (!StringUtils.endsWithIgnoreCase(file.getOriginalFilename(), ".zip")) {
+			return AjaxResult.error("不支持压缩类型,请上传zip压缩包");
+		}
+
 		try {
 			if (!file.isEmpty()) {
-				String fileName = file.getOriginalFilename() ;
+				String fileName = OssUtils.getFileName(file.getOriginalFilename());
 				String filePrefix=fileName.substring(0, fileName.lastIndexOf("."));
-				// 获取项目根路径
+				// 获取项目根路径,jar所在的目录
 				final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());  
 				// 构建路径
 				final File themePath = new File(basePath.getAbsolutePath(),
@@ -246,7 +252,6 @@ public class CmsThemeController {
 					themeTreeNode.setParent(file.isDirectory());
 					listFile(file,prefix+"/"+file.getName(),themeList);
 				}
-
 				themeList.add(themeTreeNode);
 			}
 		}

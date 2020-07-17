@@ -3,8 +3,10 @@ package com.ruoyi.cms.system.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
+import com.ruoyi.cms.common.mould.support.OperateStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -58,7 +60,7 @@ public interface ICmsThemeService {
      * @throws IOException 
      * @throws Throwable 
      */
-    String uploadTheme(MultipartFile file, File themePath) throws Throwable, IOException;
+    OperateStatus uploadTheme(MultipartFile file, File themePath) throws Throwable, IOException;
 
     /**
      * 启用设置主题
@@ -79,4 +81,10 @@ public interface ICmsThemeService {
      * @return
      */
 	String getUseTheme() throws FileNotFoundException;
+
+    /**
+     * 获取名列表
+     * @return
+     */
+    List<String> listThemeName();
 }

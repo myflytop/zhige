@@ -14,18 +14,18 @@
 	<!--== Google Fonts ==-->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700" rel="stylesheet">
 	<!--=== Bootstrap CSS ===-->
-	<link th:href="@{/themes/taoke/assets/css/vendor/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/taoke/web/assets/css/vendor/bootstrap.min.css}" rel="stylesheet">
 	<!--=== Font-Awesome CSS ===-->
-	<link th:href="@{/themes/taoke/assets/css/vendor/font-awesome.css}" rel="stylesheet">
+	<link th:href="@{/taoke/web/assets/css/vendor/font-awesome.css}" rel="stylesheet">
 	<!--=== Plugins CSS ===-->
-	<link th:href="@{/themes/taoke/assets/css/plugins.css}" rel="stylesheet">
+	<link th:href="@{/taoke/web/assets/css/plugins.css}" rel="stylesheet">
 	<!--=== Helper CSS ===-->
-	<link th:href="@{/themes/taoke/assets/css/helper.min.css}" rel="stylesheet">
+	<link th:href="@{/taoke/web/assets/css/helper.min.css}" rel="stylesheet">
 	<!--=== Main Style CSS ===-->
-	<link th:href="@{/themes/taoke/assets/css/style.css}" rel="stylesheet">
+	<link th:href="@{/taoke/web/assets/css/style.css}" rel="stylesheet">
 
 	<!-- Modernizer JS -->
-	<script th:src="@{/themes/taoke/assets/js/vendor/modernizr-2.8.3.min.js}"></script>
+	<script th:src="@{/taoke/web/assets/js/vendor/modernizr-2.8.3.min.js}"></script>
 
 	<!--[if lt IE 9]>
 	<script src="http://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -49,7 +49,7 @@
 		<div class="search-box-wrap">
 			<form class="search-form d-flex" action="#" method="get">
 				<input type="search" name="search" placeholder="想什么呢？输入找找看看"/>
-				<button class="btn btn-search"><img th:src="@{/themes/taoke/assets/img/icons/icon-search.png}"
+				<button class="btn btn-search"><img th:src="@{/taoke/web/assets/img/icons/icon-search.png}"
 													alt="搜索"/>
 				</button>
 			</form>
@@ -255,19 +255,19 @@
 	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
 	<!--=== Jquery Min Js ===-->
 
-	<script th:src="@{/themes/taoke/assets/js/vendor/jquery-3.3.1.min.js}"></script>
+	<script th:src="@{/taoke/web/assets/js/vendor/jquery-3.3.1.min.js}"></script>
 	<!--=== Jquery Migrate Min Js ===-->
-	<script th:src="@{/themes/taoke/assets/js/vendor/jquery-migrate-1.4.1.min.js}"></script>
+	<script th:src="@{/taoke/web/assets/js/vendor/jquery-migrate-1.4.1.min.js}"></script>
 	<!--=== Popper Min Js ===-->
-	<script th:src="@{/themes/taoke/assets/js/vendor/popper.min.js}"></script>
+	<script th:src="@{/taoke/web/assets/js/vendor/popper.min.js}"></script>
 	<!--=== Bootstrap Min Js ===-->
-	<script th:src="@{/themes/taoke/assets/js/vendor/bootstrap.min.js}"></script>
+	<script th:src="@{/taoke/web/assets/js/vendor/bootstrap.min.js}"></script>
 	<!--=== Ajax Mail Js ===-->
-	<script th:src="@{/themes/taoke/assets/js/ajax-mail.js}"></script>
+	<script th:src="@{/taoke/web/assets/js/ajax-mail.js}"></script>
 	<!--=== Plugins Min Js ===-->
-	<script th:src="@{/themes/taoke/assets/js/plugins.js}"></script>
+	<script th:src="@{/taoke/web/assets/js/plugins.js}"></script>
 	<!--=== Active Js ===-->
-	<script th:src="@{/themes/taoke/assets/js/active.js}"></script>
+	<script th:src="@{/taoke/web/assets/js/active.js}"></script>
 
 	<script>
 		$(".product-sort_by").on("click",'li',function (e) {
@@ -542,7 +542,7 @@
 						<h3 class="title">最受欢迎</h3>
 						<div class="sidebar-body">
 							<div class="sidebar-product-carousel owl-carousel">
-								<th:block  th:include="themes/taoke/taoke_include :: popular(populars=${@taoKeTag.taoKeTuiGroup(20)})"/>
+								<th:block  th:include="taoke/web/taoke_include :: popular(populars=${@taoKeTag.taoKeTuiGroup(20)})"/>
 							</div>
 						</div>
 					</div>
@@ -734,16 +734,17 @@
 					<!-- Copyright Text Area -->
 					<div class="col-md-6 m-auto text-center text-md-left order-last order-md-first">
 						<span>Powered by © 2020 <a href="https://bobey.site">止戈</a></span>
-						<span>
-								<a href="http://beian.miit.gov.cn/" target="_blank">黔ICP备19001474号-1</a>
-							</span>
+						<span th:utext="${taokeConfig['taoke.config.footer'].configValue}">
+								<a href="http://beian.miit.gov.cn/" target="_blank">黔ICP备19001474号-2</a>
+						</span>
 					</div>
 					<!-- Copyright Text Area -->
+
 
 					<!-- Payment Method Area -->
 					<div class="col-md-6 m-auto text-center text-md-right">
 						<div class="payment-support">
-							<img src="assets/img/payment.png" alt="Payment" class="d-inline-block" />
+							<!--<img src="assets/img/payment.png" alt="Payment" class="d-inline-block" />-->
 						</div>
 					</div>
 					<!-- Payment Method Area -->

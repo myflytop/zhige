@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/taoke")
 public class TaokeController extends CommonController {
 
-    private final String prefix="themes/taoke";
+    private final String prefix="taoke/web";
     @Autowired
     private BlogServiceImpl blogService;
     @Autowired

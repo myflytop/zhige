@@ -46,11 +46,11 @@ public class BlogController extends CommonController {
      * @return
      */
     @BlogLog(title = "主页请求")
-    @GetMapping(value = {"/","/index"})
+    @GetMapping(value = {"","/","/index"})
     public String index(ModelMap mp){
         mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/index"));
         baseDataPut(mp);
-      return getPreifx(redisUtils,"/index");
+      return getPrefix(redisUtils,"/index");
     }
 
     /**
@@ -70,7 +70,7 @@ public class BlogController extends CommonController {
         cmsComment.setParentId(0L);
         //获取第一页评论
         mp.put("comments",cmsCommentService.listCmsCommentPage(cmsComment));
-        return getPreifx(redisUtils,"/post");
+        return getPrefix(redisUtils,"/post");
     }
 
     /**
@@ -84,7 +84,7 @@ public class BlogController extends CommonController {
         baseDataPut(mp);
         mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/tag"));
         mp.put("tags",blogService.listBlogTags(tag));
-        return getPreifx(redisUtils,"/tags");
+        return getPrefix(redisUtils,"/tags");
     }
 
     /**
@@ -102,7 +102,7 @@ public class BlogController extends CommonController {
         mp.put("posts",blogService.listBlogArticlesByTagId(bl));
         //当前查询的标签
         mp.put("tag",blogService.getBlogTagByTagId(tagId));
-        return getPreifx(redisUtils,"/tag");
+        return getPrefix(redisUtils,"/tag");
     }
 
     /**
@@ -116,7 +116,7 @@ public class BlogController extends CommonController {
         baseDataPut(mp);
         mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/cat"));
         mp.put("cats",blogService.listBlogCats(cat));
-        return getPreifx(redisUtils,"/categories");
+        return getPrefix(redisUtils,"/categories");
 
     }
 
@@ -134,7 +134,7 @@ public class BlogController extends CommonController {
         mp.put("posts",blogService.listBlogArticlesByCatId(bl));
         //当前查询的分类
         mp.put("cat",blogService.getBlogCatByCatId(catId));
-        return getPreifx(redisUtils,"/category");
+        return getPrefix(redisUtils,"/category");
     }
 
     /**
@@ -149,7 +149,7 @@ public class BlogController extends CommonController {
         //依据分组名将链接转化为分组
         Map<String, List<BlogLink>> linkMap=blogService.listBlogLinks(null).stream().collect(Collectors.groupingBy(BlogLink::getGroupName));
         mp.put("links",linkMap);
-        return getPreifx(redisUtils,"/links");
+        return getPrefix(redisUtils,"/links");
     }
 
     /**
@@ -161,7 +161,7 @@ public class BlogController extends CommonController {
     public String about(ModelMap mp){
         mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/about"));
         baseDataPut(mp);
-        return getPreifx(redisUtils,"/about");
+        return getPrefix(redisUtils,"/about");
     }
 
     /**
@@ -173,7 +173,7 @@ public class BlogController extends CommonController {
     public String rank(ModelMap modelMap){
         modelMap.put("menu",blogService.getBlogMenuByMenuUrl("/blog/rank"));
         baseDataPut(modelMap);
-        return getPreifx(redisUtils,"/rank");
+        return getPrefix(redisUtils,"/rank");
     }
 
     /**
@@ -193,13 +193,13 @@ public class BlogController extends CommonController {
         PageData pageOne=PageData.getData(list);
         modelMap.put("timeLinePage",pageOne);
         modelMap.put("timeLineMap",map);
-        return getPreifx(redisUtils,"/timeLine");
+        return getPrefix(redisUtils,"/timeLine");
     }
 
     @GetMapping("/contact")
     public String contact(ModelMap mp){
         mp.put("menu",blogService.getBlogMenuByMenuUrl("/blog/cat"));
-       return getPreifx(redisUtils,"/contact");
+       return getPrefix(redisUtils,"/contact");
     }
 
     private String neData(Date date){

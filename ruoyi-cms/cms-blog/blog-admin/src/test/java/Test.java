@@ -1,19 +1,15 @@
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.util.ResourceUtils;
+
+import java.io.FileNotFoundException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 
 public class Test {
-    public static void main(String[] args) {
-        List<Long> lis=new ArrayList<>();
-        lis.add(10L);
-        lis.add(11L);
-        for (int i = 0; i <lis.size() ; i++) {
-            System.err.println(lis.get(i).getClass());
-            add(lis.get(i));
-
-        }
+    public static void main(String[] args) throws FileNotFoundException, URISyntaxException {
+        URI themeUri = ResourceUtils.getURL("/abc").toURI();
+        System.out.println(themeUri.getScheme());
 
     }
-    public static void add(Long a){
-      System.out.println(a);
-    }
+
 }

@@ -288,7 +288,7 @@
 			<!-- 备案信息|网站信息 -->
 			<div class="layui-col-md12 bobey-footer-copyright">
 				<div>
-					<span th:text="${blogConfig['blog.config.footer'].configValue}">湘ICP备18005863号-1</span>@<span th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy')}">|©2019</span>
+					<span th:utext="${blogConfig['blog.config.footer'].configValue}">湘ICP备18005863号-1</span>@<span th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy')}">|©2019</span>
 					<a th:href="${blogConfig['blog.config.index'].configValue}" th:text="${blogConfig['blog.config.author'].configValue}"></a> 版权所有
 				</div>
 			</div>

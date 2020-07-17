@@ -166,6 +166,7 @@
                         } else {
                             layer.msg(res.msg, {icon: 1});
                             var fi=res.data.key;
+                            /*设置路径*/
                             $('#tvFP').text(fi.substring(0,fi.lastIndexOf("/")));
                             renderList();
                         }
@@ -240,9 +241,7 @@
                 $('#del').click(function () {
                     layer.confirm('确定要删除此文件吗？', function () {
                         layer.load(2);
-                        $.get(prefix+'/delete', {
-                            path: mkey
-                        }, function (res) {
+                        $.get(prefix+'/delete'+mkey, function (res) {
                             layer.closeAll('loading');
                             if (res.code == 200) {
                                 layer.msg(res.msg, {icon: 1});

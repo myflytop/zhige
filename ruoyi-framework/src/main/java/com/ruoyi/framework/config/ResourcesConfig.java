@@ -1,5 +1,6 @@
 package com.ruoyi.framework.config;
 
+import com.ruoyi.common.constant.RuoYiConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.framework.interceptor.RepeatSubmitInterceptor;
+
+import java.nio.file.Paths;
 
 /**
  * 通用配置
@@ -48,6 +51,11 @@ public class ResourcesConfig implements WebMvcConfigurer
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         /** 主题静态资源配置 */
         registry.addResourceHandler("/themes/**").addResourceLocations("classpath:/templates/themes/");
+        /** 主题静态资源配置 */
+        registry.addResourceHandler("/taoke/web/**").addResourceLocations("classpath:/templates/taoke/web/");
+     /*   registry.addResourceHandler("/themes/**").addResourceLocations("file:////"+System.getProperties().getProperty("user.home")+RuoYiConstants.workDir+"/templates/themes/");*/
+
+
     }
 
     /**

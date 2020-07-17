@@ -53,7 +53,7 @@ public class BlogUserController extends CommonController {
         BlogMenu blogMenu = new BlogMenu();
         blogMenu.setColumnId(21L);
         mp.put("menus", blogService.listBlogMenuTree(blogMenu));
-        return getPreifx(redisUtils, "/login");
+        return getPrefix(redisUtils, "/login");
     }
 
     @GetMapping("/logout")
@@ -73,7 +73,7 @@ public class BlogUserController extends CommonController {
         BlogMenu blogMenu = new BlogMenu();
         blogMenu.setColumnId(21L);
         mp.put("menus", blogService.listBlogMenuTree(blogMenu));
-        return getPreifx(redisUtils, "/register");
+        return getPrefix(redisUtils, "/register");
     }
 
     /**
@@ -86,7 +86,7 @@ public class BlogUserController extends CommonController {
         BlogMenu blogMenu = new BlogMenu();
         blogMenu.setColumnId(21L);
         mp.put("menus", blogService.listBlogMenuTree(blogMenu));
-        return getPreifx(redisUtils, "/forget");
+        return getPrefix(redisUtils, "/forget");
     }
     /**
      * 发送邮箱验证码

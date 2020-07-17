@@ -19,6 +19,7 @@ import com.ruoyi.oss.api.OssResult;
 import com.ruoyi.oss.api.ResultData;
 import com.ruoyi.oss.api.enums.OssEnum;
 import com.ruoyi.oss.api.utils.FileTypes;
+import com.ruoyi.oss.api.utils.OssUtils;
 import com.ruoyi.oss.qiniu.enums.QnYunProperties;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.service.ISysConfigService;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,31 +45,35 @@ public class QiNiuOssHander implements OssHandler {
 
     public Map<String,String> configToMap(){
         SysConfig sysConfig=new SysConfig();
-        sysConfig.setConfigKey(OssEnum.OSS_PREIFX_QINIU.getValue());
+        sysConfig.setConfigKey(OssEnum.OSS_PREFIX_QN.getValue());
       List<SysConfig> sysConfigs= configService.selectConfigList(sysConfig);
         Map<String, String> configMap = sysConfigs.stream().collect(Collectors.toMap(SysConfig::getConfigKey, SysConfig::getConfigValue));
         return  configMap;
     }
+
+    /**
+     * 实际key
+     * @param file 文件
+     * @param fileName 文件名
+     * @return
+     * @throws IOException
+     */
     @Override
     public OssResult ossUpload(MultipartFile file, String fileName) throws IOException {
         //获取全文件名包括后缀
-        String originalBasename=file.getOriginalFilename();
-        if(originalBasename.contains("\\")) {
-            originalBasename = originalBasename.substring(originalBasename.lastIndexOf('\\') + 1);
-        }
+        String originalBasename= OssUtils.getFileName(file.getOriginalFilename());
         int index=originalBasename.lastIndexOf(".");
-
         String contentType= FileTypes.getFileHeader(file.getInputStream());
         //验证文件
-        if (OssHandler.CheckFile(file,contentType)) {
+        if (OssHandler.checkFile(file,contentType)) {
             //获取后缀
             String suffer = FileTypes.getSuffex(originalBasename, index);
             //获取前缀
-            String preifx = FileTypes.getPreifx(originalBasename, index);
-            //构造相对路径
+            String prefix = FileTypes.getPreifx(originalBasename, index);
+            //构造路径路径
             String subDir = OssHandler.getPath();
             //构造文件名
-            String baseName = preifx + "_" + StringUtils.remove(UUID.randomUUID().toString(), '-');
+            String baseName = prefix + "_" + StringUtils.remove(UUID.randomUUID().toString(), '-');
             //造文件路径
             String basePath=subDir+ FILE_SEPARATOR+baseName+'.' + suffer;
             Map<String,String> mp=configToMap();
@@ -87,10 +93,14 @@ public class QiNiuOssHander implements OssHandler {
                 //获取回调
                 DefaultPutRet putRet = new Gson().fromJson(response.bodyString(),DefaultPutRet.class);
                 ResultData da=new ResultData();
-                da.setFilePath(basePath);
-                da.setKey(putRet.key);
+                //上传路径/upload/2017/7/xx.png
+                da.setFilePath(putRet.key);
+                //实际key /upload/2017/7/xx.png
+                //这里统一 去除/upload便于删除
+                da.setKey(replaceKey(putRet.key));
                 da.setDomain(mp.get(QnYunProperties.OSS_DOMAIN.getValue()));
                 da.setFileName(originalBasename);
+                da.setContentType(contentType);
                 return OssResult.ok("上传成功",da);
 
             } catch (QiniuException e) {
@@ -98,21 +108,22 @@ public class QiNiuOssHander implements OssHandler {
             }
         }
 
-        return OssResult.error("上传失败",null);
+        return OssResult.error("验证失败,上传失败  ",null);
     }
     @Override
     public OssResult ossDelete(String filePath) {
-
+        Path path = Paths.get(UPLOAD_SUB_DIR, filePath);
+        filePath=path.toString();
         Map<String,String> mp=configToMap();
         Configuration cfg = new Configuration(getQnYunZone(mp.get(QnYunProperties.OSS_ZONE.getValue())));
         //...其他参数参考类注释
-
         String bucket = mp.get(QnYunProperties.OSS_BUCKET.getValue());
 
         try {
             Auth auth =  getAuth(mp);
             BucketManager bucketManager = new BucketManager(auth, cfg);
-          bucketManager.delete(bucket,filePath);
+
+          bucketManager.delete(bucket,filePath.replace("\\","/"));
           return OssResult.ok("删除成功",null);
 
         } catch (QiniuException e) {
@@ -133,7 +144,7 @@ public class QiNiuOssHander implements OssHandler {
         }
         BucketManager bucketManager = new BucketManager(auth, cfg);
         //文件名前缀
-        String prefix = FileTypes.endWidth(path);
+        String prefix = FileTypes.endWidth(UPLOAD_SUB_DIR+path);
         //每次迭代的长度限制，最大1000，推荐值 1000
         int limit = 1000;
         //指定目录分隔符，列出所有公共前缀（模拟列出目录效果）。缺省值为空字符串
@@ -149,7 +160,7 @@ try {
             resultData.setDomain(mp.get(QnYunProperties.OSS_DOMAIN.getValue()));
             resultData.setFileName(item.key.substring(item.key.lastIndexOf("/") + 1));
             resultData.setFilePath(item.key);
-            resultData.setKey(item.key);
+            resultData.setKey(replaceKey(item.key));
             resultData.setContentType(FileTypes.getFileType(item.key));
             resultData.setFileType(false);
             if (FileTypes.getImg(resultData.getFileName())) {
@@ -160,14 +171,14 @@ try {
         }
     }
     if(foldStrings!=null&&foldStrings.length>0) {
-        for (String fload : foldStrings) {
+        for (String fold : foldStrings) {
             ResultData resultData = new ResultData();
             resultData.setDomain(mp.get(QnYunProperties.OSS_STYLE_RULE.getValue()));
             resultData.setFileType(true);
-            resultData.setFilePath(fload);
-            resultData.setKey(fload);
-            resultData.setContentType("floder");
-            String str = fload;//注意这里在最后多了一个|分隔符
+            resultData.setFilePath(fold);
+            resultData.setKey(replaceKey(fold));
+            resultData.setContentType("dir");
+            String str = fold;//注意这里在最后多了一个/分隔符
             String[] strArr = str.split("/");//这里将第二个参数设置为-1
             resultData.setFileName(strArr[strArr.length - 1]);
             re.add(resultData);
@@ -179,7 +190,6 @@ catch (Exception e)
 {
 
 }
-
         return OssResult.error("获取失败",null);
     }
 
@@ -220,5 +230,10 @@ catch (Exception e)
                     zone = Zone.autoZone();
             }
             return zone;
+    }
+
+
+    private String replaceKey(String key){
+        return key.replace(UPLOAD_SUB_DIR,"");
     }
 }

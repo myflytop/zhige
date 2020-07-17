@@ -54,7 +54,7 @@
 	<th:block th:include="include :: layout-latest-js" />
 	<th:block th:include="include :: ztree-js" />
 	<th:block th:include="include :: codemirror-js"/>
-	<th:block th:include="include :: quanpin-js"/>
+	<th:block th:include="include :: fullscreen-js"/>
 	<script th:inline="javascript">
 		var editFlag = [[${@permission.hasPermi('system:user:edit')}]];
 		var removeFlag = [[${@permission.hasPermi('system:user:remove')}]];
@@ -81,10 +81,17 @@
 		//设置高亮编辑器高
 		editor.setSize(null,"100vh");
 		//编辑器全屏事件
-
+        var screenStatus=false;
 		//全屏事件
 		$("#fullScreen").click(function(e){
-			$("#editContent").fullScreen();
+			if(!screenStatus)
+			{
+			$("#editContent").fullScreen(true);
+			}
+			else {
+				$("#editContent").fullScreen(false);
+			}
+			screenStatus=!screenStatus;
 			e.preventDefault();
 		});
 		//获取选择范围

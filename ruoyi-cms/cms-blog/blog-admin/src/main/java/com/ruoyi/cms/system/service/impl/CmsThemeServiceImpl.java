@@ -8,12 +8,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.ruoyi.cache.redis.util.RedisUtils;
+import com.ruoyi.cms.common.constant.CmsSystemConstant;
 import com.ruoyi.cms.common.enums.ThemeEnums;
+import com.ruoyi.cms.common.mould.support.OperateStatus;
 import com.ruoyi.cms.system.utils.CmsUtils;
 import com.ruoyi.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -42,7 +45,6 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	 */
 	@Override
 	public int deleteByName(String themeName) throws FileNotFoundException {
-		   // TODO Auto-generated method stub
 			if(CmsUtils.deleteThemeFile(themeName))
 			{
 				themeMapper.deleteByName(themeName);
@@ -109,7 +111,7 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	 * @throws IOException
 	 */
 	@Override
-	public String uploadTheme(MultipartFile file, File themePath) throws Throwable, IOException {
+	public OperateStatus uploadTheme(MultipartFile file, File themePath) throws Throwable, IOException {
 		// 上传
 		file.transferTo(themePath);
 		// 解压到当前目录
@@ -119,19 +121,24 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 		// 读取配置主题文件
 		String fileName = file.getOriginalFilename() ;
 		String filePrefix=fileName.substring(0, fileName.lastIndexOf("."));
-		//用于读取json
-		ObjectMapper mapper = new ObjectMapper();
-		// 读取主题说明 将配置文件转换为CmsTheme
-		CmsTheme theme = mapper.readValue(
-				new File(themePath.getParent() + "/" + filePrefix+ "/theme.json"),
-				CmsTheme.class);
-		//默认不开启
-		theme.setThemeEnabled((byte)0);
-		//插入数据库上传主题
-		themeMapper.insertSelective(theme);
-		//设置主题名字
-		theme.setThemeName(filePrefix);
-		return "uploadSuccess";
+
+		File themeJson=new File(themePath.getParent() + "/" + filePrefix+ "/theme.json");
+		if (themeJson.exists()&&!themeJson.isDirectory()) {
+			//用于读取json
+			ObjectMapper mapper = new ObjectMapper();
+			// 读取主题说明 将配置文件转换为CmsTheme
+			CmsTheme theme = mapper.readValue(
+					themeJson,
+					CmsTheme.class);
+			//默认不开启
+			theme.setThemeEnabled((byte) 0);
+			//插入数据库上传主题
+			themeMapper.insertSelective(theme);
+			//设置主题名字
+			theme.setThemeName(filePrefix);
+			return OperateStatus.ok(theme);
+		}
+		return OperateStatus.fail();
 	}
 
 	/**
@@ -165,6 +172,11 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 			return ob.toString();
 		}
 
+	}
+
+	@Override
+	public List<String> listThemeName() {
+		return themeMapper.listThemeName();
 	}
 
 	/**

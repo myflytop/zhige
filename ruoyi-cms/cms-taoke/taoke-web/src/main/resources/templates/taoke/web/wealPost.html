@@ -1,45 +1,17 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <head xmlns="http://www.w3.org/1999/html">
-    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-'+seo.columnName},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
+    <th:block  th:include="taoke/web/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-'+wealPost.articleTitle},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+wealPost.keywords},description=${wealPost.description})"/>
 </head>
 <body>
 <!--== Start Header Section ==-->
 <header id="header-area" class="header__2"  xmlns="http://www.w3.org/1999/html">
-    <!-- Start PreHeader Area -->
- <div class="preheader-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5 col-lg-6">
-                    <div class="preheader-contact-info d-flex align-items-center justify-content-between justify-content-md-start">
-                        <div class="single-contact-info">
-                            <span class="contact-icon">
-                                <i class="fa fa-envelope"></i>
-                            </span>
-                            <a href="mailto:your@example.com" class="contact-text">
-                                <strong>邮箱:</strong> <a th:href="'mailto:'+${taokeConfig['taoke.config.contact.mail']?.configValue}" th:text="${taokeConfig['taoke.config.contact.mail']?.configValue}">your@email.here</a>
-                            </a>
-                        </div>
-                        <div class="single-contact-info">
-                            <span class="contact-icon">
-                                <i class="fa fa-phone"></i>
-                            </span>
-                            <a href="" class="contact-text">
-                                <strong>联系电话:</strong>  <a href="javaScript:void(0)" th:text="${taokeConfig['taoke.config.contact.phone']?.configValue}">+231 40596971</a>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End PreHeader Area -->
 
     <!-- Start Header Middle Area -->
     <div class="header-middle-area">
         <div class="container">
             <div class="row">
-                <th:block  th:include="themes/taoke/taoke_include :: logo"></th:block>
+                <th:block  th:include="taoke/web/taoke_include :: logo"></th:block>
             </div>
         </div>
     </div>
@@ -54,7 +26,7 @@
                     <div class="categories-list-wrap">
                         <button class="btn btn-category d-none d-lg-inline-block"><i class="fa fa-bars"></i> 商品分类服务
                         </button>
-                        <th:block  th:include="themes/taoke/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenu(29)})"></th:block>
+                        <th:block  th:include="taoke/web/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenu(29)})"></th:block>
 
                     </div>
                 </div>
@@ -63,7 +35,7 @@
                 <div class="col-2 col-lg-9 d-none d-lg-block">
                     <div class="main-menu-wrap">
                         <nav class="mainmenu">
-                            <th:block  th:include="themes/taoke/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(22)})"/>
+                            <th:block  th:include="taoke/web/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(22)})"/>
                         </nav>
                     </div>
                 </div>
@@ -75,82 +47,31 @@
 </header>
 <!--== End Header Section ==-->
 
-<!--== Start Slider Area ==-->
-<div class="slider-area-wrap">
-    <th:block  th:include="themes/taoke/taoke_include :: carousel(carousels=${@taoKeTag.taoKeByTagId(5)})"/>
-</div>
-<!--== End Slider Area ==-->
-
-<!--== Start Feature Products  Area ==-->
-<div id="product-area-wrapper">
+<div class="page-breadcrumb-wrap">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <th:block  th:include="themes/taoke/taoke_include :: rankBander(newPut=${@taoKeTag.taoKeSortByCreateTime(20)},onSeal=${@taoKeTag.taoKeSortByShopSales(20)},maxCoupon=${@taoKeTag.taoKeSortByCouponPrice(20)})"/>
-            </div>
-            <div class="col-12">
-                <div class="view-more-btn">
-                    <a class="btn-hero btn-load-more" th:href="@{'/taoke/shop'}">获取更多</a>
+                <div class="page-breadcrumb">
+                    <ul class="nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a th:href="@{'/taoke/shop'}" class="active">Shop</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!--== End Feature Products  Area ==-->
-                <!-- 开始 -->
-<section class="our-product section-space">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="section-title text-center">
-                                    <h2>最近上架</h2>
-                                    <p><a th:href="@{'/taoke/callMe'}">有什么特殊需求?</a></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mtn-40">
-                            <!-- product single item start -->
-                            <th:block  th:include="themes/taoke/taoke_include :: taos(taos=${@taoKeTag.taoKeSortByCreateTime(40)})"/>
-                            <!-- product single item end -->
-                            <div class="col-12">
-                                <div class="view-more-btn">
-                                    <a class="btn-hero btn-load-more" th:href="@{'/taoke/shop'}">获取更多</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-</section>
-                <!-- 结束 -->
-<!-- Start Products Area Wrapper -->
-<div class="product-area-wrapper">
-    <th:block  th:include="themes/taoke/taoke_include :: hotTag(dailyNeed=${@taoKeTag.taoKeByTagId(11,20)},mobile=${@taoKeTag.taoKeByTagId(11,20)},shoes=${@taoKeTag.taoKeByTagId(11,20)})"/>
+<!--== End Page Breadcrumb ==-->
+
+<!--== Page Content Wrapper Start ==-->
+<div id="page-content-wrapper">
+    <div class="container">
+        <th:block  th:include="taoke/web/taoke_include :: taokeWealGood(post=${wealPost},postRecs=${wealPostRecently},postTops=${wealPostTop})"></th:block>
+    </div>
 </div>
-<!-- End Products Area Wrapper -->
 
-<!-- Start Popular Categories -->
-
-<!-- End Popular Categories -->
-
-<!--== Start Recent Post & Reviews Area ==-->
-
-<!--== End Recent Post & Reviews Area ==-->
-
-<!--== Start Brand Carousel Area ==-->
-
-<!--== End Brand Carousel Area ==-->
-
-<!--== Start Call To Action ==-->
-
-<!--== End Call To Action ==-->
-
-<!--== Start Newsletter Area ==-->
-
-<!--== End Newsletter Area ==-->
-
-<!--== Start Footer Area ==-->
-<th:block  th:include="themes/taoke/taoke_include :: taokeBottom"/>
+<th:block  th:include="taoke/web/taoke_include :: taokeBottom"/>
 <!--== End Footer Area ==-->
-
 
 <!-- Scroll to Top Start -->
 <a href="#" class="scrolltotop"><i class="fa fa-angle-up"></i></a>
@@ -257,6 +178,6 @@
 <!--== Product Quick View Modal Area End ==-->
 
 <!--=======================Javascript============================-->
-<th:block  th:include="themes/taoke/taoke_include :: taokeFooter"></th:block>
+<th:block  th:include="taoke/web/taoke_include :: taokeFooter"></th:block>
 </body>
 </html>

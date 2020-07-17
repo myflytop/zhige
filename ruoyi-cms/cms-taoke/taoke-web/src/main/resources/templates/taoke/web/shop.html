@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <head xmlns="http://www.w3.org/1999/html">
-    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-福利列表'},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
-
+    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-商品列表'},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
 </head>
 <body>
 <!--== Start Header Section ==-->
@@ -11,9 +10,9 @@
     <!-- Start Header Middle Area -->
     <div class="header-middle-area">
         <div class="container">
-            <div class="row">
+                <div class="row">
                     <th:block  th:include="themes/taoke/taoke_include :: logo"></th:block>
-            </div>
+                </div>
         </div>
     </div>
     <!-- End Header Middle Area -->
@@ -27,7 +26,8 @@
                     <div class="categories-list-wrap">
                         <button class="btn btn-category d-none d-lg-inline-block"><i class="fa fa-bars"></i> 商品分类服务
                         </button>
-                        <th:block  th:include="themes/taoke/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenu(29)})"></th:block>
+                     <th:block  th:include="taoke/web/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenu(29)})"></th:block>
+
                     </div>
                 </div>
                 <!-- Categories List End -->
@@ -35,7 +35,7 @@
                 <div class="col-2 col-lg-9 d-none d-lg-block">
                     <div class="main-menu-wrap">
                         <nav class="mainmenu">
-                            <th:block  th:include="themes/taoke/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(22)})"/>
+                            <th:block  th:include="taoke/web/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(22)})"/>
                         </nav>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
             <div class="col-lg-12">
                 <div class="page-breadcrumb">
                     <ul class="nav">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="@{'/taoke'}">Home</a></li>
                         <li><a th:href="@{'/taoke/shop'}" class="active">Shop</a></li>
                     </ul>
                 </div>
@@ -63,31 +63,20 @@
 </div>
 <!--== End Page Breadcrumb ==-->
 
-<div id="product-area-wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <th:block  th:include="themes/taoke/taoke_include :: taokeWealMenu(wealMenus=${@menuTag.getMenu(62)})"/>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!--== Page Content Wrapper Start ==-->
 <div id="page-content-wrapper">
     <div class="container">
-        <th:block  th:include="themes/taoke/taoke_include :: taokeWealGoods(posts=${wealPosts})"></th:block>
+        <th:block  th:include="taoke/web/taoke_include :: taokePages(pages=${pages},pam=${pam})"></th:block>
     </div>
 </div>
 
 <!-- 结束 -->
 <!-- Start Products Area Wrapper -->
 <div class="product-area-wrapper">
-    <th:block  th:include="themes/taoke/taoke_include :: hotTag(dailyNeed=${@taoKeTag.taoKeByTagId(11,20)},mobile=${@taoKeTag.taoKeByTagId(11,20)},shoes=${@taoKeTag.taoKeByTagId(11,20)})"/>
+    <th:block  th:include="taoke/web/taoke_include :: hotTag(dailyNeed=${@taoKeTag.taoKeByTagId(11,20)},mobile=${@taoKeTag.taoKeByTagId(11,20)},shoes=${@taoKeTag.taoKeByTagId(11,20)})"/>
 </div>
 <!--== Start Footer Area ==-->
-<th:block  th:include="themes/taoke/taoke_include :: taokeBottom"/>
+<th:block  th:include="taoke/web/taoke_include :: taokeBottom"/>
 <!--== End Footer Area ==-->
 
 <!-- Scroll to Top Start -->
@@ -195,6 +184,6 @@
 <!--== Product Quick View Modal Area End ==-->
 
 <!--=======================Javascript============================-->
-<th:block  th:include="themes/taoke/taoke_include :: taokeFooter"></th:block>
+<th:block  th:include="taoke/web/taoke_include :: taokeFooter"></th:block>
 </body>
 </html>

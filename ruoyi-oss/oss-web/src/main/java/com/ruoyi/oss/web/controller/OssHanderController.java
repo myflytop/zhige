@@ -1,8 +1,10 @@
 package com.ruoyi.oss.web.controller;
 
 import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.constant.RuoYiConstants;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.oss.api.OssHandler;
 import com.ruoyi.oss.api.OssResult;
 import com.ruoyi.oss.api.enums.OssEnum;
 import com.ruoyi.oss.factory.OssFactory;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,7 +62,7 @@ public class OssHanderController extends BaseController {
     @GetMapping("/config")
     public String ossConfig(ModelMap mmp){
         SysConfig sysConfig=new SysConfig();
-        sysConfig.setConfigKey(OssEnum.OSS_PREIFX.getValue());
+        sysConfig.setConfigKey(OssEnum.OSS_PREFIX.getValue());
         List<SysConfig> sysConfigs= configService.selectConfigList(sysConfig);
         Map<String, String> configMap = sysConfigs.stream().collect(Collectors.toMap(SysConfig::getConfigKey, SysConfig::getConfigValue));
         mmp.put("ossConfig",configMap);
@@ -92,27 +95,35 @@ public class OssHanderController extends BaseController {
 
         return ossHandler.get().ossList(path, "accept",  0, 0);
     }
-    @Log(title = "内容文章管理", businessType = BusinessType.DELETE)
-    @GetMapping("/delete")
-    @ResponseBody
-    public OssResult delete(String path){
 
+    /**
+     * {y}/{m}/{file:.+} 相当于文件key  形如/2020/2/xxx.png
+     * @param y
+     * @param m
+     * @param filename
+     * @return
+     */
+    @Log(title = "内容文章管理", businessType = BusinessType.DELETE)
+    @GetMapping("/delete/{y}/{m}/{file:.+}")
+    @ResponseBody
+    public OssResult delete(@PathVariable("y") String y, @PathVariable("m") String m,  @PathVariable("file") String filename){
+        String path = y + OssHandler.FILE_SEPARATOR + m  +OssHandler.FILE_SEPARATOR + filename;
         return ossHandler.get().ossDelete(path);
     }
 
     /**
      * 查看原文件 本地
      */
-    @GetMapping("/download/{f}/{y}/{m}/{file:.+}")
-    public void download(@PathVariable("f") String f,@PathVariable("y") String y, @PathVariable("m") String m,  @PathVariable("file") String filename, HttpServletResponse response) {
-        String fileDir = f+"/"+y + "/" + m  + "/" + filename;
+    @GetMapping("/download/{y}/{m}/{file:.+}")
+    public void download(@PathVariable("y") String y, @PathVariable("m") String m,  @PathVariable("file") String filename, HttpServletResponse response) {
+        String fileDir = y + OssHandler.FILE_SEPARATOR + m  +OssHandler.FILE_SEPARATOR + filename;
 
         outputFile(fileDir, response);
     }
     // 输出文件流
     private void outputFile(String fileDir, HttpServletResponse response) {
         // 判断文件是否存在
-        File inFile = new File(System.getProperties().getProperty("user.home")+"/uploadRoot", fileDir);
+        File inFile = new File(Paths.get(System.getProperties().getProperty("user.home"), RuoYiConstants.workDir).toString()+ OssHandler.UPLOAD_SUB_DIR, fileDir);
         if (!inFile.exists()) {
             PrintWriter writer = null;
             try {

@@ -289,8 +289,9 @@ public class CmsArticleController extends BaseController {
 	public String articleImmUpload(@RequestParam("file") MultipartFile file) throws IOException {
         Map mp=new HashMap();
 		ResultData resultData=ossHandler.get().ossUpload(file,null).getData();
+		System.err.println(resultData);
         mp.put("uploaded", true+"");
-		mp.put("link", resultData.getDomain()+resultData.getKey());
+		mp.put("link", resultData.getDomain()+resultData.getFilePath());
         mp.put("msg","上传成功");
         ObjectMapper mo=new ObjectMapper();
         return mo.writeValueAsString(mp);

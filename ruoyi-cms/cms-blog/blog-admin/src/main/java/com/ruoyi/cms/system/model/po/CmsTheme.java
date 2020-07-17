@@ -12,8 +12,10 @@ public class CmsTheme implements Serializable {
 	private static final long serialVersionUID = 1L;
     //唯一
 	private Integer themeId;
-    //唯一 主题文件夹名字
+    //主题名字
     private String themeName;
+    //唯一 文件夹名字
+    private String folder;
     //作者
     private String themeAuthor;
     //上传时间
@@ -30,6 +32,14 @@ public class CmsTheme implements Serializable {
     private String themeTouch;
     //上传者
     private Long createBy;
+
+    public String getFolder() {
+        return this.folder;
+    }
+
+    public void setFolder(final String folder) {
+        this.folder = folder;
+    }
 
     public Integer getThemeId() {
         return themeId;
@@ -124,6 +134,7 @@ public class CmsTheme implements Serializable {
                 ", themeEnabled=" + themeEnabled +
                 ", themeTouch='" + themeTouch + '\'' +
                 ", createBy=" + createBy +
+                ", folder=" + folder+
                 '}';
     }
 }

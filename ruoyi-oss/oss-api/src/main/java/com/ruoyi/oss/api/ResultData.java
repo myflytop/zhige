@@ -7,9 +7,9 @@ public class ResultData implements Serializable {
     private  String domain;
     //文件名
     private String fileName;
-    //文件路径
+    //文件请求路径 /download/2020/2/xx.png
     private String filePath;
-    //文件key
+    //文件key  形如 /2020/2/xx.png
     private String key;
     //图片文件 缩略图
     private String thumbPath;
@@ -112,5 +112,23 @@ public class ResultData implements Serializable {
 
     public String getDomain() {
         return domain;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("com.ruoyi.oss.api.ResultData{");
+        sb.append("domain='").append(domain).append('\'');
+        sb.append(", fileName='").append(fileName).append('\'');
+        sb.append(", filePath='").append(filePath).append('\'');
+        sb.append(", key='").append(key).append('\'');
+        sb.append(", thumbPath='").append(thumbPath).append('\'');
+        sb.append(", thumb=").append(thumb);
+        sb.append(", suffix='").append(suffix).append('\'');
+        sb.append(", contentType='").append(contentType).append('\'');
+        sb.append(", size=").append(size);
+        sb.append(", fileType=").append(fileType);
+        sb.append(", updateTime=").append(updateTime);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -30,4 +30,6 @@ public interface CmsThemeMapper {
      * @return
      */
     List<CmsTheme> listThemes();
+
+    List<String> listThemeName();
 }

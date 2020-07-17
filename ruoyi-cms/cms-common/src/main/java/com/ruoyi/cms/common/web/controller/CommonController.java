@@ -13,7 +13,7 @@ import com.ruoyi.common.utils.sql.SqlUtil;
 
 public class CommonController extends BaseController {
 
-    private final String preifx=ThemeEnums.THEME_ROOT.getValue();
+    private final String prefix=ThemeEnums.THEME_ROOT.getValue();
 
     private final String themeNameKey= ThemeEnums.THEME_USED.getValue();
 
@@ -25,13 +25,13 @@ public class CommonController extends BaseController {
      * @param page
      * @return
      */
-    protected String getPreifx(RedisUtils redisUtils, String page){
+    protected String getPrefix(RedisUtils redisUtils, String page){
         Object object=redisUtils.get(themeNameKey);
         if(object==null)
         {
-            return preifx+ThemeEnums.DEFAULT_THEME.getValue()+page;
+            return prefix+ThemeEnums.DEFAULT_THEME.getValue()+page;
         }
-        return preifx+object+page;
+        return prefix+object+page;
     }
 
     /**
