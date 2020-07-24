@@ -20,7 +20,6 @@ $(function() {
         railOpacity: 0.9,
         alwaysVisible: false
     });
-
     // 菜单切换
     $('.navbar-minimalize').click(function() {
     	if (isMobile) {
