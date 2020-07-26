@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <head xmlns="http://www.w3.org/1999/html">
-    <th:block  th:include="themes/taoke/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-商品列表'},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
+    <th:block  th:include="taoke/web/taoke_include :: taokeHeader(title=${taokeConfig['taoke.config.title']?.configValue+'-商品列表'},keywords=${taokeConfig['taoke.config.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
 </head>
 <body>
 <!--== Start Header Section ==-->
@@ -11,7 +11,7 @@
     <div class="header-middle-area">
         <div class="container">
                 <div class="row">
-                    <th:block  th:include="themes/taoke/taoke_include :: logo"></th:block>
+                    <th:block  th:include="taoke/web/taoke_include :: logo"></th:block>
                 </div>
         </div>
     </div>
