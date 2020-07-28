@@ -108,7 +108,7 @@
             <groupId>com.ruoyi.cms</groupId>
             <artifactId>blog-web</artifactId>
         </dependency>
-        <!--websocket-->
+        <!--websocket 考虑效率  并未集成到项目中-->
         <!-- <dependency>
              <groupId>com.ruoyi.message</groupId>
              <artifactId>message-websocket</artifactId>
