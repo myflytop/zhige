@@ -11,7 +11,9 @@
     <properties>
         <jedis.version>2.7.3</jedis.version>
     </properties>
-
+    <description>
+	    redis缓存
+	</description>
     <dependencies>
         <!-- 通用工具-->
         <dependency>
