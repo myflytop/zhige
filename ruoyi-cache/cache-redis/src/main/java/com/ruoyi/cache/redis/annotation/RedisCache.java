@@ -1,4 +1,4 @@
-package com.ruoyi.cache.redis.annotation;;
+package com.ruoyi.cache.redis.annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

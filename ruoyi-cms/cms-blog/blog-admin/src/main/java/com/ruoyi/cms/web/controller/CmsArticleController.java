@@ -36,12 +36,9 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.Ztree;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.text.Convert;
-import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.util.ShiroUtils;
-
-
 /**
- * 文章 控制层 后台
+ * 文章 控制层
  * 
  * @author bobey
  * 
@@ -57,7 +54,7 @@ public class CmsArticleController extends BaseController {
 	private CmsArticleServiceImpl articleService;
 	@Autowired
 	private OssFactory ossHandler;
-	private String prefix = "blog/admin/article";
+	private static final String prefix = "blog/admin/article";
 	/**
 	 * 文章管理/列表 视图
 	 * @return
@@ -110,7 +107,7 @@ public class CmsArticleController extends BaseController {
 	}
 
 	/**
-	 * 修改文章
+	 * 添加文章
 	 * @param artVo
 	 * @return
 	 */
@@ -119,6 +116,7 @@ public class CmsArticleController extends BaseController {
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult add(ArticleVo artVo) {
+	
 		artVo.setCreateBy(ShiroUtils.getUserId());
 		if(articleService.insertCmsArticle(artVo)==1)
 		{
