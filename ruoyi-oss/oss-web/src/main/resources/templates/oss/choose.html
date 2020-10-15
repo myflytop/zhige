@@ -85,9 +85,9 @@
     <div class="file-list-item" data-dir="{{item.isDir}}" data-url="{{item.url}}" data-name="{{item.name}}">
         <div class="file-list-img {{item.hasSm?'media':''}}">
             {{# if(item.hasSm){ }}
-            <img src="{{item.smUrl}}"/>
+            <img src="{{item.smUrl}}" content="upgrade-insecure-requests" />
             {{# }else{ }}
-            <img src="/oss/assets/images/fti/{{item.type}}.png"/>
+            <img src="/oss/assets/images/fti/{{item.type}}.png"  />
             {{# } }}
         </div>
         <div class="file-list-name">{{item.name}}</div>

@@ -64,7 +64,7 @@
             {{#  layui.each(d, function(index, item){ }}
             <div class="file-list-item" data-dir="{{item.fileType}}" data-key="{{item.key}}" data-url="{{item.filePath}}" data-name="{{item.fileName}}">
                 <div class="file-list-img {{item.thumb?'media':''}}">
-                    <img src="{{item.thumbPath}}"/>
+                    <img src="{{item.thumbPath}}" content="upgrade-insecure-requests"  />
                 </div>
               <div class="file-list-name">{{item.fileName}}</div>
             </div>
