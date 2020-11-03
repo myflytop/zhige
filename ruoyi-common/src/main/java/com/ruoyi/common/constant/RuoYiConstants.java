@@ -19,7 +19,7 @@ public class RuoYiConstants {
     //本地日志目录
     public final static String logsDir=workDir+"/logs";
 
-    //备份目录
+    //主题目录
     public final static String themeDir=workDir+"/templates/themes";
 
 

@@ -54,7 +54,7 @@ public class BlogController extends CommonController {
     }
 
     /**
-     * 请求文章
+     * 请求指定文章
      * @param postId
      * @param mp
      * @return
@@ -64,6 +64,11 @@ public class BlogController extends CommonController {
         baseDataPut(mp);
         BlogArticle blogArticle=new BlogArticle();
         blogArticle.setArticleId(postId);
+        BlogArticle bArticle=blogService.getBlogArticle(blogArticle);
+        if (bArticle==null) {
+            mp.put("postId", postId);
+           return getPrefix(redisUtils, "/postNotFind");
+        } else {
         mp.put("post",blogService.getBlogArticle(blogArticle));
         CmsComment cmsComment=new CmsComment();
         cmsComment.setArticleId(postId);
@@ -71,6 +76,7 @@ public class BlogController extends CommonController {
         //获取第一页评论
         mp.put("comments",cmsCommentService.listCmsCommentPage(cmsComment));
         return getPrefix(redisUtils,"/post");
+        }
     }
 
     /**

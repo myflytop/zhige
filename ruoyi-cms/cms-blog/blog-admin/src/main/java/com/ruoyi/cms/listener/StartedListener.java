@@ -37,6 +37,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
      */
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
+        //初始化工作目录
         initWorkDir();
     }
 

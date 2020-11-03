@@ -173,4 +173,13 @@ public class CmsTagController extends BaseController {
    public String checkCmsTagUrlUnique(final CmsTag cmsTag) {
       return cmsTagService.checkTagUrlUnique(cmsTag);
    }
+
+   @PostMapping("/checkTagUnique")
+   @ResponseBody
+   public String checkTagUnique(final CmsTag cmsTag)
+   {
+      return null;
+   } 
+   
+
 }
