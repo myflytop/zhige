@@ -23,7 +23,7 @@ public class CommonController extends BaseController {
         if (StringUtils.isEmpty(themeName)) {
             return  OlyThemeProperties.THEME_USED.defaultValue() + page;
         }
-        return "themes/"+ themeName + page;
+        return themeName + page;
     }
 
     /**
