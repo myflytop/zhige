@@ -8,8 +8,8 @@ ruoyi:
   copyrightYear: 2021
   # 实例演示开关
   demoEnabled: true
-  # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: D:/ruoyi/uploadPath
+  # 文件路径 上传到用户目录/.ruoyi/xxx
+  profile: upload
   # 获取ip地址开关
   addressEnabled: false
 
@@ -33,6 +33,7 @@ logging:
   level:
     com.ruoyi: debug
     org.springframework: warn
+    com.oly: debug
 
 # 用户配置
 user:
@@ -48,6 +49,8 @@ spring:
     encoding: utf-8
     # 禁用缓存
     cache: false
+    prefix: classpath:/templates/
+    template-resolver-order: 1
   # 资源信息
   messages:
     # 国际化资源文件路径
@@ -69,11 +72,14 @@ spring:
     restart:
       # 热部署开关
       enabled: true
-
-# MyBatis
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:ehcache/ehcache-web.xml
+    
 mybatis:
     # 搜索指定包别名
-    typeAliasesPackage: com.ruoyi.**.domain
+    typeAliasesPackage: com.ruoyi.**.domain,com.oly.**.domain
     # 配置mapper的扫描，找到所有的mapper.xml映射文件
     mapperLocations: classpath*:mapper/**/*Mapper.xml
     # 加载全局的配置文件
@@ -85,7 +91,6 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql 
-
 # Shiro
 shiro:
   user:
@@ -94,7 +99,7 @@ shiro:
     # 权限认证失败地址
     unauthorizedUrl: /unauth
     # 首页地址
-    indexUrl: /index
+    indexUrl: /blog
     # 验证码开关
     captchaEnabled: true
     # 验证码类型 math 数组计算 char 字符
@@ -129,7 +134,7 @@ xss:
   # 排除链接（多个用逗号分隔）
   excludes: /system/notice/*
   # 匹配链接
-  urlPatterns: /system/*,/monitor/*,/tool/*
+  urlPatterns: /system/*,/monitor/*,/tool/*，
 
 # Swagger配置
 swagger:

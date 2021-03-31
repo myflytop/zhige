@@ -59,6 +59,12 @@
             <artifactId>thymeleaf-extras-shiro</artifactId>
         </dependency>
 
+        <!-- thymeleaf模板引擎和spring-boot整合 视图解析-->
+        <dependency>
+           <groupId>org.springframework.boot</groupId>
+           <artifactId>spring-boot-starter-thymeleaf</artifactId>
+       </dependency>
+
         <!-- 解析客户端操作系统、浏览器等 -->
         <dependency>
             <groupId>eu.bitwalker</groupId>

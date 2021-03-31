@@ -1,5 +1,7 @@
 package com.ruoyi.common.config;
 
+import java.nio.file.Paths;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ConfigurationProperties(prefix = "ruoyi")
-public class RuoYiConfig
-{
+public class RuoYiConfig {
     /** 项目名称 */
     private static String name;
 
@@ -30,87 +31,80 @@ public class RuoYiConfig
     /** 获取地址开关 */
     private static boolean addressEnabled;
 
-    public static String getName()
-    {
+    public static String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         RuoYiConfig.name = name;
     }
 
-    public static String getVersion()
-    {
+    public static String getVersion() {
         return version;
     }
 
-    public void setVersion(String version)
-    {
+    public void setVersion(String version) {
         RuoYiConfig.version = version;
     }
 
-    public static String getCopyrightYear()
-    {
+    public static String getCopyrightYear() {
         return copyrightYear;
     }
 
-    public void setCopyrightYear(String copyrightYear)
-    {
+    public void setCopyrightYear(String copyrightYear) {
         RuoYiConfig.copyrightYear = copyrightYear;
     }
 
-    public static boolean isDemoEnabled()
-    {
+    public static boolean isDemoEnabled() {
         return demoEnabled;
     }
 
-    public void setDemoEnabled(boolean demoEnabled)
-    {
+    public void setDemoEnabled(boolean demoEnabled) {
         RuoYiConfig.demoEnabled = demoEnabled;
     }
 
-    public static String getProfile()
-    {
+    public static String getProfile() {
         return profile;
     }
 
-    public void setProfile(String profile)
-    {
-        RuoYiConfig.profile = profile;
+    public void setProfile(String profile) {
+
+        RuoYiConfig.profile = Paths.get(getWorkPath(), profile).toString();
     }
 
-    public static boolean isAddressEnabled()
-    {
+    public static boolean isAddressEnabled() {
         return addressEnabled;
     }
 
-    public void setAddressEnabled(boolean addressEnabled)
-    {
+    public void setAddressEnabled(boolean addressEnabled) {
         RuoYiConfig.addressEnabled = addressEnabled;
     }
 
     /**
      * 获取头像上传路径
      */
-    public static String getAvatarPath()
-    {
+    public static String getAvatarPath() {
         return getProfile() + "/avatar";
     }
 
     /**
      * 获取下载路径
      */
-    public static String getDownloadPath()
-    {
+    public static String getDownloadPath() {
         return getProfile() + "/download/";
     }
 
     /**
      * 获取上传路径
      */
-    public static String getUploadPath()
-    {
+    public static String getUploadPath() {
         return getProfile() + "/upload";
+    }
+
+    /**
+     * 获取项目工作路径
+     */
+    public static String getWorkPath() {
+        return Paths.get(System.getProperty("user.home"), ".ruoyi").toString();
     }
 }

@@ -1,0 +1,50 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch BackUpsUtil",
+            "request": "launch",
+            "mainClass": "com.oly.common.utils.BackUpsUtil",
+            "projectName": "oly-common"
+        },
+        {
+            "type": "java",
+            "name": "Launch OlyFileUtils",
+            "request": "launch",
+            "mainClass": "com.oly.common.utils.OlyFileUtils",
+            "projectName": "oly-common"
+        },
+        {
+            "type": "java",
+            "name": "Launch FileType",
+            "request": "launch",
+            "mainClass": "com.oly.oss.utils.FileType",
+            "projectName": "oly-oss"
+        },
+        {
+            "type": "java",
+            "name": "Launch TemplatesUtil",
+            "request": "launch",
+            "mainClass": "com.oly.template.utils.TemplatesUtil",
+            "projectName": "oly-template"
+        },
+        {
+            "type": "java",
+            "name": "Launch RuoYiApplication",
+            "request": "launch",
+            "mainClass": "com.ruoyi.RuoYiApplication",
+            "projectName": "ruoyi-admin"
+        },
+        {
+            "type": "java",
+            "name": "Launch EscapeUtil",
+            "request": "launch",
+            "mainClass": "com.ruoyi.common.utils.html.EscapeUtil",
+            "projectName": "ruoyi-common"
+        }
+    ]
+}

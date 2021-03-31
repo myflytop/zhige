@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ruoyi</artifactId>
+        <groupId>com.ruoyi</groupId>
+        <version>4.6.0</version>
+    </parent>
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ruoyi-oly</artifactId>
+    <groupId>com.oly</groupId>
+
+    <description>
+        止戈内容管理系统
+    </description>
+
+<properties>
+<ruoyi.version>4.6.0</ruoyi.version>
+</properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.oly</groupId>
+                <artifactId>oly-common</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
+             <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-mail</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+       <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-template</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-oss</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-cms</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-websocket</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+         <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-comment</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-web</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-framework</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+<modules>
+
+<module>oly-web</module>
+
+<module>oly-common</module>
+
+<module>oly-oss</module>
+
+<module>oly-search</module>
+
+<module>oly-stage</module>
+
+<module>oly-template</module>
+
+<module>oly-mail</module>
+
+<module>oly-cms</module>
+
+<module>oly-websocket</module>
+
+<module>oly-comment</module>
+
+<module>oly-framework</module>
+
+</modules>
+
+</project>

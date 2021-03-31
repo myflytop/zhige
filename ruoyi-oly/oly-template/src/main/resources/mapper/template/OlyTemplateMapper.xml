@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.template.mapper.OlyTemplateMapper">
+    
+    <resultMap type="com.oly.template.domain.OlyTemplate" id="OlyTemplateResult">
+        <result property="templateId"    column="template_id"    />
+        <result property="templateName"    column="template_name"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="built"    column="built"    />
+        <result property="perms"    column="perms"    />
+        <result property="visible"    column="visible"    />
+        <result property="templateType"    column="template_type"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="templateUrl"    column="template_url"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="parentName" column="parent_name" />
+        <result property="templateParam"    column="template_param"    />
+    </resultMap>
+
+    <sql id="selectOlyTemplateVo">
+        select template_id, template_name, parent_id, remark, create_by, update_by, create_time, update_time, built, perms, visible, template_type, ancestors,  template_url, template_param,order_num from oly_template
+    </sql>
+
+    <select id="selectOlyTemplateList" parameterType="com.oly.template.domain.OlyTemplate" resultMap="OlyTemplateResult">
+        <include refid="selectOlyTemplateVo"/>
+        <where>  
+            <if test="templateName != null  and templateName != ''"> and template_name like concat('%', #{templateName}, '%')</if>
+            <if test="built != null "> and built = #{built}</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="templateType != null "> and template_type = #{templateType}</if>
+        </where>
+        order by parent_id
+    </select>
+    
+    <select id="selectOlyTemplateById" parameterType="Long" resultMap="OlyTemplateResult">
+        select t.template_id, t.template_name, t.parent_id, t.remark, t.create_by, t.update_by, t.create_time, t.update_time, t.built, t.perms, t.visible, t.template_type, t.ancestors,  t.template_url, t.order_num, p.template_name as parent_name
+        from oly_template t
+        left join oly_template p on p.template_id = t.parent_id
+        where t.template_id = #{templateId}
+    </select>
+        
+    <insert id="insertOlyTemplate" parameterType="com.oly.template.domain.OlyTemplate" useGeneratedKeys="true" keyProperty="templateId">
+        insert into oly_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="templateName != null and templateName != ''">template_name,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="built != null">built,</if>
+            <if test="perms != null and perms != ''">perms,</if>
+            <if test="visible != null">visible,</if>
+            <if test="templateType != null">template_type,</if>
+            <if test="ancestors != null and ancestors != ''">ancestors,</if>
+            <if test="templateUrl != null and templateUrl != ''">template_url,</if>
+            <if test="templateParam!= null and templateParam != ''">template_param,</if>
+            <if test="orderNum != null">order_num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="templateName != null and templateName != ''">#{templateName},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="built != null">#{built},</if>
+            <if test="perms != null and perms != ''">#{perms},</if>
+            <if test="visible != null">#{visible},</if>
+            <if test="templateType != null">#{templateType},</if>
+            <if test="ancestors != null and ancestors != ''">#{ancestors},</if>
+            <if test="templateUrl != null and templateUrl != ''">#{templateUrl},</if>
+            <if test="templateParam!= null and templateParam != ''">#{templateParam},</if>
+          
+            <if test="orderNum != null">#{orderNum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOlyTemplate" parameterType="com.oly.template.domain.OlyTemplate">
+        update oly_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="templateName != null and templateName != ''">template_name = #{templateName},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="built != null">built = #{built},</if>
+            <if test="perms != null and perms != ''">perms = #{perms},</if>
+            <if test="visible != null">visible = #{visible},</if>
+            <if test="templateType != null">template_type = #{templateType},</if>
+            <if test="ancestors != null and ancestors != ''">ancestors = #{ancestors},</if>
+            <if test="templateParam!= null ">#{templateParam},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+        </trim>
+        where template_id = #{templateId}
+    </update>
+
+    <delete id="deleteOlyTemplateById" parameterType="Long">
+        delete from oly_template where template_id = #{templateId}
+    </delete>
+
+    <delete id="deleteOlyTemplateByIds" parameterType="String">
+        delete from oly_template where template_id in 
+        <foreach item="templateId" collection="array" open="(" separator="," close=")">
+            #{templateId}
+        </foreach>
+    </delete>
+
+</mapper>

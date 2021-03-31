@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.mail.mapper.OlyMailMapper">
+    
+    <resultMap type="OlyMail" id="OlyMailResult">
+        <result property="mailId"    column="mail_id"    />
+        <result property="fromMail"    column="from_mail"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="toMail"    column="to_mail"    />
+        <result property="subject"    column="subject"    />
+        <result property="content"    column="content"    />
+        <result property="mailType"    column="mail_type"    />
+        <result property="sendTime"    column="send_time"    />
+        <result property="copyTo"    column="copy_to"    />
+        <result property="remark"    column="remark"    />
+        <result property="mailUsed"    column="mail_used"    />
+        <result property="bccTo"    column="bcc_to"    />
+        <result property="visible"    column="visible"    />
+        <result property="attachKeys"    column="attach_keys"    />
+    </resultMap>
+
+    <sql id="selectOlyMailVo">
+        select mail_id, from_mail,attach_keys ,create_by, create_time, to_mail, subject, content, mail_type, send_time, copy_to, remark, mail_used, bcc_to, visible from oly_mail
+    </sql>
+
+    <select id="selectOlyMailList" parameterType="OlyMail" resultMap="OlyMailResult">
+        <include refid="selectOlyMailVo"/>
+        <where>  
+            <if test="fromMail != null  and fromMail != ''"> and from_mail like concat('%', #{fromMail}, '%')</if>
+            <if test="toMail != null  and toMail != ''"> and to_mail like concat('%', #{toMail}, '%')</if>
+            <if test="subject != null  and subject != ''"> and subject like concat('%', #{subject}, '%')</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="mailType != null "> and mail_type like concat('%', #{mailType}, '%')</if>
+            <if test="sendTime != null "> and send_time = #{sendTime}</if>
+            <if test="copyTo != null  and copyTo != ''"> and copy_to = #{copyTo}</if>
+            <if test="mailUsed != null "> and mail_used = #{mailUsed}</if>
+            <if test="bccTo != null  and bccTo != ''"> and bcc_to like concat('%', #{bccTo}, '%')</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+        </where>
+    </select>
+    
+    <select id="selectOlyMailById" parameterType="Long" resultMap="OlyMailResult">
+        <include refid="selectOlyMailVo"/>
+        where mail_id = #{mailId}
+    </select>
+        
+    <insert id="insertOlyMail" parameterType="OlyMail" useGeneratedKeys="true" keyProperty="mailId">
+        insert into oly_mail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fromMail != null">from_mail,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="toMail != null and toMail != ''">to_mail,</if>
+            <if test="subject != null and subject != ''">subject,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="mailType != null">mail_type,</if>
+            <if test="sendTime != null">send_time,</if>
+            <if test="copyTo != null">copy_to,</if>
+            <if test="remark != null">remark,</if>
+            <if test="mailUsed != null">mail_used,</if>
+            <if test="bccTo != null">bcc_to,</if>
+            <if test="visible != null">visible,</if>
+            <if test="attachKeys != null and attachKeys != ''">attach_keys,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fromMail != null">#{fromMail},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="toMail != null and toMail != ''">#{toMail},</if>
+            <if test="subject != null and subject != ''">#{subject},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="mailType != null">#{mailType},</if>
+            <if test="sendTime != null">#{sendTime},</if>
+            <if test="copyTo != null">#{copyTo},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="mailUsed != null">#{mailUsed},</if>
+            <if test="bccTo != null">#{bccTo},</if>
+            <if test="attachKeys != null and attachKeys != ''">#{attachKeys},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOlyMail" parameterType="OlyMail">
+        update oly_mail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fromMail != null">from_mail = #{fromMail},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="toMail != null and toMail != ''">to_mail = #{toMail},</if>
+            <if test="subject != null and subject != ''">subject = #{subject},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="mailType != null">mail_type = #{mailType},</if>
+            <if test="sendTime != null">send_time = #{sendTime},</if>
+            <if test="copyTo != null">copy_to = #{copyTo},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="mailUsed != null">mail_used = #{mailUsed},</if>
+            <if test="bccTo != null">bcc_to = #{bccTo},</if>
+            <if test="visible != null">visible = #{visible},</if>
+            <if test="attachKeys != null and attachKeys != ''">attach_keys=#{attachKeys},</if>
+        </trim>
+        where mail_id = #{mailId}
+    </update>
+
+    <delete id="deleteOlyMailById" parameterType="Long">
+        delete from oly_mail where mail_id = #{mailId}
+    </delete>
+
+    <delete id="deleteOlyMailByIds" parameterType="String">
+        delete from oly_mail where mail_id in 
+        <foreach item="mailId" collection="array" open="(" separator="," close=")">
+            #{mailId}
+        </foreach>
+    </delete>
+
+</mapper>

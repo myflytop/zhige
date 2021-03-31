@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.oss.mapper.OlyOssMapper">
+    
+    <resultMap type="OlyOss" id="OlyOssResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="size"    column="size"    />
+        <result property="fk"    column="fk"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="domain"    column="domain"    />
+        <result property="fileHeard"    column="file_heard"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectOlyOssVo">
+        select id, create_by, create_time, file_name, size, fk, file_type, domain, file_heard, remark from oly_oss
+    </sql>
+
+    <select id="selectOlyOssList" parameterType="OlyOss" resultMap="OlyOssResult">
+        <include refid="selectOlyOssVo"/>
+        <where>  
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="size != null "> and size = #{size}</if>
+            <if test="fk != null  and fk != ''"> and fk = #{fk}</if>
+            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+            <if test="domain != null  and domain != ''"> and domain = #{domain}</if>
+            <if test="fileHeard != null  and fileHeard != ''"> and file_heard = #{fileHeard}</if>
+        </where>
+    </select>
+    
+    <select id="selectOlyOssById" parameterType="Long" resultMap="OlyOssResult">
+        <include refid="selectOlyOssVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectOlyOssByFk" parameterType="String" resultMap="OlyOssResult">
+        <include refid="selectOlyOssVo"/>
+        where fk = #{fk}
+    </select>
+        
+    <insert id="insertOlyOss" parameterType="OlyOss">
+        insert into oly_oss
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time,
+            <if test="fileName != null">file_name,</if>
+            <if test="size != null">size,</if>
+            <if test="fk != null">fk,</if>
+            <if test="fileType != null">file_type,</if>
+            <if test="domain != null">domain,</if>
+            <if test="fileHeard != null">file_heard,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate(),
+            <if test="fileName != null">#{fileName},</if>
+            <if test="size != null">#{size},</if>
+            <if test="fk != null">#{fk},</if>
+            <if test="fileType != null">#{fileType},</if>
+            <if test="domain != null">#{domain},</if>
+            <if test="fileHeard != null">#{fileHeard},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+ 
+    <delete id="deleteOlyOssByFk" parameterType="String">
+        delete from oly_oss where fk = #{fk}
+    </delete>
+
+    <delete id="deleteOlyOssByFks" parameterType="String">
+        delete from oly_oss where fk in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{fk}
+        </foreach>
+    </delete>
+
+</mapper>

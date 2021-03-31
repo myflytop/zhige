@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ruoyi-oly</artifactId>
+        <groupId>com.oly</groupId>
+        <version>4.6.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>oly-oss</artifactId>
+
+    <description>
+        止戈内容管理系统储存模块
+    </description>
+
+   <dependencies>
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-common</artifactId>
+        </dependency>
+
+       <dependency>
+           <groupId>com.ruoyi</groupId>
+           <artifactId>ruoyi-system</artifactId>
+       </dependency>
+       <!-- 获取文件类型 -->
+        <dependency>
+                <groupId>org.apache.tika</groupId>
+                <artifactId>tika-core</artifactId>
+                <version>1.20</version>
+        </dependency>
+        <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>0.4.8</version>
+         </dependency>
+    </dependencies>
+
+
+    
+	
+
+</project>

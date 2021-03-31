@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('添加邮件')" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+    <th:block th:include="include :: bootstrap-select-css" />
+    <th:block th:include="include :: summernote-css" />
+    <th:block th:include="include :: oly_tagsinput_css" />
+</head>
+
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-email-add">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">接收者邮箱：</label>
+                <div class="col-sm-8">
+                    <input name="toMail" class="form-control" required type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">主题：</label>
+                <div class="col-sm-8">
+                    <input name="subject" class="form-control" required type="text">
+                </div>
+            </div>
+            <div class="form-group" th:with="type=${@dict.getType('oly_mail_type')}">
+                <label class="col-sm-3 control-label">邮件类型：</label>
+                <div class="col-sm-8">
+                    <div class="radio check-box" th:each="dict : ${type}">
+                        <label>
+                            <input type="radio" th:value="${dict.dictValue}" th:checked="${dict.dictValue}==0"
+                                name="mailType"> <i></i><span th:text="${dict.dictLabel}">文本</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">内容：</label>
+                <div class="col-sm-8">
+                    <input id="mailContent" class="form-control" type="text">
+                    
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">抄送用户：</label>
+                <div class="col-sm-8">
+                    <input name="copyTo" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">密送用户：</label>
+                <div class="col-sm-8">
+                    <input name="bccTo" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class=" col-sm-3 control-label">添加附件：</label>
+                <div class="col-sm-8">
+                    <input class="file" type="file" name="file" multiple data-min-file-count="1" id="file-input"
+                        data-theme="fas">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+    <th:block th:include="include::bootstrap-select-js" />
+    <th:block th:include="include :: summernote-js" />
+    <th:block th:include="include :: oly_tagsinput_js" />
+    <script type="text/javascript">
+        var prefix = ctx + "oly/mail";
+        $('#file-input').fileinput('refresh', {
+            //初始化上传文件框
+            language: "zh",//配置语言
+            theme: "fas",
+            showUpload: true, //显示整体上传的按钮
+            showRemove: true,//显示整体删除的按钮
+            uploadAsync: true,//默认异步上传
+            uploadLabel: "上传",//设置整体上传按钮的汉字
+            removeLabel: "移除",//设置整体删除按钮的汉字
+            uploadClass: "btn btn-primary",//设置上传按钮样式
+            showCaption: true,//是否显示标题
+            dropZoneEnabled: true,//是否显示拖拽区域
+            uploadUrl: prefix + '/uploadAttach',//这个是配置上传调取的后台地址
+            maxFileSize: 9999,//文件大小限制kb
+            maxFileCount: 9999,//允许最大上传数，可以多个，
+            enctype: 'multipart/form-data',
+            allowedFileExtensions: ["jpg", "png", "gif", "docx", "zip", "tar", "xlsx", "txt"],/*上传文件格式限制*/
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            showBrowse: true,
+            browseOnZoneClick: true,
+            //上传前回调
+            slugCallback: function (filename) {
+                return filename.replace('(', '_').replace(']', '_');
+            }
+        });
+        //上传成功后文件地址
+        var uploadSuccsee = {};
+        //上传成功后回调
+        $('#file-input').on('fileuploaded', function (event, data, previewId, index) {
+            var response = data.response;
+            if (response.code === 0) {
+                uploadSuccsee[previewId] = data.response.data.msg;
+            }
+            console.log(uploadSuccsee);
+        });
+
+        $('#file-input').on('filesuccessremove', function (event, id, index) {
+            delete uploadSuccsee[id];
+        });
+        $("#file-input").on("filecleared", function (event, data, msg) {
+            uploadSuccsee = {};
+        });
+        $("#form-email-add").validate({
+            focusCleanup: true
+        });
+
+        function saveMail() {
+            let data = getParams();
+            data.push({ "visible": "0" });
+            $.operate.save(prefix + "/add", data);
+            console.log(data);
+
+        }
+
+        function sendMail() {
+            let data = getParams();
+            data.push({ "visible": "1" });
+            $.operate.save(prefix + "/send", data);
+            console.log(data);
+        }
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.modal.alertWarning('<button type="button" class="btn btn-primary" onclick="saveMail()" >保存</button> <button type="button" class="btn btn-primary" onclick="sendMail()" >立即发送</button>', 2);
+            }
+        }
+
+        $("#mailContent").summernote({
+            lang: 'zh-CN', // default: 'en-US'  
+            focus: true,
+            callbacks: {
+                onImageUpload: function (files) {
+                    // upload image to server and create imgNode...
+                    sendFile(files[0]);
+                }
+            }
+
+
+        });
+
+           //初始化抄送标签
+            $("input[name='copeTo']").tagsinput({
+				maxTags: [[ ${@config.getConfigByKey('oly.mail.maxCopeTo')} ]]
+			});
+			//初始化密送标签
+			$("input[name='bcc']").tagsinput({
+				maxTags:[[${@config.getConfigByKey('oly.mail.maxBcc')}]]
+			});
+			//初始化附件标签
+			$("input[name='attachKeys']").tagsinput({
+				maxTags:[[${@config.getConfigByKey('oly.mail.attachKeys')}]]
+			});
+
+        function sendFile(files) {
+            var data = new FormData();
+            data.append("file", files);
+            $.ajax({
+                data: data,
+                type: "POST",
+                url: ctx + "oly/oss/upload",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    //data为图片请求地址
+                    let url = res.data.domain + res.data.fk;
+                    $("#mailContent").summernote('insertImage', url, res.data.fileName);
+                },
+                error: function () {
+                    layer.alert('上传失败!');
+                    return;
+                }
+
+            });
+        }
+
+        function getParams() {
+            var data = $('#form-email-add').serializeArray();
+            //带参数模板
+            if ($('input[name="mailType"]:checked').val() == 1) {   //模板id
+                data.push({ "name": "params[templateId]", "value": indeId });
+            }
+            var ats = [];
+            for (var key in uploadSuccsee) {
+                ats.push(uploadSuccsee[key])
+            }
+            //附件列表
+            data.push({ "name": "attachKeys", "value": ats.join(";") });
+            data.push({ "name": "content","value": $("#mailContent").summernote('code')});
+            return data;
+        }
+
+    </script>
+</body>
+
+</html>

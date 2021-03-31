@@ -1,14 +1,21 @@
 package com.ruoyi.web.controller.monitor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.utils.CacheWebUtils;
 import com.ruoyi.framework.web.service.CacheService;
 
 /**
@@ -18,65 +25,83 @@ import com.ruoyi.framework.web.service.CacheService;
  */
 @Controller
 @RequestMapping("/monitor/cache")
-public class CacheController extends BaseController
-{
+public class CacheController extends BaseController {
     private String prefix = "monitor/cache";
 
     @Autowired
     private CacheService cacheService;
 
     @GetMapping()
-    public String cache(ModelMap mmap)
-    {
-        mmap.put("cacheNames", cacheService.getCacheNames());
+    public String cache(ModelMap mmap) {
+        String[] names = cacheService.getCacheNames();
+        List<String> listNames = new ArrayList<>();
+        Collections.addAll(listNames, names);
+        Collections.addAll(listNames, CacheWebUtils.getCacheNames());
+        mmap.put("cacheNames", listNames);
         return prefix + "/cache";
     }
 
     @PostMapping("/getNames")
-    public String getCacheNames(String fragment, ModelMap mmap)
-    {
-        mmap.put("cacheNames", cacheService.getCacheNames());
+    public String getCacheNames(String fragment, ModelMap mmap) {
+        String[] names = cacheService.getCacheNames();
+        List<String> listNames = new ArrayList<>();
+        Collections.addAll(listNames, names);
+        Collections.addAll(listNames, CacheWebUtils.getCacheNames());
+        mmap.put("cacheNames", listNames);
         return prefix + "/cache::" + fragment;
     }
 
     @PostMapping("/getKeys")
-    public String getCacheKeys(String fragment, String cacheName, ModelMap mmap)
-    {
+    public String getCacheKeys(String fragment, String cacheName, ModelMap mmap) {
+        if ("oly-web".equals(cacheName)) {
+            mmap.put("cacheKyes", CacheWebUtils.getKeys(cacheName));
+        } else {
+            mmap.put("cacheKyes", cacheService.getCacheKeys(cacheName));
+        }
         mmap.put("cacheName", cacheName);
-        mmap.put("cacheKyes", cacheService.getCacheKeys(cacheName));
+
         return prefix + "/cache::" + fragment;
     }
 
     @PostMapping("/getValue")
-    public String getCacheValue(String fragment, String cacheName, String cacheKey, ModelMap mmap)
-    {
+    public String getCacheValue(String fragment, String cacheName, String cacheKey, ModelMap mmap) {
         mmap.put("cacheName", cacheName);
         mmap.put("cacheKey", cacheKey);
-        mmap.put("cacheValue", cacheService.getCacheValue(cacheName, cacheKey));
+        if ("oly-web".equals(cacheName)) {
+            mmap.put("cacheValue", CacheWebUtils.get(cacheName, cacheKey));
+        } else {
+            mmap.put("cacheValue", cacheService.getCacheValue(cacheName, cacheKey));
+        }
         return prefix + "/cache::" + fragment;
     }
 
     @PostMapping("/clearCacheName")
     @ResponseBody
-    public AjaxResult clearCacheName(String cacheName, ModelMap mmap)
-    {
-        cacheService.clearCacheName(cacheName);
+    public AjaxResult clearCacheName(String cacheName, ModelMap mmap) {
+        if ("oly-web".equals(cacheName)) {
+            CacheWebUtils.removeAll(cacheName);
+        } else {
+            cacheService.clearCacheName(cacheName);
+        }
         return AjaxResult.success();
     }
 
     @PostMapping("/clearCacheKey")
     @ResponseBody
-    public AjaxResult clearCacheKey(String cacheName, String cacheKey, ModelMap mmap)
-    {
-        cacheService.clearCacheKey(cacheName, cacheKey);
+    public AjaxResult clearCacheKey(String cacheName, String cacheKey, ModelMap mmap) {
+        if ("oly-web".equals(cacheName)) {
+             CacheWebUtils.remove(cacheName, cacheKey);
+        } else {
+            cacheService.clearCacheKey(cacheName, cacheKey);
+        }
         return AjaxResult.success();
     }
 
     @GetMapping("/clearAll")
     @ResponseBody
-    public AjaxResult clearAll(ModelMap mmap)
-    {
+    public AjaxResult clearAll(ModelMap mmap) {
         cacheService.clearAll();
+        CacheWebUtils.removeAll("oly-web");
         return AjaxResult.success();
     }
 }

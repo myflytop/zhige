@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('反馈|建议')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                主题：
+                                <input type="text" name="subject"/>
+                            </li>
+                            <li>
+                                处理人：
+                                <input type="text" name="handler"/>
+                            </li>
+                            <li>
+                                邮件：
+                                <input type="text" name="email"/>
+                            </li>
+                            <li>
+                                电话：
+                                <input type="text" name="phone"/>
+                            </li>
+                            <li>
+                                其它：
+                                <input type="text" name="otherContact"/>
+                            </li>
+                            <li>
+                                状态：
+                                <select name="contactType" th:with="type=${@dict.getType('cms.contact.visible')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+
+                            <li>
+                                类型：
+                                <select name="contactType" th:with="type=${@dict.getType('cms.contact.type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li class="select-time">
+                                <label>处理时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginHandleTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endHandleTime]"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="cms:contact:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="cms:contact:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="cms:contact:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="cms:contact:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('cms:contact:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('cms:contact:remove')}]];
+        var prefix = ctx + "cms/contact";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "反馈|建议",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'contactId', 
+                    title : '反馈id',
+                    visible: false
+                },
+                {
+                    field : 'subject', 
+                    title : '主题'
+                },
+                {
+                    field : 'content', 
+                    title : '内容'
+                },
+                {
+                    field : 'handler', 
+                    title : '处理人'
+                },
+                {
+                    field : 'email', 
+                    title : '邮件'
+                },
+                {
+                    field : 'phone', 
+                    title : '电话'
+                },
+                {
+                    field : 'visible', 
+                    title : '状态'
+                },
+                {
+                    field : 'otherContact', 
+                    title : '其它联系方式'
+                },
+                {
+                    field : 'contactType', 
+                    title : '类型'
+                },
+                {
+                    field : 'handleResult', 
+                    title : '结果'
+                },
+                {
+                    field : 'handleTime', 
+                    title : '处理时间'
+                },
+                {
+                    field : 'remark', 
+                    title : '处理时间'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.contactId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.contactId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

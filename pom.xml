@@ -215,6 +215,46 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+             <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-template</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+       <!-- 储存模块 -->
+       <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-oss</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+      
+      <!-- 邮件模块 -->
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-mail</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+         <!-- 内容模块 -->
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-cms</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-framework</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+       		<!-- 内容管理聚合pom-->
+			<dependency>
+			    <groupId>com.ruoyi</groupId>
+			    <artifactId>ruoyi-oly</artifactId>
+			    <version>${ruoyi.version}</version>
+			</dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -225,6 +265,7 @@
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
+        <module>ruoyi-oly</module>
     </modules>
     <packaging>pom</packaging>
 

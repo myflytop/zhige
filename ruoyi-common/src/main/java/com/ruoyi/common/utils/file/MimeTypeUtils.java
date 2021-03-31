@@ -5,8 +5,7 @@ package com.ruoyi.common.utils.file;
  * 
  * @author ruoyi
  */
-public class MimeTypeUtils
-{
+public class MimeTypeUtils {
     public static final String IMAGE_PNG = "image/png";
 
     public static final String IMAGE_JPG = "image/jpg";
@@ -26,6 +25,11 @@ public class MimeTypeUtils
 
     public static final String[] VIDEO_EXTENSION = { "mp4", "avi", "rmvb" };
 
+    public static final String[] DOCUMENT_EXTENSION = { "doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm",
+            "txt" };
+
+    public static final String[] COMMPRESS_EXTENSION = { "rar", "zip", "gz", "bz2" };
+
     public static final String[] DEFAULT_ALLOWED_EXTENSION = {
             // 图片
             "bmp", "gif", "jpg", "jpeg", "png",
@@ -38,10 +42,8 @@ public class MimeTypeUtils
             // pdf
             "pdf" };
 
-    public static String getExtension(String prefix)
-    {
-        switch (prefix)
-        {
+    public static String getExtension(String prefix) {
+        switch (prefix) {
             case IMAGE_PNG:
                 return "png";
             case IMAGE_JPG:

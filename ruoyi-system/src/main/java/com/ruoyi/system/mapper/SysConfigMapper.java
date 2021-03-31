@@ -8,8 +8,7 @@ import com.ruoyi.system.domain.SysConfig;
  * 
  * @author ruoyi
  */
-public interface SysConfigMapper
-{
+public interface SysConfigMapper {
     /**
      * 查询参数配置信息
      * 
@@ -57,4 +56,19 @@ public interface SysConfigMapper
      * @return 结果
      */
     public int deleteConfigByIds(String[] configIds);
+
+    /**
+     * 通过key更新
+     * 
+     * @param sysConfig
+     * @return
+     */
+    public int updateConfigByKey(SysConfig sysConfig);
+
+    /**
+     * 获取参数组
+     * 
+     * @return
+     */
+    public List<String> selectConfigGroup();
 }

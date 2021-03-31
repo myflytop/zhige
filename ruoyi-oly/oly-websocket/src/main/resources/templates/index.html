@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<meta charset="UTF-8"/>
+<head>
+    <title>聊天框</title>
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src=" https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+
+        // 定义全局变量 stomp socket
+        var stompClient,socket;
+
+        $(document).ready(function () {
+            if (window.WebSocket){
+                websocketConfig();
+            } else {
+                alert("错误","浏览器不支持websocket技术通讯.");
+            }
+        });
+
+        // websocket 配置
+        function websocketConfig() {
+            /*
+             * 1. 连接url为endpointChat的endpoint,对应后台WebSoccketConfig的配置
+             * 2. SockJS 所处理的URL 是 "http://" 或 "https://" 模式，而不是 "ws://" or  "wss://"
+             */
+            socket = new SockJS("/stomp/websocketJS");
+
+            // 通过sock对象监听每个事件节点，非必须,这个必须放在stompClient的方法前面
+            sockHandle();
+
+            // 获取 STOMP 子协议的客户端对象
+            stompClient = Stomp.over(socket);
+
+            /*
+             * 1. 获取到stomp 子协议后，可以设置心跳连接时间，认证连接，主动断开连接
+             * 2，连接心跳有的版本的stomp.js 是默认开启的，这里我们不管版本，手工设置
+             * 3. 心跳是双向的，客户端开启心跳，必须要服务端支持心跳才行
+             * 4. heartbeat.outgoing 表示客户端给服务端发送心跳的间隔时间
+             * 5. 客户端接收服务端心跳的间隔时间，如果为0 表示客户端不接收服务端心跳
+             */
+            stompClient.heartbeat.outgoing = 10000;
+            stompClient.heartbeat.incoming = 0;
+
+            /*
+             * 1. stompClient.connect(headers, connectCallback, errorCallback);
+             * 2. headers表示客户端的认证信息,多个参数 json格式存,这里简单用的httpsessionID，可以根据业务场景变更
+             *    这里存的信息，在服务端StompHeaderAccessor 对象调用方法可以取到
+             * 3. connectCallback 表示连接成功时（服务器响应 CONNECTED 帧）的回调方法；
+             *    errorCallback 表示连接失败时（服务器响应 ERROR 帧）的回调方法，非必须；
+             */
+            var headers = {token:[[${session_id}]]};
+
+            stompClient.connect(headers,function (frame) {
+
+                console.log('Connected: ' + frame);
+
+                /*
+                 * 1. 订阅服务，订阅地址为服务器Controller 中的地址
+                 * 2. 如果订阅为公告，地址为Controller 中@SendTo 注解地址
+                 * 3. 如果订阅为私信，地址为setUserDestinationPrefix 前缀+@SendToUser注解地址
+                 *    或者setUserDestinationPrefix 前缀 + controller的convertAndSendToUser地址一致
+                 * 4. 这里演示为公告信息，所有订阅了的用户都能接受
+                 */
+                stompClient.subscribe("/topicTest/hello",function (message) {
+                    var msg = JSON.parse(message.body).msg;
+                    console.log("接收到公告信息：" + msg);
+                    alert("接收到公告信息：" + msg);
+                });
+
+                /*
+                 * 1. 因为推送为私信，必须带上或者setUserDestinationPrefix前缀 /user
+                 * 2. 演示自己发送给自己，做websocket向服务器请求资源而已，然后服务器你就把资源给我就行了，
+                 *    别的用户就不用你广播推送了，简单点，就是我请求，你就推送给我
+                 */
+                stompClient.subscribe('/user/userTest/own',function (message) {
+                    var msg = JSON.parse(message.body).msg;
+                    console.log("接收到私信信息SendToUser：" + msg);
+                    alert("接收到私信信息SendToUser：" + msg);
+                });
+
+                /*
+                 * 1. 订阅点对点消息
+                 * 2. 很多博文这里的路径会写成"/user/{accountId}/userTest/callBack”这种，是因为
+                 *    @SendToUser发送的代理地址是 /userTest/callBack， 地址将会被转化为 /user/{username}/userTest/callBack
+                 *    username，为用户的登录名，也是就是Principal或者本文中的WebSocketUserAuthentication对象getName获取的参数
+                 *    如果在拦截器中配置了认证路径，可以不带参数，不过推荐用带参数的写法
+                 */
+                stompClient.subscribe('/user/userTest/callBack',function (message) {
+
+                    var msg  = message.body;
+                    console.log("接收到点对点SendToUser：" + msg);
+                    alert("接收到点对点SendToUser：" + msg);
+                });
+
+                /*广播接收*/
+                stompClient.subscribe("/topic/everyOne",function (message) {
+                    var msg = JSON.parse(message.body).msg;
+                    console.log("接收到公告信息：" + msg);
+                    alert("接收到公告信息：" + msg);
+                });
+
+                /*给自己推送 自己接收*/
+                stompClient.subscribe('/user/giveMyself',function (message) {
+                    var msg  = message.body;
+                    console.log("接收到点对点SendToUser：" + msg);
+                    alert("接收到点对点SendToUser：" + msg);
+                });
+
+                /*给朋友推送 朋友接收*/
+                stompClient.subscribe('/user/giveFriend',function (message) {
+                    var msg  = message.body;
+                    console.log("接收到点对点SendToUser：" + msg);
+                    alert("接收到点对点SendToUser：" + msg);
+                });
+
+                /*群聊接收*/
+                stompClient.subscribe('/user/toGroup/callBack',function (message) {
+                    var msg  = message.body;
+                    console.log("接收到点对点SendToUser：" + msg);
+                    alert("接收到点对点SendToUser：" + msg);
+                });
+
+            }, function (error) {
+                console.log('STOMP: ' + error);
+                //setTimeout(websocketConfig, 10000);
+                console.log('STOMP: Reconnecting in 10 seconds');
+            });
+
+
+
+        }
+
+        // 发送公告消息
+        function sendMsg() {
+            var msg = $("#message").val();
+            var data ={"msg":msg};
+
+            /**
+             *  1. 第一个参数 url 为服务器 controller中 @MessageMapping 中匹配的URL，字符串，必须参数；
+             *  2. headers 为发送信息的header，json格式，JavaScript 对象，
+             *     可选参数,可以携带消息头信息，也可以做事务，如果没有，传{}
+             *  3. body 为发送信息的 body，字符串，可选参数
+             */
+            stompClient.send("/app/sendChatMsg/groupId",{},JSON.stringify(data));
+        }
+
+        // 发送公告消息
+        function sendGroup() {
+            var msg = $("#message").val();
+            var data ={"msg":msg};
+
+            /**
+             *  1. 第一个参数 url 为服务器 controller中 @MessageMapping 中匹配的URL，字符串，必须参数；
+             *  2. headers 为发送信息的header，json格式，JavaScript 对象，
+             *     可选参数,可以携带消息头信息，也可以做事务，如果没有，传{}
+             *  3. body 为发送信息的 body，字符串，可选参数
+             */
+            stompClient.send("/app/sendChatMsg/groupId",{},JSON.stringify(data));
+        }
+
+        // 发送给自己
+        function sendMsgOwn() {
+            var msg = $("#message").val();
+            var data ={"msg":msg};
+
+            /**
+             *  1. 第一个参数 url 为服务器 controller中 @MessageMapping 中匹配的URL，字符串，必须参数；
+             *  2. headers 为发送信息的header，json格式，JavaScript 对象，
+             *     可选参数,可以携带消息头信息，也可以做事务，如果没有，传{}
+             *  3. body 为发送信息的 body，字符串，可选参数
+             */
+            stompClient.send("/app/sendChatMsgByOwn",{},JSON.stringify(data));
+        }
+
+        // 发送点对点消息
+        function sendMsgById() {
+            var msg = $("#message").val();
+            var accountId = $("#accountId").val();
+            var data ={"msg":msg};
+
+            /**
+             *  1. 第一个参数 url 为服务器 controller中 @MessageMapping 中匹配的URL，字符串，必须参数；
+             *  2. headers 为发送信息的header，json格式，JavaScript 对象，
+             *     可选参数,可以携带消息头信息，也可以做事务，如果没有，传{}
+             *  3. body 为发送信息的 body，字符串，可选参数
+             *  4. accountId这个参数其实可以通过header传过去，不过因为是restful风格，所以就跟在url上
+             */
+            stompClient.send("/app/sendChatMsgById/" + accountId,{},JSON.stringify(data));
+        }
+
+        // 通过sock对象监听每个事件节点，非必须，这里开启了stomp的websocket 也不会生效了
+        function sockHandle() {
+            // 连接成功后的回调函数
+            socket.onopen = function () {
+                console.log("------连接成功------");
+            };
+
+            // 监听接受到服务器的消息
+            socket.onmessage = function (event) {
+                console.log('-------收到的消息: ' + event.data);
+            };
+
+            // 关闭连接的回调函数
+            socket.onclose = function (event) {
+                console.log('--------关闭连接: connection closed.------');
+            };
+
+            // 连接发生错误
+            socket.onerror = function () {
+                alert("连接错误", "网络超时或通讯地址错误.");
+                disconnect();
+            } ;
+        }
+
+        // 关闭websocket
+        function disconnect() {
+            if (socket != null) {
+                socket.close();
+                socket = null;
+            }
+        }
+
+    </script>
+</head>
+<body>
+<div>
+    <button>打开连接</button>
+    <button>关闭连接</button>
+
+    <span>消息</span>
+    <input type="text" id="message" name="message">
+    <input type="button" id="sendMsg" name="sendMsg" value="发送公告" onclick="sendMsg();">
+    <input type="button" id="sendMsgOwn" name="sendMsgOwn" value="自己给自己推送" onclick="sendMsgOwn();">
+    <br/>
+    <span>接收人</span>
+    <input type="text" id="accountId" name="accountId">
+    <input type="button" id="sendMsgById" name="sendMsgById" value="点对点消息" onclick="sendMsgById();">
+</div>
+</body>
+</html>

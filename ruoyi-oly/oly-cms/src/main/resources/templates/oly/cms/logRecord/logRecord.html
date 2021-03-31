@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('内容日志记录')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>记录标题：</p>
+                                <input type="text" name="title"/>
+                            </li>
+                            <li>
+                                <p>业务类型：</p>
+                                <select name="businessType" th:with="type=${@dict.getType('')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>操作类别：</p>
+                                <select name="operatorType" th:with="type=${@dict.getType('')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+
+                            <li>
+                                <p>操作地点：</p>
+                                <input type="text" name="operLocation"/>
+                            </li>
+                            <li>
+                                <p>操作状态：</p>
+                                <select name="status">
+                                    <option value="">所有</option>
+                                </select>
+                            </li>
+                            <li class="select-time">
+                                <p>操作时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginOperTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endOperTime]"/>
+                            </li>
+
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="cms:record:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('cms:record:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('cms:record:remove')}]];
+        var prefix = ctx + "cms/logRecord";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                modalName: "内容请求记录",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'logId', 
+                    title : '记录ID',
+                    visible: false
+                },
+                {
+                    field : 'title', 
+                    title : '日志标题'
+                },
+                {
+                    field : 'businessType', 
+                    title : '业务类型'
+                },
+                {
+                    field : 'method', 
+                    title : '方法名称'
+                },
+                {
+                    field : 'requestMethod', 
+                    title : '请求方式'
+                },
+                {
+                    field : 'operatorType', 
+                    title : '操作类别'
+                },
+                {
+                    field : 'operUrl', 
+                    title : '请求URL'
+                },
+                {
+                    field : 'operIp', 
+                    title : '主机地址'
+                },
+                {
+                    field : 'operLocation', 
+                    title : '操作地点'
+                },
+                {
+                    field : 'operParam', 
+                    title : '请求参数',
+                    visible: false
+                },
+                {
+                    field : 'jsonResult', 
+                    title : '返回参数' ,
+                    visible: false
+                },
+                {
+                    field : 'status', 
+                    title : '操作状态'
+                },
+                {
+                    field : 'errorMsg', 
+                    title : '错误消息',
+                    visible: false
+                },
+                {
+                    field : 'operTime', 
+                    title : '操作时间'
+                },
+                {
+                    field : 'operBower', 
+                    title : '使用浏览器'
+                },
+                {
+                    field : 'operSystem', 
+                    title : '使用系统'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.logId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

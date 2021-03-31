@@ -53,7 +53,7 @@ public @interface Excel
     /**
      * BigDecimal 舍入规则 默认:BigDecimal.ROUND_HALF_EVEN
      */
-    public int roundingMode() default BigDecimal.ROUND_HALF_EVEN;
+    public int roundingMode() default BigDecimal.ROUND_HALF_DOWN;
 
     /**
      * 导出类型（0数字 1字符串）

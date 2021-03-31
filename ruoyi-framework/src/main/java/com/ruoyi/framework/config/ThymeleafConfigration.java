@@ -1,0 +1,77 @@
+package com.ruoyi.framework.config;
+
+import javax.annotation.PostConstruct;
+
+import com.ruoyi.common.config.RuoYiConfig;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.FileTemplateResolver;
+
+/**
+ * 加载任意目录模板
+ */
+@Configuration
+public class ThymeleafConfigration {
+    @Autowired
+    private SpringTemplateEngine templateEngine;
+    
+    /**
+     * 加载任意目录模板
+     */
+    // @PostConstruct
+    // public void extension() {
+    //     FileTemplateResolver resolver = new FileTemplateResolver();
+    //     resolver.setPrefix(RuoYiConfig.getWorkPath()+"/themes/");
+    //     resolver.setSuffix(".html");
+    //     resolver.setTemplateMode("HTML5");
+    //     resolver.setOrder(templateEngine.getTemplateResolvers().size());
+    //     resolver.setCacheable(false);
+
+    //     templateEngine.addTemplateResolver(resolver);
+    // }
+
+//     @Bean
+//     public SpringResourceTemplateResolver firstTemplateResolver() {
+//         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+//         templateResolver.setPrefix("file:////"+RuoYiConfig.getWorkPath()+"/themes/");
+//         templateResolver.setSuffix(".html");
+//         templateResolver.setTemplateMode(TemplateMode.HTML);
+//         templateResolver.setCharacterEncoding("UTF-8");
+//         templateResolver.setOrder(0);
+//         templateResolver.setCheckExistence(true);
+//         templateResolver.setCacheable(false);
+// System.out.println("+++++++{PPPPPPPPPPPPPPPPPPPPPPPPPP");
+//         return templateResolver;
+//     }
+
+//     @Bean
+//     public ClassLoaderTemplateResolver secondTemplateResolver() {
+//         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+//         templateResolver.setPrefix("file:////"+RuoYiConfig.getWorkPath()+"/themes/");
+//         templateResolver.setSuffix(".html");
+//         templateResolver.setTemplateMode(TemplateMode.HTML);
+//         templateResolver.setCharacterEncoding("UTF-8");
+//         templateResolver.setOrder(0);
+//         templateResolver.setCheckExistence(true);
+//         templateResolver.setCacheable(false);
+// System.out.println("+++++++{PPPPPPPPPPPPPPPPPPPPPPPPPP");
+//         return templateResolver;
+
+      
+//     }
+
+//     @Bean
+//     public ClassLoaderTemplateResolver thirdTemplateResolver() {
+//         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+//         templateResolver.setPrefix("templates/templatelocation/another/");
+//         templateResolver.setSuffix(".html");
+//         templateResolver.setTemplateMode(TemplateMode.HTML);
+//         templateResolver.setCharacterEncoding("UTF-8");
+//         templateResolver.setOrder(2);
+//         templateResolver.setCheckExistence(true);
+
+//         return templateResolver;
+//     }
+}

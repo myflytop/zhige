@@ -79,6 +79,30 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
+         <!-- 模板模块-->
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-template</artifactId>
+        </dependency>
+
+        <!-- 储存模块-->
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-oss</artifactId>
+        </dependency>
+
+        <!-- 邮件模块-->
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-mail</artifactId>
+        </dependency>
+
+        <!-- 内容模块-->
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-cms</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -2,6 +2,9 @@ package com.ruoyi.framework.web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 import com.ruoyi.system.service.ISysConfigService;
 
 /**
@@ -10,8 +13,7 @@ import com.ruoyi.system.service.ISysConfigService;
  * @author ruoyi
  */
 @Service("config")
-public class ConfigService
-{
+public class ConfigService {
     @Autowired
     private ISysConfigService configService;
 
@@ -21,8 +23,17 @@ public class ConfigService
      * @param configKey 参数键名
      * @return 参数键值
      */
-    public String getKey(String configKey)
-    {
+    public String getKey(String configKey) {
         return configService.selectConfigByKey(configKey);
+    }
+
+    /**
+     * 获取分组列表
+     * 
+     * 
+     * @return
+     */
+    public List<String> getConfigGroup() {
+        return configService.selectConfigGroup();
     }
 }

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('网站设置')" />
+    <th:block th:include="include::bootstrap-select-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <div class="tabs-container">
+            <ul class="nav nav-tabs" id="config-title">
+                <li class="active"><a data-toggle="tab" href="#normal" aria-expanded="true">常规设置</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#page" aria-expanded="false">页面设置</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#seo" aria-expanded="false">主页SEO设置</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#article" aria-expanded="false">文章设置</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#other" aria-expanded="false">其它设置</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#about-me" aria-expanded="false">个人主页</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#zhan" aria-expanded="false">赞赏设置</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <!-- 常规 -->
+                <div id="normal" class="tab-pane active">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-normal" >
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">网站标题：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.title" th:value="${webConfig['oly.web.title']}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">网站主页：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.index" th:value="${webConfig['oly.web.index']}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">LOGO：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.logo" th:value="${webConfig['oly.web.logo']}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">ICO：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.ico" th:value="${webConfig['oly.web.ico']}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">页脚设置：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="oly.web.footer" th:value="${webConfig['oly.web.footer']}" class="form-control" type="text" >
+                                    </textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 页面设置 -->
+                <div id="page" class="tab-pane">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-page" >
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">首页：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.pageIndex" th:value="${webConfig['oly.web.pageIndex']}" class="form-control" type="number" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">分类页：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.pageCategory" th:value="${webConfig['oly.web.pageCategory']}" class="form-control" type="number" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">标签页：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.pageTag" th:value="${webConfig['oly.web.pagepTag']}" class="form-control" type="number" >
+                                </div>
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">排行榜：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.pageRank" th:value="${webConfig['oly.web.pageRank']}" class="form-control" type="number" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">导航页：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.pageLinks" th:value="${webConfig['oly.web.pageLinks']}" class="form-control" type="number" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">时间线：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.pageTimeLine" th:value="${webConfig['oly.web.pageTimeLine']}" class="form-control" type="number" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">关于我本站：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.pageAbout" th:value="${webConfig['oly.web.pageAbout']}" class="form-control" type="number" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">联系|反馈页：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.pageCallMe" th:value="${webConfig['oly.web.pageCallMe']}" class="form-control" type="number" >
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 基本SEO -->
+                <div id="seo" class="tab-pane">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-seo">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">作者：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.author" th:value="${webConfig['oly.web.author']}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">版权：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.copyright" th:value="${webConfig['oly.web.copyright']}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">关键词：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.keywords" th:value="${webConfig['oly.web.keywords']}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">描述：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="oly.web.description" th:value="${webConfig['oly.web.description']}" class="form-control" type="text" >
+                                    </textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 内容管理 文章-->
+                <div id="article" class="tab-pane">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-article" >
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">分类上限：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.cms.articleCat.maxNum" th:value="${cmsConfig['oly.cms.articleCat.maxNum']}" class="form-control" type="number" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">标签上限：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.cms.articleTag.maxNum" th:value="${cmsConfig['oly.cms.articleTag.maxNum']}" class="form-control" type="number" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">关键词上限：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.cms.articleKeyword.maxNum" th:value="${cmsConfig['oly.cms.articleKeyword.maxNum']}" class="form-control" type="number" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">文章默认状态：</label>
+                                <div class="col-sm-8">
+                                    <div class="radio-box" th:each="dict : ${@dict.getType('cms_article_visible')}">
+                                        <input type="radio" th:id="${dict.dictCode}" name="oly.cms.articleVisible.default" th:value="${dict.dictValue}" th:checked="${cmsConfig['oly.cms.articleVisible.default'] eq dict.dictValue}">
+                                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                                    </div>
+                                
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">开启评论：</label>
+                                <div class="col-sm-8">
+                                        <label class="toggle-switch switch-solid">
+                                            <input type="checkbox" id="oly.cms.articleComment.open"  th:checked="${cmsConfig['oly.cms.articleComment.open']}==0? 'false':'true'">
+                                            <input type="hidden" name="oly.cms.articleComment.open" th:value="${cmsConfig['oly.cms.articleComment.open']}"/>
+                                            <span></span>
+                                        </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">邮件回复：</label>
+                                <div class="col-sm-8">
+                                    <label class="toggle-switch switch-solid">
+                                        <input type="checkbox" id="oly.cms.articleMail.restore"  th:checked="${cmsConfig['oly.cms.articleMail.restore']}==0? 'false':'true'">
+                                        <input type="hidden" name="oly.cms.articleMail.restore" th:value="${cmsConfig['oly.cms.articleMail.restore']}"/>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 其他设置 -->
+                <div id="other" class="tab-pane">
+                        <div class="panel-body">
+                            <form class="form-horizontal m" id="form-other" >
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label is-">统计代码：</label>
+                                    <div class="col-sm-8">
+                                        <input name="oly.web.countCode" th:value="${webConfig['oly.web.countCode']}" class="form-control" type="text" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label is-">文章版权：</label>
+                                    <div class="col-sm-8">
+                                        <input name="oly.web.post.copyright" th:value="${webConfig['oly.web.post.copyright']}" class="form-control" type="text" >
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                 </div>
+                 <!-- 关于本站 -->
+                <div id="about-me" class="tab-pane">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-about-me" >
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">关于本站：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="oly.web.about.website" th:text="${webConfig['oly.web.about.website']}" class="form-control" type="text" >
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">关于作者：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="oly.web.about.author" th:text="${webConfig['oly.web.about.author']}" class="form-control" type="text" >
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">作者主页：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="oly.web.about.index" th:text="${webConfig['oly.web.about.index']}" class="form-control" type="text" >
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">联系我：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="oly.web.about.callme" th:text="${webConfig['oly.web.about.callme']}" class="form-control" type="text" >
+                                    </textarea>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <!-- 打赏码 -->
+                <div id="zhan" class="tab-pane">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-zhan" >
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">支付宝：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.countCode" th:value="${webConfig['oly.web.zhan.zhi']}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">微信：</label>
+                                <div class="col-sm-8">
+                                    <input name="oly.web.countCode" th:value="${webConfig['oly.web.zhan.wei']}" class="form-control" type="text" >
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        </div>
+        <br>
+            <button type="button" class="btn btn-w-m btn-primary center-block" id="submit-btn">修改</button>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include::bootstrap-select-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/config";
+        var myForm="form-normal";
+        $('#config-title a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+            myForm= $(this).attr('href').replace("#","form-");
+            console.log(myForm);
+        });
+       function setOpen(){
+        $("input[name='oly.cms.articleComment.open']").val($("input[id='oly.cms.articleComment.open']").is(':checked') == true ?1 : 0);
+        $("input[name='oly.cms.articleMail.restore']").val($("input[id='oly.cms.articleMail.restore']").is(':checked') == true ?1 : 0);
+       }
+
+        function submitHandler() {
+            setOpen();
+            $.operate.save(prefix + "/updateByKey", $('#'+myForm).serialize());
+
+        }
+        $("#submit-btn").click(function (){
+            submitHandler();
+        })   
+    </script>
+</body>
+</html>
