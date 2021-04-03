@@ -70,9 +70,8 @@
 		var detailFlag  = [[${@permission.hasPermi('cms:column:detail')}]];
 		var datas = [[${@dict.getType('sys_show_hide')}]];
 		var prefix = ctx + "cms/column";
-		
+		var vi =[[${@dict.getType('cms_column_visible')}]],ti=[[${@dict.getType('cms_column_type')}]],op=[[${@dict.getType('cms_column_open')}]];
 		$(function() {
-			
 		    var options = {
 		        code: "columnId",
 		        parentCode: 'parentId',
@@ -118,14 +117,14 @@
 		            title: '状态',
 		            align: "left",
 		            formatter: function(value, row, index) {
-						return $.table.selectDictLabel([[${@dict.getType('cms_column_visible')}]], value);
+						return $.table.selectDictLabel(vi, value);
 		            }
 		        }, {
 		            field: 'parent',
 		            title: '栏目类型',
 		            align: "left",
 					formatter: function(value, row, index) {
-							return $.table.selectDictLabel([[${@dict.getType('cms_column_type')}]], value);
+							return $.table.selectDictLabel(ti, value);
 						}
 		        },
 					{
@@ -145,7 +144,7 @@
 		            title: '打开方式',
 		            align: "left",
 					formatter: function(value, row, index) {
-						return $.table.selectDictLabel([[${@dict.getType('cms_column_open')}]], value);
+						return $.table.selectDictLabel(op, value);
 					}
 		        },
 		       /* {

@@ -1,72 +1,105 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <th:block th:include="include :: header('修改模板')" />
-    <th:block th:include="include :: codemirror-css"/>
-    <th:block th:include="include :: jsonmate-css"/>
+    <th:block th:include="include :: header('新增模板')" />
+    <th:block th:include="include :: oly_froala_css" />
+    <th:block th:include="include :: oly_jsonmate_css" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
 </head>
-<body class="white-bg" th:object="${sysTemplate}">
+
+<body class="white-bg" th:object="${olyTemplate}">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-template-edit" >
+        <form class="form-horizontal m" id="form-template-edit" enctype="multipart/form-data">
             <input name="templateId" th:field="*{templateId}" type="hidden">
-            <div class="form-group">    
+            <input name="templateUrl" th:field="*{templateUrl}" type="hidden">
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">父模板：</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input id="treeId" name="parentId" type="hidden" th:value="${olyTemplate?.templateId}" />
+                        <input class="form-control" type="text" onclick="selectTemplateTree()" id="treeName"
+                            readonly="true" th:value="*{templateName}" required>
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">模板类型：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('oly_template_type')}">
+                        <input type="radio" th:id="${dict.dictCode}" th:value="${dict.dictValue}" name="templateType"
+                            th:field="*{templateType}">
+                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-3 control-label">模板名：</label>
                 <div class="col-sm-8">
-                    <input name="mouldName" th:field="*{mouldName}" class="form-control" type="text">
+                    <input name="templateName" th:field="*{templateName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group tOther tr">
+                <label class="col-sm-3 control-label">上传模板：</label>
+                <div class="col-sm-8">
+                    <input name="file" class="form-control" type="file">
+                    <br>
+                    <input name="templateUrl" th:field="*{templateUrl}" class="form-control" disabled type="text">
+                </div>
+            </div>
+            <div class="form-group tHtml tr">
+                <label class="col-sm-3 control-label">模板内容：</label>
+                <div class="col-sm-8">
+                    <div id="htmlContent">
+
+
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">模板：</label>
-                <div class="col-sm-8">
-                        <div id="editContent">
-                            <div class="btn-group" style="position: absolute; z-index: 1000;top:20px;right: 25px;">
-                                <a class="btn btn-white btn-bitbucket" href="javascript:autoFormatSelection()" style="background-color: #3535356b;">
-                                    <i class="fa fa-align-justify" style="color: white"></i>
-                                </a>
-                                <a class="btn btn-white btn-bitbucket" id="fullScreen" style="background-color: #3535356b;">
-                                    <i class="fa fa-arrows-alt" style="color: white"></i>
-                                </a>
-                                <a class="btn btn-white btn-bitbucket" id="eyeBtn"  href="javascript:checkTemplate()" style="background-color: #3535356b;">
-                                    <i class="fa fa-eye" style="color: white"></i>
-                                </a>
-                            </div>
-                     <textarea id="temCode" th:field="*{templateHtml}" name="templateHtml"> </textarea>
-                        </div>
-                 </div>
-            </div>
-            <div class="form-group">    
+            <div class="form-group tHtml tr">
                 <label class="col-sm-3 control-label">模板数据：</label>
                 <div class="col-sm-8">
-                    <input name="templateData"  type="hidden">
-                    <div id="modelData" class="json-editor"></div>
+                    <input name="templateParam" type="hidden">
+                    <div id="templateParam" class="json-editor"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">模板状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_show_hide')}">
+                        <input type="radio" th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}"
+                            th:checked="${dict.default}">
+                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">是否内置：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_template_built')}">
-                        <input type="radio" th:id="${dict.dictCode}" name="built" th:value="${dict.dictValue}" th:field="*{built}">
-                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    <div class="radio-box">
+                        <input type="radio" checked id="tYes" name="built" value="1" th:fiele="*{built}">
+                        <label for="tYes">是</label>
+                    </div>
+                    <div class="radio-box">
+                        <input type="radio" id="tNo" name="built" value="0" th:fiele="*{built}">
+                        <label for="tNo">否</label>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">模板状态：</label>
+                <label class="col-sm-3 control-label is-required">显示顺序：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_template_visible')}">
-                        <input type="radio" th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}" th:field="*{visible}">
-                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
-                    </div>
+                    <input name="orderNum" class="form-control" type="number" th:field="*{orderNum}" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">模板用途：</label>
+                <label class="col-sm-3 control-label is-required">备注：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_template_used')}">
-                        <input type="radio" th:id="${dict.dictCode}" name="templateUsed" th:value="${dict.dictValue}" th:field="*{templateUsed}">
-                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
-                    </div>
+                    <input name="remark" class="form-control" type="text" th:field="*{remark}">
                 </div>
             </div>
             <a class="btn btn-success" onclick="submitHandler()">
@@ -75,158 +108,125 @@
         </form>
     </div>
     <th:block th:include="include :: footer" />
-    <th:block th:include="include :: codemirror-js"/>
-    <th:block th:include="include :: fullscreen-js"/>
-    <th:block th:include="include :: jsonmate-js"/>
-    <script type="text/javascript" th:inline="javascript" >
-        var json=JSON.parse([[${sysTemplate.templateData}]]);
-        console.log(json);
-        //设置允许iframe全屏
-        for (i = 0; i < window.top.document.getElementsByTagName("iframe").length; i++) {
-            window.top.document.getElementsByTagName("iframe")[i].setAttribute("allowfullscreen",true);
-        }
-        //高亮折叠编辑器插件
-        var  editor = CodeMirror.fromTextArea(document.getElementById("temCode"), {
-            mode: "text/html",
-            theme:"erlang-dark",
-            lineNumbers: true,	//显示行号
-            lineWrapping: true, //代码折叠
-            foldGutter: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-            matchBrackets: true,  //括号匹配
-            extraKeys: {"Ctrl-Space": "autocomplete"}
-        });
-       // CodeMirror.commands["selectAll"](editor);
-        //设置高亮编辑器高
-        editor.setSize(null,"200px");
-
-        //获取选择范围
-        function getSelectedRange() {
-            return { from: editor.getCursor(true), to: editor.getCursor(false) };
-        }
-         //格式化
-        function autoFormatSelection() {
-            var range = getSelectedRange();
-            editor.autoFormatRange(range.from, range.to);
-        }
-        //注释
-        function commentSelection(isComment) {
-            var range = getSelectedRange();
-            editor.commentRange(isComment, range.from, range.to);
-        }
-
-
-        function printJSON() {
-            $('#json').val(JSON.stringify(json));
-
-        }
-
-        function updateJSON(data) {
-            json = data;
-            printJSON();
-        }
-
-        function showPath(path) {
-            $('#path').text(path);
-        }
-        $(document).ready(function() {
-            $('#rest > button').click(function() {
-                var url = $('#rest-url').val();
-                $.ajax({
-                    url: url,
-                    dataType: 'jsonp',
-                    jsonp: $('#rest-callback').val(),
-                    success: function(data) {
-                        json = data;
-                        $('#modelData').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
-                        printJSON();
-                    },
-                    error: function() {
-                        alert('Something went wrong, double-check the URL and callback parameter.');
-                    }
-                });
-            });
-
-            $('#json').change(function() {
-                var val = $('#json').val();
-
-                if (val) {
-                    try { json = JSON.parse(val); }
-                    catch (e) { alert('Error in parsing json. ' + e); }
-                } else {
-                    json = {};
-                }
-
-                $('#modelData').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
-            });
-
-            $('#expander').click(function() {
-                var editor = $('#editor');
-                editor.toggleClass('expanded');
-                $(this).text(editor.hasClass('expanded') ? 'Collapse' : 'Expand all');
-            });
-
-            printJSON();
-            $('#modelData').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
-        });
-
-        var prefix = ctx + "system/template";
+    <th:block th:include="include :: oly_froala_js" />
+    <th:block th:include="include :: oly_jsonmate_js" />
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "oly/template";
         $("#form-template-edit").validate({
+            onkeyup: false,
+            rules: {
+                templateType: {
+                    required: true
+                },
+                templateName: {
+                    required: true
+                },
+                orderNum: {
+                    digits: true
+                },
+            },
+            messages: {
+                "templateName": {
+                    remote: "名称不能为空"
+                }
+            },
             focusCleanup: true
         });
 
-       var fuj=false;
-        //全屏事件
-        $("#fullScreen").click(function(e){
-          if (!fuj)
-          { $("#editContent").fullScreen(true);}
-          else {$("#editContent").fullScreen(false);
-          }
-            layer.closeAll();
-            e.preventDefault();
-        });
-        $(document).bind("fullscreenchange", function(e) {
-            fuj=!fuj;
-            $("#editContent").fullScreen(fuj);
-            if(fuj)
-            {
-                $("#eyeBtn").hide();
-                editor.setSize(null,"100vh");
-            }
-            else
-            {
-                $("#eyeBtn").show();
-                editor.setSize(null,"200px");
-            }
-        });
         function submitHandler() {
-            $("#temCode").text(editor.getValue());
-            $("input[name='templateData']").val(JSON.stringify(json));
             if ($.validate.form()) {
-                $.operate.saveTab(prefix + "/edit", $('#form-template-edit').serialize());
+                var data = $('#form-template-edit').serializeArray();
+                data.push({ "name": "templateHtml", "value": editor.html.get(true) });
+                $.operate.save(prefix + "/edit", data);
             }
         }
-       function checkTemplate(){
-           $.post(prefix+"/checkTemplate",{"templateHtml":editor.getValue(),"templateData":JSON.stringify(json)},function(data,status){
-               if(data.code===0)
-               {
-                   $.modal.openFullPage("模板展示",'<iframe id="preview" style="width: 100%;height: 100%;border: none"></iframe>');
-                   function updatePreview() {
-                       var previewFrame = document.getElementById('preview');
-                       var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
-                       preview.open();
-                       preview.write(editor.getValue());
-                       preview.close();
-                   }
-                  updatePreview();
-               }
-               else {
-                   $.modal.alertError(data.msg);
-               }
-           });
-       }
+
+
+        /* 初始化富文本编辑器 */
+        var editor = new FroalaEditor("#htmlContent", {
+            // Set the language code.
+            language: 'zh_cn',
+            imageUploadURL: '/articleImg' //上传到本地服务器,返回{'link',url}
+        }, function () {
+            if ($("input[name='templateType']:checked").val() == 1) {
+                $.get(prefix + "/getContent", { 'tUrl': $("input[name='templateUrl']").val() }, function (res) {
+                    editor.html.set(res);
+                });
+            }
+        });
+
+        $("input[name='templateType']").on('ifChecked', function (event) {
+            changeBox();
+        });
+
+        /*olyTemplateType
+        0：为目录  目录 目录名 备注 用途
+        1：自定义html 多数据
+        2：以上需要上传 不支持修改*/
+        function changeBox() {
+            let tType = $("input[name='templateType']:checked").val();
+            $(".tr").show();
+
+            if (tType == 0) {
+                $(".tr").hide();
+
+            }
+            else if (tType == 1) {
+                $(".tHtml").show();
+                $(".tOther").hide();
+            }
+            else {
+                $(".tHtml").hide();
+                $(".tOther").show();
+            }
+        }
+        changeBox();
+        /*模板模型-新增-选择父树*/
+        function selectTemplateTree() {
+            var options = {
+                title: '模板模型选择',
+                width: "380",
+                url: prefix + "/selectTemplateTree/" + $("#treeId").val(),
+                callBack: doSubmit
+            };
+            $.modal.openOptions(options);
+        }
+
+        function doSubmit(index, layero) {
+            var body = layer.getChildFrame('body', index);
+            $("#treeId").val(body.find('#treeId').val());
+            $("#treeName").val(body.find('#treeName').val());
+            layer.close(index);
+        }
+
+        var json = {};
+        function updateJSON(data) {
+            json = data;
+
+        }
+        $('#templateParam').jsonEditor(json, {
+            change: updateJSON
+        });
+
+        $(document).ready(function () {
+            $("input[name='file']").fileinput({
+                rtl: true,
+                showPreview: false, //是否显示预览
+                hideThumbnailContent: true,//是否在缩略图中隐藏预览内容（图像，pdf内容，文本内容等）。
+                uploadUrl:prefix+"/templateUpload",
+                allowedFileExtensions: ["pdf", "docx",]
+            });
+            $("input[name='file']").on("fileuploaded", function (event, data, previewId, index) {
+                console.log(data)
+                $("input[name='templateUrl']").val(data.response.data.fk);
+            })
+        });
+
 
 
     </script>
+
 </body>
+
 </html>

@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectOlyTemplateById" parameterType="Long" resultMap="OlyTemplateResult">
-        select t.template_id, t.template_name, t.parent_id, t.remark, t.create_by, t.update_by, t.create_time, t.update_time, t.built, t.perms, t.visible, t.template_type, t.ancestors,  t.template_url, t.order_num, p.template_name as parent_name
+        select t.template_id, t.template_name, t.parent_id, t.remark, t.create_by, t.update_by, t.create_time, t.update_time, t.built, t.perms, t.visible, t.template_type, t.ancestors,  t.template_url, t.order_num
         from oly_template t
         left join oly_template p on p.template_id = t.parent_id
         where t.template_id = #{templateId}
@@ -53,9 +53,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="parentId != null">parent_id,</if>
             <if test="remark != null and remark != ''">remark,</if>
             <if test="createBy != null">create_by,</if>
-            <if test="updateBy != null">update_by,</if>
-            <if test="createTime != null">create_time,</if>
-            <if test="updateTime != null">update_time,</if>
+            create_time,
+            
             <if test="built != null">built,</if>
             <if test="perms != null and perms != ''">perms,</if>
             <if test="visible != null">visible,</if>
@@ -70,9 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="parentId != null">#{parentId},</if>
             <if test="remark != null and remark != ''">#{remark},</if>
             <if test="createBy != null">#{createBy},</if>
-            <if test="updateBy != null">#{updateBy},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="updateTime != null">#{updateTime},</if>
+            sysdate(),
             <if test="built != null">#{built},</if>
             <if test="perms != null and perms != ''">#{perms},</if>
             <if test="visible != null">#{visible},</if>
@@ -80,7 +77,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ancestors != null and ancestors != ''">#{ancestors},</if>
             <if test="templateUrl != null and templateUrl != ''">#{templateUrl},</if>
             <if test="templateParam!= null and templateParam != ''">#{templateParam},</if>
-          
             <if test="orderNum != null">#{orderNum},</if>
          </trim>
     </insert>
@@ -91,16 +87,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="templateName != null and templateName != ''">template_name = #{templateName},</if>
             <if test="parentId != null">parent_id = #{parentId},</if>
             <if test="remark != null and remark != ''">remark = #{remark},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="updateTime != null">update_time = #{updateTime},</if>
+            update_time = sysdate(),
             <if test="built != null">built = #{built},</if>
             <if test="perms != null and perms != ''">perms = #{perms},</if>
             <if test="visible != null">visible = #{visible},</if>
             <if test="templateType != null">template_type = #{templateType},</if>
             <if test="ancestors != null and ancestors != ''">ancestors = #{ancestors},</if>
-            <if test="templateParam!= null ">#{templateParam},</if>
+             <if test="templateUrl != null and templateUrl != ''">template_url=#{templateUrl},</if>
+            <if test="templateParam!= null  and templateParam != ''">template_param=#{templateParam},</if>
             <if test="orderNum != null">order_num = #{orderNum},</if>
         </trim>
         where template_id = #{templateId}
@@ -116,5 +111,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{templateId}
         </foreach>
     </delete>
-
+    
+    <select id="countTemplate" parameterType="long" resultType="int">
+    select count(1) from oly_template where parent_id=#{templateId}
+    </select>
 </mapper>

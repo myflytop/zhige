@@ -1,6 +1,9 @@
 package com.oly.template.service;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import com.oly.template.domain.OlyTemplate;
 import com.ruoyi.common.core.domain.Ztree;
 
@@ -73,4 +76,8 @@ public interface IOlyTemplateService {
      * @return 所有模板模型信息
      */
     public List<Ztree> selectOlyTemplateTree(int olType);
+
+    public void getTemolateContent(String tUrl,HttpServletResponse response);
+
+    public int countTemplate(Long templateId);
 }

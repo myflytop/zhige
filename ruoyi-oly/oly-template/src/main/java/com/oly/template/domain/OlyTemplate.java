@@ -1,8 +1,6 @@
 package com.oly.template.domain;
 
 import com.oly.common.model.support.OlyTreeEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 
 /**
@@ -24,7 +22,7 @@ public class OlyTemplate extends OlyTreeEntity {
 
     /** 是否内置 */
     @Excel(name = "是否内置")
-    private Integer built;
+    private Byte built;
 
     /** 权限字符 */
     @Excel(name = "权限字符")
@@ -62,11 +60,11 @@ public class OlyTemplate extends OlyTreeEntity {
         return templateName;
     }
 
-    public void setBuilt(Integer built) {
+    public void setBuilt(Byte built) {
         this.built = built;
     }
 
-    public Integer getBuilt() {
+    public Byte getBuilt() {
         return built;
     }
 

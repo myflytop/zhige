@@ -58,4 +58,6 @@ public interface OlyTemplateMapper
      * @return 结果
      */
     public int deleteOlyTemplateByIds(String[] templateIds);
+
+    public int countTemplate(Long templateId);
 }
