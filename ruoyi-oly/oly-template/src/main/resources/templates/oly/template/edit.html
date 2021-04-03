@@ -18,9 +18,9 @@
                 <label class="col-sm-3 control-label is-required">父模板：</label>
                 <div class="col-sm-8">
                     <div class="input-group">
-                        <input id="treeId" name="parentId" type="hidden" th:value="${olyTemplate?.templateId}" />
+                        <input id="treeId" name="parentId" type="hidden" th:value="${olyTemplate?.parentId}" />
                         <input class="form-control" type="text" onclick="selectTemplateTree()" id="treeName"
-                            readonly="true" th:value="*{templateName}" required>
+                            readonly="true" th:value="${parentName}" required>
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                     </div>
                 </div>

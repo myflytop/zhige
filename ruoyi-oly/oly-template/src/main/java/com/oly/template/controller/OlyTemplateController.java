@@ -129,7 +129,7 @@ public class OlyTemplateController extends BaseController {
        
         if(olyTemplate.getParentId()!=0L)
         {
-            OlyTemplate parentOlyTemplate = olyTemplateService.selectOlyTemplateById(templateId);
+            OlyTemplate parentOlyTemplate = olyTemplateService.selectOlyTemplateById(olyTemplate.getParentId());
             if(parentOlyTemplate!=null)
             {
                 parentName=parentOlyTemplate.getTemplateName();
@@ -137,7 +137,7 @@ public class OlyTemplateController extends BaseController {
 
         }
         mmap.put("parentName",parentName);
-        mmap.put("olyTemplate", olyTemplate);
+        mmap.put("olyTemplate",olyTemplate);
         return prefix + "/edit";
     }
 
