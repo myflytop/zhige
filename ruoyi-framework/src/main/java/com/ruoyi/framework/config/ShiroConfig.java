@@ -5,27 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import javax.servlet.Filter;
-import org.apache.commons.io.IOUtils;
-import org.apache.shiro.cache.ehcache.EhCacheManager;
-import org.apache.shiro.codec.Base64;
-import org.apache.shiro.config.ConfigurationException;
-import org.apache.shiro.io.ResourceUtils;
-import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
-import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.mgt.CookieRememberMeManager;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.servlet.SimpleCookie;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
-import org.springframework.boot.autoconfigure.cache.CacheType;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;
@@ -39,6 +21,23 @@ import com.ruoyi.framework.shiro.web.filter.online.OnlineSessionFilter;
 import com.ruoyi.framework.shiro.web.filter.sync.SyncOnlineSessionFilter;
 import com.ruoyi.framework.shiro.web.session.OnlineWebSessionManager;
 import com.ruoyi.framework.shiro.web.session.SpringSessionValidationScheduler;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.codec.Base64;
+import org.apache.shiro.config.ConfigurationException;
+import org.apache.shiro.io.ResourceUtils;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
 /**
@@ -291,7 +290,7 @@ public class ShiroConfig {
         //主页匿名访问
         filterChainDefinitionMap.put("/", "anon");
         //博客静态资源匿名访问
-        filterChainDefinitionMap.put("/themes/**/resource/**", "anon");
+        filterChainDefinitionMap.put("/themes/**/resources/**", "anon");
 
         Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
         filters.put("onlineSession", onlineSessionFilter());

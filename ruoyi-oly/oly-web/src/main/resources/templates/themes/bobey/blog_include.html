@@ -9,10 +9,10 @@
 	<meta name="author" th:content="${blogConfig['oly.web.author'].configValue}">
 	<meta name="copyright" th:content="${blogConfig['oly.web.copyright'].configValue}">
 	<link rel="shortcut icon" th:href="${blogConfig['oly.web.ico'].configValue}">
-	<link th:href="@{/themes/bobey/resource/model/layui/src/css/layui.css}" rel="stylesheet" />
-	<link th:href="@{/themes/bobey/resource/model/animate/animate.css}" rel="stylesheet" />
-	<link th:href="@{/themes/bobey/resource/model/font-awesome-4.7.0/css/font-awesome.css}" rel="stylesheet" />
-	<link th:href="@{/themes/bobey/resource/css/index.css}" rel="stylesheet" />
+	<link th:href="@{/themes/bobey/resources/model/layui/src/css/layui.css}" rel="stylesheet" />
+	<link th:href="@{/themes/bobey/resources/model/animate/animate.css}" rel="stylesheet" />
+	<link th:href="@{/themes/bobey/resources/model/font-awesome-4.7.0/css/font-awesome.css}" rel="stylesheet" />
+	<link th:href="@{/themes/bobey/resources/css/index.css}" rel="stylesheet" />
 
 
 	<style type="text/css">
@@ -55,11 +55,11 @@
 
 <!-- 通用JS -->
 <div th:fragment="footer_js">
-	<script th:src="@{/themes/bobey/resource/model/layui/src/layui.js}"></script>
-	<script th:src="@{/themes/bobey/resource/model/headroom/headroom.js}"></script>
-	<script th:src="@{/themes/bobey/resource/model/couldtag/js/jquery-2.1.1.min.js}"></script>
-	<script th:src="@{/themes/bobey/resource/model/couldtag/js/jquery.svg3dtagcloud.min.js}"></script>
-	<script th:src="@{/themes/bobey/resource/js/tagcloud.js}"></script>
+	<script th:src="@{/themes/bobey/resources/model/layui/src/layui.js}"></script>
+	<script th:src="@{/themes/bobey/resources/model/headroom/headroom.js}"></script>
+	<script th:src="@{/themes/bobey/resources/model/couldtag/js/jquery-2.1.1.min.js}"></script>
+	<script th:src="@{/themes/bobey/resources/model/couldtag/js/jquery.svg3dtagcloud.min.js}"></script>
+	<script th:src="@{/themes/bobey/resources/js/tagcloud.js}"></script>
 	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
 	<script th:inline="JavaScript">
 		$(document).ready(function() {
@@ -303,7 +303,7 @@
 		<div th:each="post,postStat:${posts.rows}" th:class="'layui-col-md4 layui-col-sm6 bobey-post-list '+${'post-page-'+(1+postStat.index/18)}">
 			<div class="post-list-item">
 				<div class="post-list-item-container">
-					<div class="item-thumb  bg-deepgrey" th:with="imgs=${T(com.oly.web.utils.ThymeleafUtils).split(post.articleImg)},rando=${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*10),1,0)},iul=@{/themes/bobey/resource/images/thumbs/}"
+					<div class="item-thumb  bg-deepgrey" th:with="imgs=${T(com.oly.web.utils.ThymeleafUtils).split(post.articleImg)},rando=${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*10),1,0)},iul=@{/themes/bobey/resources/images/thumbs/}"
 					 th:style="'background-image:url('+${imgs==null?(iul+rando+'.jpg'):imgs[0]}+')'">
 					</div>
 					<div class="item-desc">
