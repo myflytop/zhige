@@ -16,8 +16,8 @@
 * 文章相关操作：包含评论,浏览记录,评分,收藏等 ...
 <table>
     <tr>
-        <td><img src="https://gitee.com/Getawy/zhige/blob/master/ruoyi-oly/oly-web/src/main/resources/templates/themes/bobey/resource/images/thumbs/0.jpg"/></td>
-        <td><img src="https://gitee.com/Getawy/zhige/blob/master/ruoyi-oly/oly-web/src/main/resources/templates/themes/bobey/resource/images/thumbs/0.jpg"/></td>
+        <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/pic/Snipaste_2021-04-03_14-25-19.png"/></td>
+        <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/pic/Snipaste_2021-04-03_14-25-47.png"/></td>
     </tr>
                                       
 </table>
