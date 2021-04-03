@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<th:block th:include="themes/bobey/blog_include :: blogHeader(title=${blogConfig['oly.web.title'].configValue},
+	<th:block th:include="bobey/blog_include :: blogHeader(title=${blogConfig['oly.web.title'].configValue},
 keywords=${blogConfig['oly.web.keywords'].configValue},
 description='用户个人中心',
 blogConfig=${blogConfig})" />
@@ -10,7 +10,7 @@ blogConfig=${blogConfig})" />
 
 <body>
 	<th:block
-		th:include="themes/bobey/blog_include::menu(menus=${@menuTag.getMenuTreeById(76)},blogConfig=${blogConfig})" />
+		th:include="bobey/blog_include::menu(menus=${@menuTag.getMenuTreeById(76)},blogConfig=${blogConfig})" />
 	<!-- 主体部分 -->
 	<section class="bobey-main-box">
 		<div class="layui-row" style="background-color: white;height: 80vh">
@@ -115,8 +115,8 @@ blogConfig=${blogConfig})" />
 	</section>
 
 	<!-- 底部导航 -->
-	<th:block th:include="themes/bobey/blog_include::bottom" />
-	<th:block th:include="themes/bobey/blog_include::footer_js" />
+	<th:block th:include="bobey/blog_include::bottom" />
+	<th:block th:include="bobey/blog_include::footer_js" />
 
 	<script>
 

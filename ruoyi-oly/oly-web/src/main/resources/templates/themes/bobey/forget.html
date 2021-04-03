@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block   th:include="themes/bobey/blog_include :: blogHeader(title=${blogConfig['oly.web.title'].configValue},
+    <th:block   th:include="bobey/blog_include :: blogHeader(title=${blogConfig['oly.web.title'].configValue},
 keywords=${blogConfig['oly.web.keywords'].configValue},
 description=${blogConfig['oly.web.description'].configValue},
 blogConfig=${blogConfig})"/>
 
 </head>
 <body>
-<th:block th:include="themes/bobey/blog_include::menu(menus=${@menuTag.getMenuTreeById(76)},blogConfig=${blogConfig})"/>
+<th:block th:include="bobey/blog_include::menu(menus=${@menuTag.getMenuTreeById(76)},blogConfig=${blogConfig})"/>
 <!-- 主体部分 -->
 <section class="bobey-main-box">
     <div class="layui-container">
@@ -136,8 +136,8 @@ blogConfig=${blogConfig})"/>
 
 </style>
 <!-- 底部导航 -->
-<th:block th:include="themes/bobey/blog_include::bottom"/>
-<th:block th:include="themes/bobey/blog_include::footer_js"/>
+<th:block th:include="bobey/blog_include::bottom"/>
+<th:block th:include="bobey/blog_include::footer_js"/>
 <script src="../static/ajax/libs/validate/jquery.validate.min.js" th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
 <script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
 <script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>

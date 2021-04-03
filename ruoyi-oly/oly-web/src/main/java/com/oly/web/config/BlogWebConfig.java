@@ -12,11 +12,11 @@ public class BlogWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
+        String path=("file:" + RuoYiConfig.getWorkPath() + "/" +
+        OlyStageRoot.THEME_DIR.getDir() + "/").replace("\\", "/");
         /** 主题静态资源配置 */
-        registry.addResourceHandler("/themes/**").addResourceLocations(
-        "file:" + RuoYiConfig.getWorkPath() + "/" +
-        OlyStageRoot.THEME_DIR.getDir() + "/");
+
+        registry.addResourceHandler("/themes/**").addResourceLocations(path);
         /** 主题静态资源配置 */
         // registry.addResourceHandler("/themes/**").addResourceLocations("classpath:/templates/themes/");
 

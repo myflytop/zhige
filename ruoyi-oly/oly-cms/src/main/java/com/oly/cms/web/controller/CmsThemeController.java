@@ -96,7 +96,7 @@ public class CmsThemeController extends CmsCommonController {
 	public AjaxResult themeUpload(@RequestParam("themeFile") MultipartFile file,
 			@RequestParam(value = "covery", defaultValue = "false", required = false) boolean covery,
 			HttpServletRequest request) throws Throwable {
-		if (file.isEmpty()||!".zip|.gz|.rar".contains(file.getOriginalFilename())) {
+		if (file.isEmpty()||!"zip|gz|rar".contains(FilenameUtils.getExtension(file.getOriginalFilename()))) {
 			return AjaxResult.error("文件不存在或者不支持压缩类型,请上传zip|.gz|.rar压缩包");
 		} else {
 			return toAjax(themeService.uploadTheme(file, covery));
