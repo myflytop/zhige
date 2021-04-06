@@ -2,6 +2,10 @@ package com.oly.web.web.api.contoller;
 
 import com.oly.common.model.enums.OlyCommonEnum;
 import com.oly.framework.event.AddArticleEvent;
+import com.oly.web.mould.BlogLink;
+import com.oly.web.mould.BlogMenu;
+import com.oly.web.service.cache.BlogCacheService;
+import com.oly.web.service.impl.BlogServiceImpl;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 
@@ -15,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -26,6 +32,9 @@ public class BlogApiController {
     private final String CONFIG_PREIGX = OlyCommonEnum.OLY_WBE_PREIFX.getValue();
     @Autowired
     private SysConfigServiceImpl sysConfigService;
+    
+    @Autowired
+    private BlogCacheService blogService;
 
     @Autowired
     ApplicationContext applicationContext;
@@ -47,28 +56,40 @@ public class BlogApiController {
         return AjaxResult.success();
     }
 
-    @GetMapping("/t")
-    public AjaxResult onfig() {
-        System.out.println("________________________________");
-       applicationContext.publishEvent(new AddArticleEvent(this, 1));
-        return AjaxResult.success();
-    }
-    
-
-    //获取菜单
+  
+    /**
+     * 获取菜单
+     * @param menuId
+     * @return
+     */
     @GetMapping("/menu/{menuId}")
     public AjaxResult getMenu(@PathVariable("menuId") long menuId)
     {
-
-        return null;
+        return AjaxResult.success(blogService.getBlogMenuById(menuId));
     }
 
-    //获取菜单列表
-    @GetMapping("/list/menu/{size}/{visible}")
-    public AjaxResult listMenu(@PathVariable("size")int size,@PathVariable(value="visible",required=false) byte visible)
-    {
+    /**
+     * 获取节点及子节点
+     * @param menuId
+     * @return
+     */
+    @GetMapping("/list/menu/{menuId}")
+    public AjaxResult listMenu(@PathVariable("menuId")long menuId)
+    {  
+        
+        return AjaxResult.success(blogService.listBlogMenus(menuId));
+    }
 
-        return null;
+    /**
+     * 树菜单
+     * @param menuId
+     * @return
+     */
+    @GetMapping("/list/menuTree/{menuId}")
+    public AjaxResult listMenuTree(@PathVariable("menuId")long menuId)
+    {  
+        
+        return AjaxResult.success(blogService.listBlogMenuTreeByColumnId(menuId));
     }
 
     /**
@@ -80,20 +101,19 @@ public class BlogApiController {
     public AjaxResult getTag(@PathVariable("tagId") long tagId)
     {
 
-        return null;
+        return AjaxResult.success(blogService.getBlogTagByTagId(tagId));
     }
 
     /**
      * 获取标签列表
      * @param size
-     * @param visible
      * @return
      */
-    @GetMapping("/list/tag/{size}/{num}/{visible}")
-    public AjaxResult listTag(@PathVariable("size")int size,@PathVariable(value="num",required=false) int num,@PathVariable(value="visible",required=false) byte visible)
+    @GetMapping("/list/tag/{size}")
+    public AjaxResult listTag(@PathVariable("size")int size)
     {
 
-        return null;
+        return AjaxResult.success(blogService.listBlogTags(size,"visible,create_time desc")); 
     }
     /**
      * 通过标签ID获取文章
@@ -102,7 +122,7 @@ public class BlogApiController {
      */
     @GetMapping("/list/article/tag/{tagId}")
     public AjaxResult listArticleByTagId(@PathVariable("tagId") long tagId){
-        return null;
+        return AjaxResult.success(blogService.listBlogArticlesByTagId(tagId, 100));
     }
 /**
      * 获取分类
@@ -113,54 +133,53 @@ public class BlogApiController {
     public AjaxResult getCat(@PathVariable("catId") long catId)
     {
 
-        return null;
+        return AjaxResult.success(blogService.getBlogMenuById(catId));
     }
 
-    /**
-     * 获取分类列表
-     * @param size
-     * @param visible
-     * @return
-     */
-    @GetMapping("/list/cat/{size}/{visible}")
-    public AjaxResult listCat(@PathVariable("size")int size,@PathVariable(value="visible",required=false) byte visible)
-    {
-
-        return null;
-    }
 
      /**
      * 获取节点及子节点
-     * @param size
-     * @return
-     */
-    @GetMapping("/list/catParent/{size}/{catId}")
-    public AjaxResult listCatParent(@PathVariable("size")int size,@PathVariable(value="catId",required=false) long catId)
-    {
-
-        return null;
-    }
-
-    /**
-     * 
      * @param catId
      * @return
      */
-    @GetMapping("/list/article/cat/{catId}/{size}")
-    public AjaxResult listArticleByCatId(@PathVariable("catId") long catId,@PathVariable("size")int size){
-        return null;
+    @GetMapping("/list/catParent/{catId}")
+    public AjaxResult listCatParent(@PathVariable(value="catId") long catId)
+    {
+        return AjaxResult.success(blogService.listBlogMenus(catId));
     }
 
     /**
-     * 通过链接ID获取文章
-     * @param cId
+     * 通过分类ID获取文章
+     * @param catId
      * @return
      */
-    @GetMapping("/list/links/{size}")
-    public AjaxResult listLinks(@PathVariable("size")int size){
-
-        return null;
+    @GetMapping("/list/article/cat/{catId}")
+    public AjaxResult listArticleByCatId(@PathVariable("catId") long catId){
+        return AjaxResult.success(blogService.listBlogArticlesByCatId(catId, 100));
     }
+
+    /**
+     * 通过外联组获取外联列表
+     * @param groupName
+     * @return
+     */
+    @GetMapping("/list/links/{groupName}")
+    public AjaxResult listLinks(@PathVariable(value = "groupName",required = false)String groupName){
+        return AjaxResult.success(AjaxResult.success(blogService.listBlogLinks(groupName)));
+    }
+
+    /**
+     * 将所有外联转换为map
+     * @param groupName
+     * @return
+     */
+    @GetMapping("/list/linksGroup")
+    public AjaxResult listLinksGroup(){
+        Map<String, List<BlogLink>> linkMap = blogService.listBlogLinks(null).stream()
+        .collect(Collectors.groupingBy(BlogLink::getGroupName)); 
+        return AjaxResult.success(linkMap);
+    }
+
 
 
 

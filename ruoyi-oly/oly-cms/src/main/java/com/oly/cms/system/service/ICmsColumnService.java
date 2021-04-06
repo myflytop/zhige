@@ -62,14 +62,6 @@ public interface ICmsColumnService {
 	public String checkColumnNameUnique(CmsColumn cms);
 
 	/**
-	 * 验证当前类目 地址名是否唯一
-	 * 
-	 * @param cms
-	 * @return
-	 */
-	public String checkColumnUrlUnique(CmsColumn cms);
-
-	/**
 	 * 获取一条栏目 所有字段
 	 * 
 	 * @param columnId

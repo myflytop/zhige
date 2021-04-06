@@ -149,23 +149,6 @@
         		orderNum:{
         			digits:true
         		},
-        		columnUrl:{
-        			remote: {
-                        url: prefix + "/checkColumnUrlUnique",
-                        type: "post",
-                        dataType: "json",
-                        data: {
-                        	"columnUrl" : function() {
-                                return $.common.trim($("input[name=columnUrl]").val());
-                            },"parentId": function() {
-								return $("input[name='parentId']").val();
-							}
-                        },
-                        dataFilter: function(data, type) {
-                        	return $.validate.unique(data);
-                        }
-        			}
-        		},
         		columnName:{
         			required:true,
         			rangelength:[2,8],
@@ -190,9 +173,6 @@
         	messages: {
         		"columnName": {
                     remote: "导航名已存在"
-                },
-                "columnUrl": {
-                    remote: "导航路径已存在"
                 }
             },
             focusCleanup: true

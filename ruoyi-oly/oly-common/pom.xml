@@ -20,6 +20,12 @@
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-common</artifactId>
     </dependency>
+    
+    <dependency>
+           <groupId>com.github.dfabulich</groupId>
+           <artifactId>sitemapgen4j</artifactId>
+         <version>1.1.1</version>
+        </dependency>
 </dependencies>
 	
 

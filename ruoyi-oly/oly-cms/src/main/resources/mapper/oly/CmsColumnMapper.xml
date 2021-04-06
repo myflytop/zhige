@@ -188,14 +188,6 @@
 		cms_column where column_id=#{paerntId}
 	</select>
 
-    <!-- 确定地址唯一 -->
-    <select id="checkColumnUrlUnique" resultType="int">
-        select count(1) from cms_column where
-        <if test="columnId!=null">
-            column_id !=(#{columnId}) and
-        </if>
-        column_url=#{columnUrl}
-    </select>
     <!-- 获取栏目名 -->
     <select id="getCmsColumnNameById" resultType="string"
             parameterType="java.lang.Long">

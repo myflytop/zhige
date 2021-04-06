@@ -108,9 +108,6 @@ public class CmsColumnController extends CmsCommonController {
 		if (CmsConstants.NOT_UNIQUE.equals(columnService.checkColumnNameUnique(cc))) {
 			return error("当前目录下,目录名重复,请检查!");
 		}
-		if (CmsConstants.NOT_UNIQUE.equals(columnService.checkColumnUrlUnique(cc))) {
-			return error("路径名重复,请检查!");
-		}
 		if (ccj == null) {
 			cc.setAncestors("0");
 		} else {
@@ -163,9 +160,6 @@ public class CmsColumnController extends CmsCommonController {
 		}
 		if (CmsConstants.NOT_UNIQUE.equals(columnService.checkColumnNameUnique(cc))) {
 			return error("当前目录下,目录名重复,请检查!");
-		}
-		if (CmsConstants.NOT_UNIQUE.equals(columnService.checkColumnUrlUnique(cc))) {
-			return error("路径名重复,请检查!");
 		}
 		if (ccj == null) {
 			cc.setAncestors("0");
@@ -246,13 +240,6 @@ public class CmsColumnController extends CmsCommonController {
 		return columnService.checkColumnNameUnique(cms);
 	}
 
-	/**
-	 * 校验路径名称
-	 */
-	@PostMapping("/checkColumnUrlUnique")
-	@ResponseBody
-	public String checkColumnUrlUnique(CmsColumn cms) {
-		return columnService.checkColumnUrlUnique(cms);
-	}
+
 
 }

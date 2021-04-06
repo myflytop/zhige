@@ -217,24 +217,6 @@ public class CmsColumnServiceImpl implements ICmsColumnService {
 		return getChildList(list, t).size() > 0 ? true : false;
 	}
 
-	/**
-	 * 验证路径是否唯一
-	 * 
-	 * @param cms
-	 * @return
-	 */
-	@Override
-	public String checkColumnUrlUnique(CmsColumn cms) {
-		// TODO Auto-generated method stub
-		if (cms.getColumnUrl() == null || "".equals(cms.getColumnUrl())) {
-			return CmsConstants.UNIQUE;
-		}
-		if (columnMapper.checkColumnUrlUnique(cms.getColumnId(), cms.getColumnUrl()) == 0) {
-			return CmsConstants.UNIQUE;
-		}
-		return CmsConstants.NOT_UNIQUE;
-	}
-
 	private void updateChildNode(Long parentId, String ancestors) {
 		if (updateAncestors(parentId, ancestors) > 0) {
 			List<Long> lis = parentIds(parentId);

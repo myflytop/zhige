@@ -35,7 +35,7 @@
             <artifactId>hutool-core</artifactId>
             <version>5.1.5</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>   
     </dependencies>
 	
 

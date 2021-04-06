@@ -20,7 +20,9 @@ public enum OlyStageRoot {
     // 头像目录
     HEARD_DIR("avatar"),
     // 模板目录
-    TEMPLATE_DIR("template");
+    TEMPLATE_DIR("template"),
+    // siteMap目录
+    SITE_DIR("site");
 
     private String dir;
 

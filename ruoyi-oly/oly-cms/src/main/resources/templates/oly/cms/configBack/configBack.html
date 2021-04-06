@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('配置文件备份列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>备份组：</label>
+                                <input type="text" name="configGroup"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="confirmBack()" shiro:hasPermission="cms:configBack:add">
+                    <i class="fa fa-plus"></i> 备份
+                </a>
+                <a class="btn btn-success" onclick="vattingBack()" shiro:hasPermission="cms:configBack:add">
+                    <i class="fa fa-rotate-left "></i> 还原
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="cms:configBack:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('cms:configBack:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('cms:configBack:remove')}]];
+        var prefix = ctx + "cms/configBack";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "配置文件备份",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'configGroup',
+                    title: '备份组',
+                    visible: false
+                },
+                {
+                    field: 'configKey',
+                    title: '备份key',
+                    visible: false
+                },
+                {
+                    field: 'configValue',
+                    title: '备份参数'
+                },
+                {
+                    field: 'remark',
+                    title: '备注'
+                }]
+            };
+            $.table.init(options);
+        });
+        // 备份参数
+        function confirmBack()
+         {
+            $.modal.confirm("<label>备份组名：</label><input id='configGroupBack'/>",function(){
+             let configBack=$("#configGroupBack").val();
+             if($.common.isNotEmpty(configBack)){
+                $.operate.save(prefix+'/back',{"configGroup":configBack});
+             }
+         
+            });
+         }
+        // 参数还原
+        function vattingBack()
+         {
+            $.modal.confirm("<label>还原组名：</label><input id='configGroupVatting'/>",function(){
+             let configBack=$("#configGroupVatting").val();
+             if($.common.isNotEmpty(configBack)){
+                $.operate.save(prefix+'/vatting',{"configGroup":configBack});
+             }
+         
+            });
+         }
+        </script>
+</body>
+</html>
