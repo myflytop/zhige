@@ -16,7 +16,7 @@ public class BlogWebConfig implements WebMvcConfigurer {
         OlyStageRoot.THEME_DIR.getDir() + "/").replace("\\", "/");
         /** 主题静态资源配置 */
         registry.addResourceHandler("/themes/**").addResourceLocations(path);
-        registry.addResourceHandler("/site**").addResourceLocations("file:" + RuoYiConfig.getWorkPath() + "/" +OlyStageRoot.SITE_DIR.getDir()+"/");
+        registry.addResourceHandler("/site/**").addResourceLocations("file:" + RuoYiConfig.getWorkPath() + "/" +OlyStageRoot.SITE_DIR.getDir()+"/");
         registry.addResourceHandler("/robots.txt").addResourceLocations("file:" + RuoYiConfig.getWorkPath() + "/" +OlyStageRoot.SITE_DIR.getDir()+"/");
         /** 主题静态资源配置 */
         // registry.addResourceHandler("/themes/**").addResourceLocations("classpath:/templates/themes/");

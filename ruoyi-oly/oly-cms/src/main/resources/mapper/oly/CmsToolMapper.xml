@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oly.cms.system.mapper.CmsToolMapper" >
+
+<select id="listCatIds" resultType="string">select cat_id from cms_cat where visible!=0</select>
+
+<select id="listTagIds" resultType="string">select tag_id from cms_tag where visible!=0</select>
+
+<select id="listPostIds" resultType="string">select article_id from cms_article where visible!=2</select>
+  
+</mapper>
