@@ -13,12 +13,17 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
+
+ /**
+  * 前缀参考WebSocKetConfig
+  *  registry.setApplicationDestinationPrefixes(mesPrefix);
+  */
 @Controller
 public class MessageStompController {
 
@@ -63,7 +68,7 @@ public class MessageStompController {
         Map msg = (Map) JSON.parse(json);
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("msg", "公告服务器收到客户端请求，发送广播消息:" + msg.get("msg"));
-        messagingTemplate.convertAndSend( "/topicBack/toTopic/"+topicId,  msg.get("msg"));
+        messagingTemplate.convertAndSend("/topicBack/toTopic/"+topicId,  msg.get("msg"));
         return data;
 
     }
@@ -121,7 +126,7 @@ public class MessageStompController {
         Map msg = (Map) JSON.parse(json);
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("msg", "公告服务器收到客户端请求，发送广播消息:" + msg.get("msg"));
-        messagingTemplate.convertAndSend( "/topicBack/toGroup/"+groupId, "reply hello3");
+        messagingTemplate.convertAndSend("/topicBack/toGroup/"+groupId, "reply hello3");
 
         return data;
 
@@ -139,7 +144,7 @@ public class MessageStompController {
      * @return
      */
     @MessageMapping("/sendMeMsg")
-    @SendToUser(value = "/userBack/own")
+    @SendToUser("/userBack/toMe") //前端对应/oly/websocket/stomp/back/user/userBack/own
     public Map<String, Object> sendMeMsg(String json,
                                                 StompHeaderAccessor headerAccessor) {
         // 这里拿到的user对象是在WebSocketChannelInterceptor拦截器中绑定上的对象
@@ -189,6 +194,7 @@ public class MessageStompController {
         // 向用户发送消息,第一个参数是接收人、第二个参数是浏览器订阅的地址，第三个是消息本身
         // 如果服务端要将消息发送给特定的某一个用户，session地址就是这个
         // 可以使用SimpleMessageTemplate的convertAndSendToUser方法(第一个参数是用户的登陆名username)
+        //前端对应/oly/websocket/stomp/back/user/userBack/toFriend
         String address = "/userBack/toFriend";
         messagingTemplate.convertAndSendToUser(friendSessionId, address, msg.get("msg"));
         data.put("msg", "callBack 消息已推送，消息内容：" + msg.get("msg"));

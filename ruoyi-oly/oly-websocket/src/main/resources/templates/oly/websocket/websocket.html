@@ -297,16 +297,25 @@
 		<script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
 		<script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
 	   <script th:inline="JavaScript">
-		   var prefix=ctx+"message";
-		   var webSocket="/websocket";
+		   var prefix=ctx+"oly/websocket";
+		   var webSocketMsg="/websocket";
+		   var websocketOpen=false;
          $("#connect_btn").click(function(){
+			 if(!websocketOpen)
+			 {
 			 $.operate.get(prefix+"/connect",function (data) {
                  if (window.WebSocket){
                      websocketConfig({"token":data.data.session_id},data.data.groupIds,data.data.topicIds);
+					 $("#connect_text").html("关闭websocket");
                  } else {
                      alert("错误","浏览器不支持websocket技术通讯.");
                  }
 			 });
+			}
+			else{
+				disconnect();
+				$("#connect_text").html("连接websocket");
+			}
 
 		 });
 
@@ -326,14 +335,6 @@
 			// 定义全局变量 stomp socket
 			var stompClient,socket;
 
-			$(document).ready(function () {
-				if (window.WebSocket){
-					websocketConfig();
-				} else {
-					alert("错误","浏览器不支持websocket技术通讯.");
-				}
-			});
-
            // websocket 配置
            function websocketConfig(headers,groupIds,topicIds) {
            	console.log(groupIds);
@@ -341,7 +342,7 @@
                 * 1. 连接url为endpointChat的endpoint,对应后台WebSoccketConfig的配置
                 * 2. SockJS 所处理的URL 是 "http://" 或 "https://" 模式，而不是 "ws://" or  "wss://"
                 */
-               socket = new SockJS("/admin/stomp/websocketJS");
+               socket = new SockJS(prefix+"/register/websocketJS");
 
                // 通过sock对象监听每个事件节点，非必须,这个必须放在stompClient的方法前面
                sockHandle();
@@ -404,7 +405,7 @@
 				   });
 
 				   $.each($.parseJSON(topicIds), function(i,val){
-					   stompClient.subscribe('/topicBack/toTopic/'+val,function (message) {
+					   stompClient.subscribe("/topicBack/toTopic/"+val,function (message) {
 						   var msg  = message.body;
 						   console.log("接收到公告消息" + msg);
 						   alert("接收到公告消息" + msg);
@@ -416,7 +417,7 @@
                     * 2. 演示自己发送给自己，做websocket向服务器请求资源而已，然后服务器你就把资源给我就行了，
                     *    别的用户就不用你广播推送了，简单点，就是我请求，你就推送给我
                     */
-                   stompClient.subscribe('/user/userBack/own',function (message) {
+                   stompClient.subscribe("/user/userBack/toMe",function (message) {
                        var msg = JSON.parse(message.body).msg;
                        console.log("接收到私信信息SendToUser：" + msg);
                        alert("接收到私信信息SendToUser：" + msg);
@@ -429,17 +430,11 @@
                     *    username，为用户的登录名，也是就是Principal或者本文中的WebSocketUserAuthentication对象getName获取的参数
                     *    如果在拦截器中配置了认证路径，可以不带参数，不过推荐用带参数的写法
                     */
-                   stompClient.subscribe('/user/userBack/toFriend',function (message) {
+                   stompClient.subscribe("/user/userBack/toFriend",function (message) {
                        var msg  = message.body;
                        console.log("接收到点对点SendToUser：" + msg);
                        alert("接收到点对点SendToUser：" + msg);
                    });
-
-
-
-
-
-
 			   }, function (error) {
                    console.log('STOMP: ' + error);
                    //setTimeout(websocketConfig, 10000);
@@ -459,7 +454,7 @@
                 *  3. body 为发送信息的 body，字符串，可选参数
                 *  4. accountId这个参数其实可以通过header传过去，不过因为是restful风格，所以就跟在url上
                 */
-               stompClient.send(webSocket+"/sendTopicMsg/"+topicId,{},JSON.stringify(data));
+               stompClient.send(webSocketMsg+"/sendTopicMsg/"+topicId,{},JSON.stringify(data));
            }
 
            function sendGroupMsg() {
@@ -472,7 +467,7 @@
                 *     可选参数,可以携带消息头信息，也可以做事务，如果没有，传{}
                 *  3. body 为发送信息的 body，字符串，可选参数
                 */
-               stompClient.send(webSocket+"/sendGroupMsg/"+groupId,{},JSON.stringify(data));
+               stompClient.send(webSocketMsg+"/sendGroupMsg/"+groupId,{},JSON.stringify(data));
            }
            function sendMeMsg() {
                var msg = $("#test_msg").val();
@@ -484,7 +479,7 @@
                 *     可选参数,可以携带消息头信息，也可以做事务，如果没有，传{}
                 *  3. body 为发送信息的 body，字符串，可选参数
                 */
-               stompClient.send(webSocket+"/sendMeMsg",{},JSON.stringify(data));
+               stompClient.send(webSocketMsg+"/sendMeMsg",{},JSON.stringify(data));
            }
 
            function sendFriendMsg() {
@@ -497,7 +492,7 @@
                 *     可选参数,可以携带消息头信息，也可以做事务，如果没有，传{}
                 *  3. body 为发送信息的 body，字符串，可选参数
                 */
-               stompClient.send(webSocket+"/sendFriendMsg/"+friendId,{},JSON.stringify(data));
+               stompClient.send(webSocketMsg+"/sendFriendMsg/"+friendId,{},JSON.stringify(data));
            }
 
 

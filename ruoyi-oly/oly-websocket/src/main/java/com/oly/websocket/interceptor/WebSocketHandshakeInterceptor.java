@@ -1,14 +1,19 @@
 package com.oly.websocket.interceptor;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import com.ruoyi.common.utils.ShiroUtils;
+
 import org.jboss.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
-
-import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 /**
  * <websocket通讯拦截器>
@@ -21,6 +26,10 @@ public class WebSocketHandshakeInterceptor extends HttpSessionHandshakeIntercept
 {
 
     private Logger log = Logger.getLogger(WebSocketHandshakeInterceptor.class);
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+    
+   
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request,
@@ -39,6 +48,9 @@ public class WebSocketHandshakeInterceptor extends HttpSessionHandshakeIntercept
             {
                 // 这里打印一下session id 方便等下对比和springMVC获取到httpsession是不是同一个
                 log.info("httpSession key：" + httpSession.getId());
+             
+                log.info("shiroSession:"+ShiroUtils.getSessionId());
+                log.info("HTTP_SESSION:"+httpSession);
 
                 // 获取到httpsession后，可以根据自身业务，操作其中的信息，这里只是单纯的和websocket进行关联
                 map.put("HTTP_SESSION",httpSession);

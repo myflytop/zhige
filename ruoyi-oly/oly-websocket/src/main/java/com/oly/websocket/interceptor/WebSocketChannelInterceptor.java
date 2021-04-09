@@ -1,6 +1,9 @@
 package com.oly.websocket.interceptor;
 
+import javax.servlet.http.HttpSession;
+
 import com.oly.websocket.authen.WebSocketUserAuthentication;
+
 import org.jboss.logging.Logger;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -8,8 +11,6 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * <websocke消息监听，用于监听websocket用户连接情况>
@@ -20,16 +21,15 @@ import javax.servlet.http.HttpSession;
  **/
 public class WebSocketChannelInterceptor implements ChannelInterceptor {
 
-    public WebSocketChannelInterceptor() {
-    }
-
     Logger log = Logger.getLogger(WebSocketChannelInterceptor.class);
 
     // 在消息发送之前调用，方法中可以对消息进行修改，如果此方法返回值为空，则不会发生实际的消息发送调用
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
-
+   
+    
         StompHeaderAccessor accessor =  MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+       
         /**
          * 1. 判断是否为首次连接请求，如果已经连接过，直接返回message
          * 2. 网上有种写法是在这里封装认证用户的信息，本文是在http阶段，websockt 之前就做了认证的封装，所以这里直接取的信息
@@ -66,7 +66,8 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
     public void postSend(Message<?> message, MessageChannel messageChannel, boolean b) {
 
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
-
+       
+        
         /*
          * 拿到消息头对象后，我们可以做一系列业务操作
          * 1. 通过getSessionAttributes()方法获取到websocketSession，

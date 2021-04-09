@@ -1,9 +1,4 @@
 package com.oly.websocket.config;
-
-
-import com.oly.websocket.handler.MyPrincipalHandshakeHandler;
-import com.oly.websocket.interceptor.WebSocketChannelInterceptor;
-import com.oly.websocket.interceptor.WebSocketHandshakeInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;
@@ -18,6 +13,10 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 import java.util.List;
+
+import com.oly.websocket.handler.MyPrincipalHandshakeHandler;
+import com.oly.websocket.interceptor.WebSocketChannelInterceptor;
+import com.oly.websocket.interceptor.WebSocketHandshakeInterceptor;
 /**
  * <配置基于STOMP的websocket>
  * <功能详细描述>
@@ -28,7 +27,8 @@ import java.util.List;
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-
+  
+  
     /**
      * 添加这个Endpoint，这样在网页中就可以通过websocket连接上服务,
      * 也就是我们配置websocket的服务地址,并且可以指定是否使用socketjs
@@ -40,14 +40,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     {
 
         /*
-         * 1. 将 /serviceName/stomp/websocketJs路径注册为STOMP的端点，
+         * 1. 将 xxxx/websocketJs路径注册为STOMP的端点，
          *    用户连接了这个端点后就可以进行websocket通讯，支持socketJs
          * 2. setAllowedOrigins("*")表示可以跨域
          * 3. withSockJS()表示支持socktJS访问
          * 4. addInterceptors 添加自定义拦截器，这个拦截器是上一个demo自己定义的获取httpsession的拦截器
          * 5. addInterceptors 添加拦截处理，这里MyPrincipalHandshakeHandler 封装的认证用户信息
          */
-        registry.addEndpoint("/stomp/websocketJS")
+        registry.addEndpoint("/oly/websocket/register/websocketJS")
                 //.setAllowedOrigins("*")
                 .addInterceptors(new WebSocketHandshakeInterceptor())
                 .setHandshakeHandler(new MyPrincipalHandshakeHandler())
@@ -60,7 +60,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
          * addEndpoint是添加到WebMvcStompWebSocketEndpointRegistration的集合中，
          * 所以可以添加多个端点
          */
-        registry.addEndpoint("/stomp/websocket");
+        //registry.addEndpoint(prefix+"/websocket");
     }
 
     /**
@@ -97,7 +97,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         /*
          * spring 内置broker对象
-         * 1. 配置代理域，可以配置多个，此段代码配置代理目的地的前缀为 /topicBack 或者 /userBack
+         * 1. 配置代理域，可以配置多个，此段代码配置代理目的地的前缀为 xxx+/topicBack 或者 xxx+/userBack
          *    我们就可以在配置的域上向客户端推送消息
          * 2，进行心跳设置，第一值表示server最小能保证发的心跳间隔毫秒数, 第二个值代码server希望client发的心跳间隔毫秒数
          * 3. 可以配置心跳线程调度器 setHeartbeatValue这个不能单独设置，不然不起作用，要配合setTaskScheduler才可以生效

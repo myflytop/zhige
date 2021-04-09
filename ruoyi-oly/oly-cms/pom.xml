@@ -43,6 +43,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-websocket</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
             <version>5.1.5</version>
