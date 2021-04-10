@@ -45,6 +45,7 @@ public class MessageStompController {
     }
 
     /**
+     * 发送给指定广播站
      * 发送广播消息，所有订阅了此路径的用户都会收到此消息
      * 这里做个restful风格，其实无所谓，根据项目实际情况进行配置
      * restful风格的接口，在springMVC中，我们使用@PathVariable注解，
@@ -68,12 +69,13 @@ public class MessageStompController {
         Map msg = (Map) JSON.parse(json);
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("msg", "公告服务器收到客户端请求，发送广播消息:" + msg.get("msg"));
-        messagingTemplate.convertAndSend("/topicBack/toTopic/"+topicId,  msg.get("msg"));
+        messagingTemplate.convertAndSend("/topic/topicId/"+topicId,  data);
         return data;
 
     }
 
     /**
+     * 发送给所有广播站
      * 发送广播消息，所有订阅了此路径的用户都会收到此消息
      * 这里做个restful风格，其实无所谓，根据项目实际情况进行配置
      * restful风格的接口，在springMVC中，我们使用@PathVariable注解，
@@ -85,7 +87,7 @@ public class MessageStompController {
      * @return
      */
     @MessageMapping("/sendTopicMsg")
-    @SendTo("/topicBack/toTopic")
+    @SendTo("/topic/everyTopic")
     public Map<String, Object> sendGroupMsgEveryOne(@DestinationVariable(value = "groupId") String groupId, String json,
                                                 StompHeaderAccessor headerAccessor) {
         // 这里拿到的user对象是在WebSocketChannelInterceptor拦截器中绑定上的对象
@@ -103,6 +105,7 @@ public class MessageStompController {
     }
 
     /**
+     * 群聊
      * 发送广播消息，所有订阅了此路径的用户都会收到此消息
      * 这里做个restful风格，其实无所谓，根据项目实际情况进行配置
      * restful风格的接口，在springMVC中，我们使用@PathVariable注解，
@@ -126,7 +129,7 @@ public class MessageStompController {
         Map msg = (Map) JSON.parse(json);
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("msg", "公告服务器收到客户端请求，发送广播消息:" + msg.get("msg"));
-        messagingTemplate.convertAndSend("/topicBack/toGroup/"+groupId, "reply hello3");
+        messagingTemplate.convertAndSend("/mass/toGroup/"+groupId,data);
 
         return data;
 
@@ -144,7 +147,7 @@ public class MessageStompController {
      * @return
      */
     @MessageMapping("/sendMeMsg")
-    @SendToUser("/userBack/toMe") //前端对应/oly/websocket/stomp/back/user/userBack/own
+    @SendToUser("/alone/toMe") //前端对应/oly/websocket/stomp/back/user/userBack/own
     public Map<String, Object> sendMeMsg(String json,
                                                 StompHeaderAccessor headerAccessor) {
         // 这里拿到的user对象是在WebSocketChannelInterceptor拦截器中绑定上的对象
@@ -195,7 +198,7 @@ public class MessageStompController {
         // 如果服务端要将消息发送给特定的某一个用户，session地址就是这个
         // 可以使用SimpleMessageTemplate的convertAndSendToUser方法(第一个参数是用户的登陆名username)
         //前端对应/oly/websocket/stomp/back/user/userBack/toFriend
-        String address = "/userBack/toFriend";
+        String address = "/alone/toFriend";
         messagingTemplate.convertAndSendToUser(friendSessionId, address, msg.get("msg"));
         data.put("msg", "callBack 消息已推送，消息内容：" + msg.get("msg"));
         return data;

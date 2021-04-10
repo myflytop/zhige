@@ -97,17 +97,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         /*
          * spring 内置broker对象
+         * 点对点应配置一个/user消息代理，广播式应配置一个/topic消息代理,群发（mass），单独聊天（alone）
          * 1. 配置代理域，可以配置多个，此段代码配置代理目的地的前缀为 xxx+/topicBack 或者 xxx+/userBack
          *    我们就可以在配置的域上向客户端推送消息
          * 2，进行心跳设置，第一值表示server最小能保证发的心跳间隔毫秒数, 第二个值代码server希望client发的心跳间隔毫秒数
          * 3. 可以配置心跳线程调度器 setHeartbeatValue这个不能单独设置，不然不起作用，要配合setTaskScheduler才可以生效
          *    调度器我们可以自己写一个，也可以自己使用默认的调度器 new DefaultManagedTaskScheduler()
          */
-        registry.enableSimpleBroker("/topicBack","/userBack")
+        registry.enableSimpleBroker("/topic","/user","/mass","/alone")
                 .setHeartbeatValue(new long[]{10000,10000})
                 .setTaskScheduler(taskScheduler);
         /*
-         *  "/app" 为配置应用服务器的地址前缀，表示所有以/websocket 开头的客户端消息或请求
+         *  "/websocket" 为配置应用服务器的地址前缀，表示所有以/websocket 开头的客户端消息或请求
          *  都会路由到带有@MessageMapping 注解的方法中
          */
         registry.setApplicationDestinationPrefixes("/websocket");
