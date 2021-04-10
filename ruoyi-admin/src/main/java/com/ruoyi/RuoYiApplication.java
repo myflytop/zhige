@@ -1,5 +1,7 @@
 package com.ruoyi;
 
+import com.ruoyi.common.config.RuoYiConfig;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -18,7 +20,7 @@ public class RuoYiApplication {
     public static void main(String[] args) {
         // System.setProperty("spring.devtools.restart.enabled", "false");
         // 可覆盖jar内 .yml内的配置
-        System.setProperty("spring.config.additional-location", "optional:file:${user.home}/.ruoyi/");
+        System.setProperty("spring.config.additional-location", "file:"+RuoYiConfig.getWorkPath()+"/");
         SpringApplication.run(RuoYiApplication.class, args);
         System.out.println("(♥◠‿◠)ﾉﾞ  若依启动成功   ლ(´ڡ`ლ)ﾞ  \n" + " .-------.       ____     __        \n"
                 + " |  _ _   \\      \\   \\   /  /    \n" + " | ( ' )  |       \\  _. /  '       \n"
