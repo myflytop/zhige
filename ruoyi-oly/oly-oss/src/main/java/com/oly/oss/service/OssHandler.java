@@ -3,13 +3,16 @@ package com.oly.oss.service;
 import com.oly.oss.domain.OlyOss;
 import com.oly.oss.model.OssResult;
 import com.ruoyi.common.enums.OlyStageRoot ;
+import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
+import com.ruoyi.common.exception.file.InvalidExtensionException;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.uuid.IdUtils;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public interface OssHandler {
@@ -32,7 +35,7 @@ public interface OssHandler {
    * @return
    * @throws IOException
    */
-  OssResult ossUpload(MultipartFile file) throws IOException;
+  OssResult ossUpload(MultipartFile file) throws IOException, FileSizeLimitExceededException, InvalidExtensionException;
 
   /**
    * 指定 文件上传路径 工作目录/文件上传根目录/key key唯一凭证
@@ -78,9 +81,16 @@ public interface OssHandler {
    */
   List<OlyOss> ossList(OlyOss olyOss);
 
-  public static String getKey(String fileName){
-
-   return DateUtils.datePath() + "/" + IdUtils.fastUUID() + "."+FilenameUtils.getExtension(fileName);
+  public static String getKey(String flod,String fileName){
+   
+    return  StringUtils.join("/",flod,"/",DateUtils.datePath(),IdUtils.fastUUID(),".",FilenameUtils.getExtension(fileName));
   }
+
+  public static boolean supportFile(InputStream in){
+ 
+
+    return true;
+  }
+
 
 }

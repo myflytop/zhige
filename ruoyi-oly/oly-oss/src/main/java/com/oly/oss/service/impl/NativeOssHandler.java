@@ -52,14 +52,13 @@ public class NativeOssHandler implements OssHandler {
     private OlyOssMapper ossMapper;
 
     @Override
-    public OssResult ossUpload(MultipartFile file) throws IOException {
+    public OssResult ossUpload(MultipartFile file) throws IOException, FileSizeLimitExceededException, InvalidExtensionException {
         // 设置返回结果
         OlyOss data = new OlyOss();
         String ossRoot = getOssRoot();
         String key = null;
         // file.getInputStream()必须在上传前使用，上传后使用将导致文件缓存失效
         String contentType = FileTypes.getFileHeader(file.getInputStream());
-        try {
             // 二级目录
             String fileType = OssUtils.getStageDir(FileUploadUtils.getExtension(file));
             key = FileUploadUtils.upload(ossRoot, fileType, file, true);
@@ -69,12 +68,7 @@ public class NativeOssHandler implements OssHandler {
             data.setCreateBy(ShiroUtils.getUserId().toString());
             data.setFk(key);
             data.setOssType(ossType);
-        } catch (FileSizeLimitExceededException e) {
-            log.error(e.getMessage());
-        } catch (InvalidExtensionException e) {
-            log.error(e.getMessage());
-        }
-        data.setFileHeard(contentType);
+            data.setFileHeard(contentType);
 
         if (contentType.startsWith("image")) {
             String thumbnailKey = Paths.get(FilenameUtils.getFullPathNoEndSeparator(key),

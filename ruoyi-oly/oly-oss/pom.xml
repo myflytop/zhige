@@ -47,7 +47,6 @@
                 <artifactId>qiniu-java-sdk</artifactId>
                 <version>${qiniu.sdk.version}</version>
             </dependency>
-
         <dependency>
             <groupId>com.oly</groupId>
             <artifactId>oly-common</artifactId>

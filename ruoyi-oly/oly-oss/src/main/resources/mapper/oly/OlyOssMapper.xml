@@ -28,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
             <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
             <if test="ossType != null"> and oss_type = #{ossType}</if>
+        </where>
 
     </select>
     

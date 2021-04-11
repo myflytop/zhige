@@ -26,9 +26,12 @@ import com.qiniu.storage.persistent.FileRecorder;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
 import com.ruoyi.common.enums.OlyStageRoot;
+import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
+import com.ruoyi.common.exception.file.InvalidExtensionException;
 import com.ruoyi.common.utils.ShiroUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
+import com.ruoyi.common.utils.file.MimeTypeUtils;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.service.ISysConfigService;
 
@@ -36,8 +39,10 @@ import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+@Service
 public class QiNiuOssHander implements OssHandler {
     private static final Logger log = LoggerFactory.getLogger(OssHandler.class);
     @Autowired
@@ -48,8 +53,11 @@ public class QiNiuOssHander implements OssHandler {
 
     public final static byte ossType=1;
     @Override
-    public OssResult ossUpload(MultipartFile file) throws IOException {
-             // 设置返回结果
+    public OssResult ossUpload(MultipartFile file) throws IOException, FileSizeLimitExceededException, InvalidExtensionException {
+
+   
+            FileUploadUtils.assertAllowed(file, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
+      
         OlyOss data = new OlyOss();
     
         String fileName=FilenameUtils.getName(file.getOriginalFilename());
@@ -72,7 +80,7 @@ public class QiNiuOssHander implements OssHandler {
                  FileRecorder fileRecorder = new FileRecorder(localTempDir);
                  UploadManager uploadManager = new UploadManager(cfg, fileRecorder);
                  //上传文件
-                 Response response = uploadManager.put(file.getInputStream(),OssHandler.getKey(fileName).replace("\\","/"),upToken,null,null);
+                 Response response = uploadManager.put(file.getInputStream(),OssHandler.getKey(fileType,fileName).replace("\\","/"),upToken,null,null);
                  //获取回调
                  DefaultPutRet putRet = new Gson().fromJson(response.bodyString(),DefaultPutRet.class);
                 data.setFk(putRet.key);

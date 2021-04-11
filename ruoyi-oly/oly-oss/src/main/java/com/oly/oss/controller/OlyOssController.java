@@ -29,6 +29,8 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.enums.OlyStageRoot;
+import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
+import com.ruoyi.common.exception.file.InvalidExtensionException;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
@@ -91,12 +93,14 @@ public class OlyOssController extends BaseController {
      * @param file
      * @return
      * @throws IOException
+     * @throws InvalidExtensionException
+     * @throws FileSizeLimitExceededException
      */
     @RequiresPermissions("oly:oss:upload")
     @Log(title = "文件内容管理", businessType = BusinessType.INSERT)
     @PostMapping("/upload")
     @ResponseBody
-    public OssResult upload(MultipartFile file) throws IOException {
+    public OssResult upload(MultipartFile file) throws IOException, FileSizeLimitExceededException, InvalidExtensionException {
         return ossHandler.get().ossUpload(file);
     }
 

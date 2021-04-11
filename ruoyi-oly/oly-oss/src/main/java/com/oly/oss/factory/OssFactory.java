@@ -2,6 +2,7 @@ package com.oly.oss.factory;
 
 import com.oly.oss.service.OssHandler;
 import com.oly.oss.service.impl.NativeOssHandler;
+import com.oly.oss.service.impl.QiNiuOssHander;
 import com.ruoyi.common.utils.StringUtils;
 
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
@@ -24,6 +25,7 @@ public class OssFactory {
     @PostConstruct
     public void init() {
         fileRepoMap.put("native", applicationContext.getBean(NativeOssHandler.class));
+        fileRepoMap.put("qiniu", applicationContext.getBean(QiNiuOssHander.class));
 
     }
 
