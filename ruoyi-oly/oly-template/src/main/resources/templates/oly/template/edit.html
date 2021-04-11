@@ -113,6 +113,7 @@
     <th:block th:include="include :: bootstrap-fileinput-js" />
     <script th:inline="javascript">
         var prefix = ctx + "oly/template";
+        var supportSuffix = [[${@config.getKey('oly.template.supportSuffix')}]];
         $("#form-template-edit").validate({
             onkeyup: false,
             rules: {
@@ -215,7 +216,7 @@
                 showPreview: false, //是否显示预览
                 hideThumbnailContent: true,//是否在缩略图中隐藏预览内容（图像，pdf内容，文本内容等）。
                 uploadUrl:prefix+"/templateUpload",
-                allowedFileExtensions: ["pdf", "docx",]
+                allowedFileExtensions: supportSuffix.splice(",")
             });
             $("input[name='file']").on("fileuploaded", function (event, data, previewId, index) {
                 console.log(data)

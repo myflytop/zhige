@@ -43,6 +43,8 @@ public class NativeOssHandler implements OssHandler {
      */
     public final static String THUMBNAIL_PREFIX = "thumbnail_";
 
+    public final static byte ossType=0;
+
     @Autowired
     private ISysConfigService configService;
 
@@ -66,6 +68,7 @@ public class NativeOssHandler implements OssHandler {
             data.setSize(file.getSize());
             data.setCreateBy(ShiroUtils.getUserId().toString());
             data.setFk(key);
+            data.setOssType(ossType);
         } catch (FileSizeLimitExceededException e) {
             log.error(e.getMessage());
         } catch (InvalidExtensionException e) {
@@ -106,7 +109,8 @@ public class NativeOssHandler implements OssHandler {
 
     @Override
     public List<OlyOss> ossList(OlyOss olyOss) {
-
+       olyOss= olyOss==null?new OlyOss():olyOss;
+       olyOss.setOssType(ossType);
         return ossMapper.selectOlyOssList(olyOss);
     }
 
@@ -148,6 +152,15 @@ public class NativeOssHandler implements OssHandler {
     public OssResult ossAppointUpload(MultipartFile file, OlyStageRoot  rootPath) throws IOException {
 
         return ossAppointUpload(file, rootPath, "");
+    }
+
+    @Override
+    public String getThumbKey(String fk) {
+      
+        return Paths
+        .get(FilenameUtils.getFullPathNoEndSeparator(fk),
+                NativeOssHandler.THUMBNAIL_PREFIX + FileUploadUtils.getFileFullName(fk))
+        .toString();
     }
 
 }

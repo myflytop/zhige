@@ -3,7 +3,10 @@ package com.oly.oss.service;
 import com.oly.oss.domain.OlyOss;
 import com.oly.oss.model.OssResult;
 import com.ruoyi.common.enums.OlyStageRoot ;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.uuid.IdUtils;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -61,9 +64,23 @@ public interface OssHandler {
   OssResult ossDelete(String filePath);
 
   /**
+   * 获取缩略地址
+   * 
+   * @param fk 
+   * @return
+   */
+  String getThumbKey(String fk);
+
+  /**
    * 获取文件列表
    * 
    * @return
    */
   List<OlyOss> ossList(OlyOss olyOss);
+
+  public static String getKey(String fileName){
+
+   return DateUtils.datePath() + "/" + IdUtils.fastUUID() + "."+FilenameUtils.getExtension(fileName);
+  }
+
 }

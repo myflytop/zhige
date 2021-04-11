@@ -35,6 +35,9 @@ public class OlyOss extends BaseEntity {
     private String fileHeard;
 
     private String thumbKey;
+    
+    /**储存在哪里 */
+    private Byte ossType;
 
     public void setId(Long id) {
         this.id = id;
@@ -76,13 +79,16 @@ public class OlyOss extends BaseEntity {
         return fileHeard;
     }
 
+
+    
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("id", getId())
                 .append("createBy", getCreateBy()).append("createTime", getCreateTime())
                 .append("fileName", getFileName()).append("size", getSize()).append("fk", getFk())
                 .append("fileType", getFileType()).append("domain", getDomain()).append("fileHeard", getFileHeard())
-                .append("remark", getRemark()).toString();
+                .append("remark", getRemark())
+                .append("ossType", getOssType()).toString();
     }
 
     public String getFileType() {
@@ -108,4 +114,13 @@ public class OlyOss extends BaseEntity {
     public void setFk(String fk) {
         this.fk = fk;
     }
+
+    public Byte getOssType() {
+        return ossType;
+    }
+
+    public void setOssType(Byte ossType) {
+        this.ossType = ossType;
+    }
+
 }

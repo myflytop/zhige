@@ -15,22 +15,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="domain"    column="domain"    />
         <result property="fileHeard"    column="file_heard"    />
         <result property="remark"    column="remark"    />
+        <result property="ossType"    column="oss_type"    />
     </resultMap>
 
     <sql id="selectOlyOssVo">
-        select id, create_by, create_time, file_name, size, fk, file_type, domain, file_heard, remark from oly_oss
+        select id, create_by, create_time, file_name, size, fk, file_type, domain, file_heard, remark,oss_type from oly_oss
     </sql>
 
     <select id="selectOlyOssList" parameterType="OlyOss" resultMap="OlyOssResult">
         <include refid="selectOlyOssVo"/>
         <where>  
             <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
-            <if test="size != null "> and size = #{size}</if>
-            <if test="fk != null  and fk != ''"> and fk = #{fk}</if>
             <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
-            <if test="domain != null  and domain != ''"> and domain = #{domain}</if>
-            <if test="fileHeard != null  and fileHeard != ''"> and file_heard = #{fileHeard}</if>
-        </where>
+            <if test="ossType != null"> and oss_type = #{ossType}</if>
+
     </select>
     
     <select id="selectOlyOssById" parameterType="Long" resultMap="OlyOssResult">
@@ -56,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="domain != null">domain,</if>
             <if test="fileHeard != null">file_heard,</if>
             <if test="remark != null">remark,</if>
+            <if test="ossType != null">oss_type,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -68,6 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="domain != null">#{domain},</if>
             <if test="fileHeard != null">#{fileHeard},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="ossType != null">#{ossType},</if>
          </trim>
     </insert>
 

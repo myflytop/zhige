@@ -45,26 +45,4 @@ public class OlyCommonService {
         return serviceImpl.updateConfigByKey(sysConfig);
     }
 
-
-    public SysUser getUser(long userId)
-    {
-        return null;
-    }
-    
-    public String getConfigValue(String configKey){
-       
-        return null;
-    }
-
-    public Map<String,String> ListConfigValueMap(String configKeyPrefix){
-       
-        return null;
-    }
-
-    public List<SysDictData> selectDictTypeList(String dictType){
-
-        return null;
-    }
-
-
 }

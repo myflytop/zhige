@@ -14,8 +14,40 @@
     <description>
         止戈内容管理系统储存模块
     </description>
+  <properties>
+        <coobird.thumbnailator>0.4.8</coobird.thumbnailator>
+        <upyun.sdk.version>4.0.1</upyun.sdk.version>
+        <aliyun.sdk.version>3.0.0</aliyun.sdk.version>
+        <qiniu.sdk.version>7.2.18</qiniu.sdk.version>
+    </properties>
 
-   <dependencies>
+        <dependencies>
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>${coobird.thumbnailator}</version>
+            </dependency>
+            <!-- 又拍云SDK -->
+            <dependency>
+                <groupId>com.upyun</groupId>
+                <artifactId>java-sdk</artifactId>
+                <version>${upyun.sdk.version}</version>
+            </dependency>
+
+            <!-- 阿里云SDK-->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun.sdk.version}</version>
+            </dependency>
+
+            <!-- 七牛云SDK-->
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>${qiniu.sdk.version}</version>
+            </dependency>
+
         <dependency>
             <groupId>com.oly</groupId>
             <artifactId>oly-common</artifactId>
@@ -31,15 +63,5 @@
                 <artifactId>tika-core</artifactId>
                 <version>1.20</version>
         </dependency>
-        <dependency>
-                <groupId>net.coobird</groupId>
-                <artifactId>thumbnailator</artifactId>
-                <version>0.4.8</version>
-         </dependency>
     </dependencies>
-
-
-    
-	
-
 </project>

@@ -114,14 +114,10 @@ public class OlyOssController extends BaseController {
         startPage();
         List<OlyOss> list = ossService.ossList(olyOss);
         TableDataInfo tableDataInfo = getDataTable(list);
-
         List<OlyOss> olyOsses = new ArrayList<>();
         for (OlyOss o : list) {
             if (o.getFileType().equals(OssDirEnum.IMAGE.getDir())) {
-                o.setThumbKey(Paths
-                        .get(FilenameUtils.getFullPathNoEndSeparator(o.getFk()),
-                                NativeOssHandler.THUMBNAIL_PREFIX + FileUploadUtils.getFileFullName(o.getFk()))
-                        .toString());
+                o.setThumbKey(ossHandler.get().getThumbKey(o.getFk()));
             }
             olyOsses.add(o);
         }
