@@ -19,6 +19,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
+import com.ruoyi.common.exception.file.InvalidExtensionException;
 import com.ruoyi.common.utils.ShiroUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 
@@ -274,11 +276,13 @@ public class CmsArticleController extends CmsCommonController {
 	 * @param file
 	 * @return
 	 * @throws IOException
+	 * @throws InvalidExtensionException
+	 * @throws FileSizeLimitExceededException
 	 */
 	@PostMapping("/articleImg")
 	@Log(title = "文章上传图片", businessType = BusinessType.INSERT)
 	@ResponseBody
-	public String articleImmUpload(@RequestParam("file") MultipartFile file) throws IOException {
+	public String articleImmUpload(@RequestParam("file") MultipartFile file) throws IOException, FileSizeLimitExceededException, InvalidExtensionException {
 		Map<String, String> mp = new HashMap<>();
 		OlyOss resultData = ossHandler.get().ossUpload(file).getData();
 		System.err.println(resultData);
