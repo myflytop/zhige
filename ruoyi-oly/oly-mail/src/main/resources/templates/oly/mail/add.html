@@ -106,6 +106,12 @@
             console.log(uploadSuccsee);
         });
 
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.modal.alertWarning('<button type="button" class="btn btn-primary" onclick="saveMail()" >保存</button> <button type="button" class="btn btn-primary" onclick="sendMail()" >立即发送</button>', 2);
+            }
+        }
+
         $('#file-input').on('filesuccessremove', function (event, id, index) {
             delete uploadSuccsee[id];
         });
@@ -130,13 +136,6 @@
             $.operate.save(prefix + "/send", data);
             console.log(data);
         }
-
-        function submitHandler() {
-            if ($.validate.form()) {
-                $.modal.alertWarning('<button type="button" class="btn btn-primary" onclick="saveMail()" >保存</button> <button type="button" class="btn btn-primary" onclick="sendMail()" >立即发送</button>', 2);
-            }
-        }
-
         $("#mailContent").summernote({
             lang: 'zh-CN', // default: 'en-US'  
             focus: true,
@@ -146,22 +145,7 @@
                     sendFile(files[0]);
                 }
             }
-
-
         });
-
-           //初始化抄送标签
-            $("input[name='copeTo']").tagsinput({
-				maxTags: [[ ${@config.getConfigByKey('oly.mail.maxCopeTo')} ]]
-			});
-			//初始化密送标签
-			$("input[name='bcc']").tagsinput({
-				maxTags:[[${@config.getConfigByKey('oly.mail.maxBcc')}]]
-			});
-			//初始化附件标签
-			$("input[name='attachKeys']").tagsinput({
-				maxTags:[[${@config.getConfigByKey('oly.mail.attachKeys')}]]
-			});
 
         function sendFile(files) {
             var data = new FormData();

@@ -166,7 +166,6 @@ public class OlyMailServiceImpl extends AbstractMailService {
 
         return mailMapper.deleteOlyMailById(mailId);
     }
-
     @Override
     public void send(OlyMail olyMail, Map<String, Object> content) {
 
@@ -176,7 +175,6 @@ public class OlyMailServiceImpl extends AbstractMailService {
             sendHtmlMail(olyMail);
         } else {
             sendTemplateMail(olyMail, content);
-
         }
         if (olyMail.getMailId() == null) {
 

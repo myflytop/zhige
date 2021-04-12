@@ -81,6 +81,8 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('oly:email:edit')}]];
         var removeFlag = [[${@permission.hasPermi('oly:email:remove')}]];
+        var dictType=[[${@dict.getType('oly.mail.type')} ]],
+         dictUsed=[[${@dict.getType('oly.mail.used')}]];
         var prefix = ctx + "oly/mail";
 
         $(function() {
@@ -115,7 +117,7 @@
                     field : 'mailType', 
                     title : '邮件类型',
                     formatter: function(value, item, index) {
-                return $.table.selectDictLabel([[${@dict.getType('oly.mail.type')} ]],value);
+                return $.table.selectDictLabel(dictType,value);
             }
                 },
                 {
@@ -127,7 +129,7 @@
                     title : '邮件用途',
                     formatter: function(value, item, index) {
 
-                        return $.table.selectDictLabel( [[${@dict.getType('oly.mail.used')}]], value);
+                        return $.table.selectDictLabel( dictUsed, value);
 
                     }
                 },
