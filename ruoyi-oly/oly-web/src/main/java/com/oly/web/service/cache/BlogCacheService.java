@@ -54,9 +54,9 @@ public class BlogCacheService {
     // 以上菜单
 
     @Cacheable(key = "targetClass + methodName +#p0")
-    public List<BlogLink> listBlogLinks(String gName) {
+    public List<BlogLink> listBlogLinks(String groupKey) {
         BlogLink blogLink = new BlogLink();
-        blogLink.setGroupName(gName);
+        blogLink.setGroupKey(groupKey);
         return blogService.listBlogLinks(blogLink);
     }
 

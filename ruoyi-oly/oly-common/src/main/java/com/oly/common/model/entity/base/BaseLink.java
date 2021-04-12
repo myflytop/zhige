@@ -23,9 +23,9 @@ public class BaseLink extends BaseModel {
     @Excel(name = "链接介绍")
     private String linkSuggest;
 
-    /** 其它信息 */
-    @Excel(name = "其它信息")
-    private String otherMsg;
+    /** 分组key */
+    @Excel(name = "分组key")
+    private String groupKey;
 
     /** 链接LOGO */
     @Excel(name = "链接LOGO")
@@ -83,12 +83,12 @@ public class BaseLink extends BaseModel {
         return linkSuggest;
     }
 
-    public void setOtherMsg(String otherMsg) {
-        this.otherMsg = otherMsg;
+    public void setGroupKey(String groupKey) {
+        this.groupKey = groupKey;
     }
 
-    public String getOtherMsg() {
-        return otherMsg;
+    public String getGroupKey() {
+        return groupKey;
     }
 
     public void setLinkFavicon(String linkFavicon) {
@@ -111,7 +111,7 @@ public class BaseLink extends BaseModel {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("linkId", getLinkId())
                 .append("linkUrl", getLinkUrl()).append("linkName", getLinkName())
-                .append("linkSuggest", getLinkSuggest()).append("otherMsg", getOtherMsg())
+                .append("linkSuggest", getLinkSuggest()).append("groupKey", getGroupKey())
                 .append("linkFavicon", getLinkFavicon()).append("visible", getVisible()).append("remark", getRemark())
                 .append("createTime", getCreateTime()).append("updateTime", getUpdateTime())
                 .append("updateBy", getUpdateBy()).append("createBy", getCreateBy()).append("groupName", getGroupName())

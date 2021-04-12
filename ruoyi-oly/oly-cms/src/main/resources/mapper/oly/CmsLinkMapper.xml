@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="linkUrl"    column="link_url"    />
         <result property="linkName"    column="link_name"    />
         <result property="linkSuggest"    column="link_suggest"    />
-        <result property="otherMsg"    column="other_msg"    />
+        <result property="groupKey"    column="group_key"    />
         <result property="linkFavicon"    column="link_favicon"    />
         <result property="visible"    column="visible"    />
         <result property="remark"    column="remark"    />
@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectCmsLinkVo">
-        select link_id,open_type,order_num,group_name, link_url, link_name, link_suggest, other_msg, link_favicon, visible, remark, create_time, update_time, update_by, create_by from cms_link
+        select link_id,open_type,order_num,group_name, link_url, link_name, link_suggest, group_key, link_favicon, visible, remark, create_time, update_time, update_by, create_by from cms_link
     </sql>
 
     <select id="selectCmsLinkList" parameterType="com.oly.cms.system.model.po.CmsLink" resultMap="CmsLinkResult">
@@ -49,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="groupName != null  and groupName != ''">group_name,</if>
             <if test="orderNum != null  ">order_num,</if>
             <if test="linkSuggest != null  and linkSuggest != ''">link_suggest,</if>
-            <if test="otherMsg != null  and otherMsg != ''">other_msg,</if>
+            <if test="groupKey != null  and groupKey != ''">group_key,</if>
             <if test="linkFavicon != null  and linkFavicon != ''">link_favicon,</if>
             <if test="visible != null ">visible,</if>
             <if test="remark != null  and remark != ''">remark,</if>
@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="groupName != null  and groupName != ''">#{groupName},</if>
             <if test="orderNum != null  ">#{orderNum},</if>
             <if test="linkSuggest != null  and linkSuggest != ''">#{linkSuggest},</if>
-            <if test="otherMsg != null  and otherMsg != ''">#{otherMsg},</if>
+            <if test="groupKey != null  and groupKey != ''">#{groupKey},</if>
             <if test="linkFavicon != null  and linkFavicon != ''">#{linkFavicon},</if>
             <if test="visible != null ">#{visible},</if>
             <if test="remark != null  and remark != ''">#{remark},</if>
@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderNum!=null">order_num=#{orderNum},</if>
             <if test="groupName != null  and groupName != ''">group_name=#{groupName},</if>
             <if test="linkSuggest != null  and linkSuggest != ''">link_suggest = #{linkSuggest},</if>
-            <if test="otherMsg != null  and otherMsg != ''">other_msg = #{otherMsg},</if>
+            <if test="groupKey != null  and groupKey != ''">group_key = #{groupKey},</if>
             <if test="linkFavicon != null  and linkFavicon != ''">link_favicon = #{linkFavicon},</if>
             <if test="visible != null ">visible = #{visible},</if>
             <if test="remark != null  and remark != ''">remark = #{remark},</if>

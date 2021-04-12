@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="linkUrl"    column="link_url"    />
 		<result property="linkName"    column="link_name"    />
 		<result property="linkSuggest"    column="link_suggest"    />
-		<result property="otherMsg"    column="other_msg"    />
+		<result property="groupKey"    column="group_key"    />
 		<result property="linkFavicon"    column="link_favicon"    />
 		<result property="visible"    column="visible"    />
 		<result property="remark"    column="remark"    />
@@ -136,7 +136,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</sql>
 
 	<sql id="link_sql">
-     link_id,open_type,order_num,group_name, link_url, link_name, link_suggest, other_msg, link_favicon, visible, remark
+     link_id,open_type,order_num,group_name, link_url, link_name, link_suggest, group_key, link_favicon, visible, remark
     </sql>
 
 	<sql id="tag_sql">
@@ -170,11 +170,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listBlogLinks" parameterType="com.oly.web.mould.BlogLink" resultMap="LinkResult">
 		select <include refid="link_sql"/> from cms_link
 		<where>
+		    <if test="groupkey != null  and groupKey != ''"> and group_key = #{groupkey}</if>
 			<if test="groupName != null  and groupName != ''"> and group_name = #{groupName}</if>
 			<if test="linkName != null  and linkName != ''"> and link_name like concat('%', #{linkName}, '%')</if>
 			<if test="linkSuggest != null  and linkSuggest != ''"> and link_suggest = #{linkSuggest}</if>
-        	<if test="visible!= null and visible != 0 "> and visible = #{visible}</if>
-			
+        	<if test="visible!= null and visible != 0 "> and visible = #{visible}</if>		
 		</where>
 	</select>
     <!-- 通过id获取单个外链 -->

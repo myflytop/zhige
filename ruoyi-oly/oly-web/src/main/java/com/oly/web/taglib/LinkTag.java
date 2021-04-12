@@ -21,9 +21,9 @@ public class LinkTag {
    * @param groupName
    * @return
    */
-  public List<BlogLink> listLink(String groupName) {
+  public List<BlogLink> listLink(String groupKey) {
    
-    return blogService.listBlogLinks(groupName);
+    return blogService.listBlogLinks(groupKey);
   }
 
   /**
@@ -40,8 +40,8 @@ public class LinkTag {
    * @param groupName
    * @return
    */
-  public Map<String, List<BlogLink>> groupLink(String groupName) {
-    Map<String, List<BlogLink>> linkMap = blogService.listBlogLinks(groupName).stream()
+  public Map<String, List<BlogLink>> groupLink(String groupKey) {
+    Map<String, List<BlogLink>> linkMap = blogService.listBlogLinks(groupKey).stream()
         .collect(Collectors.groupingBy(BlogLink::getGroupName));
     return linkMap;
   }
