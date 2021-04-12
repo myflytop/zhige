@@ -7,10 +7,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.oly.common.model.entity.base.BaseModel;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
+
 
 /**
  * 邮件对象 oly_mail
@@ -18,7 +20,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author hush
  * @date 2021-03-06
  */
-public class OlyMail extends BaseEntity {
+public class OlyMail extends BaseModel  {
     private static final long serialVersionUID = 1L;
 
     /** ID */
@@ -152,14 +154,6 @@ public class OlyMail extends BaseEntity {
 
     public String getBccTo() {
         return bccTo;
-    }
-
-    public void setVisible(Integer visible) {
-        this.visible = visible;
-    }
-
-    public Integer getVisible() {
-        return visible;
     }
 
     @Override

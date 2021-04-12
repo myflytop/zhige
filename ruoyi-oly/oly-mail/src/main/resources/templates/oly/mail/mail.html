@@ -81,8 +81,8 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('oly:email:edit')}]];
         var removeFlag = [[${@permission.hasPermi('oly:email:remove')}]];
-        var dictType=[[${@dict.getType('oly.mail.type')} ]],
-         dictUsed=[[${@dict.getType('oly.mail.used')}]];
+        var dictType=[[${@dict.getType('oly_mail_type')} ]],
+         dictUsed=[[${@dict.getType('oly_mail_used')}]];
         var prefix = ctx + "oly/mail";
 
         $(function() {

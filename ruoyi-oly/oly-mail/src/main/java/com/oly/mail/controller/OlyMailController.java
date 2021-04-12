@@ -25,6 +25,7 @@ import com.oly.mail.service.IOlyMailService;
 import com.oly.oss.service.impl.NativeOssHandler;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.utils.ShiroUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
@@ -96,6 +97,7 @@ public class OlyMailController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(OlyMail olyMail) {
+        olyMail.setCreateBy(ShiroUtils.getUserId());
         return toAjax(olyMailService.insertOlyMail(olyMail));
     }
 

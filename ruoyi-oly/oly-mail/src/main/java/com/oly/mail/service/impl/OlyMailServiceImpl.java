@@ -4,6 +4,7 @@ import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.enums.OlyStageRoot ;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.ShiroUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.alibaba.druid.sql.ast.statement.SQLIfStatement.Else;
 import com.oly.common.constant.OlySystemConstant;
@@ -168,7 +169,8 @@ public class OlyMailServiceImpl extends AbstractMailService {
     }
     @Override
     public void send(OlyMail olyMail, Map<String, Object> content) {
-
+        olyMail.setSendTime(DateUtils.getNowDate());
+        olyMail.setMailUsed(MailUsedEnums.NORMAL.ordinal());
         if (olyMail.getMailType() == MailTypeEnums.TEXT_MAIL.ordinal()) {
             sendTextMail(olyMail);
         } else if ((olyMail.getMailType() == MailTypeEnums.HTML_MAIL.ordinal())) {
@@ -177,7 +179,7 @@ public class OlyMailServiceImpl extends AbstractMailService {
             sendTemplateMail(olyMail, content);
         }
         if (olyMail.getMailId() == null) {
-
+            olyMail.setCreateBy(ShiroUtils.getUserId());
             this.insertOlyMail(olyMail);
         } else {
 

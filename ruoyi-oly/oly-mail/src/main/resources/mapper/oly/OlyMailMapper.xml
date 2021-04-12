@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="fromMail != null">from_mail,</if>
             <if test="createBy != null">create_by,</if>
-            <if test="createTime != null">create_time,</if>
+            create_time,
             <if test="toMail != null and toMail != ''">to_mail,</if>
             <if test="subject != null and subject != ''">subject,</if>
             <if test="content != null and content != ''">content,</if>
@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="fromMail != null">#{fromMail},</if>
             <if test="createBy != null">#{createBy},</if>
-            <if test="createTime != null">#{createTime},</if>
+            sysdate(),
             <if test="toMail != null and toMail != ''">#{toMail},</if>
             <if test="subject != null and subject != ''">#{subject},</if>
             <if test="content != null and content != ''">#{content},</if>
