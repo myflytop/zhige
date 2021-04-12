@@ -124,7 +124,7 @@ public class NativeOssHandler implements OssHandler {
     @Override
     public OssResult ossAppointUpload(MultipartFile file, OlyStageRoot  rootPath, String fileName) throws IOException {
 
-        fileName = "".equals(fileName) ? FileUploadUtils.getTimePath(file, "", true) : fileName;
+        fileName = "".equals(fileName) ? FileUploadUtils.getTimePath(file, "", false) : fileName;
 
         File desc = Paths.get(RuoYiConfig.getWorkPath(), rootPath.getDir(), fileName).toFile();
         if (!desc.exists()) {

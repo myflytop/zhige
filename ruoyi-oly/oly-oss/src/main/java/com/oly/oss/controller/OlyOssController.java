@@ -166,7 +166,7 @@ public class OlyOssController extends BaseController {
     /**
      * 头像地址
      */
-    @GetMapping("/download/avatar/{key}")
+    @GetMapping("/download/avatar/{key:.+}")
     public void download(@PathVariable("key") String key, HttpServletResponse response){
         outputFile(Paths.get(RuoYiConfig.getWorkPath(),OlyStageRoot.HEARD_DIR.getDir(),key).toString(), response);
     }

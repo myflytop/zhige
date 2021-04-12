@@ -76,7 +76,12 @@ spring:
     type: ehcache
     ehcache:
       config: classpath:ehcache/ehcache-web.xml
-    
+  http:
+    encoding:
+      charset: utf-8
+      force: true
+      enabled: true
+      
 mybatis:
     # 搜索指定包别名
     typeAliasesPackage: com.ruoyi.**.domain,com.oly.**.domain
