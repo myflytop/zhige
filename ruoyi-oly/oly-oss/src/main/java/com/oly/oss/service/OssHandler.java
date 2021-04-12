@@ -13,6 +13,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 public interface OssHandler {
@@ -87,9 +89,16 @@ public interface OssHandler {
   }
 
   public static boolean supportFile(InputStream in){
- 
-
     return true;
+  }
+
+  public static String encodeKey(String key){
+
+   try {
+    return URLEncoder.encode(key, "UTF-8");
+  } catch (UnsupportedEncodingException e) {
+    return key;
+  }
   }
 
 

@@ -139,9 +139,9 @@ blogConfig=${blogConfig})" />
 				, done: function (res) {
 					if (res.code === 0) {
 						layer.msg("头像已修改");
-						$("#imgUp>img").src(res.data);
+						$("#imgUp>img").attr('src',res.data);
 					}
-					if (res.code === 0) {
+					else {
 						layer.msg("头像修改失败");
 
 					}

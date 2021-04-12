@@ -1,9 +1,9 @@
 package com.oly.mail.service;
 
-import com.oly.mail.domain.MailUsedEnums;
-import com.oly.mail.domain.OlyMail;
 import java.util.List;
 import java.util.Map;
+
+import com.oly.mail.domain.OlyMail;
 
 /**
  * 邮件Service接口

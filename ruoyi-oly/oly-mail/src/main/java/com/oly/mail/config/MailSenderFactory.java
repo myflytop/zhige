@@ -32,7 +32,6 @@ public class MailSenderFactory {
 
         return mailSender;
     }
-
     private void setProperties(@NonNull JavaMailSenderImpl mailSender, @NonNull DefaultMailProperties mailProperties) {
         mailSender.setHost(mailProperties.getHost());
         mailSender.setPort(mailProperties.getPort());
