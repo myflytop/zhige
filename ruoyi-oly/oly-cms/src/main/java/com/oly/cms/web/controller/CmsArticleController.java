@@ -96,6 +96,7 @@ public class CmsArticleController extends CmsCommonController {
 
 	/**
 	 * 添加文章 视图
+	 * 
 	 * @param mmap
 	 * @return
 	 */
@@ -109,6 +110,7 @@ public class CmsArticleController extends CmsCommonController {
 
 	/**
 	 * 添加文章说明 1.默认审核中 2.必须有一个可用分类(后期可以隐藏)
+	 * 
 	 * @param artVo
 	 * @return
 	 */
@@ -144,6 +146,7 @@ public class CmsArticleController extends CmsCommonController {
 
 	/**
 	 * 修改文章
+	 * 
 	 * @param art
 	 * @return
 	 */
@@ -282,7 +285,8 @@ public class CmsArticleController extends CmsCommonController {
 	@PostMapping("/articleImg")
 	@Log(title = "文章上传图片", businessType = BusinessType.INSERT)
 	@ResponseBody
-	public String articleImmUpload(@RequestParam("file") MultipartFile file) throws IOException, FileSizeLimitExceededException, InvalidExtensionException {
+	public String articleImmUpload(@RequestParam("file") MultipartFile file)
+			throws IOException, FileSizeLimitExceededException, InvalidExtensionException {
 		Map<String, String> mp = new HashMap<>();
 		OlyOss resultData = ossHandler.get().ossUpload(file).getData();
 		System.err.println(resultData);

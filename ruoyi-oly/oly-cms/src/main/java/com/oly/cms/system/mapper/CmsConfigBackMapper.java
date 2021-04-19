@@ -1,7 +1,8 @@
 package com.oly.cms.system.mapper;
 
 import java.util.List;
-import com.oly.cms.system.domain.CmsConfigBack;
+
+import com.oly.cms.system.model.po.CmsConfigBack;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -11,8 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @author 止戈
  * @date 2021-04-04
  */
-public interface CmsConfigBackMapper 
-{
+public interface CmsConfigBackMapper {
     /**
      * 查询配置文件备份
      * 
@@ -61,5 +61,5 @@ public interface CmsConfigBackMapper
      */
     public int deleteCmsConfigBackByIds(String[] configGroups);
 
-    public int isExist(@Param("configGroup")String configGroup,@Param("configKey") String configKey);
+    public int isExist(@Param("configGroup") String configGroup, @Param("configKey") String configKey);
 }

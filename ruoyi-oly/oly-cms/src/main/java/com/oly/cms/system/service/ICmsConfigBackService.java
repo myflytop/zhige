@@ -2,10 +2,7 @@ package com.oly.cms.system.service;
 
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
-import com.oly.cms.system.domain.CmsConfigBack;
+import com.oly.cms.system.model.po.CmsConfigBack;
 
 /**
  * 配置文件备份Service接口
@@ -13,8 +10,7 @@ import com.oly.cms.system.domain.CmsConfigBack;
  * @author 止戈
  * @date 2021-04-04
  */
-public interface ICmsConfigBackService 
-{
+public interface ICmsConfigBackService {
     /**
      * 查询配置文件备份
      * 
@@ -63,5 +59,5 @@ public interface ICmsConfigBackService
      */
     public int deleteCmsConfigBackById(String configGroup);
 
-    public boolean isExist(String backGroup,String configKey);
+    public boolean isExist(String backGroup, String configKey);
 }

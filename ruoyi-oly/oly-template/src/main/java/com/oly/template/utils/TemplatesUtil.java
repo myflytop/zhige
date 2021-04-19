@@ -13,6 +13,12 @@ import java.util.regex.Pattern;
 public class TemplatesUtil {
     private static String pl = "\\$\\{\\w+\\}";
 
+    /**
+     * 
+     * @param template 模板
+     * @param params   参数
+     * @return
+     */
     public static String processTemplate(String template, Map<String, Object> params) {
         if (template == null || params == null)
             return null;
@@ -27,9 +33,14 @@ public class TemplatesUtil {
         return sb.toString();
     }
 
+    /**
+     * 
+     * @param htmlString 文件内容
+     * @param path       生成路径
+     * @return
+     */
     public static String saveHtml(String htmlString, String path) {
         // 生成的文件路径
-
         File file = new File(path);
         if (!file.exists()) {
             file.getParentFile().mkdirs();

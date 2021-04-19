@@ -102,16 +102,19 @@ public class OlyTemplateController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(OlyTemplate olyTemplate, String templateHtml, MultipartFile file) throws IOException {
+        if (StringUtils.isEmpty(olyTemplate.getTemplateName())) {
+            return error("文件名不能为空");
+        }
+
         if (TemplateTypeEnum.HTML.ordinal() == olyTemplate.getTemplateType()) {
-            if(StringUtils.isEmpty(templateHtml))
-            {
+            if (StringUtils.isEmpty(templateHtml)) {
                 return error("模板内容不能为空");
             }
             String u = olyTemplate.getTemplateName() + ".html";
             TemplatesUtil.saveHtml(templateHtml,
                     Paths.get(RuoYiConfig.getWorkPath(), OlyStageRoot.TEMPLATE_DIR.getDir(), u).toString());
             olyTemplate.setTemplateUrl("/" + u);
-        }     
+        }
 
         olyTemplate.setCreateBy(ShiroUtils.getUserId());
         olyTemplateService.insertOlyTemplate(olyTemplate);
@@ -124,20 +127,18 @@ public class OlyTemplateController extends BaseController {
      */
     @GetMapping("/edit/{templateId}")
     public String edit(@PathVariable("templateId") Long templateId, ModelMap mmap) {
-        String parentName="根目录";
+        String parentName = "根目录";
         OlyTemplate olyTemplate = olyTemplateService.selectOlyTemplateById(templateId);
-       
-        if(olyTemplate.getParentId()!=0L)
-        {
+
+        if (olyTemplate.getParentId() != 0L) {
             OlyTemplate parentOlyTemplate = olyTemplateService.selectOlyTemplateById(olyTemplate.getParentId());
-            if(parentOlyTemplate!=null)
-            {
-                parentName=parentOlyTemplate.getTemplateName();
+            if (parentOlyTemplate != null) {
+                parentName = parentOlyTemplate.getTemplateName();
             }
 
         }
-        mmap.put("parentName",parentName);
-        mmap.put("olyTemplate",olyTemplate);
+        mmap.put("parentName", parentName);
+        mmap.put("olyTemplate", olyTemplate);
         return prefix + "/edit";
     }
 
@@ -150,32 +151,34 @@ public class OlyTemplateController extends BaseController {
     @ResponseBody
     public AjaxResult editSave(OlyTemplate olyTemplate, String templateHtml) {
         if (TemplateTypeEnum.HTML.ordinal() == olyTemplate.getTemplateType()) {
-            if(StringUtils.isEmpty(templateHtml))
-            {
+            if (StringUtils.isEmpty(templateHtml)) {
                 return error("模板内容不能为空");
             }
             String u = olyTemplate.getTemplateName() + ".html";
             TemplatesUtil.saveHtml(templateHtml,
                     Paths.get(RuoYiConfig.getWorkPath(), OlyStageRoot.TEMPLATE_DIR.getDir(), u).toString());
             olyTemplate.setTemplateUrl("/" + u);
-        } 
+        }
         olyTemplate.setUpdateBy(ShiroUtils.getUserId());
         olyTemplateService.updateOlyTemplate(olyTemplate);
         return AjaxResult.success(olyTemplate);
 
     }
-    
+
     /**
      * 修改保存模板模型
+     * 
      * @throws IOException
      */
     @RequiresPermissions("oly:template:edit")
     @Log(title = "上传模板", businessType = BusinessType.INSERT)
     @PostMapping("/templateUpload")
     @ResponseBody
-    public AjaxResult templateUpload(MultipartFile file) throws IOException{
-       
-        return AjaxResult.success( ossHandler.ossAppointUpload(file, OlyStageRoot.TEMPLATE_DIR,FilenameUtils.getName(file.getOriginalFilename())).getData());
+    public AjaxResult templateUpload(MultipartFile file) throws IOException {
+
+        return AjaxResult.success(ossHandler
+                .ossAppointUpload(file, OlyStageRoot.TEMPLATE_DIR, FilenameUtils.getName(file.getOriginalFilename()))
+                .getData());
     }
 
     /**
@@ -238,14 +241,12 @@ public class OlyTemplateController extends BaseController {
      */
     private OlyTemplate gTemplate(Long templateId) {
         OlyTemplate olyTemplate = null;
-        if(templateId==0L)
-        {
+        if (templateId == 0L) {
             olyTemplate = new OlyTemplate();
             olyTemplate.setTemplateId(0L);
             olyTemplate.setBuilt((byte) 1);
             olyTemplate.setTemplateName("主目录");
-        }
-       else {
+        } else {
             olyTemplate = olyTemplateService.selectOlyTemplateById(templateId);
             if (olyTemplate == null) {
                 olyTemplate = new OlyTemplate();

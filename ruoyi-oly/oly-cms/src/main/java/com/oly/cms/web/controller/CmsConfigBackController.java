@@ -2,7 +2,7 @@ package com.oly.cms.web.controller;
 
 import java.util.List;
 
-import com.oly.cms.system.domain.CmsConfigBack;
+import com.oly.cms.system.model.po.CmsConfigBack;
 import com.oly.cms.system.service.ICmsConfigBackService;
 import com.oly.cms.web.CmsCommonController;
 import com.oly.common.model.enums.OlyCommonEnum;
@@ -40,18 +40,17 @@ public class CmsConfigBackController extends CmsCommonController {
 
     private static final String prefix = acceptPreifx + "configBack";
 
-    private static final String backPrefix=OlyCommonEnum.OLY_WBE_PREIFX.getValue();
-    
+    private static final String backPrefix = OlyCommonEnum.OLY_WBE_PREIFX.getValue();
+
     @Autowired
-    private  SysConfigServiceImpl sysConfigService;
+    private SysConfigServiceImpl sysConfigService;
 
     @Autowired
     private ICmsConfigBackService cmsConfigBackService;
 
     @RequiresPermissions("cms:configBack:view")
     @GetMapping()
-    public String back()
-    {
+    public String back() {
         return prefix + "/configBack";
     }
 
@@ -61,8 +60,7 @@ public class CmsConfigBackController extends CmsCommonController {
     @RequiresPermissions("cms:configBack:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(CmsConfigBack cmsConfigBack)
-    {
+    public TableDataInfo list(CmsConfigBack cmsConfigBack) {
         startPage();
         List<CmsConfigBack> list = cmsConfigBackService.selectCmsConfigBackList(cmsConfigBack);
         return getDataTable(list);
@@ -75,20 +73,17 @@ public class CmsConfigBackController extends CmsCommonController {
     @Log(title = "配置文件备份", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(CmsConfigBack cmsConfigBack)
-    {
+    public AjaxResult export(CmsConfigBack cmsConfigBack) {
         List<CmsConfigBack> list = cmsConfigBackService.selectCmsConfigBackList(cmsConfigBack);
         ExcelUtil<CmsConfigBack> util = new ExcelUtil<CmsConfigBack>(CmsConfigBack.class);
         return util.exportExcel(list, "back");
     }
 
- 
     /**
      * 修改配置文件备份
      */
     @GetMapping("/edit/{configGroup}")
-    public String edit(@PathVariable("configGroup") String configGroup, ModelMap mmap)
-    {
+    public String edit(@PathVariable("configGroup") String configGroup, ModelMap mmap) {
         CmsConfigBack cmsConfigBack = cmsConfigBackService.selectCmsConfigBackById(configGroup);
         mmap.put("cmsConfigBack", cmsConfigBack);
         return prefix + "/edit";
@@ -101,8 +96,7 @@ public class CmsConfigBackController extends CmsCommonController {
     @Log(title = "配置文件备份", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(CmsConfigBack cmsConfigBack)
-    {
+    public AjaxResult editSave(CmsConfigBack cmsConfigBack) {
         return toAjax(cmsConfigBackService.updateCmsConfigBack(cmsConfigBack));
     }
 
@@ -111,78 +105,75 @@ public class CmsConfigBackController extends CmsCommonController {
      */
     @RequiresPermissions("cms:configBack:remove")
     @Log(title = "配置文件备份", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(cmsConfigBackService.deleteCmsConfigBackByIds(ids));
     }
 
-     /**
-      * 
-      * @param configGroup 组别名
-      * @return
-      */
-      @RequiresPermissions("cms:configBack:remove")
-      @Log(title = "配置文件备份", businessType = BusinessType.INSERT)
-      @PostMapping( "/back")
-      @ResponseBody
+    /**
+     * 
+     * @param configGroup 组别名
+     * @return
+     */
+    @RequiresPermissions("cms:configBack:remove")
+    @Log(title = "配置文件备份", businessType = BusinessType.INSERT)
+    @PostMapping("/back")
+    @ResponseBody
     public AjaxResult back(String configGroup) {
-        SysConfig sysConfig=new SysConfig();
+        SysConfig sysConfig = new SysConfig();
         sysConfig.setConfigKey(backPrefix);
-        List<SysConfig> lists=sysConfigService.selectConfigList(sysConfig);  
-        if(!lists.isEmpty())
-        {
+        List<SysConfig> lists = sysConfigService.selectConfigList(sysConfig);
+        if (!lists.isEmpty()) {
             for (SysConfig sysConfig2 : lists) {
-                CmsConfigBack cmsConfigBack=new CmsConfigBack();
+                CmsConfigBack cmsConfigBack = new CmsConfigBack();
                 cmsConfigBack.setConfigKey(sysConfig2.getConfigKey());
                 cmsConfigBack.setConfigValue(sysConfig2.getConfigValue());
                 cmsConfigBack.setConfigGroup(configGroup);
-                  if(cmsConfigBackService.isExist(configGroup,sysConfig2.getConfigKey())){
+                if (cmsConfigBackService.isExist(configGroup, sysConfig2.getConfigKey())) {
                     cmsConfigBack.setUpdateBy(ShiroUtils.getUserId());
                     cmsConfigBackService.updateCmsConfigBack(cmsConfigBack);
-                  }
-                  else{
-                      cmsConfigBack.setCreateBy(ShiroUtils.getUserId());
-                      cmsConfigBackService.insertCmsConfigBack(cmsConfigBack);
-                  }
+                } else {
+                    cmsConfigBack.setCreateBy(ShiroUtils.getUserId());
+                    cmsConfigBackService.insertCmsConfigBack(cmsConfigBack);
+                }
             }
 
         }
         return AjaxResult.success();
     }
-    
+
     /**
-     * 备份还原
-     * 只做更新操作 
+     * 备份还原 只做更新操作
+     * 
      * @return
      */
     @RequiresPermissions("cms:configBack:update")
     @Log(title = "配置文件备份", businessType = BusinessType.UPDATE)
-    @PostMapping( "/vatting")
+    @PostMapping("/vatting")
     @ResponseBody
-    public AjaxResult vatting(String configGroup){
-      CmsConfigBack cmsConfigBack=new CmsConfigBack();
-      cmsConfigBack.setConfigGroup(configGroup);
-      List<CmsConfigBack> backs=cmsConfigBackService.selectCmsConfigBackList(cmsConfigBack);
-      for (CmsConfigBack cmsConfigBack2 : backs) {
-        SysConfig rsConfig = sysConfigService.getConfigByKey(cmsConfigBack2.getConfigKey());
-        // 存在执行更新操作
-        if (StringUtils.isNotNull(rsConfig)) {
-            if (checkType(rsConfig.getConfigValueType(), cmsConfigBack2.getConfigValue())) {
-                SysConfig sysConfig = new SysConfig();
-                sysConfig.setUpdateBy(ShiroUtils.getLoginName());
-                sysConfig.setConfigKey(cmsConfigBack2.getConfigKey());
-                sysConfig.setConfigValue(cmsConfigBack2.getConfigValue());
-                sysConfigService.updateConfigByKey(sysConfig);
+    public AjaxResult vatting(String configGroup) {
+        CmsConfigBack cmsConfigBack = new CmsConfigBack();
+        cmsConfigBack.setConfigGroup(configGroup);
+        List<CmsConfigBack> backs = cmsConfigBackService.selectCmsConfigBackList(cmsConfigBack);
+        for (CmsConfigBack cmsConfigBack2 : backs) {
+            SysConfig rsConfig = sysConfigService.getConfigByKey(cmsConfigBack2.getConfigKey());
+            // 存在执行更新操作
+            if (StringUtils.isNotNull(rsConfig)) {
+                if (checkType(rsConfig.getConfigValueType(), cmsConfigBack2.getConfigValue())) {
+                    SysConfig sysConfig = new SysConfig();
+                    sysConfig.setUpdateBy(ShiroUtils.getLoginName());
+                    sysConfig.setConfigKey(cmsConfigBack2.getConfigKey());
+                    sysConfig.setConfigValue(cmsConfigBack2.getConfigValue());
+                    sysConfigService.updateConfigByKey(sysConfig);
+                }
             }
+
         }
-          
-      }
         return AjaxResult.success();
     }
 
-/**
+    /**
      * 判断是否符合预期类型
      * 
      * @param type
@@ -197,6 +188,6 @@ public class CmsConfigBackController extends CmsCommonController {
         } else {
             return true;
         }
-}
+    }
 
 }

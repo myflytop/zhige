@@ -31,24 +31,15 @@ public class CmsCatController extends CmsCommonController {
    @Autowired
    private CmsCatServiceImpl cmsCatService;
 
+   /**
+    * 类目页面
+    * 
+    * @return
+    */
    @RequiresPermissions("cms:cat:view")
    @GetMapping()
    public String Cat() {
       return prefix + "/cat";
-   }
-
-   /**
-    * 类目详情页面
-    * 
-    * @param catId
-    * @param mmp
-    * @return
-    */
-   @RequiresPermissions("cms:cat:view")
-   @GetMapping("/detail/{catId}")
-   public String detail(@PathVariable("catId") Long catId, ModelMap mmp) {
-      mmp.put("cat", cmsCatService.getCmsCatById(catId));
-      return prefix + "/detail";
    }
 
    @RequiresPermissions("cms:cat:list")

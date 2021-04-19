@@ -19,10 +19,10 @@ import org.springframework.context.annotation.ComponentScan;
 public class RuoYiApplication {
     public static void main(String[] args) {
         // System.setProperty("spring.devtools.restart.enabled", "false");
-        // 可覆盖jar内 .yml内的配置
+        // 可覆盖spring boot 配置文件的配置
         System.setProperty("spring.config.additional-location", "file:"+RuoYiConfig.getWorkPath()+"/");
         SpringApplication.run(RuoYiApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  若依启动成功   ლ(´ڡ`ლ)ﾞ  \n" + " .-------.       ____     __        \n"
+        System.out.println("(♥◠‿◠)ﾉﾞ  止戈启动成功   ლ(´ڡ`ლ)ﾞ  \n" + " .-------.       ____     __        \n"
                 + " |  _ _   \\      \\   \\   /  /    \n" + " | ( ' )  |       \\  _. /  '       \n"
                 + " |(_ o _) /        _( )_ .'         \n" + " | (_,_).' __  ___(_ o _)'          \n"
                 + " |  |\\ \\  |  ||   |(_,_)'         \n" + " |  | \\ `'   /|   `-'  /           \n"

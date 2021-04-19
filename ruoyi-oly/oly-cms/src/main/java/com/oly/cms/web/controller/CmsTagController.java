@@ -62,8 +62,8 @@ public class CmsTagController extends CmsCommonController {
    @GetMapping("/listTag")
    @ResponseBody
    public List<CmsTag> listNoHide() {
-      CmsTag cmsTag=new CmsTag();
-      cmsTag.setVisible((byte)CommonVisibleEnums.SHOW.ordinal());
+      CmsTag cmsTag = new CmsTag();
+      cmsTag.setVisible((byte) CommonVisibleEnums.SHOW.ordinal());
       return cmsTagService.listCmsTagByTag(cmsTag);
 
    }
@@ -77,8 +77,8 @@ public class CmsTagController extends CmsCommonController {
    @GetMapping("/listTagCountNoHide")
    @ResponseBody
    public List<CmsTag> listCountVoNoHide() {
-      CmsTag cmsTag=new CmsTag();
-      cmsTag.setVisible((byte)CommonVisibleEnums.SHOW.ordinal());
+      CmsTag cmsTag = new CmsTag();
+      cmsTag.setVisible((byte) CommonVisibleEnums.SHOW.ordinal());
       return cmsTagService.listCmsTagByTag(cmsTag);
    }
 
