@@ -27,7 +27,7 @@
                 <artifactId>oly-common</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-
+            
              <dependency>
             <groupId>com.oly</groupId>
             <artifactId>oly-mail</artifactId>

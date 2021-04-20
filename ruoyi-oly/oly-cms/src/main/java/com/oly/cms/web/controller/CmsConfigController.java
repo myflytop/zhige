@@ -1,7 +1,7 @@
 package com.oly.cms.web.controller;
 
 import com.oly.cms.web.CmsCommonController;
-import com.oly.common.model.enums.OlyCommonEnum;
+import com.oly.common.model.enums.OlyConfigCommonEnum;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -20,9 +20,9 @@ public class CmsConfigController extends CmsCommonController {
 
     private final String prefix = acceptPreifx + "config";
     // 内容参数配置
-    private final String WEB_CONFIG_PREFIX = OlyCommonEnum.OLY_WBE_PREIFX.getValue();
+    private final String WEB_CONFIG_PREFIX = OlyConfigCommonEnum.OLY_WBE_PREIFX.getValue();
     // 内容参数配置
-    private final String CMS_CONFIG_PREFIX = OlyCommonEnum.OLY_CMS_PREIFX.getValue();
+    private final String CMS_CONFIG_PREFIX = OlyConfigCommonEnum.OLY_CMS_PREIFX.getValue();
 
     @GetMapping
     @RequiresPermissions("cms:config:view")

@@ -5,7 +5,7 @@ import java.util.List;
 import com.oly.cms.system.model.po.CmsConfigBack;
 import com.oly.cms.system.service.ICmsConfigBackService;
 import com.oly.cms.web.CmsCommonController;
-import com.oly.common.model.enums.OlyCommonEnum;
+import com.oly.common.model.enums.OlyConfigCommonEnum;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -40,7 +40,7 @@ public class CmsConfigBackController extends CmsCommonController {
 
     private static final String prefix = acceptPreifx + "configBack";
 
-    private static final String backPrefix = OlyCommonEnum.OLY_WBE_PREIFX.getValue();
+    private static final String backPrefix = OlyConfigCommonEnum.OLY_WBE_PREIFX.getValue();
 
     @Autowired
     private SysConfigServiceImpl sysConfigService;

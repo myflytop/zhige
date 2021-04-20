@@ -3,7 +3,7 @@ package com.oly.web.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.oly.common.model.enums.OlyCommonEnum;
+import com.oly.common.model.enums.OlyConfigCommonEnum;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @Component
 public class BlogThymeleafConfig {
     // blog配置前缀
-    private final String CONFIG_PREIGX = OlyCommonEnum.OLY_WBE_PREIFX.getValue();
+    private final String CONFIG_PREIGX = OlyConfigCommonEnum.OLY_WBE_PREIFX.getValue();
     @Autowired
     private SysConfigServiceImpl sysConfigService;
 

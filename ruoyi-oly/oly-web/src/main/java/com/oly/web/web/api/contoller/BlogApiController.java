@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.oly.common.model.enums.OlyCommonEnum;
+import com.oly.common.model.enums.OlyConfigCommonEnum;
 import com.oly.web.mould.BlogLink;
 import com.oly.web.service.cache.BlogCacheService;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -26,7 +26,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @RestController
 @RequestMapping("/api")
 public class BlogApiController {
-    private final String CONFIG_PREIGX = OlyCommonEnum.OLY_WBE_PREIFX.getValue();
+    private final String CONFIG_PREIGX = OlyConfigCommonEnum.OLY_WBE_PREIFX.getValue();
     @Autowired
     private SysConfigServiceImpl sysConfigService;
     
