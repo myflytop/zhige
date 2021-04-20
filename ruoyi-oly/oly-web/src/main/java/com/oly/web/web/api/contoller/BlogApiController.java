@@ -1,11 +1,13 @@
 package com.oly.web.web.api.contoller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.oly.common.model.enums.OlyCommonEnum;
-import com.oly.framework.event.AddArticleEvent;
 import com.oly.web.mould.BlogLink;
-import com.oly.web.mould.BlogMenu;
 import com.oly.web.service.cache.BlogCacheService;
-import com.oly.web.service.impl.BlogServiceImpl;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 
@@ -17,11 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -136,7 +133,6 @@ public class BlogApiController {
         return AjaxResult.success(blogService.getBlogMenuById(catId));
     }
 
-
      /**
      * 获取节点及子节点
      * @param catId
@@ -179,10 +175,5 @@ public class BlogApiController {
         .collect(Collectors.groupingBy(BlogLink::getGroupName)); 
         return AjaxResult.success(linkMap);
     }
-
-
-
-
-
 
 }

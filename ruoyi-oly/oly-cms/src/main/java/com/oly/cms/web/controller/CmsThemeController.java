@@ -52,9 +52,6 @@ public class CmsThemeController extends CmsCommonController {
 
 	@Autowired
 	private SysConfigServiceImpl sysConfigService;
-
-	
-
 	/**
 	 * 转向列表页设置页面
 	 * 

@@ -62,14 +62,4 @@ public class TemplatesUtil {
         return null;
     }
 
-    public static void main(String[] args) {
-        Map map = new HashMap();
-        map.put("name", "张三");
-        map.put("money", String.format("%.2f", 10.155));
-        map.put("point", 10);
-        String message = processTemplate("您好${name}，晚上好！您目前余额：${money}元，积分：${point}", map);
-        System.out.println(message);
-        // 您好张三，晚上好！您目前余额：10.16元，积分：10
-    }
-
 }

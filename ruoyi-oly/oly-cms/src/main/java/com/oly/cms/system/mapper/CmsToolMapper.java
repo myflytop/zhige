@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface CmsToolMapper {
 
-    public List<String> listCatIds();
+    public List<String> listCatIds(String beginTime);
 
-    public List<String> listTagIds();
+    public List<String> listTagIds(String beginTime);
 
-    public List<String> listPostIds();
+    public List<String> listPostIds(String beginTime);
     
 }

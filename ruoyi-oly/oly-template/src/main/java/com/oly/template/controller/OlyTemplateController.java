@@ -105,7 +105,6 @@ public class OlyTemplateController extends BaseController {
         if (StringUtils.isEmpty(olyTemplate.getTemplateName())) {
             return error("文件名不能为空");
         }
-
         if (TemplateTypeEnum.HTML.ordinal() == olyTemplate.getTemplateType()) {
             if (StringUtils.isEmpty(templateHtml)) {
                 return error("模板内容不能为空");
@@ -115,7 +114,6 @@ public class OlyTemplateController extends BaseController {
                     Paths.get(RuoYiConfig.getWorkPath(), OlyStageRoot.TEMPLATE_DIR.getDir(), u).toString());
             olyTemplate.setTemplateUrl("/" + u);
         }
-
         olyTemplate.setCreateBy(ShiroUtils.getUserId());
         olyTemplateService.insertOlyTemplate(olyTemplate);
         return AjaxResult.success(olyTemplate);

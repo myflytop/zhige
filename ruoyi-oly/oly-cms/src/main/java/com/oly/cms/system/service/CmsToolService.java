@@ -12,15 +12,15 @@ public class CmsToolService {
     @Autowired
     private CmsToolMapper cmsToolMapper;
 
-    public List<String> listCatIds() {
-        return cmsToolMapper.listCatIds();
+    public List<String> listCatIds(String beginTime) {
+        return cmsToolMapper.listCatIds(beginTime);
     }
 
-    public List<String> listTagIds() {
-        return cmsToolMapper.listTagIds();
+    public List<String> listTagIds(String beginTime) {
+        return cmsToolMapper.listTagIds(beginTime);
     }
 
-    public List<String> listPostIds() {
-        return cmsToolMapper.listPostIds();
+    public List<String> listPostIds(String beginTime) {
+        return cmsToolMapper.listPostIds(beginTime);
     }
 }
