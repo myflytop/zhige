@@ -2,13 +2,16 @@ package com.oly.cms.system.service.impl;
 
 import java.util.List;
 
+import com.oly.cms.system.mapper.CmsArticleLiquidMapper;
 import com.oly.cms.system.mapper.CmsTaokeMapper;
 import com.oly.cms.system.model.CmsTaoke;
 import com.oly.cms.system.model.vo.ArticleVo;
 import com.oly.cms.system.service.ICmsTaokeService;
+import com.oly.common.constant.OlySystemConstant;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.ShiroUtils;
 import com.ruoyi.common.utils.StringUtils;
 
 import org.slf4j.Logger;
@@ -32,6 +35,10 @@ public class CmsTaokeServiceImpl implements ICmsTaokeService {
     private static final Logger log = LoggerFactory.getLogger(CmsTaokeServiceImpl.class);
     @Autowired
     private CmsArticleServiceImpl cmsArticleService;
+
+    @Autowired
+	private CmsArticleLiquidMapper cmsArticleLiquidMapper;
+
     @Autowired
     private DataSourceTransactionManager transactionManager;
 
@@ -78,6 +85,7 @@ public class CmsTaokeServiceImpl implements ICmsTaokeService {
     @Override
     public int updateCmsTaoke(CmsTaoke cmsTaoke) {
         cmsTaoke.setUpdateTime(DateUtils.getNowDate());
+        
         return cmsTaokeMapper.updateCmsTaoke(cmsTaoke);
     }
 
@@ -116,34 +124,33 @@ public class CmsTaokeServiceImpl implements ICmsTaokeService {
             TransactionStatus transactionStatus =transactionManager.getTransaction(new DefaultTransactionDefinition());
             ArticleVo cmsArticle = new ArticleVo();
             try {
-
                 //设置默认标题,预览为空
                 cmsArticle.setArticleTitle(taoke.getShopName());
-                //6为淘客
-                cmsArticle.setArticleType((byte) 6);
+                cmsArticle.setArticleType(OlySystemConstant.TAO_KE_POST_TYPE);
                 cmsArticle.setCats(cats);
                 cmsArticle.setTags(tags);
                 //默认不允许评论
-                cmsArticle.setAllowComment(false);
+                cmsArticle.setAllowComment(true);
                 // 验证是否存已经插入过了
                 CmsTaoke u = cmsTaokeMapper.selectCmsTaokeById(taoke.getShopId());
-
-                if (StringUtils.isNull(u)) {
-                    this.insertCmsTaoke(taoke);
+                if (StringUtils.isNull(u)) {  
+                    cmsArticle.setCreateBy(ShiroUtils.getUserId());
+                    cmsArticle.setCreateTime(DateUtils.getNowDate());
                     cmsArticleService.insertCmsArticle(cmsArticle);
                     Long articleId = cmsArticle.getArticleId();
-                    cmsTaokeMapper.insertCmsArticleTaoke(articleId, taoke.getShopId());
+                    taoke.setArticleId(articleId);
+                    this.insertCmsTaoke(taoke);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、商品id " + taoke.getShopId() + " 导入成功");
                 } else if (updateSupport) {
+                    cmsArticle.setUpdateBy(ShiroUtils.getUserId());
+                    cmsArticle.setUpdateTime(DateUtils.getNowDate());
+                    Long[] ids=new Long[]{u.getArticleId()};
+                    cmsArticleLiquidMapper.deleteArticleCatByIds(ids);
+                    cmsArticleLiquidMapper.deleteArticleTagByIds(ids);
+                    cmsArticle.setArticleId(u.getArticleId());
                     this.updateCmsTaoke(taoke);
-                    //判断是否被关联
-                    if (cmsTaokeMapper.checkArticleTaokeByTaokeId(taoke.getShopId()) == 0) {
-                        cmsArticleService.insertCmsArticle(cmsArticle);
-                        Long articleId = cmsArticle.getArticleId();
-                         cmsTaokeMapper.insertCmsArticleTaoke(articleId, taoke.getShopId());
-                    }
-                    //判断文章是否被插入
+                    cmsArticleService.updateCmsArticleById(cmsArticle);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、商品id " + taoke.getShopId() + " 更新成功");
                 } else {
@@ -174,7 +181,6 @@ public class CmsTaokeServiceImpl implements ICmsTaokeService {
         cmsArticleService.updateVisible(Convert.toLongArray(ids),fettle);
         return cmsTaokeMapper.updateCmsTaokePutOn(Convert.toStrArray(ids), fettle);
     }
-
     @Override
     public int onTimeShelves(long currentTimeMillis) {
         return cmsTaokeMapper.onTimeShelves(currentTimeMillis);

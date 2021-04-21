@@ -55,7 +55,7 @@ public class CmsCatController extends CmsCommonController {
    @GetMapping("/listCat")
    @ResponseBody
    public List<CmsCat> listNoHide() {
-      return cmsCatService.listCmsCatByCat(null);
+      return cmsCatService.listCmsCatByCat(new CmsCat());
 
    }
 

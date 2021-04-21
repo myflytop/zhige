@@ -62,14 +62,7 @@ public interface CmsTaokeMapper {
      */
     int deleteCmsTaokeByIds(String[] shopIds);
 
-    /**
-     * 关联文章淘客
-     * @param articleId
-     * @param shopId
-     * @return
-     */
-    int insertCmsArticleTaoke(@Param("articleId") Long articleId,@Param("shopId") String shopId);
-
+   
     /**
      * 判断是否导入
      * @param shopId

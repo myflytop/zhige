@@ -445,6 +445,86 @@ var table = {
                     }
             	});
             },
+            // 导入淘客数据
+			importTaoExcel: function(formId) {
+				table.set();
+				var currentId = $.common.isEmpty(formId) ? 'importTpl' : formId;
+				layer.open({
+					type: 1,
+					fix: false,
+					//不固定
+					maxmin: true,
+					offset: '10px',
+					area: ['400px', '600px'],
+					shade: 0.3,
+					title: '导入' + table.options.modalName + '数据',
+					content: $('#' + currentId).html(),
+					success: function(index, layero){
+						$.get(ctx+"cms/tag/listTag",function(data,status){
+							$("#selectTag").empty();
+							$.each(data,function(i,e){//i是索引，e是json对象
+								$("#selectTag").append("<option value="+e.tagId+">"+e.tagName+"</option>");
+							});
+							$('#selectTag').selectpicker('refresh');
+
+						});
+						$.get(ctx+"cms/cat/listCat",function(data,status){
+							$("#selectCat").empty();
+							$.each(data,function(i,e){//i是索引，e是json对象
+								$("#selectCat").append("<option value="+e.catId+">"+e.catName+"</option>");
+							});
+							$("#selectCat").selectpicker("refresh");
+						});
+						$('#selectTag').selectpicker('refresh');
+						$("#selectCat").selectpicker("refresh");
+					},
+
+					btn: ['<i class="fa fa-check"></i> 导入', '<i class="fa fa-remove"></i> 取消'],
+					// 弹层外区域关闭
+					shadeClose: true,
+					btn1: function(index, layero){
+						var file = layero.find('#file').val();
+						if (file == '' || (!$.common.endWith(file, '.xls') && !$.common.endWith(file, '.xlsx'))){
+							$.modal.msgWarning("请选择后缀为 “xls”或“xlsx”的文件。");
+							return false;
+						}
+						var index = layer.load(2, {shade: false});
+						$.modal.disable();
+						var formData = layero.find('#'+currentId+'Form').serializeArray();
+						//获取表单数据
+						formData.push({"name":"file","value":layero.find('#file')[0].files[0]});
+						var formData1 = new FormData();
+						for (var p in formData ){
+							formData1.append(formData[p].name,formData[p].value);
+						}
+						formData1.append("tags",$('#selectTag').selectpicker('val'));
+						formData1.append("cats",$('#selectCat').selectpicker('val'));
+						$.ajax({
+							url: table.options.importUrl,
+							data: formData1,
+							cache: false,
+							contentType: false,
+							processData: false,
+							type: 'POST',
+							success: function (result) {
+								if (result.code == web_status.SUCCESS) {
+									$.modal.closeAll();
+									$.modal.alertSuccess(result.msg);
+									$.table.refresh();
+								} else if (result.code == web_status.WARNING) {
+									layer.close(index);
+									$.modal.enable();
+									$.modal.alertWarning(result.msg)
+								} else {
+									layer.close(index);
+									$.modal.enable();
+									$.modal.alertError(result.msg);
+								}
+							}
+						});
+					}
+				});
+				},
             // 刷新表格
             refresh: function(tableId) {
             	var currentId = $.common.isEmpty(tableId) ? table.options.id : tableId;

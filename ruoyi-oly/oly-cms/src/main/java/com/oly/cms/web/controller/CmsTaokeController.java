@@ -5,6 +5,7 @@ import java.util.List;
 import com.oly.cms.system.model.CmsTaoke;
 import com.oly.cms.system.service.ICmsTaokeService;
 import com.oly.cms.system.web.controller.ImportPam;
+import com.oly.cms.web.CmsCommonController;
 import com.oly.common.model.enums.OlyConfigCommonEnum;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -33,8 +34,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/cms/taoke")
-public class CmsTaokeController extends BaseController {
-    private String prefix = "taoke/admin";
+public class CmsTaokeController extends CmsCommonController {
+
+    private final String prefix = acceptPreifx + "taoke";
 
     @Autowired
     private ICmsTaokeService cmsTaokeService;

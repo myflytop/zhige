@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.enums.OlyStageRoot ;
 import com.oly.common.constant.OlySystemConstant;
@@ -177,7 +178,7 @@ public class OlyMailController extends BaseController {
     @PostMapping("/chakeAttach")
     @ResponseBody
     public AjaxResult checkAttach(String attachKey) throws IOException {
-        if (Paths.get(OlySystemConstant.getUserHome(), OlyStageRoot .MAIL_DIR.getDir(), attachKey).toFile().isFile()) {
+        if (Paths.get(RuoYiConfig.getWorkPath(), OlyStageRoot .MAIL_DIR.getDir(), attachKey).toFile().isFile()) {
 
             return AjaxResult.success();
         }
