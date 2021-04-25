@@ -1,4 +1,4 @@
-package com.oly.web.web.api.contoller;
+package com.oly.web.web.api;
 
 import java.util.HashMap;
 import java.util.List;

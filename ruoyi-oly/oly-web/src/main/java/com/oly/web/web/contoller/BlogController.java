@@ -16,12 +16,10 @@ import com.oly.web.annotation.BlogLog;
 import com.oly.web.mould.BlogArticle;
 import com.oly.web.mould.BlogCat;
 import com.oly.web.mould.BlogLink;
-import com.oly.web.mould.BlogMenu;
 import com.oly.web.mould.BlogTag;
 import com.oly.web.mould.pam.BlogArticleSearchParam;
 import com.oly.web.service.impl.BlogServiceImpl;
 import com.oly.web.web.CommonController;
-import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/blog")
@@ -45,12 +42,6 @@ public class BlogController extends CommonController {
     private SysConfigServiceImpl configService;
     @Autowired
     private OlyCommonService commonService;
-
-    @GetMapping("/menuTree")
-    @ResponseBody
-    public AjaxResult menuTree(BlogMenu blogMenu) {
-        return AjaxResult.success(blogService.listBlogMenuTree(blogMenu));
-    }
 
     /**
      * 内容主页
@@ -216,7 +207,7 @@ public class BlogController extends CommonController {
         modelMap.put("timeLineMap", map);
         return getPrefix(configService, "/timeLine");
     }
-    
+
     /**
      * 反馈联系
      * @param mp

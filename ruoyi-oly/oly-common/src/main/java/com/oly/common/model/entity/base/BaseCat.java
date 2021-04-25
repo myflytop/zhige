@@ -20,6 +20,9 @@ public class BaseCat extends SeoBaseModel {
     private Byte parent;
     // 关联文章数
     private Long catCount;
+     // 分类类型
+     private Byte catType;
+
 
     public void setCatCount(Long catCount) {
 
@@ -94,30 +97,12 @@ public class BaseCat extends SeoBaseModel {
         this.perms = perms;
     }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("com.oly.common.mould.base.BaseCat{");
-        sb.append("catId=").append(catId);
-        sb.append(", catName='").append(catName).append('\'');
-        sb.append(", ancestors='").append(ancestors).append('\'');
-        sb.append(", catIcon='").append(catIcon).append('\'');
-        sb.append(", catUrl='").append(catUrl).append('\'');
-        sb.append(", orderNum=").append(getOrderNum());
-        sb.append(", parentId=").append(parentId);
-        sb.append(", perms='").append(perms).append('\'');
-        sb.append(", parent=").append(parent);
-        sb.append(", keywords='").append(getKeywords()).append('\'');
-        sb.append(", description='").append(getDescription()).append('\'');
-        sb.append(", visible=").append(getVisible());
-        sb.append(", createBy=").append(getCreateBy());
-        sb.append(", createTime=").append(getCreateTime());
-        sb.append(", updateBy=").append(getUpdateBy());
-        sb.append(", updateTime=").append(getUpdateTime());
-        sb.append(", remark='").append(getRemark()).append('\'');
-        sb.append(", searchValue='").append(getSearchValue()).append('\'');
-        sb.append(", params=").append(getParams());
-        sb.append(", catCount=").append(getCatCount());
-        sb.append('}');
-        return sb.toString();
+    public Byte getCatType() {
+        return catType;
     }
+
+    public void setCatType(Byte catType) {
+        this.catType = catType;
+    }
+    
 }

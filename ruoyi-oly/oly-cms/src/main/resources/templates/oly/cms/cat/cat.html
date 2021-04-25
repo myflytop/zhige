@@ -62,8 +62,10 @@
 		var addFlag = [[${@permission.hasPermi('cms:cat:add')}]];
 		var editFlag = [[${@permission.hasPermi('cms:cat:edit')}]];
 		var removeFlag = [[${@permission.hasPermi('cms:cat:remove')}]];	
-		var detailFlag  = [[${@permission.hasPermi('cms:cat:detail')}]];
 		var datas = [[${@dict.getType('sys_show_hide')}]];
+		var v=[[${@dict.getType('cms_cat_visible')}]];
+		var p=[[${@dict.getType('cms_cat_parent')}]];
+		var t=[[${@dict.getType('cms_cat_type')}]];
 		var prefix = ctx + "cms/cat";
 		
 		$(function() {			
@@ -74,7 +76,6 @@
 		        expandAll: false,
 		        expandFirst: false,
 		        url: prefix + "/list",
-		        detailUrl: prefix + "/detail/{id}",
 		        createUrl: prefix + "/add/{id}",
 		        updateUrl: prefix + "/edit/{id}",
 		        removeUrl: prefix + "/remove/{id}",
@@ -96,6 +97,22 @@
 		                    return '<i class="' + row.catIcon + '"></i> <span class="nav-label">' + row.catName + '</span>';
 		                }
 		            }
+		        },
+				{
+		            field: 'parent',
+		            title: '节点类型',
+		            align: "left",
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(p, value);
+					}
+		        },
+				{
+		            field: 'catType',
+		            title: '类目类型',
+		            align: "left",
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(t, value);
+					}
 		        },
 		        {
 		        	   field: 'createBy',
@@ -128,7 +145,7 @@
 		            title: '状态',
 		            align: "left",
 					formatter: function(value, row, index) {
-						return $.table.selectDictLabel([[${@dict.getType('cms_cat_visible')}]], value);
+						return $.table.selectDictLabel(v, value);
 					}
 		        },
 		        {
@@ -143,7 +160,6 @@
 		                var actions = [];	               
 		                actions.push('<a class="' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.catId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
 		                actions.push('<a class="' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.catId + '\')"><i class="fa fa-trash"></i>删除</a>');
-		                actions.push('<a class="' + detailFlag + '" href="#" onclick="$.operate.detail(\'' + row.catId + '\')"><i class="fa fa-search"></i>详情</a> ');
 		                if(row.parent==0){
 		                actions.push('<a class="' + addFlag + '" href="#" onclick="$.operate.add(\'' + row.catId + '\')"><i class="fa fa-plus"></i>添加下级类目</a>');
 		                }

@@ -31,9 +31,9 @@ public class ArticleCountSortTag {
     }
 
    
-    public List<BlogArticleCountSort> listBlogArticleCountOrderByLile(int pageSize) {
+    public List<BlogArticleCountSort> listBlogArticleCountOrderByLike(int pageSize) {
 
-        return blogCacheService.listBlogArticleCountOrderByLile(pageSize);
+        return blogCacheService.listBlogArticleCountOrderByLike(pageSize);
     }
 
  

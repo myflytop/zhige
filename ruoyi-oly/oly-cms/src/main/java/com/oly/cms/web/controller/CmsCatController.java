@@ -5,6 +5,7 @@ import java.util.List;
 import com.oly.cms.system.model.po.CmsCat;
 import com.oly.cms.system.service.impl.CmsCatServiceImpl;
 import com.oly.cms.web.CmsCommonController;
+import com.oly.common.model.enums.CommonVisibleEnums;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.Ztree;
@@ -54,8 +55,9 @@ public class CmsCatController extends CmsCommonController {
    @RequiresPermissions("cms:cat:list")
    @GetMapping("/listCat")
    @ResponseBody
-   public List<CmsCat> listNoHide() {
-      return cmsCatService.listCmsCatByCat(new CmsCat());
+   public List<CmsCat> listNoHide(CmsCat cmsCat) {
+      cmsCat.setVisible((byte) CommonVisibleEnums.SHOW.ordinal());
+      return cmsCatService.listCmsCatByCat(cmsCat);
 
    }
 

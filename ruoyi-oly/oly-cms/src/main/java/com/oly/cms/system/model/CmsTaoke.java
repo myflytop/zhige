@@ -1,8 +1,8 @@
 package com.oly.cms.system.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.oly.common.model.entity.base.BaseTaoke;
 import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -14,7 +14,7 @@ import java.util.Date;
  * @author ruoyi
  * @date 2021-04-20
  */
-public class CmsTaoke extends BaseEntity
+public class CmsTaoke extends BaseTaoke
 {
     private static final long serialVersionUID = 1L;
 
@@ -139,6 +139,18 @@ public class CmsTaoke extends BaseEntity
     /** 关联文章Id */
     @Excel(name = "关联文章Id")
     private Long articleId;
+    
+    /** 关联文章Id */
+    @Excel(name = "关联文章Id")
+    private Byte taoType;
+
+    public Byte getTaoType() {
+        return taoType;
+    }
+
+    public void setTaoType(Byte taoType) {
+        this.taoType = taoType;
+    }
 
     public void setShopId(String shopId) 
     {
@@ -437,6 +449,7 @@ public class CmsTaoke extends BaseEntity
             .append("shopFettle", getShopFettle())
             .append("shopContent", getShopContent())
             .append("articleId", getArticleId())
+            .append("taoType", getTaoType())
             .toString();
     }
 }

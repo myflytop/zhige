@@ -3,6 +3,7 @@ package com.oly.web.service.cache;
 import java.util.List;
 
 import com.github.pagehelper.PageHelper;
+import com.oly.common.constant.CacheConstant;
 import com.oly.web.mould.BlogArticle;
 import com.oly.web.mould.BlogArticleCountSort;
 import com.oly.web.mould.BlogArticleSort;
@@ -27,62 +28,55 @@ import org.springframework.stereotype.Service;
 @CacheConfig(cacheNames = "oly-web")
 public class BlogCacheService {
     
-  
-
     @Autowired
     private BlogServiceImpl blogService;
 
     @Autowired
     private BlogArticleSortServiceImpl blogSortService;
 
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.MENU_CACHE_KEY_PREFIX+"listMenuId_'+#p0")
     public List<BlogMenu> listBlogMenus(long menuId) {
         BlogMenu blogMenu = new BlogMenu();
         blogMenu.setColumnId(menuId);
         return blogService.listBlogMenus(blogMenu);
     }
 
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.MENU_CACHE_KEY_PREFIX+"getMenuId_'+#p0")
     public BlogMenu getBlogMenuById(Long menuId) {
         return blogService.getBlogMenuById(menuId);
     }
 
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.MENU_CACHE_KEY_PREFIX+"treeMenuId_'+#p0")
     public BlogMenu listBlogMenuTreeByColumnId(Long columnId) {
         return blogService.listBlogMenuTreeByColumnId(columnId);
     }
     // 以上菜单
 
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.LINKS_CACHE_KEY_PREFIX+"listLinkId_'+#p0")
     public List<BlogLink> listBlogLinks(String groupKey) {
         BlogLink blogLink = new BlogLink();
         blogLink.setGroupKey(groupKey);
         return blogService.listBlogLinks(blogLink);
     }
 
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.LINKS_CACHE_KEY_PREFIX+"getLinkId_'+#p0")
     public BlogLink getBlogLinkById(Long linkId) {
         return blogService.getBlogLinkById(linkId);
     }
     // 以上外链
 
-    @Cacheable(key = "targetClass + methodName +#p0+#p1")
+    @Cacheable(key="'"+CacheConstant.TAGS_CACHE_KEY_PREFIX+"listTagId_'+#p0+'_'+#p1")
     public List<BlogTag> listBlogTags(int pageSize, String ordeString) {
         PageHelper.startPage(1, pageSize, ordeString);
         return blogService.listBlogTags(null);
     }
 
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.TAGS_CACHE_KEY_PREFIX+"getTagId_'+#p0")
     public BlogTag getBlogTagByTagId(long tagId) {
         return blogService.getBlogTagByTagId(tagId);
     }
-
-    @Cacheable(key = "targetClass + methodName +#p0")
-    public List<BlogTag> listHotTags(Long[] str) {
-        return blogService.listHotTags(str);
-    }
-
-    @Cacheable(key = "targetClass + methodName +#p0+ #p1")
+    
+    @Cacheable(key="'"+CacheConstant.TAGS_CACHE_KEY_PREFIX+"listArticleByTagId_'+#p0+'_'+#p1")
     public List<BlogArticle> listBlogArticlesByTagId(long tagId, int pageSize) {
         BlogArticleSearchParam blogArticleSearchParam = getArticleSearchParam();
         blogArticleSearchParam.setTagId(tagId);
@@ -90,13 +84,13 @@ public class BlogCacheService {
         return blogService.listBlogArticlesByTagId(blogArticleSearchParam);
     }
 
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.TAGS_CACHE_KEY_PREFIX+"getTagUrl_'+#p0")
     public BlogTag getBlogTagByTagUrl(String tagUrl) {
         return blogService.getBlogTagByTagUrl(tagUrl);
     }
     // 以上标签
 
-    @Cacheable(key = "targetClass + methodName +#p0+#p1")
+    @Cacheable(key="'"+CacheConstant.CATS_CACHE_KEY_PREFIX+"listArticleByCatId_'+#p0+'_'+#p1")
     public List<BlogArticle> listBlogArticlesByCatId(long catId, int pageSize) {
         BlogArticleSearchParam blogArticleSearchParam = getArticleSearchParam();
         blogArticleSearchParam.setCatId(catId);
@@ -104,42 +98,37 @@ public class BlogCacheService {
         return blogService.listBlogArticlesByCatId(blogArticleSearchParam);
     }
 
-    @Cacheable(key = "targetClass + methodName +#p0")
-    public List<BlogCat> listHotCats(Long[] str) {
-        return blogService.listHotCats(str);
-    }
-
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.CATS_CACHE_KEY_PREFIX+"listArticleByCatUrl_'+#p0")
     public BlogCat getBlogCatByCatUrl(String catUrl) {
         return blogService.getBlogCatByCatUrl(catUrl);
     }
 
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+ "targetClass + methodName +#p0")
     public List<BlogCat> listBlogCats(BlogCat cat) {
         return blogService.listBlogCats(cat);
     }
     // 以上分类
 
-    @Cacheable(key = "targetClass + methodName +#p0+#p1")
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticle_'+#p0+'_'+#p1")
     public List<BlogArticle> listBlogArticles(int pageSize, String ordeString) {
         PageHelper.startPage(1, pageSize, ordeString);
         return blogService.listBlogArticles(null);
     }
 
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.POST_CACHE_KEY_PREFIX+"getArticleId_'+#p0")
     public BlogArticle getBlogArticleByArticleId(long articleId) {
         return blogService.getBlogArticleByArticleId(articleId);
     }
 
-    @Cacheable(key = "targetClass + methodName +#p0+#p1+#p2")
-    public List<BlogArticle> listBlogArticlesByType(int pageSize, byte type, String ordeString) {
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleType_'+#p0+'_'+#p1+'_'+#p2")
+    public List<BlogArticle> listBlogArticlesByType(byte type,int pageSize, String ordeString) {
         BlogArticleSearchParam blogArticleSearchParam = getArticleSearchParam();
         blogArticleSearchParam.setArticleType(type);
         PageHelper.startPage(1, pageSize, ordeString);
         return blogService.listBlogArticles(blogArticleSearchParam);
     }
 
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.POST_CACHE_KEY_PREFIX+"getArticleUrl_'+#p0")
     public BlogArticle getBlogArticleByArticleUrl(String articleUrl) {
         return blogService.getBlogArticleByArticleUrl(articleUrl);
     }
@@ -147,49 +136,49 @@ public class BlogCacheService {
     // 以上文章
 
     // 只涉及文章表和统计表
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleCountSortCount_'+#p0")
     public List<BlogArticleCountSort> listBlogArticleCount(int pageSize) {
         PageHelper.startPage(1, pageSize, "create_time desc");
         return blogSortService.listArticlesCountSort(null);
     }
 
     // 只涉及文章表和统计表
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleCountSortLook_'+#p0")
     public List<BlogArticleCountSort> listBlogArticleCountOrderByLook(int pageSize) {
         PageHelper.startPage(1, pageSize, "article_look desc");
         return blogSortService.listArticlesCountSort(null);
     }
 
     // 只涉及文章表和统计表
-    @Cacheable(key = "targetClass + methodName +#p0")
-    public List<BlogArticleCountSort> listBlogArticleCountOrderByLile(int pageSize) {
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleCountSortLike_'+#p0")
+    public List<BlogArticleCountSort> listBlogArticleCountOrderByLike(int pageSize) {
         PageHelper.startPage(1, pageSize, "article_like desc");
         return blogSortService.listArticlesCountSort(null);
     }
 
      // 只涉及文章表和统计表
-     @Cacheable(key = "targetClass + methodName +#p0")
+     @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleCountSortScore_'+#p0")
      public List<BlogArticleCountSort> listBlogArticleCountOrderByScore(int pageSize) {
         PageHelper.startPage(1, pageSize, "article_score desc");
         return blogSortService.listArticlesCountSort(null);
     }
 
     // 只涉及文章表和统计表
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleCountSortCollect_'+#p0")
     public List<BlogArticleCountSort> listBlogArticleCountOrderByCollect(int pageSize) {
         PageHelper.startPage(1, pageSize, "article_collect desc");
         return blogSortService.listArticlesCountSort(null);
     }
 
     // 只涉及文章表和统计表
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleCountSortShare_'+#p0")
     public List<BlogArticleCountSort> listBlogArticleCountOrderByShare(int pageSize) {
         PageHelper.startPage(1, pageSize, "article_share desc");
         return blogSortService.listArticlesCountSort(null);
     }
 
     // 只涉及文章表和统计表
-    @Cacheable(key = "targetClass + methodName +#p0 +#p1")
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleCountSortTop_'+#p0+'_'+#p1")
     public List<BlogArticleCountSort> listBlogArticleCountByTop(int pageSize, byte articleTop) {
         PageHelper.startPage(1, pageSize, "create_time desc");
         BlogArticleSort bl = new BlogArticleSort();
@@ -198,7 +187,7 @@ public class BlogCacheService {
     }
 
     // 只涉及文章表和统计表
-    @Cacheable(key = "targetClass + methodName +#p0 +#p1")
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleCountSortType_'+#p0+'_'+#p1")
     public List<BlogArticleCountSort> listBlogArticleCountByType(int pageSize, byte articleType) {
         PageHelper.startPage(1, pageSize, "create_time desc");
         BlogArticleSort bl = new BlogArticleSort();
@@ -208,14 +197,14 @@ public class BlogCacheService {
     }
 
     // 只涉及文章表
-    @Cacheable(key = "targetClass + methodName +#p0")
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleBaseByTime_'+#p0")
     public List<BlogArticleSort> listBlogArticleSort(int pageSize) {
         PageHelper.startPage(1, pageSize, "create_time desc");
         return blogSortService.listArticleSort(null);
     }
 
     // 只涉及文章表
-    @Cacheable(key = "targetClass + methodName +#p0 +#p1")
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleBaseByTop_'+#p0+'_'+#p1")
     public List<BlogArticleSort> listBlogArticleSortByTop(int pageSize, byte articleTop) {
         PageHelper.startPage(1, pageSize, "create_time desc");
         BlogArticleSort bl = new BlogArticleSort();
@@ -224,7 +213,7 @@ public class BlogCacheService {
     }
 
     // 只涉及文章表
-    @Cacheable(key = "targetClass + methodName +#p0 +#p1")
+    @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticleBaseByType_'+#p0+'_'+#p1")
     public List<BlogArticleSort> listBlogArticleSortByType(int pageSize, byte articleType) {
         PageHelper.startPage(1, pageSize, "create_time desc");
         BlogArticleSort bl = new BlogArticleSort();

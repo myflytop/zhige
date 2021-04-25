@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<th:block   th:include="bobey/blog_include :: blogHeader(title=${blogConfig['oly.web.title'].configValue+'-'+menu.columnName},
-keywords=${blogConfig['oly.web.keywords'].configValue+','+menu.keywords},
+	<th:block   th:include="bobey/blog_include :: blogHeader(title=${blogConfig['oly.web.title']?.configValue+'-'+menu.columnName},
+keywords=${blogConfig['oly.web.keywords']?.configValue+','+menu.keywords},
 description=${menu.description},
 blogConfig=${blogConfig})"/>
 </head>

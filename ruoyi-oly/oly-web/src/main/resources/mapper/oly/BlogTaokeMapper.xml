@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.web.mapper.TaokeMapper">
+    <resultMap type="com.oly.web.model.TaokeModel" id="TaokeResult">
+        <result property="shopId" column="shop_id"/>
+        <result property="shopName" column="shop_name"/>
+        <result property="shopImg" column="shop_img"/>
+        <result property="shopIndex" column="shop_index"/>
+        <result property="homeName" column="home_name"/>
+        <result property="shopPrice" column="shop_price"/>
+        <result property="shopSales" column="shop_sales"/>
+        <result property="incomeRatio" column="income_ratio"/>
+        <result property="commission" column="commission"/>
+        <result property="wangName" column="wang_name"/>
+        <result property="sortUrl" column="sort_url"/>
+        <result property="taokeUrl" column="taoke_url"/>
+        <result property="couponCount" column="coupon_count"/>
+        <result property="couponNum" column="coupon_num"/>
+        <result property="couponPrice" column="coupon_price"/>
+        <result property="couponStartTime" column="coupon_start_time"/>
+        <result property="couponEndTime" column="coupon_end_time"/>
+        <result property="couponUrl" column="coupon_url"/>
+        <result property="couponCode" column="coupon_code"/>
+        <result property="couponSortUrl" column="coupon_sort_url"/>
+        <result property="marketIs" column="market_is"/>
+        <result property="groupNum" column="group_num"/>
+        <result property="groupPrice" column="group_price"/>
+        <result property="groupCommission" column="group_commission"/>
+        <result property="groupStartTime" column="group_start_time"/>
+        <result property="groupEndTime" column="group_end_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="shopFettle" column="shop_fettle"/>
+        <result property="shopContent" column="shop_content"/>
+           <result property="articleId"    column="article_id"    />
+        <result property="taoType"    column="tao_type"    />
+    </resultMap>
+
+    <sql id="selectTaokeVo">
+        select shop_id, shop_name, shop_img, shop_index, home_name, shop_price, shop_sales, income_ratio, commission, wang_name, sort_url, taoke_url, coupon_count, coupon_num, coupon_price, coupon_start_time, coupon_end_time, coupon_url, coupon_code, coupon_sort_url, market_is, group_num, group_price, group_commission, group_start_time, group_end_time, create_time, update_time, remark, shop_fettle, shop_content,article_id,tao_type from cms_taoke
+    </sql>
+
+    <select id="selectTaokeByArticleId" parameterType="long" resultMap="TaokeResult">
+        <include refid="selectTaokeVo"/>
+      where shop_fettle!=0 and article_id=#{articleId}
+    </select>
+
+    <select id="selectTaokeByShopId" parameterType="string" resultMap="TaokeResult">
+        <include refid="selectTaokeVo"/> where shop_id=#{shopId} and shop_fettle!=0
+    </select>
+
+   <select id="listTaokeByTaoKe" parameterType="com.oly.web.model.TaokeModel" resultMap="TaokeResult">
+    <include refid="selectTaokeVo"/>
+        <where>
+            <if test="shopName != null  and shopName != ''">and shop_name like concat('%', #{shopName}, '%')</if>
+            <if test="taoType != null">
+            and tao_type=#{taoType}
+            </if>
+            and  shop_fettle!=0
+        </where>
+    </select>
+
+    <select id="listTaoKeByTagId" resultMap="TaokeResult" parameterType="long">
+    <include refid="selectTaokeVo"/>as y where y.shop_fettle!=0 and y.article_id in (select t.article_id from cms_article_tag as t where t.tag_id=#{tagId})
+    </select>
+
+    <select id="listTaoKeByCatId" resultMap="TaokeResult" parameterType="long">
+    <include refid="selectTaokeVo"/> as y where y.shop_fettle!=0 and y.article_id in (select t.article_id from cms_article_cat as t where t.cat_id=#{catId})
+    </select>
+
+</mapper>

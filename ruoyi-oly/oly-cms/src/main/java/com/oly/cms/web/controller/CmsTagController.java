@@ -61,8 +61,7 @@ public class CmsTagController extends CmsCommonController {
    @RequiresPermissions("cms:tag:list")
    @GetMapping("/listTag")
    @ResponseBody
-   public List<CmsTag> listNoHide() {
-      CmsTag cmsTag = new CmsTag();
+   public List<CmsTag> listNoHide(CmsTag cmsTag) {
       cmsTag.setVisible((byte) CommonVisibleEnums.SHOW.ordinal());
       return cmsTagService.listCmsTagByTag(cmsTag);
 

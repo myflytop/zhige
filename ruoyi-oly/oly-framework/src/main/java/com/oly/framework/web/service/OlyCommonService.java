@@ -1,11 +1,6 @@
 package com.oly.framework.web.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.oly.common.model.properties.PropertyEnum;
-import com.ruoyi.common.core.domain.entity.SysDictData;
-import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 
@@ -27,6 +22,7 @@ public class OlyCommonService {
      * @return
      */
     public String selectConfigDefauleValue(PropertyEnum propertyEnum) {
+     
         String value = serviceImpl.selectConfigByKey(propertyEnum.getValue());
         return PropertyEnum.convertTo(value, propertyEnum).toString();
     }

@@ -32,9 +32,9 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">类目类型：</label>
+				<label class="col-sm-3 control-label">类目节点：</label>
 					<div class="col-sm-8">
-						<div class="radio-box" th:each="dict : ${@dict.getType('cms_cat_type')}">
+						<div class="radio-box" th:each="dict : ${@dict.getType('cms_cat_parent')}">
 							<input type="radio" th:id="${dict.dictCode}" name="parent" th:value="${dict.dictValue}" th:field="*{parent}">
 							<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
 						</div>
@@ -53,6 +53,15 @@
 					<input class="form-control" type="text" name="catUrl"
 						th:field="*{catUrl}" id="catUrl">
 				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">类目类型：</label>
+					<div class="col-sm-8">
+						<div class="radio-box" th:each="dict : ${@dict.getType('cms_cat_type')}">
+							<input type="radio" th:id="${dict.dictCode}" name="cat_type" th:value="${dict.dictValue}" th:checked="${dict.default}" th:field="*{catType}">
+							<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+						</div>
+					</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">类目排序：</label>

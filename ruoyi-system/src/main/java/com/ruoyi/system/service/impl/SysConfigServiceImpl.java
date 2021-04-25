@@ -1,5 +1,6 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -231,11 +232,9 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
     @Override
     public Map<String, String> selectConfigValueMap(SysConfig sysConfig) {
-
         List<SysConfig> sysConfigs = selectConfigList(sysConfig);
-        Map<String, String> configMap = sysConfigs.stream()
-                .collect(Collectors.toMap(SysConfig::getConfigKey, SysConfig::getConfigValue));
-        return configMap;
+        Map<String, String> collect = sysConfigs.stream().collect(HashMap::new,(k, v) ->k.put(v.getConfigKey(),v.getConfigValue()),HashMap::putAll);
+        return collect;
     }
 
 }

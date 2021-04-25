@@ -8,12 +8,12 @@ import com.oly.cms.system.web.controller.ImportPam;
 import com.oly.cms.web.CmsCommonController;
 import com.oly.common.model.enums.OlyConfigCommonEnum;
 import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.ShiroUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -63,7 +62,9 @@ public class CmsTaokeController extends CmsCommonController {
     @RequiresPermissions("cms:taoke:config")
     @GetMapping("/config")
     public String manage(ModelMap mp) {
-        mp.put("taokeConfig",configService.selectConfigMap(configPrefix));
+        SysConfig cmsConfig = new SysConfig();
+        cmsConfig.setConfigKey(configPrefix);
+        mp.put("taokeConfig",configService.selectConfigValueMap(cmsConfig));
         return prefix + "/config";
     }
 
@@ -105,8 +106,9 @@ public class CmsTaokeController extends CmsCommonController {
     {
         ExcelUtil<CmsTaoke> util = new ExcelUtil<CmsTaoke>(CmsTaoke.class);
         List<CmsTaoke> userList = util.importExcel(importPam.getFile().getInputStream());
+        //操作人
         String operName = ShiroUtils.getLoginName();
-        String message = cmsTaokeService.importTaos(userList,importPam.getCats(),importPam.getTags(), importPam.getUpdateSupport(), operName);
+        String message = cmsTaokeService.importTaos(userList,importPam.getCats(),importPam.getTags(), importPam.getTaoType(),importPam.getUpdateSupport(), operName);
         return AjaxResult.success(message);
     }
 
@@ -122,44 +124,6 @@ public class CmsTaokeController extends CmsCommonController {
     {
         ExcelUtil<CmsTaoke> util = new ExcelUtil<CmsTaoke>(CmsTaoke.class);
         return util.importTemplateExcel("淘客模板");
-    }
-    /**
-     * 新增淘客
-     */
-    @GetMapping("/add")
-    public String add() {
-        return prefix + "/add";
-    }
-    /**
-     * 新增保存淘客
-     */
-    @RequiresPermissions("cms:taoke:add")
-    @Log(title = "淘客", businessType = BusinessType.INSERT)
-    @PostMapping("/add")
-    @ResponseBody
-    public AjaxResult addSave(CmsTaoke cmsTaoke) {
-        return toAjax(cmsTaokeService.insertCmsTaoke(cmsTaoke));
-    }
-
-    /**
-     * 修改淘客
-     */
-    @GetMapping("/edit/{shopId}")
-    public String edit(@PathVariable("shopId") String shopId, ModelMap mmap) {
-        CmsTaoke cmsTaoke = cmsTaokeService.selectCmsTaokeById(shopId);
-        mmap.put("cmsTaoke", cmsTaoke);
-        return prefix + "/edit";
-    }
-
-    /**
-     * 修改保存淘客
-     */
-    @RequiresPermissions("cms:taoke:edit")
-    @Log(title = "淘客", businessType = BusinessType.UPDATE)
-    @PostMapping("/edit")
-    @ResponseBody
-    public AjaxResult editSave(CmsTaoke cmsTaoke) {
-        return toAjax(cmsTaokeService.updateCmsTaoke(cmsTaoke));
     }
 
     /**

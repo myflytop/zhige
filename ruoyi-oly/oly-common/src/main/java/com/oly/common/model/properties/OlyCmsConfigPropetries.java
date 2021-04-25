@@ -22,7 +22,17 @@ public enum OlyCmsConfigPropetries implements PropertyEnum {
     //用户默认部门
     USER_DEPT("oly.cms.userDept", Long.class, "0"),
     //是否支持主题切换
-    THEME_CHANGE("oly.theme.change",Boolean.class,"true");
+    THEME_CHANGE("oly.theme.change",Boolean.class,"true"),
+    
+    //商品状态
+    TAO_FITTLE_DEFAULT("oly.tao.defaultFettle",Integer.class,"0"),
+     
+    //淘客福利文章
+    TAO_POST_WEAL_TYPE("oly.tao.postWealType",Byte.class,"1"),
+
+    //淘客文章
+    TAO_POST_TYPE("oly.tao.postType",Byte.class,"0");
+
     private final String value;
 
     private final Class<?> type;

@@ -1,19 +1,16 @@
 package com.ruoyi.common.utils;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
-
-import com.ruoyi.common.utils.spring.SpringUtils;
 
 /**
  * Cache工具类
@@ -24,8 +21,6 @@ public class CacheWebUtils {
     private static Logger logger = LoggerFactory.getLogger(CacheWebUtils.class);
 
     private static CacheManager cache = CacheManager.getCacheManager("olyWeb");
-
-    private static final String SYS_CACHE = "sys-cache";
     
     /**
      * 存入
@@ -146,6 +141,21 @@ public class CacheWebUtils {
     public static String[] getCacheNames() {
        
         return cache.getCacheNames();
+    }
+    
+    /**
+     * 模糊删除
+     * @param vagueKey
+     */
+    public static void vagueDeleteKeys(String vagueKey){
+        List<String> keys=getKeys("oly-web");
+        for (String key: keys) {
+            Pattern pattern = Pattern.compile(key);       
+                if (pattern.matcher(vagueKey).find()) {
+                   remove("oly-web", key);
+                }
+        }
+      
     }
 
     public static List<String> getKeys(String cacheName) {

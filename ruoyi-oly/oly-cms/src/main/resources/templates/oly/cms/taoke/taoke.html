@@ -21,10 +21,17 @@
                             <input type="text" name="homeName" />
                         </li>
                         <li>
-                            商品状态：<select name="shopFettle" th:with="type=${@dict.getType('taoke_shop_fettle')}">
+                            商品状态：<select name="shopFettle" th:with="type=${@dict.getType('cms_tao_fittle')}">
                             <option value="">所有</option>
                             <option  th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                         </select>
+                        </li>
+                        <li>
+                            选择平台:
+                            <select name="taoType" th:with="type=${@dict.getType('cms_tao_type')}">
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                                </option>
+                            </select>
                         </li>
                         <li>
                             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -39,14 +46,10 @@
             <div class="btn-group" shiro:hasPermission="cms:taoke:edit">
                 <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">状态设置 <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" id="shopFettle" th:with="type=${@dict.getType('taoke_shop_fettle')}">
+                <ul class="dropdown-menu" id="shopFettle" th:with="type=${@dict.getType('cms_tao_fittle')}">
                     <li  th:each="dict : ${type}"  th:data-id="${dict.dictValue}" ><a href="javascript:void(0)" th:text="${dict.dictLabel}"></a></li>
                 </ul>
             </div>
-            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="cms:taoke:add"><i class="fa fa-plus"></i>添加</a>
-            <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="cms:taoke:edit">
-                <i class="fa fa-edit"></i> 修改
-            </a>
             <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="cms:taoke:remove">
                 <i class="fa fa-remove"></i> 删除
             </a>
@@ -66,7 +69,6 @@
 <th:block th:include="include :: footer" />
 <th:block th:include="include :: bootstrap-select-js" />
 <script th:inline="javascript">
-    var editFlag = [[${@permission.hasPermi('cms:taoke:edit')}]];
     var removeFlag = [[${@permission.hasPermi('cms:taoke:remove')}]];
     var prefix = ctx + "cms/taoke";
 
@@ -79,6 +81,7 @@
             exportUrl: prefix + "/export",
             importUrl: prefix + "/importData",
             importTemplateUrl:prefix+"/exportTemplate",
+            onEditableSave: onEditableSave,
             modalName: "淘客",
             columns: [{
                 checkbox: true
@@ -91,6 +94,19 @@
                 {
                     field: 'shopName',
                     title: '商品名字',
+                    editable : {
+						type : 'text',
+						title : '商品名字',
+						emptytext : "商品为空",
+						validate : function(value) {
+							if (value.length > 60) {
+								return '名称不能超过30个字符';
+							}
+							if (value.length == 0) {
+								return '名称不能为空';
+							}
+						}
+					},
                     formatter: function(value, row, index) {
                         return $.table.tooltip(value);
                     }
@@ -182,6 +198,7 @@
                     field: 'couponNum',
                     title: '优惠卷剩余量',
                     visible: false,
+                    
                     formatter: function(value, row, index) {
                         return $.table.tooltip(value);
                     }
@@ -196,6 +213,7 @@
                 {
                     field: 'couponStartTime',
                     title: '优惠卷开始时间',
+                    visible: false,
                     formatter: function(value, row, index) {
                         return $.table.tooltip(value);
                     }
@@ -203,6 +221,7 @@
                 {
                     field: 'couponEndTime',
                     title: '优惠卷结束时间',
+                    visible: false,
                     formatter: function(value, row, index) {
                         return $.table.tooltip(value);
                     }
@@ -232,6 +251,7 @@
                 {
                     field: 'marketIs',
                     title: '是否为营销',
+                    visible: false,
                     formatter: function(value, row, index) {
                         return $.table.tooltip(value);
                     }
@@ -304,7 +324,6 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.shopId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.shopId + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
@@ -331,6 +350,11 @@
             $.modal.alert("请至少选择一项");
         }
     });
+    
+    //编辑
+    function onEditableSave (field, row, rowIndex, oldValue, $el) {
+        	//alert("字段名：" + field + "，当前值：" + row[field]  + "，旧值：" + oldValue);
+    }
 
 </script>
 <!-- 导入区域 -->
@@ -341,6 +365,13 @@
                 <div class="form-group">
                     <label class="font-noraml">选择文件</label>
                     <input type="file" id="file" name="file"/>
+                </div>
+               <div class="form-group" style="width: 200px">
+                    <label class="font-noraml">选择平台</label>
+                    <select class="form-control noselect2 selectpicker" th:data-max-options="1" id="selectType"  data-live-search="true" name="taoType" th:with="type=${@dict.getType('cms_tao_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
                 </div>
                 <div class="form-group" style="width: 200px">
                     <label class="font-noraml">选择标签</label>

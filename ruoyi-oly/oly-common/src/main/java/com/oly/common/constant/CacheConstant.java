@@ -5,32 +5,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CacheConstant {
+
+    public final static String CACHE_NAME="oly-web";
+
     /* 菜单缓存 */
-    public final static String MENU_CACHE_PREFIX = "menuCache::",
+    public final static String MENU_CACHE_KEY_PREFIX = "menuCache_",
             /* 文章缓存 */
-            POST_CACHE_PREFIX = "postCache",
+            POST_CACHE_KEY_PREFIX = "postCache_",
             /* 文章列表缓存 */
-            POSTS_CACHE_PREFIX = "postsCache",
+            POSTS_CACHE_KEY_PREFIX = "postsCache_",
             /**
              * 链接缓存
              */
-            LINKS_CACHE_PREFIX = "linksCache",
+            LINKS_CACHE_KEY_PREFIX = "linksCache_",
             /* 淘客缓存 */
-            TAKE_CACHE_PREFIX = "taoKeCache",
+            TAKE_CACHE_KEY_PREFIX = "taoKeCache_",
             /**
              * 配置缓存
              */
-            CONFIG_CACHE_PREFIX = "configCache",
+            CONFIG_CACHE_KEY_PREFIX = "configCache_",
             /* 标签缓存 */
-            TAGS_CACHE_PREFIX = "tagsCache",
+            TAGS_CACHE_KEY_PREFIX = "tagsCache_",
             /**
              * 分类缓存
              */
-            CATS_CACHE_PREFIX = "catsCache",
+            CATS_CACHE_KEY_PREFIX = "catsCache_",
             /**
              * 页面缓存
              */
-            PAGE_CACHE_PREFIX = "pageCache";
+            PAGE_CACHE_KEY_PREFIX = "pageCache_";
 
     private CacheConstant() {
     }

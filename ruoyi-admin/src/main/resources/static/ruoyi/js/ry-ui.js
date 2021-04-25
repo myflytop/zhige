@@ -460,7 +460,7 @@ var table = {
 					title: '导入' + table.options.modalName + '数据',
 					content: $('#' + currentId).html(),
 					success: function(index, layero){
-						$.get(ctx+"cms/tag/listTag",function(data,status){
+						$.get(ctx+"cms/tag/listTag?tagType=0",function(data,status){
 							$("#selectTag").empty();
 							$.each(data,function(i,e){//i是索引，e是json对象
 								$("#selectTag").append("<option value="+e.tagId+">"+e.tagName+"</option>");
@@ -468,7 +468,7 @@ var table = {
 							$('#selectTag').selectpicker('refresh');
 
 						});
-						$.get(ctx+"cms/cat/listCat",function(data,status){
+						$.get(ctx+"cms/cat/listCat?catType=0",function(data,status){
 							$("#selectCat").empty();
 							$.each(data,function(i,e){//i是索引，e是json对象
 								$("#selectCat").append("<option value="+e.catId+">"+e.catName+"</option>");
@@ -477,6 +477,7 @@ var table = {
 						});
 						$('#selectTag').selectpicker('refresh');
 						$("#selectCat").selectpicker("refresh");
+                        $("#selectType").selectpicker("refresh");
 					},
 
 					btn: ['<i class="fa fa-check"></i> 导入', '<i class="fa fa-remove"></i> 取消'],

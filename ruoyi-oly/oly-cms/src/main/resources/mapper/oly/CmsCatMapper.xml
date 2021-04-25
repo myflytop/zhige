@@ -3,57 +3,70 @@
 <mapper namespace="com.oly.cms.system.mapper.CmsCatMapper">
 	<resultMap id="CatResultMap"
 		type="com.oly.cms.system.model.po.CmsCat">
-		<id column="cat_id" property="catId" jdbcType="BIGINT" />
-		<result column="cat_name" property="catName" jdbcType="VARCHAR" />
-		<result column="cat_icon" property="catIcon" jdbcType="VARCHAR" />
-		<result column="visible" property="visible" jdbcType="BIT" />
-		<result column="cat_url" property="catUrl" jdbcType="VARCHAR" />
-		<result column="order_num" property="orderNum"  />
-		<result column="parent" property="parent" jdbcType="BIT" />
-		<result column="parent_id" property="parentId"
-			jdbcType="INTEGER" />
-		<result column="create_time" property="createTime"
-			jdbcType="TIMESTAMP" />
-		<result column="update_time" property="updateTime"
-			jdbcType="TIMESTAMP" />
-		<result column="remark" property="remark" jdbcType="VARCHAR" />
-		<result column="update_by" property="updateBy"
-			jdbcType="BIGINT" />
-		<result column="create_by" property="createBy"
-			jdbcType="BIGINT" />
-		<result column="perms" property="perms" jdbcType="VARCHAR" />
-		<result column="ancestors" property="ancestors"
-			jdbcType="VARCHAR" />
-		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
-		<result column="description" property="description" jdbcType="VARCHAR"/>
-		<result column="cat_count" property="catCount" jdbcType="BIGINT" />
+		<result property="catId"    column="cat_id"    />
+        <result property="catName"    column="cat_name"    />
+        <result property="catIcon"    column="cat_icon"    />
+        <result property="visible"    column="visible"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="catUrl"    column="cat_url"    />
+        <result property="parent"    column="parent"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="perms"    column="perms"    />
+        <result property="keywords"    column="keywords"    />
+        <result property="description"    column="description"    />
+        <result property="orderNum"    column="order_num"    />
+   
+        <result property="catCount"    column="cat_count"    />
+        <result property="catType"    column="cat_type"    />
 	</resultMap>
 
 	<sql id="Base_Cat_List">
-		cat_id, cat_name, perms,cat_icon, visible, order_num,
-		parent_id,ancestors,
-		create_time,update_time, remark, update_by,
-		create_by,cat_url,parent,keywords,description,cat_count
+		cat_id, cat_name, cat_icon, visible, parent_id, create_time, update_time, remark, update_by, create_by, cat_url, parent, ancestors, perms, keywords, description, order_num,cat_count, cat_type
 	</sql>
 
 	<insert id="insertCmsCat" parameterType="com.oly.cms.system.model.po.CmsCat" useGeneratedKeys="true" keyProperty="catId">
-		insert into cms_cat (cat_name, cat_icon,
-		visible,perms,
-		order_num, parent_id,
-		create_time, remark,
-		create_by,cat_url,parent,ancestors,keywords,description)
-		values
-		(#{catName,jdbcType=VARCHAR}, #{catIcon,jdbcType=VARCHAR},
-		#{visible,jdbcType=BIT},
-		#{perms,jdbcType=VARCHAR},
-		#{orderNum},
-		#{parentId,jdbcType=INTEGER},
-		sysdate(),
-		#{remark,jdbcType=VARCHAR},
-		#{createBy,jdbcType=BIGINT},#{catUrl,jdbcType=VARCHAR},
-		#{parent,jdbcType=BIT},#{ancestors,jdbcType=VARCHAR},
-		#{keywords,jdbcType=VARCHAR},
-		#{description,jdbcType=VARCHAR})
+		insert into cms_cat           <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="catName != null and catName != ''">cat_name,</if>
+            <if test="catIcon != null">cat_icon,</if>
+            <if test="visible != null">visible,</if>
+            <if test="parentId != null">parent_id,</if>
+            create_time,
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="catUrl != null">cat_url,</if>
+            <if test="parent != null">parent,</if>
+            <if test="ancestors != null">ancestors,</if>
+            <if test="perms != null">perms,</if>
+            <if test="keywords != null">keywords,</if>
+            <if test="description != null">description,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="catCount != null">cat_count,</if>
+            <if test="catType != null">cat_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="catName != null and catName != ''">#{catName},</if>
+            <if test="catIcon != null">#{catIcon},</if>
+            <if test="visible != null">#{visible},</if>
+            <if test="parentId != null">#{parentId},</if>
+            sysdate(),
+            <if test="remark != null">#{remark},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="catUrl != null">#{catUrl},</if>
+            <if test="parent != null">#{parent},</if>
+            <if test="ancestors != null">#{ancestors},</if>
+            <if test="perms != null">#{perms},</if>
+            <if test="keywords != null">#{keywords},</if>
+            <if test="description != null">#{description},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="catCount != null">#{catCount},</if>
+            <if test="catType != null">#{catType},</if>
+         </trim>
 	</insert>
 
 	<insert id="insertCmsCats"	parameterType="java.util.List" useGeneratedKeys="true" keyProperty="catId">
@@ -114,6 +127,9 @@
 			</if>
 			<if test="parent != null">
 				parent = #{parent,jdbcType=BIT},
+			</if>
+			<if test="catType !=null">
+			cat_type=#{catType},
 			</if>
 			<if test="keywords != null and keywords!='' ">keywords=#{keywords},</if>
 			<if test="description != null and description!='' ">description=#{description},</if>

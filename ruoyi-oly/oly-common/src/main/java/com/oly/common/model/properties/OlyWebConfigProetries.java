@@ -64,7 +64,18 @@ public enum OlyWebConfigProetries implements PropertyEnum {
 
     PAGE_INTROUDUE("oly.web.pageIntrouduce", Long.class, "0"),
 
-    PAGE_ZD("oly.web.pageZd", Long.class, "0"),
+    //淘客主页
+    PAGE_TAO_INDEX("oly.tao.pageIndex", Long.class, "0"),
+    //淘客搜索页面
+    PAGE_TAO_SHOP("oly.tao.shop", Long.class, "0"),
+    //关于淘客页面
+    PAGE_TAO_ABOUT("oly.tao.pageAbout", Long.class, "0"),
+    //淘客福利
+    PAGE_TAO_WEAL("oly.tao.pageWeal", Long.class, "0"),
+    //淘客教程
+    PAGE_TAO_SCORE("oly.tao.pageScore", Long.class, "0"),
+    //淘客排行页
+    PAGE_TAO_RANK("oly.tao.pageRank", Long.class, "0"),
 
     // 支付宝
     PAY_ZHI("oly.web.payZhi", Boolean.class, "true"),

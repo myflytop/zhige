@@ -29,20 +29,23 @@ public interface ICmsTaokeService {
     public List<CmsTaoke> selectCmsTaokeList(CmsTaoke cmsTaoke);
 
     /**
-     * 新增淘客
-     *
-     * @param cmsTaoke 淘客
-     * @return 结果
+     * 
+     * @param cmsTaoke
+     * @param cats
+     * @param tags
+     * @return
      */
-    public int insertCmsTaoke(CmsTaoke cmsTaoke);
+    public int insertCmsTaoke(CmsTaoke cmsTaoke,Integer[] cats ,Integer[]  tags);
 
+    
     /**
-     * 修改淘客
-     *
-     * @param cmsTaoke 淘客
-     * @return 结果
+     * 
+     * @param cmsTaoke
+     * @param cats
+     * @param tags
+     * @return
      */
-    public int updateCmsTaoke(CmsTaoke cmsTaoke);
+    public int updateCmsTaoke(CmsTaoke cmsTaoke,Integer[] cats ,Integer[]  tags);
 
     /**
      * 批量删除淘客
@@ -52,17 +55,9 @@ public interface ICmsTaokeService {
      */
     public int deleteCmsTaokeByIds(String ids);
 
-    /**
-     * 删除淘客信息
-     *
-     * @param shopId 淘客ID
-     * @return 结果
-     */
-    public int deleteCmsTaokeById(String shopId);
-
-    String importTaos(List<CmsTaoke> taokeList,Integer[] cats ,Integer[]  tags,boolean updateSupport, String operName);
+    String importTaos(List<CmsTaoke> taokeList,Integer[] cats ,Integer[]  tags,Byte taoType,boolean updateSupport,String operName);
 
     int updateCmsTaokePutOn(String ids, Byte fettle);
 
-   public int onTimeShelves(long currentTimeMillis);
+    public int onTimeShelves(long currentTimeMillis);
 }

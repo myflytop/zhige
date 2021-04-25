@@ -42,7 +42,7 @@ public class ArticleTag {
      * @return
      */
     public List<BlogArticle> listBlogArticleByType(int pageSize,byte articleType) {
-        return this.sortType(pageSize,articleType, "create_time desc");
+        return this.sortType(articleType,pageSize, "create_time desc");
     }
 
     /**
@@ -89,9 +89,9 @@ public class ArticleTag {
         return blogService.listBlogArticles(pageSize,orderString);
     }
 
-    private List<BlogArticle> sortType(int pageSize,byte type, String orderString) {
+    private List<BlogArticle> sortType(byte type,int pageSize, String orderString) {
        
-        return blogService.listBlogArticlesByType(pageSize,type,orderString);
+        return blogService.listBlogArticlesByType(type,pageSize,orderString);
     }
 
 }

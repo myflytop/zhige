@@ -46,13 +46,7 @@ public interface CmsTaokeMapper {
      */
     public int updateCmsTaoke(CmsTaoke cmsTaoke);
 
-    /**
-     * 删除淘客
-     *
-     * @param shopId 淘客ID
-     * @return 结果
-     */
-    public int deleteCmsTaokeById(String shopId);
+  
 
     /**
      * 批量删除淘客
@@ -78,4 +72,6 @@ public interface CmsTaokeMapper {
      * @return
      */
     int onTimeShelves(long currentTimeMillis);
+
+    public Long[] listArtIdsByTaoIds(String[] taoIds);
 }

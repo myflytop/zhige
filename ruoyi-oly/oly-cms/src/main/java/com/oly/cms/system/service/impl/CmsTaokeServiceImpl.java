@@ -7,7 +7,8 @@ import com.oly.cms.system.mapper.CmsTaokeMapper;
 import com.oly.cms.system.model.CmsTaoke;
 import com.oly.cms.system.model.vo.ArticleVo;
 import com.oly.cms.system.service.ICmsTaokeService;
-import com.oly.common.constant.OlySystemConstant;
+import com.oly.common.model.properties.OlyCmsConfigPropetries;
+import com.oly.framework.web.service.OlyCommonService;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.DateUtils;
@@ -38,6 +39,9 @@ public class CmsTaokeServiceImpl implements ICmsTaokeService {
 
     @Autowired
 	private CmsArticleLiquidMapper cmsArticleLiquidMapper;
+    
+    @Autowired
+    private OlyCommonService olyCommonService;
 
     @Autowired
     private DataSourceTransactionManager transactionManager;
@@ -64,28 +68,47 @@ public class CmsTaokeServiceImpl implements ICmsTaokeService {
         return cmsTaokeMapper.selectCmsTaokeList(cmsTaoke);
     }
 
-    /**
-     * 新增淘客
-     *
-     * @param cmsTaoke 淘客
-     * @return 结果
-     */
+
     @Override
-    public int insertCmsTaoke(CmsTaoke cmsTaoke) {
+    public int insertCmsTaoke(CmsTaoke cmsTaoke,Integer[] cats ,Integer[]  tags) {
+        ArticleVo cmsArticle = new ArticleVo();
+        //设置默认标题,预览为空
+        cmsArticle.setArticleTitle(cmsTaoke.getShopName());
+        cmsArticle.setArticleType(Byte.parseByte(olyCommonService.selectConfigDefauleValue(OlyCmsConfigPropetries.TAO_POST_TYPE)));
+        cmsArticle.setCats(cats);
+        cmsArticle.setTags(tags);
+        //默认不允许评论
+        cmsArticle.setAllowComment(true);
         cmsTaoke.setCreateTime(DateUtils.getNowDate());
+        cmsArticle.setCreateBy(ShiroUtils.getUserId());
+        cmsArticle.setCreateTime(DateUtils.getNowDate());
+        cmsArticleService.insertCmsArticle(cmsArticle);
+        Long articleId = cmsArticle.getArticleId();
+        cmsTaoke.setArticleId(articleId);
         return cmsTaokeMapper.insertCmsTaoke(cmsTaoke);
     }
 
-    /**
-     * 修改淘客
-     *
-     * @param cmsTaoke 淘客
-     * @return 结果
-     */
+   
     @Override
-    public int updateCmsTaoke(CmsTaoke cmsTaoke) {
+    public int updateCmsTaoke(CmsTaoke cmsTaoke,Integer[] cats ,Integer[]  tags) {
+        ArticleVo cmsArticle = new ArticleVo();
+        //设置默认标题,预览为空
+        cmsArticle.setArticleTitle(cmsTaoke.getShopName());
+        cmsArticle.setArticleType(Byte.parseByte(olyCommonService.selectConfigDefauleValue(OlyCmsConfigPropetries.TAO_POST_TYPE)));
+        //默认不允许评论
+        cmsArticle.setAllowComment(true);
+        cmsArticle.setUpdateBy(ShiroUtils.getUserId());
+        cmsArticle.setUpdateTime(DateUtils.getNowDate());
+        cmsArticleService.insertCmsArticle(cmsArticle);
+        Long articleId = cmsArticle.getArticleId();
+        cmsTaoke.setArticleId(articleId);
         cmsTaoke.setUpdateTime(DateUtils.getNowDate());
-        
+        Long[] ids=new Long[]{cmsTaoke.getArticleId()};
+        cmsArticleLiquidMapper.deleteArticleCatByIds(ids);
+        cmsArticleLiquidMapper.deleteArticleTagByIds(ids);
+        cmsArticleLiquidMapper.insertCmsArticleCats(articleId, cats);
+        cmsArticleLiquidMapper.insertCmsArticleTags(articleId, tags);
+        cmsArticleService.updateCmsArticleById(cmsArticle);
         return cmsTaokeMapper.updateCmsTaoke(cmsTaoke);
     }
 
@@ -97,22 +120,14 @@ public class CmsTaokeServiceImpl implements ICmsTaokeService {
      */
     @Override
     public int deleteCmsTaokeByIds(String ids) {
-        return cmsTaokeMapper.deleteCmsTaokeByIds(Convert.toStrArray(ids));
-    }
-
-    /**
-     * 删除淘客信息
-     *
-     * @param shopId 淘客ID
-     * @return 结果
-     */
-    @Override
-    public int deleteCmsTaokeById(String shopId) {
-        return cmsTaokeMapper.deleteCmsTaokeById(shopId);
+    String [] taoTds=Convert.toStrArray(ids);
+     Long[] articleIds= cmsTaokeMapper.listArtIdsByTaoIds(taoTds);
+     cmsArticleService.deleteCmsArticleByIds(articleIds);
+     return cmsTaokeMapper.deleteCmsTaokeByIds(Convert.toStrArray(ids));
     }
 
     @Override
-    public String importTaos(List<CmsTaoke> taokeList,Integer[] cats ,Integer[]  tags,boolean updateSupport, String operName) {
+    public String importTaos(List<CmsTaoke> taokeList,Integer[] cats ,Integer[]  tags,Byte taoType, boolean updateSupport, String operName) {
         if (StringUtils.isNull(taokeList) || taokeList.size() == 0) {
             throw new BusinessException("导入数据不能为空！");
         }
@@ -120,37 +135,18 @@ public class CmsTaokeServiceImpl implements ICmsTaokeService {
         int failureNum = 0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
-        for (CmsTaoke taoke : taokeList) {
+        for (CmsTaoke taoke : taokeList) {      
+            taoke.setTaoType(taoType);  
             TransactionStatus transactionStatus =transactionManager.getTransaction(new DefaultTransactionDefinition());
-            ArticleVo cmsArticle = new ArticleVo();
-            try {
-                //设置默认标题,预览为空
-                cmsArticle.setArticleTitle(taoke.getShopName());
-                cmsArticle.setArticleType(OlySystemConstant.TAO_KE_POST_TYPE);
-                cmsArticle.setCats(cats);
-                cmsArticle.setTags(tags);
-                //默认不允许评论
-                cmsArticle.setAllowComment(true);
-                // 验证是否存已经插入过了
+            try {              
                 CmsTaoke u = cmsTaokeMapper.selectCmsTaokeById(taoke.getShopId());
-                if (StringUtils.isNull(u)) {  
-                    cmsArticle.setCreateBy(ShiroUtils.getUserId());
-                    cmsArticle.setCreateTime(DateUtils.getNowDate());
-                    cmsArticleService.insertCmsArticle(cmsArticle);
-                    Long articleId = cmsArticle.getArticleId();
-                    taoke.setArticleId(articleId);
-                    this.insertCmsTaoke(taoke);
+                if (StringUtils.isNull(u)) {    
+                    taoke.setShopFettle(Integer.parseInt(olyCommonService.selectConfigDefauleValue(OlyCmsConfigPropetries.TAO_FITTLE_DEFAULT)));    
+                    this.insertCmsTaoke(taoke,cats,tags);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、商品id " + taoke.getShopId() + " 导入成功");
-                } else if (updateSupport) {
-                    cmsArticle.setUpdateBy(ShiroUtils.getUserId());
-                    cmsArticle.setUpdateTime(DateUtils.getNowDate());
-                    Long[] ids=new Long[]{u.getArticleId()};
-                    cmsArticleLiquidMapper.deleteArticleCatByIds(ids);
-                    cmsArticleLiquidMapper.deleteArticleTagByIds(ids);
-                    cmsArticle.setArticleId(u.getArticleId());
-                    this.updateCmsTaoke(taoke);
-                    cmsArticleService.updateCmsArticleById(cmsArticle);
+                } else if (updateSupport) {    
+                    this.updateCmsTaoke(taoke,cats,tags);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、商品id " + taoke.getShopId() + " 更新成功");
                 } else {
