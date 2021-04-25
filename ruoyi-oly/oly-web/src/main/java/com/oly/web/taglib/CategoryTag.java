@@ -35,9 +35,8 @@ public class CategoryTag {
      * @return
      */
     public List<BlogCat> listTuiCategory() {
-        BlogCat blogCat = new BlogCat();
-        blogCat.setVisible((byte)CommonVisibleEnums.TUI.ordinal());
-        return blogService.listBlogCats(blogCat);
+      
+        return blogService.listBlogCats((byte)CommonVisibleEnums.TUI.ordinal());
     }
 
     /**

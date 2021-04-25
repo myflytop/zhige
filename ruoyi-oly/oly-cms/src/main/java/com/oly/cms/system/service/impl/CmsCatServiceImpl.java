@@ -4,10 +4,13 @@ import com.oly.cms.system.mapper.CmsCatMapper;
 import com.oly.cms.system.model.CmsConstants;
 import com.oly.cms.system.model.po.CmsCat;
 import com.oly.cms.system.service.ICmsCatService;
+import com.oly.common.constant.CacheConstant;
+import com.oly.framework.event.CacheWebRefreshEvent;
 import com.ruoyi.common.core.domain.Ztree;
 import com.ruoyi.common.exception.BusinessException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +21,9 @@ public class CmsCatServiceImpl implements ICmsCatService {
 
     @Autowired
     private CmsCatMapper cmsCatMapper;
+
+    @Autowired
+    private ApplicationEventPublisher app;
 
     @Override
     public int insertCmsCat(CmsCat cmsCat) {
@@ -38,8 +44,9 @@ public class CmsCatServiceImpl implements ICmsCatService {
                 } else {
                     cmsCat.setAncestors(ca.getAncestors() + "," + cmsCat.getParentId());
                 }
-
-                return cmsCatMapper.insertCmsCat(cmsCat);
+                int re=cmsCatMapper.insertCmsCat(cmsCat);
+                app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.CATS_CACHE_KEY_PREFIX));
+                return re;
             }
         }
         throw new BusinessException("请检查路径或者分类名是否重复");
@@ -47,7 +54,9 @@ public class CmsCatServiceImpl implements ICmsCatService {
 
     @Override
     public int insertCmsCats(List<CmsCat> cmsCats) {
-        return cmsCatMapper.insertCmsCats(cmsCats);
+        int re=cmsCatMapper.insertCmsCats(cmsCats);
+        app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.CATS_CACHE_KEY_PREFIX));
+        return re;
     }
 
     @Override
@@ -72,6 +81,7 @@ public class CmsCatServiceImpl implements ICmsCatService {
                 int c = cmsCatMapper.updateCmsCat(cmsCat);
                 // 同时更新子节点
                 updateChildNode(cmsCat.getCatId(), cmsCat.getAncestors() + "," + cmsCat.getCatId());
+                app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.CATS_CACHE_KEY_PREFIX));
                 return c;
             }
         }
@@ -80,7 +90,9 @@ public class CmsCatServiceImpl implements ICmsCatService {
 
     @Override
     public int deleteCmsCatById(Long catId) {
-        return cmsCatMapper.deleteCmsCatById(catId);
+        int re=cmsCatMapper.deleteCmsCatById(catId);
+        app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.CATS_CACHE_KEY_PREFIX));
+        return re;
     }
 
     @Override
@@ -148,7 +160,9 @@ public class CmsCatServiceImpl implements ICmsCatService {
 
     @Override
     public int updateTagVisible(Long catId, Byte visible) {
-        return cmsCatMapper.updateTagVisible(catId, visible);
+        int re=cmsCatMapper.updateTagVisible(catId, visible);
+        app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.CATS_CACHE_KEY_PREFIX));
+        return re;
     }
 
     /**

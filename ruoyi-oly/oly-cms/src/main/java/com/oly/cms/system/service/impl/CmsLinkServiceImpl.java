@@ -5,8 +5,11 @@ import java.util.List;
 import com.oly.cms.system.mapper.CmsLinkMapper;
 import com.oly.cms.system.model.po.CmsLink;
 import com.oly.cms.system.service.ICmsLinkService;
+import com.oly.common.constant.CacheConstant;
+import com.oly.framework.event.CacheWebRefreshEvent;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.core.text.Convert;
 
@@ -20,6 +23,9 @@ import com.ruoyi.common.core.text.Convert;
 public class CmsLinkServiceImpl implements ICmsLinkService {
     @Autowired
     private CmsLinkMapper cmsLinkMapper;
+
+    @Autowired
+    private ApplicationEventPublisher app;
 
     /**
      * 查询友情链接
@@ -52,7 +58,9 @@ public class CmsLinkServiceImpl implements ICmsLinkService {
     @Override
     public int insertCmsLink(CmsLink cmsLink) {
         cmsLink.setCreateTime(DateUtils.getNowDate());
-        return cmsLinkMapper.insertCmsLink(cmsLink);
+        int re=cmsLinkMapper.insertCmsLink(cmsLink);
+        app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.LINKS_CACHE_KEY_PREFIX));
+        return re;
     }
 
     /**
@@ -64,7 +72,10 @@ public class CmsLinkServiceImpl implements ICmsLinkService {
     @Override
     public int updateCmsLink(CmsLink cmsLink) {
         cmsLink.setUpdateTime(DateUtils.getNowDate());
-        return cmsLinkMapper.updateCmsLink(cmsLink);
+        int re=cmsLinkMapper.updateCmsLink(cmsLink);
+        app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.LINKS_CACHE_KEY_PREFIX));
+        return re;
+     
     }
 
     /**
@@ -75,7 +86,10 @@ public class CmsLinkServiceImpl implements ICmsLinkService {
      */
     @Override
     public int deleteCmsLinkByIds(String ids) {
-        return cmsLinkMapper.deleteCmsLinkByIds(Convert.toStrArray(ids));
+        int re=cmsLinkMapper.deleteCmsLinkByIds(Convert.toStrArray(ids));
+        app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.LINKS_CACHE_KEY_PREFIX));
+        return re;
+    
     }
 
     /**
@@ -86,6 +100,8 @@ public class CmsLinkServiceImpl implements ICmsLinkService {
      */
     @Override
     public int deleteCmsLinkById(Long linkId) {
-        return cmsLinkMapper.deleteCmsLinkById(linkId);
+        int re=cmsLinkMapper.deleteCmsLinkById(linkId);
+        app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.LINKS_CACHE_KEY_PREFIX));
+        return re;
     }
 }

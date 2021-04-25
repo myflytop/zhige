@@ -8,16 +8,24 @@ import com.oly.cms.system.model.CmsConstants;
 import com.oly.cms.system.model.po.CmsArticle;
 import com.oly.cms.system.model.vo.ArticleVo;
 import com.oly.cms.system.service.ICmsArticleService;
+import com.oly.common.constant.CacheConstant;
 import com.oly.common.model.properties.OlyCmsConfigPropetries;
+import com.oly.framework.event.CacheWebRefreshEvent;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 @Service
 public class CmsArticleServiceImpl implements ICmsArticleService {
+
+	@Autowired
+    private ApplicationEventPublisher app;
 	@Autowired
 	private CmsArticleMapper articleMapple;
 
@@ -72,6 +80,7 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 			cmsArticleLiquidMapper.updateCmsCatCount(arVo.getCats());
 			// 插入文章相关统计
 			cmsArticleLiquidMapper.insertCmsArticleCount(art.getArticleId());
+            app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.POSTS_CACHE_KEY_PREFIX));
 			return reInsertNum;
 		} else {
 			throw new BusinessException("参数验证校验失败,请检查！");
@@ -98,12 +107,16 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 		cmsArticleLiquidMapper.deleteCmsShareRecordByIds(articleIds);
 		cmsArticleLiquidMapper.deleteCmsScoreRecordByIds(articleIds);
 		cmsArticleLiquidMapper.deleteCmsArticleCountByIds(articleIds);
-		return articleMapple.deleteCmsArticleByIds(articleIds);
+		articleMapple.deleteCmsArticleByIds(articleIds);
+		app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.POSTS_CACHE_KEY_PREFIX));
+		return articleIds.length;
 	}
 
 	@Override
 	public int updateArticleTop(Long[] articleIds, Long articleTop) {
-		return articleMapple.updateArticleTop(articleIds, articleTop);
+		int re=articleMapple.updateArticleTop(articleIds, articleTop);
+		app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.POSTS_CACHE_KEY_PREFIX));
+		return re;
 	}
 
 	@Override
@@ -120,6 +133,7 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 	public int updateCmsArticleById(CmsArticle cmsArticle) {
 		// 修改文章
 		if (articleMapple.checkUrlAndTitleUnique(cmsArticle.getArticleUrl(), cmsArticle.getArticleTitle(),cmsArticle.getArticleId()) == 0) {
+			app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.POSTS_CACHE_KEY_PREFIX));
 			return articleMapple.updateCmsArticleById(cmsArticle);
 		} else {
 			throw new BusinessException("参数验证校验失败,请检查！");
@@ -166,7 +180,8 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 		}
        int re=cmsArticleLiquidMapper.insertCatArticle(articleId, catId);
 	   cmsArticleLiquidMapper.updateCmsCatCount(sc);
-		return re;
+	   app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.POSTS_CACHE_KEY_PREFIX));
+	   return re;
 	}
 
 	/**
@@ -179,7 +194,8 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 		}
       int  re=cmsArticleLiquidMapper.deleteCatArticle(articleId, catId);
 	  cmsArticleLiquidMapper.updateCmsCatCount(Convert.toIntArray(catId));
-		return re;
+	  app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.POSTS_CACHE_KEY_PREFIX));
+	  return re;
 	}
 
 	/**
@@ -202,6 +218,7 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 		}
 		int re=cmsArticleLiquidMapper.insertTagArticle(articleId, tagId);
 		cmsArticleLiquidMapper.updateCmsTagCount(ts);
+		app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.POSTS_CACHE_KEY_PREFIX));
 		return re;
 	}
     
@@ -212,14 +229,20 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 	public int removeTagArticle(Long articleId, Long tagId) {
         int re=cmsArticleLiquidMapper.deleteTagArticle(articleId, tagId);
 		cmsArticleLiquidMapper.updateCmsTagCount(Convert.toIntArray(tagId));
+		app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.POSTS_CACHE_KEY_PREFIX));
 		return re;
 	}
 
 	@Override
 	public int updateVisible(Long[] ids, Byte visible) {
-		return articleMapple.updateVisible(ids, visible);
+		int re=articleMapple.updateVisible(ids, visible);
+		app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.POSTS_CACHE_KEY_PREFIX));
+		return re;
 	}
-
+    
+	/**
+	 * 过滤
+	 */
 	@Override
 	public Integer[] filterCats(Integer[] cats) {
 		return cmsArticleLiquidMapper.filterCats(cats);

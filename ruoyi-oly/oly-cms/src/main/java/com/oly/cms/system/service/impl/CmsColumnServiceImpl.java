@@ -8,17 +8,23 @@ import com.oly.cms.system.mapper.CmsColumnMapper;
 import com.oly.cms.system.model.CmsConstants;
 import com.oly.cms.system.model.po.CmsColumn;
 import com.oly.cms.system.service.ICmsColumnService;
+import com.oly.common.constant.CacheConstant;
+import com.oly.framework.event.CacheWebRefreshEvent;
 import com.ruoyi.common.core.domain.Ztree;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CmsColumnServiceImpl implements ICmsColumnService {
 	@Autowired
 	private CmsColumnMapper columnMapper;
+
+	@Autowired
+    private ApplicationEventPublisher app;
 
 	@Override
 	public int insertCmsColumn(CmsColumn cmsColumn) {
@@ -35,14 +41,18 @@ public class CmsColumnServiceImpl implements ICmsColumnService {
 	@Override
 	public int updateCmsColumn(CmsColumn cmsColumn) {
 		updateChildNode(cmsColumn.getColumnId(), cmsColumn.getAncestors() + "," + cmsColumn.getColumnId());
-		return columnMapper.updateCmsColumn(cmsColumn);
+		int re=columnMapper.updateCmsColumn(cmsColumn);
+		app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.MENU_CACHE_KEY_PREFIX));
+		return re;
 	}
 
 	@Override
 	public int deleteCmsColumn(Long columnId) {
 		int count = columnMapper.countCmsColumnById(columnId);
 		if (count == 0) {
-			return columnMapper.deleteCmsColumnById(columnId);
+			int re=columnMapper.deleteCmsColumnById(columnId);
+		   app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.MENU_CACHE_KEY_PREFIX));
+			return re;
 		}
 		throw new BusinessException("存在子节点,无法直接删除!");
 	}
@@ -128,8 +138,9 @@ public class CmsColumnServiceImpl implements ICmsColumnService {
 
 	@Override
 	public int deleteCmsColumnById(Long columnId) {
-
-		return columnMapper.deleteCmsColumnById(columnId);
+		int re=columnMapper.deleteCmsColumnById(columnId);
+		app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.MENU_CACHE_KEY_PREFIX));
+		return re;
 	}
 
 	@Override
@@ -149,7 +160,9 @@ public class CmsColumnServiceImpl implements ICmsColumnService {
 
 	@Override
 	public int updateTagVisible(Long columnId, Byte visible) {
-		return columnMapper.updateTagVisible(columnId, visible);
+		int re=columnMapper.updateTagVisible(columnId, visible);
+		app.publishEvent(new CacheWebRefreshEvent(this,CacheConstant.MENU_CACHE_KEY_PREFIX));
+		return re;
 	}
 
 	/**

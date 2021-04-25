@@ -21,6 +21,8 @@ public class CacheWebUtils {
     private static Logger logger = LoggerFactory.getLogger(CacheWebUtils.class);
 
     private static CacheManager cache = CacheManager.getCacheManager("olyWeb");
+
+    public static final String CACHE_NAME="oly-web";
     
     /**
      * 存入
@@ -148,11 +150,10 @@ public class CacheWebUtils {
      * @param vagueKey
      */
     public static void vagueDeleteKeys(String vagueKey){
-        List<String> keys=getKeys("oly-web");
-        for (String key: keys) {
-            Pattern pattern = Pattern.compile(key);       
-                if (pattern.matcher(vagueKey).find()) {
-                   remove("oly-web", key);
+        List<String> keys=getKeys(CACHE_NAME);
+        for (String key: keys) {    
+                if (key.startsWith(vagueKey)) {    
+                   remove(CACHE_NAME, key);
                 }
         }
       
