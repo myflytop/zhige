@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <head xmlns="http://www.w3.org/1999/html">
-    <th:block  th:include="bobey/tao/taoke_include :: taokeHeader(title=${taoConfig['oly.tao.title']?.configValue+'-'+seo.columnName},keywords=${taoConfig['oly.tao.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
+    <th:block  th:include="bobey/tao/taoke_include::taokeHeader(title=${taoConfig['oly.tao.title']?.configValue+'-'+seo.columnName},keywords=${taoConfig['oly.tao.keywords']?.configValue+','+seo.keywords},description=${seo.description})"/>
 </head>
 <body>
 <!--== Start Header Section ==-->
@@ -39,7 +39,7 @@
     <div class="header-middle-area">
         <div class="container">
             <div class="row">
-                <th:block  th:include="bobey/tao/taoke_include :: logo"></th:block>
+                <th:block  th:include="bobey/tao/taoke_include::logo"></th:block>
             </div>
         </div>
     </div>
@@ -54,8 +54,7 @@
                     <div class="categories-list-wrap">
                         <button class="btn btn-category d-none d-lg-inline-block"><i class="fa fa-bars"></i> 商品分类服务
                         </button>
-                        <th:block  th:include="bobey/tao/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenu(29)})"></th:block>
-
+                        <th:block  th:include="bobey/tao/taoke_include::goodMenu(goodMenu=${@menuTag.getMenuTreeById(76)})"></th:block>
                     </div>
                 </div>
                 <!-- Categories List End -->
@@ -63,7 +62,7 @@
                 <div class="col-2 col-lg-9 d-none d-lg-block">
                     <div class="main-menu-wrap">
                         <nav class="mainmenu">
-                            <th:block  th:include="bobey/tao/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(22)})"/>
+                            <th:block  th:include="bobey/tao/taoke_include::taokeMenu(taokeMenu=${@menuTag.getMenuTreeById(76)})"/>
                         </nav>
                     </div>
                 </div>
@@ -75,9 +74,9 @@
 </header>
 <!--== End Header Section ==-->
 
-<!--== Start Slider Area ==-->
+<!--== Start Slider Area 轮播 ==-->
 <div class="slider-area-wrap">
-    <th:block  th:include="bobey/tao/taoke_include :: carousel(carousels=${@taoKeTag.taoKeByTagId(5)})"/>
+    <th:block  th:include="bobey/tao/taoke_include::carousel(carousels=${@taoKeTag.taoKeByTagId(21,10)})"/>
 </div>
 <!--== End Slider Area ==-->
 
@@ -86,7 +85,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <th:block  th:include="bobey/tao/taoke_include :: rankBander(newPut=${@taoKeTag.taoKeSortByCreateTime(20)},onSeal=${@taoKeTag.taoKeSortByShopSales(20)},maxCoupon=${@taoKeTag.taoKeSortByCouponPrice(20)})"/>
+                <th:block  th:include="bobey/tao/taoke_include::rankBander(newPut=${@taoKeTag.taoKeSortByCreateTime(20)},onSeal=${@taoKeTag.taoKeSortByShopSales(20)},maxCoupon=${@taoKeTag.taoKeSortByCouponPrice(20)})"/>
             </div>
             <div class="col-12">
                 <div class="view-more-btn">
@@ -110,7 +109,7 @@
                         </div>
                         <div class="row mtn-40">
                             <!-- product single item start -->
-                            <th:block  th:include="bobey/tao/taoke_include :: taos(taos=${@taoKeTag.taoKeSortByCreateTime(40)})"/>
+                            <th:block  th:include="bobey/tao/taoke_include::taos(taos=${@taoKeTag.taoKeSortByCreateTime(40)})"/>
                             <!-- product single item end -->
                             <div class="col-12">
                                 <div class="view-more-btn">
@@ -123,7 +122,7 @@
                 <!-- 结束 -->
 <!-- Start Products Area Wrapper -->
 <div class="product-area-wrapper">
-    <th:block  th:include="bobey/tao/taoke_include :: hotTag(dailyNeed=${@taoKeTag.taoKeByTagId(11,20)},mobile=${@taoKeTag.taoKeByTagId(11,20)},shoes=${@taoKeTag.taoKeByTagId(11,20)})"/>
+    <th:block  th:include="bobey/tao/taoke_include::hotTag(dailyNeed=${@taoKeTag.taoKeByTagId(11,20)},mobile=${@taoKeTag.taoKeByTagId(11,20)},shoes=${@taoKeTag.taoKeByTagId(11,20)})"/>
 </div>
 <!-- End Products Area Wrapper -->
 
@@ -148,7 +147,7 @@
 <!--== End Newsletter Area ==-->
 
 <!--== Start Footer Area ==-->
-<th:block  th:include="bobey/tao/taoke_include :: taokeBottom"/>
+<th:block  th:include="bobey/tao/taoke_include::taokeBottom"/>
 <!--== End Footer Area ==-->
 
 
@@ -257,6 +256,6 @@
 <!--== Product Quick View Modal Area End ==-->
 
 <!--=======================Javascript============================-->
-<th:block  th:include="bobey/tao/taoke_include :: taokeFooter"></th:block>
+<th:block  th:include="bobey/tao/taoke_include::taokeFooter"></th:block>
 </body>
 </html>

@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <head xmlns="http://www.w3.org/1999/html">
-    <th:block  th:include="taoke/web/taoke_include :: taokeHeader(title=${taoConfig['oly.tao.title']?.configValue+'-'+wealPost.articleTitle},keywords=${taoConfig['oly.tao.keywords']?.configValue+','+wealPost.keywords},description=${wealPost.description})"/>
+    <th:block  th:include="bobey/tao/taoke_include :: taokeHeader(title=${taoConfig['oly.tao.title']?.configValue+'-'+wealPost.articleTitle},keywords=${taoConfig['oly.tao.keywords']?.configValue+','+wealPost.keywords},description=${wealPost.description})"/>
 </head>
 <body>
 <!--== Start Header Section ==-->
 <header id="header-area" class="header__2"  xmlns="http://www.w3.org/1999/html">
-
+    <div class="preheader-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-lg-6">
+                    <div class="preheader-contact-info d-flex align-items-center justify-content-between justify-content-md-start">
+                        <div class="single-contact-info">
+                            <span class="contact-icon">
+                                <i class="fa fa-envelope"></i>
+                            </span>
+                            <a href="mailto:your@example.com" class="contact-text">
+                                <strong>邮箱:</strong> <a th:href="'mailto:'+${taoConfig['oly.tao.contact.mail']?.configValue}" th:text="${taoConfig['oly.tao.contact.mail']?.configValue}">your@email.here</a>
+                            </a>
+                        </div>
+                        <div class="single-contact-info">
+                            <span class="contact-icon">
+                                <i class="fa fa-phone"></i>
+                            </span>
+                            <a href="" class="contact-text">
+                                <strong>联系电话:</strong>  <a href="javaScript:void(0)" th:text="${taoConfig['oly.tao.contact.phone']?.configValue}">+231 40596971</a>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Start Header Middle Area -->
     <div class="header-middle-area">
         <div class="container">
             <div class="row">
-                <th:block  th:include="taoke/web/taoke_include :: logo"></th:block>
+                <th:block  th:include="bobey/tao/taoke_include :: logo"></th:block>
             </div>
         </div>
     </div>
@@ -26,7 +51,7 @@
                     <div class="categories-list-wrap">
                         <button class="btn btn-category d-none d-lg-inline-block"><i class="fa fa-bars"></i> 商品分类服务
                         </button>
-                        <th:block  th:include="taoke/web/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenu(29)})"></th:block>
+                        <th:block  th:include="bobey/tao/taoke_include :: goodMenu(goodMenu=${@menuTag.getMenuTreeById(29)})"></th:block>
 
                     </div>
                 </div>
@@ -35,7 +60,7 @@
                 <div class="col-2 col-lg-9 d-none d-lg-block">
                     <div class="main-menu-wrap">
                         <nav class="mainmenu">
-                            <th:block  th:include="taoke/web/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenu(22)})"/>
+                            <th:block  th:include="bobey/tao/taoke_include :: taokeMenu(taokeMenu=${@menuTag.getMenuTreeById(22)})"/>
                         </nav>
                     </div>
                 </div>
@@ -66,11 +91,11 @@
 <!--== Page Content Wrapper Start ==-->
 <div id="page-content-wrapper">
     <div class="container">
-        <th:block  th:include="taoke/web/taoke_include :: taokeWealGood(post=${wealPost},postRecs=${wealPostRecently},postTops=${wealPostTop})"></th:block>
+        <th:block  th:include="bobey/tao/taoke_include :: taokeWealGood(post=${wealPost},postRecs=${wealPostRecently},postTops=${wealPostTop})"></th:block>
     </div>
 </div>
 
-<th:block  th:include="taoke/web/taoke_include :: taokeBottom"/>
+<th:block  th:include="bobey/tao/taoke_include :: taokeBottom"/>
 <!--== End Footer Area ==-->
 
 <!-- Scroll to Top Start -->
@@ -178,6 +203,6 @@
 <!--== Product Quick View Modal Area End ==-->
 
 <!--=======================Javascript============================-->
-<th:block  th:include="taoke/web/taoke_include :: taokeFooter"></th:block>
+<th:block  th:include="bobey/tao/taoke_include :: taokeFooter"></th:block>
 </body>
 </html>

@@ -542,7 +542,7 @@
 						<h3 class="title">最受欢迎</h3>
 						<div class="sidebar-body">
 							<div class="sidebar-product-carousel owl-carousel">
-								<th:block  th:include="taoke/web/taoke_include :: popular(populars=${@taoKeTag.taoKeTuiGroup(20)})"/>
+								<th:block  th:include="bobey/tao/taoke_include :: popular(populars=${@taoKeTag.taoKeTuiGroup(20)})"/>
 							</div>
 						</div>
 					</div>
@@ -671,22 +671,22 @@
 				<div class="products-settings-option d-block d-md-flex">
 					<nav class="page-pagination">
 						<ul class="pagination"  th:if="${pages.pages>0}">
-							<li th:if="${pages.pageNum>1}"><a   th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum=1&pageSize='+pages.pageSize}">1</a></li>
-							<li th:if="${pages.pageNum>1}"><a  th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum='+(pages.pageNum-1)+'&pageSize='+pages.pageSize}" aria-label="上一页">&laquo;</a></li>
+							<li th:if="${pages.pageNum>1}"><a   th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum=1&pageSize='+pages.pageSize}">1</a></li>
+							<li th:if="${pages.pageNum>1}"><a  th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum='+(pages.pageNum-1)+'&pageSize='+pages.pageSize}" aria-label="上一页">&laquo;</a></li>
 							<!--显示1-5页 页数少于6页 全部显示-->
-							<li th:if="${pages.pages<6}" th:each="i:${#numbers.sequence(1,pages.pages)}"><a  th:class="${(i==pages.pageNum)}?'current':''" th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}" th:text="${i}">1</a></li>
+							<li th:if="${pages.pages<6}" th:each="i:${#numbers.sequence(1,pages.pages)}"><a  th:class="${(i==pages.pageNum)}?'current':''" th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}" th:text="${i}">1</a></li>
 							<!--大于5页 当前页小于4 全部显示-->
-							<li th:if="${pages.pages>5 and pages.pageNum<4}" th:each="i:${#numbers.sequence(1,5)}"><a th:class="${(i==pages.pageNum)}?'current':''" th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}"  th:text="${i}"></a></li>
+							<li th:if="${pages.pages>5 and pages.pageNum<4}" th:each="i:${#numbers.sequence(1,5)}"><a th:class="${(i==pages.pageNum)}?'current':''" th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}"  th:text="${i}"></a></li>
 							<!--大于5页 显示中间-->
-							<li th:if="${pages.pages>5 and (pages.pages-pages.pageNum)>5 and pages.pageNum>3}" th:each="i:${#numbers.sequence(pages.pageNum-2,pages.pageNum+2)}"><a th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}" th:text="${i}" th:class="${(i==pages.pageNum)}?'current':''">2</a></li>
+							<li th:if="${pages.pages>5 and (pages.pages-pages.pageNum)>5 and pages.pageNum>3}" th:each="i:${#numbers.sequence(pages.pageNum-2,pages.pageNum+2)}"><a th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}" th:text="${i}" th:class="${(i==pages.pageNum)}?'current':''">2</a></li>
 							<!--控制靠近尾页 -->
-							<li th:if="${pages.pages>5 and (pages.pages-pages.pageNum)<6 and (pages.pages-pages.pageNum)>2 and pages.pageNum>3}" th:each="i:${#numbers.sequence(pages.pageNum-2,pages.pageNum+2)}"><a th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}"  th:text="${i}" th:class="${(i==pages.pageNum)}?'current':''">3</a></li>
+							<li th:if="${pages.pages>5 and (pages.pages-pages.pageNum)<6 and (pages.pages-pages.pageNum)>2 and pages.pageNum>3}" th:each="i:${#numbers.sequence(pages.pageNum-2,pages.pageNum+2)}"><a th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}"  th:text="${i}" th:class="${(i==pages.pageNum)}?'current':''">3</a></li>
 
 							<!--后5页全部显示-->
-							<li th:if="${pages.pages>5 and (pages.pages-pages.pageNum)<3}" th:each="i:${#numbers.sequence(pages.pages-4,pages.pages)}" ><a th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}" th:text="${i}" th:class="${(i==pages.pageNum)}?'current':''" >&raquo;</a></li>
+							<li th:if="${pages.pages>5 and (pages.pages-pages.pageNum)<3}" th:each="i:${#numbers.sequence(pages.pages-4,pages.pages)}" ><a th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum='+i+'&pageSize='+pages.pageSize}" th:text="${i}" th:class="${(i==pages.pageNum)}?'current':''" >&raquo;</a></li>
 
-							<li  th:if="${pages.pageNum<pages.pages}"><a href="#" aria-label="下一页" th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum='+(pages.pageNum+1)+'&pageSize='+pages.pageSize}">&raquo;</a></li>
-							<li  th:if="${pages.pageNum<pages.pages}"><a href="#" th:text="${pages.pages}" th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum='+pages.pages+'&pageSize='+pages.pageSize}"></a></li>
+							<li  th:if="${pages.pageNum<pages.pages}"><a href="#" aria-label="下一页" th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum='+(pages.pageNum+1)+'&pageSize='+pages.pageSize}">&raquo;</a></li>
+							<li  th:if="${pages.pageNum<pages.pages}"><a href="#" th:text="${pages.pages}" th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum='+pages.pages+'&pageSize='+pages.pageSize}"></a></li>
 						</ul>
 					</nav>
 
@@ -695,13 +695,13 @@
 						<nav class="page-pagination">
 							<ul class="pagination">
 								<li >
-									<a th:class="${pages.pageSize==20?'current':''}" th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum=1&pageSize='+20}">20</a>
+									<a th:class="${pages.pageSize==20?'current':''}" th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum=1&pageSize='+20}">20</a>
 								</li>
 								<li >
-									<a th:class="${pages.pageSize==40?'current':''}" th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum=1&pageSize='+40}">40</a>
+									<a th:class="${pages.pageSize==40?'current':''}" th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum=1&pageSize='+40}">40</a>
 								</li>
 								<li >
-									<a th:class="${pages.pageSize==60?'current':''}" th:href="${taoConfig['oly.tao.index'].configValue+'/shop'+pam+'&pageNum=1&pageSize='+60}">60</a>
+									<a th:class="${pages.pageSize==60?'current':''}" th:href="${taoConfig['oly.tao.index']?.configValue+'/shop'+pam+'&pageNum=1&pageSize='+60}">60</a>
 
 								</li>
 							</ul>
@@ -734,7 +734,7 @@
 					<!-- Copyright Text Area -->
 					<div class="col-md-6 m-auto text-center text-md-left order-last order-md-first">
 						<span>Powered by © 2020 <a href="https://bobey.site">止戈</a></span>
-						<span th:utext="${taoConfig['oly.tao.footer'].configValue}">
+						<span th:utext="${taoConfig['oly.tao.footer']?.configValue}">
 								<a href="http://beian.miit.gov.cn/" target="_blank">黔ICP备19001474号-2</a>
 						</span>
 					</div>
@@ -777,15 +777,15 @@
 							<div class="col-lg-3 col-sm-6" th:each="post,postStat:${posts.rows}">
 								<div class="single-product-item">
 									<figure class="product-thumb">
-										<a th:href="${taoConfig['oly.tao.index'].configValue+'/weal/post/'+post.articleId}">  <img th:with="imgs=${T(com.ruoyi.blog.utils.ThymeleafUtils).split(post.articleImg)},rando=${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*10),1,0)},iul=@{/themes/bobey/resource/images/thumbs/}"
+										<a th:href="${taoConfig['oly.tao.index']?.configValue+'/weal/post/'+post.articleId}">  <img th:with="imgs=${T(com.ruoyi.blog.utils.ThymeleafUtils).split(post.articleImg)},rando=${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*10),1,0)},iul=@{/themes/bobey/resource/images/thumbs/}"
 																																		  th:src="${imgs==null?(iul+rando+'.jpg'):#strings.substring(imgs[0],1,#strings.length(imgs[0])-1)}"  style="width: 100%"    th:alt="${post.articleTitle}">
 										</a>
 										<a class="btn btn-round btn-cart" title="Quick View"
-										   th:href="${taoConfig['oly.tao.index'].configValue+'/weal/post/'+post.articleId}"><i
+										   th:href="${taoConfig['oly.tao.index']?.configValue+'/weal/post/'+post.articleId}"><i
 												class="fa fa-eye"></i></a>
 									</figure>
 									<div class="product-details">
-										<h2 class="product-title"><a th:href="${taoConfig['oly.tao.index'].configValue+'/weal/post/'+post.articleId}" th:text="${post.articleTitle}">Rival Field
+										<h2 class="product-title"><a th:href="${taoConfig['oly.tao.index']?.configValue+'/weal/post/'+post.articleId}" th:text="${post.articleTitle}">Rival Field
 											Messenger</a></h2>
 										<div class="rating">
 											<i class="fa fa-star"></i>
@@ -809,7 +809,7 @@
 				<div class="products-settings-option d-block d-md-flex">
 					<nav class="page-pagination">
 						<ul class="pagination"  th:if="${posts.pages>0}">
-							<li th:each="i:${#numbers.sequence(1,posts.pages)}"><a th:href="${taoConfig['oly.tao.index'].configValue+'/weal/'+i}"  th:text="${i}" th:class="${(i==posts.pageNum)}?'current':''">3</a></li>
+							<li th:each="i:${#numbers.sequence(1,posts.pages)}"><a th:href="${taoConfig['oly.tao.index']?.configValue+'/weal/'+i}"  th:text="${i}" th:class="${(i==posts.pageNum)}?'current':''">3</a></li>
 						</ul>
 					</nav>
 
@@ -929,9 +929,9 @@
 
 				<div class="post-footer d-block d-sm-flex justify-content-sm-between align-items-center">
 					<ul class="tags">
-						<li th:each="tag:${post.blogTags}"><a  th:href="${taoConfig['oly.tao.index'].configValue+'/weal/ticket/'+tag.tagId}"
+						<li th:each="tag:${post.blogTags}"><a  th:href="${taoConfig['oly.tao.index']?.configValue+'/weal/ticket/'+tag.tagId}"
 															   th:title="${tag.tagName}" th:text="${tag.tagName}">个人网站</a></li>
-						<li th:each="cat:${post.blogCats}"><a  th:href="${taoConfig['oly.tao.index'].configValue+'/weal/category/'+cat.catId}"
+						<li th:each="cat:${post.blogCats}"><a  th:href="${taoConfig['oly.tao.index']?.configValue+'/weal/category/'+cat.catId}"
 															   th:title="${cat.catName}" th:text="${cat.catName}"></a></li>
 					</ul>
 
@@ -966,7 +966,7 @@
 								<div class="product-details">
 									<h2><a href="single-blog.html" th:text="${postHot.articleTitle}">Lorem ipsum onsectetur adipisicing</a></h2>
 									<span class="date" th:text="${#dates.format(postHot.createTime,'yyyy-MM-dd HH:mm')}">20, Aug 2018</span>
-									<a th:href="${taoConfig['oly.tao.index'].configValue+'/weal/post/'+postHot.articleId}" class="btn-readmore">查看 <i class="fa fa-long-arrow-right"></i></a>
+									<a th:href="${taoConfig['oly.tao.index']?.configValue+'/weal/post/'+postHot.articleId}" class="btn-readmore">查看 <i class="fa fa-long-arrow-right"></i></a>
 								</div>
 							</div>
 							<!-- Single Recent Posts End -->
@@ -989,7 +989,7 @@
 								<div class="product-details">
 									<h2><a href="single-blog.html" th:text="${postHot.articleTitle}">Lorem ipsum onsectetur adipisicing</a></h2>
 									<span class="date" th:text="${#dates.format(postHot.createTime,'yyyy-MM-dd HH:mm')}">20, Aug 2018</span>
-									<a th:href="${taoConfig['oly.tao.index'].configValue+'/weal/post/'+postHot.articleId}" class="btn-readmore">查看 <i class="fa fa-long-arrow-right"></i></a>
+									<a th:href="${taoConfig['oly.tao.index']?.configValue+'/weal/post/'+postHot.articleId}" class="btn-readmore">查看 <i class="fa fa-long-arrow-right"></i></a>
 								</div>
 							</div>
 							<!-- Single Recent Posts End -->
