@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>达人文章</title>
+		<link rel="stylesheet" type="text/css" href="./css/commodity.css" />
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			#app {
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+				box-sizing: border-box;
+			}
+
+			@font-face {
+				font-family: 'iconfont';
+				/* project id 2178560 */
+				src: url('https://at.alicdn.com/t/font_2178560_xz2nclfx2s.eot');
+				src: url('https://at.alicdn.com/t/font_2178560_xz2nclfx2s.eot?#iefix') format('embedded-opentype'),
+					url('https://at.alicdn.com/t/font_2178560_xz2nclfx2s.woff2') format('woff2'),
+					url('https://at.alicdn.com/t/font_2178560_xz2nclfx2s.woff') format('woff'),
+					url('https://at.alicdn.com/t/font_2178560_xz2nclfx2s.ttf') format('truetype'),
+					url('https://at.alicdn.com/t/font_2178560_xz2nclfx2s.svg#iconfont') format('svg');
+			}
+
+			.iconfont {
+				font-family: 'iconfont' !important;
+			}
+
+			.imgcontent {
+				width: 100%;
+				display: block;
+				margin: 0 auto;
+			}
+
+			.titlebox {
+				width: 100%;
+				box-sizing: border-box;
+				margin-top: 16px;
+				color: #3c2b2a;
+				font-weight: 600;
+				font-size: 19px;
+				padding: 0 16px;
+			}
+
+			.talentInfo {
+				width: 100%;
+				display: flex;
+				box-sizing: border-box;
+				align-items: center;
+				justify-content: space-between;
+				margin-top: 16px;
+				padding: 0 16px;
+			}
+
+			.leftInfobox {
+				display: flex;
+				align-items: center;
+			}
+
+			.headerimg {
+				width: 38px;
+				height: 38px;
+				border-radius: 50%;
+			}
+
+			.talentname {
+				font-size: 13px;
+				font-weight: 500;
+				color: #333333;
+				margin-left: 12px;
+			}
+
+			.time {
+				font-size: 12px;
+				font-weight: 400;
+				color: #999999;
+				margin-left: 12px;
+			}
+
+			.rightbrowse {
+				font-size: 12px;
+				font-weight: 400;
+				color: #999999;
+			}
+
+			.article-newpage-write {
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0 16rpxsy16px;
+			}
+			[v-cloak]{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div v-if="pageInfo" v-cloak>
+				<img class='imgcontent' :src="pageInfo.articleBanner" alt="">
+				<div class="titlebox">{{pageInfo.name}}</div>
+				<div class="talentInfo">
+					<div class="leftInfobox" @click="gouserDetail()">
+						<img class='headerimg' :src="pageInfo.headImg" alt="">
+						<div class="talentname">{{pageInfo.talentName}}</div>
+						<div class="time">{{pageInfo.addtime}}</div>
+					</div>
+					<div class="rightbrowse ">
+						<div class="eyes iconfont">&#xe71a; {{pageInfo.readTimes}}</div>
+					</div>
+				</div>
+				
+				
+				<div class="article-newpage-write" v-html="pageInfo.articleLabel"></div>
+			</div>
+		</div>
+	</body>
+
+</html>
+<script src="./js/jquery.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/uni.js"></script>
+<script>
+	var vm = new Vue({
+		el: "#app",
+		data: {
+			id: '',
+			pageInfo: ''
+		},
+		created() {
+			console.log('空白的话可能是接口地址不对');
+			this.id = this.getQuery('id')
+			console.log(this.id);
+			setTimeout(() => {
+				this.getInfo()
+			})
+		},
+		methods: {
+			gouserDetail() {
+				uni.redirectTo({
+					url: '/pages/talentSay/talentProfile?talentId='+this.pageInfo.talentId
+				});
+			},
+			getQuery(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) return unescape(r[2]);
+				return null;
+			},
+			getInfo() {
+				console.log(this);
+				$.ajax({
+					type: "POST",
+					url: "http://tkapi.s775775.cn/talentInfo/getTalentArticle",
+					data: {
+						id: this.id
+					},
+					success: res => {
+						console.log(res);
+						this.pageInfo = res.data
+						this.handlelabel(res.data)
+					}
+				});
+			},
+
+			handlelabel(data) {
+				var that = this
+				setTimeout(() => {
+
+					$(document).ready(function() {
+						$('.single-message').remove();
+
+					})
+
+					// 图片超出处理
+					$(function() {
+						var articleWidth = $('.article-page-write').width();
+						$('p img').each(function() {
+							if ($(this).width() > articleWidth) {
+								$(this).css({
+									width: '100%',
+									height: 'auto'
+								});
+							}
+						});
+					});
+
+					$(function() {
+						// 多个宝贝 - 只展示券后价
+						$('.commodity-message').each(function() {
+							var mobilePrice = $(this).find('.price').text(); // 旧版专属
+
+							var commodity_priceStr =
+								'<span class="mobile-coupon">券后 <span class="mobile-price price"></span></span>' +
+								'<span class="mobile-sold">已售 <span class="itemsale"></span></span>';
+							var coupon_str = '<div class="coupon-box">' +
+								'<span class="coupon-style"><span>券</span><span class="coupon"></span></span>' +
+								'<span class="commodity-view">查看</span>' +
+								'</div>';
+							$(this).html(commodity_priceStr);
+							$(this).after(coupon_str);
+
+							if ($('.commodity-bottom').length > 0) {
+								$(this).find('.price').text(mobilePrice + '元');
+							}
+						});
+
+						// 单个宝贝一 - 只展示券后价
+						$('.single-info-one').each(function() {
+							console.log($(this));
+							var single_priceStr =
+								'<span class="mobile-coupon">券后 <span class="mobile-price price"></span></span>' +
+								'<span class="mobile-sold">已售 <span class="itemsale"></span></span>';
+							var coupon_str = '<div class="coupon-box">' +
+								'<span class="coupon-style"><span>券</span><span class="coupon"></span></span>' +
+								'<span class="commodity-view">查看</span>' +
+								'</div>';
+							$(this).find('.single-coupon-one').html(single_priceStr);
+							$(this).find('.single-coupon-one').after(coupon_str);
+						});
+
+						// 单个宝贝二 - 只展示券后价
+						$('.single-info').each(function() {
+							var single_priceStr =
+								'<span class="mobile-coupon">券后 <span class="mobile-price price"></span></span>' +
+								'<span class="mobile-sold">已售 <span class="itemsale"></span></span>';
+							var coupon_str = '<div class="coupon-box">' +
+								'<span class="coupon-style"><span>券</span><span class="coupon"></span></span>' +
+								'<span class="commodity-view">查看</span>' +
+								'</div>';
+							$(this).find('.single-coupon-two').html(single_priceStr);
+							$(this).find('.single-coupon-two').after(coupon_str);
+						});
+
+						// 兼容旧版本
+						$('.commodity-bottom').each(function() {
+							$(this).prev('.coupon-box').css('display', 'none');
+							$(this).prevAll('.commodity-message').children('.mobile-sold').remove();
+						})
+					});
+
+					$('.js_tobuy').click(function() {
+						var itemid = $(this).children('div').children('img').attr('data-itemid');
+						if (!itemid) {
+							itemid = $(this).children('img').attr('data-itemid');
+						}
+						// alert("商品id" + itemid);
+						// 判断是否为失效商品
+						var loseArr = data.invalidList;
+						if (loseArr.indexOf(itemid) > -1) {
+							//失效商品 不让进详情
+							alert("商品已下架");
+							return;
+						}
+
+						console.log(itemid);
+						that.goDetails(itemid)
+					});
+
+					$(function() {
+						var itemid = $('.js_tobuy').children('div').children('img').attr('data-itemid');
+
+						var list = data.items;
+						for (var i = 0; i < list.length; i++) {
+							$('#itemid' + list[i].itemid + ' .price').text('￥' + Math.floor(list[i].itemendprice * 10) / 10);
+							$('#itemid' + list[i].itemid + ' .coupon').text(list[i].couponmoney);
+							$('#itemid' + list[i].itemid + ' .itemsale').text(list[i].itemsale);
+
+							//拼接未失效宝贝
+							var commodityStr = "<div class='commodity-item' data-itemid='" + list[i].itemid + "'><img src='" + list[
+									i].itempic + "' alt='' class='commodity-img'>" +
+								"<div class='commodity-item-info' style='padding: 0 1rem;'>" +
+								"<span class='commodity-title'>" + list[i].itemshorttitle + "</span>" +
+								"<span class='commodity-item-price'>券后<span>" + Math.floor(list[i].itemendprice * 10) / 10 +
+								"</span>元</span>" +
+								"<div class='commodity-bottom'>" +
+								"<span class='commodity-couponmoney'>" +
+								"<span class='ommodity-ticket'>券</span><span class='commodity-coupon'>￥" + list[i].couponmoney +
+								"</span>" +
+								"</span>" +
+								"<span class='commodity-sale'>已售 <span class='itemsale'>" + list[i].itemsale + "</span></span>" +
+								"</div>" +
+								"</div>" +
+								"</div>";
+							$('.commodity-list').append(commodityStr);
+						};
+					});
+
+
+					//提示商品失效
+					var lose = data.invalidList;
+					if (lose != null && lose != '') {
+						for (var i = 0; i < lose.length; i++) {
+							if ($('#itemid' + lose[i] + ' .shadow').length == 0) {
+								$('#itemid' + lose[i] + ' .getitemid').after(
+									'<div class="shadow"><span class="shadowtext"></span></div>');
+							}
+							$('#itemid' + lose[i] + ' .shadowtext').css('display', 'inline-flex');
+							$('#itemid' + lose[i] + ' .shadowtext').text('已抢光');
+							$('#itemid' + lose[i]).removeClass('js_tobuy');
+
+							$('#itemid' + lose[i] + ' .price').text('￥' + "0");
+							$('#itemid' + lose[i] + ' .coupon').text("0");
+							$('#itemid' + lose[i] + ' .itemsale').text("999");
+
+						}
+					}
+				})
+			},
+			
+			goDetails(id){
+				console.log(id);
+				uni.navigateTo({
+					url: '/pages/goods/goodsDetail?id='+id,
+					success: res => {},
+					fail: () => {},
+					complete: () => {}
+				});
+			}
+		},
+	})
+</script>

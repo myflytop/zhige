@@ -1,0 +1,378 @@
+<template>
+	<view class="container">
+		<list class="list" @loadmore="getData()" :loadmoreoffset="wHeight*2" :show-scrollbar="false" ref="listBox"
+		 :pagingEnabled="true" :scrollable="true" :offset-accuracy="wHeight-10" @scroll="Scroll">
+			<cell v-for="(item,i) in dataList" :key="i" @appear="onappear($event,i)" @disappear="disappear($event,i)">
+				<div :ref="`item_${i}`" class="item" :style="boxStyle">
+					<jVideo v-if="current==i" :state="item.state" :current='current' :src="item.dyVideoUrl" :sign='i' :boxStyle="boxStyle"></jVideo>
+					<view class="videoHover" @click="tapVideoHover(item.state,i)" :style="boxStyle">
+						<view class="bacbox" @click.stop="back()">
+							<image class="backimg" src="../../static/images/goods/backIcon.png" mode="aspectFit"></image>
+						</view>
+					</view>
+					<view class="content-goods" @tap='godetails(item)'>
+						<view class="left-image">
+							<image class="imagess" :src="item.itempic" mode="widthFix"></image>
+						</view>
+						<view class="goods-infobox">
+							<text class="userName">{{item.itemshorttitle}}</text>
+							<view class="botm">
+								<view class="left-pri">
+									<text class="rmb">券后</text>
+									<text class="words">&yen;{{item.itemendprice}}</text>
+								</view>
+								<view class="coupon">
+									<image class="couponbac" src="../../static/images/goods/coupon.png" mode="aspectFit"></image>
+									<text class="coupontxt">&yen;{{item.couponmoney}}券</text>
+								</view>
+							</view>
+						</view>
+					</view>
+				</div>
+			</cell>
+		</list>
+	</view>
+</template>
+<script>
+	const dom = weex.requireModule('dom');
+	const BindingX = uni.requireNativePlugin('bindingx');
+	import utils from '../../utils/utils.js'
+	import jVideo from '../../components/j-video.nvue';
+	import request from '../../utils/http.js'
+	export default {
+		components: {
+			jVideo
+		},
+		data: {
+			pageInfo: '',
+			dataList: [],
+			wHeight: 0,
+			boxStyle: {
+				'height': 0,
+				'width': '750rpx',
+			},
+			k: 0,
+			current: -1,
+			pageCurrent: 11,
+			ready: false,
+			nextPage: false,
+			platform:''
+			//isDragging:false//用户是否正在拖动列表
+		},
+		onShow() {
+			if (this.ready) {
+				this.$set(this.dataList[this.current], 'state', 'continue')
+			}
+		},
+		onHide() {
+			console.log('到后台');
+			this.$set(this.dataList[this.current], 'state', 'pause')
+		},
+		onBackPress() {
+			uni.removeStorage({
+				key: 'pathInfo',
+				success: () => {
+					console.log('clear');
+				}
+			})
+		},
+		onLoad() {
+			this.wHeight = uni.getSystemInfoSync().windowHeight;
+			this.platform = uni.getSystemInfoSync().platform
+			console.log(this.platform);
+			if (uni.getSystemInfoSync().brand == 'Xiaomi') {
+				this.wHeight += 1
+			}
+			if(this.platform=='ios'){
+				this.boxStyle.height = this.wHeight;
+			}else{
+				this.boxStyle.height = this.wHeight += 1;
+			}
+			console.log(this.wHeight);
+			this.pageInfo = utils.getCacheSync('pathInfo')
+			this.pageCurrent = this.pageInfo.pageCurrent
+			this.dataList = this.pageInfo.storgeList;
+			this.dataList.map((itm, idx) => {
+				this.$set(this.dataList[idx], 'state', 'pause')
+			})
+
+			this.initFirst()
+		},
+		onReady() {},
+		methods: {
+			initFirst() {
+				this.dataList.forEach((itm, idx) => {
+					if (this.pageInfo.nowInfo.itemid == itm.itemid) {
+						this.current = idx
+						setTimeout(() => {
+							const ref = `item_${idx}`
+							const el = this.$refs[ref][0]
+							console.log(idx);
+							console.log(ref);
+							dom.scrollToElement(el, {
+								offset: 0,
+								animated: false
+							})
+							this.$nextTick(() => {
+								this.$set(this.dataList[idx], 'state', 'play')
+								// console.log(this.dataList[idx]);
+								this.ready = true
+							})
+						}, 200)
+					}
+				})
+			},
+			Scroll(e) {
+				console.log(e);
+				this.nextPage = true
+			},
+			//点击播放&&暂停
+			tapVideoHover(state, i) {
+				console.log(i);
+				if (state == 'play' || state == 'continue') {
+					this.dataList[this.current].state = 'pause';
+				} else {
+					this.dataList[this.current].state = 'continue';
+				}
+			},
+
+			back() {
+				uni.navigateBack({
+					delta: 1
+				})
+			},
+
+			onappear(e, i) {
+				if (this.nextPage) {
+					console.log(i, e);
+					this.nextPage = false
+					if (e.direction == 'up') {
+						this.current = i - 1
+						if(this.platform=='ios'){
+							this.current = i
+						}
+						this.nextPage = false
+						// this.$nextTick(()=>{
+						// 	this.dataList[this.current].state = 'play'
+						// })
+					}
+					if (e.direction == 'down') {
+						if(this.platform == 'ios'){
+							console.log(i, e);
+							this.current = i
+							this.nextPage = false
+							// this.$nextTick(()=>{
+							// 	this.dataList[i+1].state = 'play'
+							// })
+						}else{
+							console.log(i, e);
+							this.current = i + 1
+							this.nextPage = false
+							// this.$nextTick(()=>{
+							// 	this.dataList[i+1].state = 'play'
+							// })
+						}
+					}
+				}
+			},
+
+			disappear(e, i) {
+				console.log(e);
+				if (e.direction == 'up') {
+					this.current = i + 1
+					this.nextPage = true
+					// this.$nextTick(()=>{
+					// 	this.dataList[i+2].state = 'play'
+					// })
+				}
+				if (e.direction == 'down') {
+					this.current = i - 1
+					this.nextPage = true
+					// this.$nextTick(()=>{
+					// 	this.dataList[i-2].state = 'play'
+					//})
+				}
+			},
+
+			godetails(e) {
+				uni.navigateTo({
+					url: '../goods/goodsDetail?id=' + e.itemid
+				})
+			},
+
+			getData() {
+				console.log('加载下一页');
+				request.post('tb/getDouYinData', {
+					back: 10,
+					catId: this.pageInfo.type,
+					minId: this.pageCurrent
+				}, 'application/json').then(res => {
+					uni.stopPullDownRefresh();
+					console.log(res);
+					this.nextPage = true
+					if (res.data.length > 0) {
+						res.data.map((itm, i) => {
+							this.$set(res.data[i], 'state', 'pause')
+						})
+					}
+					if (res.data.length < 10) {} else {
+						this.pageCurrent = res.minId
+					}
+					this.dataList = this.dataList.concat(res.data)
+				})
+			}
+		}
+	}
+</script>
+<style>
+	.container {
+		flex: 1;
+		background-color: #eeeeee;
+	}
+
+	.list {
+		width: 750upx;
+		flex: 1;
+		background-color: #000000;
+	}
+
+	.item {
+		width: 750upx;
+		background-color: #000000;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+	}
+
+	.videoHover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: rgba(0, 0, 0, 0.1);
+		justify-content: center;
+		align-items: center;
+
+		/* border-style: dashed;
+		border-color: #DD524D;
+		border-width: 1px; */
+	}
+
+	.bacbox {
+		width: 750rpx;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 1000;
+		height: 160rpx;
+		padding: 0 32rpx;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: flex-end;
+	}
+
+	.backimg {
+		width: 60rpx;
+		height: 60rpx;
+	}
+
+	.content-goods {
+		width: 600rpx;
+		height: 200rpx;
+		border-radius: 22rpx;
+		background-color: #FFFFFF;
+		position: absolute;
+		z-index: 99;
+		bottom: 40rpx;
+		left: 20rpx;
+		padding: 0 15rpx;
+		flex-direction: row;
+		align-items: center;
+		color: #000;
+	}
+
+	.goods-infobox {
+		width: 340rpx;
+		margin-left: 20rpx;
+	}
+
+	.left-image {
+		width: 180rpx;
+		height: 180rpx;
+		border-radius: 12rpx;
+	}
+
+	.imagess {
+		width: 180rpx;
+		height: 180rpx;
+		border-radius: 12rpx;
+	}
+
+
+	.content {
+		width: 300upx;
+		z-index: 99;
+		bottom: 10px;
+		justify-content: center;
+		padding: 15upx;
+		flex-direction: column;
+		justify-content: flex-start;
+		color: #000;
+	}
+
+	.userName {
+		font-size: 34rpx;
+		color: #000;
+		lines: 1;
+		text-overflow: ellipsis;
+	}
+
+	.botm {
+		margin-top: 40rpx;
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.left-pri {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-end;
+	}
+
+	.coupon {
+		width: 100rpx;
+		height: 50rpx;
+		position: relative;
+		align-items: center;
+		justify-content: center;
+		margin-left: 70rpx;
+	}
+
+	.coupontxt {
+		font-size: 24rpx;
+		font-weight: 500;
+		color: #FFFFFF;
+		z-index: 100;
+	}
+
+	.couponbac {
+		width: 100rpx;
+		height: 50rpx;
+		position: absolute;
+		left: 0;
+		z-index: 0
+	}
+
+	.rmb {
+		font-size: 24rpx;
+		line-height: 34rpx;
+		color: #000;
+	}
+
+	.words {
+		font-size: 32rpx;
+		color: #FF4242;
+		lines: 1;
+		text-overflow: ellipsis;
+		margin-left: 10rpx;
+	}
+</style>

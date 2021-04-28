@@ -1,0 +1,102 @@
+<template>
+	<view class="root">
+		<video ref="myVideos" id="myVideo" :src="this.src" @play="playIng" :loop="true" :enable-progress-gesture="false"
+		 :page-gesture="false" :initial-time="15" :controls="false" :show-fullscreen-btn="false" :show-center-play-btn="false"
+		 :style="boxStyle" @tap="pause()"></video>
+		<!-- <image
+			class="videoImg"
+			:src="this.src+'?x-oss-process=video/snapshot,t_1,m_fast'" resize="contain"
+			:style="boxStyle"
+		></image> -->
+	</view>
+</template>
+
+<script>
+	export default {
+		watch: {
+			state: {
+				handler(newValue, oldValue) {
+					// console.log(newValue)-;
+					setTimeout(() => {
+						var createVideoContext = uni.createVideoContext('myVideo', this);
+						switch (newValue) {
+							case 'play':
+								createVideoContext.seek(0);
+								createVideoContext.play();
+								break;
+							case 'continue':
+								createVideoContext.play();
+								break;
+							case 'pause':
+								createVideoContext.pause();
+								break;
+							case 'stop':
+								createVideoContext.seek(0);
+								createVideoContext.pause();
+								break;
+							default:
+								break;
+						}
+					})
+				},
+				immediate: true
+			},
+			current:{
+				handler(n){
+					if (n != this.sign) {
+						// console.log(123);
+						setTimeout(()=>{
+							this.state = 'stop'
+						},500)
+					} else {
+						// console.log(456);
+						setTimeout(()=>{
+							this.state = 'play'
+						},500 )
+					}
+				}
+			}
+		},
+		created() {
+			console.log(this.current);
+			// this.current = this.sign
+			this.state = 'pause'
+			setTimeout(()=>{
+				this.state = 'play'
+			},500)
+		},
+		destroyed() {},
+		props: {
+			state: {
+				default: false
+			},
+			src: {
+				default: false
+			},
+			boxStyle: {
+				default: {}
+			},
+			current: {
+				default: 0
+			},
+			sign: {
+				default: 0
+			}
+		},
+
+		methods: {}
+	}
+</script>
+
+<style>
+	.root {
+		background-color: #000000;
+		position: relative;
+	}
+
+	.videoImg {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+</style>
