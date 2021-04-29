@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oly.web.mapper.BlogArticleSortMapper">
 	<resultMap id="ArticleSortResult"
-			   type="com.oly.web.mould.BlogArticleSort">
+			   type="com.oly.web.model.po.BlogArticleSort">
 		<id column="article_id" property="articleId" jdbcType="BIGINT" />
 		<result column="article_title" property="articleTitle"
 				jdbcType="VARCHAR" />
@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 
-	<resultMap id="ArticleCountSortResult"  type="com.oly.web.mould.BlogArticleCountSort" extends="ArticleSortResult">
+	<resultMap id="ArticleCountSortResult"  type="com.oly.web.model.po.BlogArticleCountSort" extends="ArticleSortResult">
 		<result property="articleLook"    column="article_look"    />
 		<result property="articleLike"    column="article_like"    />
 		<result property="articleNasty"    column="article_nasty"    />
@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</sql>
 
 	<!--依据文章排序-->
-	<select id="listArticleSort" resultMap="ArticleSortResult" parameterType="com.oly.web.mould.BlogArticleSort">
+	<select id="listArticleSort" resultMap="ArticleSortResult" parameterType="com.oly.web.model.po.BlogArticleSort">
 		select  <include refid="article_sort_sql"/> from cms_article
 		<where>
 			<if test="articleType != null">
@@ -58,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 
-	<select id="listArticlesCountSort" resultMap="ArticleCountSortResult" parameterType="com.oly.web.mould.BlogArticleSort">
+	<select id="listArticlesCountSort" resultMap="ArticleCountSortResult" parameterType="com.oly.web.model.po.BlogArticleSort">
 		select <include refid="article_count_sort_sql" /> from cms_article a left join cms_article_count b on a.article_id=b.article_id <where>
 		<if test="articleType != null">
 			and	article_type = #{articleType,jdbcType=TINYINT},

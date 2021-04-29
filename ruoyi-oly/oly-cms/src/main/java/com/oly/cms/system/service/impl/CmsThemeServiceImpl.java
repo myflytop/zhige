@@ -19,7 +19,7 @@ import com.oly.common.model.properties.OlyThemeProperties;
 import com.oly.common.model.support.OperateStatus;
 import com.oly.oss.service.impl.NativeOssHandler;
 import com.oly.web.mapper.BlogHandleMapper;
-import com.oly.web.mould.BlogTheme;
+import com.oly.web.model.po.BlogTheme;
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.enums.OlyStageRoot;
 import com.ruoyi.common.exception.BusinessException;

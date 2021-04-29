@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oly.common.model.properties.OlyThemeProperties;
 import com.oly.framework.web.service.OlyCommonService;
 import com.oly.web.mapper.BlogHandleMapper;
-import com.oly.web.mould.BlogTheme;
+import com.oly.web.model.po.BlogTheme;
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.enums.ConfigValueTypeEnum;

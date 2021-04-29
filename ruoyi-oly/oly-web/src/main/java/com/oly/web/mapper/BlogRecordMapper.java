@@ -1,6 +1,6 @@
 package com.oly.web.mapper;
 
-import com.oly.web.mould.pam.BlogRecordParam;
+import com.oly.web.model.pam.BlogRecordParam;
 
 import org.apache.ibatis.annotations.Param;
 

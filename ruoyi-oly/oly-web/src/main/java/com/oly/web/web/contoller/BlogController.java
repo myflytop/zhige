@@ -13,11 +13,11 @@ import com.oly.common.model.properties.OlyWebConfigProetries;
 import com.oly.common.model.support.PageData;
 import com.oly.framework.web.service.OlyCommonService;
 import com.oly.web.annotation.BlogLog;
-import com.oly.web.mould.BlogArticle;
-import com.oly.web.mould.BlogCat;
-import com.oly.web.mould.BlogLink;
-import com.oly.web.mould.BlogTag;
-import com.oly.web.mould.pam.BlogArticleSearchParam;
+import com.oly.web.model.pam.BlogArticleSearchParam;
+import com.oly.web.model.po.BlogArticle;
+import com.oly.web.model.po.BlogCat;
+import com.oly.web.model.po.BlogLink;
+import com.oly.web.model.po.BlogTag;
 import com.oly.web.service.impl.BlogServiceImpl;
 import com.oly.web.web.CommonController;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
@@ -109,7 +109,7 @@ public class BlogController extends CommonController {
         BlogArticleSearchParam bl = new BlogArticleSearchParam();
         bl.setTagId(tagId);
         // 文章列表
-        mp.put("posts", blogService.listBlogArticlesByTagId(bl));
+        mp.put("posts", blogService.listBlogArticles(bl));
         // 当前查询的标签
         mp.put("tag", blogService.getBlogTagByTagId(tagId));
         return getPrefix(configService, "/tag");
@@ -141,7 +141,7 @@ public class BlogController extends CommonController {
     public String cat(@PathVariable("catId") Long catId, ModelMap mp) {
         BlogArticleSearchParam bl = new BlogArticleSearchParam();
         bl.setCatId(catId);
-        mp.put("posts", blogService.listBlogArticlesByCatId(bl));
+        mp.put("posts", blogService.listBlogArticles(bl));
         // 当前查询的分类
         mp.put("cat", blogService.getBlogCatByCatId(catId));
         return getPrefix(configService, "/category");

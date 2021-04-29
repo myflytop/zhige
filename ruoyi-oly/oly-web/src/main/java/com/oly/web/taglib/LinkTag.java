@@ -1,6 +1,6 @@
 package com.oly.web.taglib;
 
-import com.oly.web.mould.BlogLink;
+import com.oly.web.model.po.BlogLink;
 import com.oly.web.service.cache.BlogCacheService;
 
 import org.springframework.beans.factory.annotation.Autowired;

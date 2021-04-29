@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oly.web.mapper.BlogRecordMapper">
-	<insert id="insertRecord" parameterType="com.oly.web.mould.pam.BlogRecordParam">
+	<insert id="insertRecord" parameterType="com.oly.web.model.pam.BlogRecordParam">
 			insert into ${recordTable}
 			<trim prefix="(" suffix=")" suffixOverrides=",">
 				<if test="articleId != null ">article_id,</if>
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</trim>
 	</insert>
 
-	<insert id="insertBlogPostCount" parameterType="com.oly.web.mould.BlogArticleCount">
+	<insert id="insertBlogPostCount" parameterType="com.oly.web.model.po.BlogArticleCount">
 		insert into cms_article_count
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="articleId != null ">article_id,</if>
@@ -80,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
-	<select id="countRecord" resultType="int" parameterType="com.oly.web.mould.pam.BlogRecordParam">
+	<select id="countRecord" resultType="int" parameterType="com.oly.web.model.pam.BlogRecordParam">
 		select count(1) from ${recordTable} where user_id=#{userId} and article_id=#{articleId};
 	</select>
 

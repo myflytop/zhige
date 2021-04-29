@@ -2,7 +2,7 @@ package com.oly.web.service;
 
 import java.util.List;
 
-import com.oly.web.mould.BlogLogRecord;
+import com.oly.web.model.po.BlogLogRecord;
 
 public interface IBlogLogRecordService {
     /**

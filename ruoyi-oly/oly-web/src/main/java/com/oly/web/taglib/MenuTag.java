@@ -2,7 +2,7 @@ package com.oly.web.taglib;
 
 import java.util.List;
 
-import com.oly.web.mould.BlogMenu;
+import com.oly.web.model.po.BlogMenu;
 import com.oly.web.service.cache.BlogCacheService;
 
 import org.springframework.beans.factory.annotation.Autowired;

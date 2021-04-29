@@ -1,7 +1,7 @@
 package com.oly.web.service.impl;
 
 import com.oly.web.mapper.BlogLogRecordMapper;
-import com.oly.web.mould.BlogLogRecord;
+import com.oly.web.model.po.BlogLogRecord;
 import com.oly.web.service.IBlogLogRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.oly.common.model.enums.OlyConfigCommonEnum;
-import com.oly.web.mould.BlogLink;
+import com.oly.web.model.po.BlogLink;
 import com.oly.web.service.cache.BlogCacheService;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
@@ -130,7 +130,9 @@ public class BlogApiController {
     public AjaxResult getCat(@PathVariable("catId") long catId)
     {
 
-        return AjaxResult.success(blogService.getBlogMenuById(catId));
+       // return AjaxResult.success(blogService.getBlogCatByCatId(catId));
+
+       return null;
     }
 
      /**

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.oly.web.annotation.BlogLog;
 import com.oly.web.factory.BlogAsyncFactory;
-import com.oly.web.mould.BlogLogRecord;
+import com.oly.web.model.po.BlogLogRecord;
 import com.ruoyi.common.enums.BusinessStatus;
 import com.ruoyi.common.json.JSON;
 import com.ruoyi.common.utils.ServletUtils;

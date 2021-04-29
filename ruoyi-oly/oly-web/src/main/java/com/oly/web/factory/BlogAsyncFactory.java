@@ -2,7 +2,7 @@ package com.oly.web.factory;
 
 import java.util.TimerTask;
 
-import com.oly.web.mould.BlogLogRecord;
+import com.oly.web.model.po.BlogLogRecord;
 import com.oly.web.service.IBlogLogRecordService;
 import com.ruoyi.common.utils.AddressUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;

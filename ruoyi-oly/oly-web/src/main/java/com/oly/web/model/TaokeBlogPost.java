@@ -1,6 +1,6 @@
 package com.oly.web.model;
 
-import com.oly.web.mould.BlogArticle;
+import com.oly.web.model.po.BlogArticle;
 
 public class TaokeBlogPost {
     private TaokeModel taokeModel;

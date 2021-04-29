@@ -1,9 +1,13 @@
 package com.oly.web.service;
 
-import com.oly.web.mould.*;
-import com.oly.web.mould.pam.BlogArticleSearchParam;
-
 import java.util.List;
+
+import com.oly.web.model.pam.BlogArticleSearchParam;
+import com.oly.web.model.po.BlogArticle;
+import com.oly.web.model.po.BlogCat;
+import com.oly.web.model.po.BlogLink;
+import com.oly.web.model.po.BlogMenu;
+import com.oly.web.model.po.BlogTag;
 
 public interface IBlogService {
 
@@ -50,21 +54,8 @@ public interface IBlogService {
      */
     BlogArticle getBlogArticle(BlogArticle blogArticle);
 
-    /**
-     * 获取文章列表
-     * 
-     * @param blogArticleSearchParam
-     * @return
-     */
-    List<BlogArticle> listBlogArticlesByCatId(BlogArticleSearchParam blogArticleSearchParam);
+    
 
-    /**
-     * 获取文章列表
-     * 
-     * @param blogArticleSearchParam
-     * @return
-     */
-    List<BlogArticle> listBlogArticlesByTagId(BlogArticleSearchParam blogArticleSearchParam);
 
     BlogTag getBlogTagByTagId(long tagId);
 

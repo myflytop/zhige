@@ -1,7 +1,7 @@
 package com.oly.web.service;
 
-import com.oly.web.mould.enums.RecordTableEnum;
-import com.oly.web.mould.pam.BlogRecordParam;
+import com.oly.web.model.enums.RecordTableEnum;
+import com.oly.web.model.pam.BlogRecordParam;
 
 public interface IBlogRecordService {
     int insertLookRecord(BlogRecordParam recordParam);

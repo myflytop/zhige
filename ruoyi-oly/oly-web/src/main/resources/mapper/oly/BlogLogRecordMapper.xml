@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oly.web.mapper.BlogLogRecordMapper">
-    <insert id="insertBlogLogRecord" parameterType="com.oly.web.mould.BlogLogRecord">
+    <insert id="insertBlogLogRecord" parameterType="com.oly.web.model.po.BlogLogRecord">
         insert into cms_log_record
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="logId != null ">log_id,</if>

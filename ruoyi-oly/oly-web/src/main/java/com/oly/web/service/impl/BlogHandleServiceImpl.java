@@ -1,7 +1,7 @@
 package com.oly.web.service.impl;
 
 import com.oly.web.mapper.BlogHandleMapper;
-import com.oly.web.mould.BlogContact;
+import com.oly.web.model.po.BlogContact;
 import com.oly.web.service.IBlogHandleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

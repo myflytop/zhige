@@ -1,21 +1,26 @@
 package com.oly.web.service.impl;
 
+import java.util.List;
+
 import com.oly.common.model.enums.ArticleVisibleEnums;
 import com.oly.common.model.enums.CommonVisibleEnums;
-import com.oly.web.mapper.BlogMapper;
-import com.oly.web.mould.*;
-import com.oly.web.mould.pam.BlogArticleSearchParam;
+import com.oly.web.mapper.BlogSearchMapper;
+import com.oly.web.model.pam.BlogArticleSearchParam;
+import com.oly.web.model.po.BlogArticle;
+import com.oly.web.model.po.BlogCat;
+import com.oly.web.model.po.BlogLink;
+import com.oly.web.model.po.BlogMenu;
+import com.oly.web.model.po.BlogTag;
 import com.oly.web.service.IBlogService;
-import com.oly.web.utils.MenuTreeUtils;
+import com.oly.web.utils.tree.MenuTreeUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service("blogService")
 public class BlogServiceImpl implements IBlogService {
     @Autowired
-    private BlogMapper blogMapper;
+    private BlogSearchMapper blogMapper;
 
     @Override
     public List<BlogMenu> listBlogMenus(BlogMenu blogMenu) {
@@ -72,12 +77,9 @@ public class BlogServiceImpl implements IBlogService {
 
     @Override
     public List<BlogArticle> listBlogArticles(BlogArticleSearchParam blogArticleSearchParam) {
-        if(blogArticleSearchParam==null)
-        {
-            blogArticleSearchParam=new BlogArticleSearchParam();
-        }
-        blogArticleSearchParam.setVisible(ArticleVisibleEnums.PASS.ordinal());
-        return blogMapper.listBlogArticles(blogArticleSearchParam);
+     
+     
+        return blogMapper.listBlogArticlesBySearch(blogArticleSearchParam);
     }
 
     @Override
@@ -85,25 +87,6 @@ public class BlogServiceImpl implements IBlogService {
         return blogMapper.getBlogArticle(blogArticle);
     }
 
-    @Override
-    public List<BlogArticle> listBlogArticlesByCatId(BlogArticleSearchParam blogArticleSearchParam) {
-        blogArticleSearchParam.setVisible(ArticleVisibleEnums.PASS.ordinal());
-        if(blogMapper.checkCatIsHidden(blogArticleSearchParam.getCatId())==0)
-        {
-        return null;
-        }
-        return blogMapper.listBlogArticlesByCatId(blogArticleSearchParam);
-    }
-
-    @Override
-    public List<BlogArticle> listBlogArticlesByTagId(BlogArticleSearchParam blogArticleSearchParam) {
-        blogArticleSearchParam.setVisible(ArticleVisibleEnums.PASS.ordinal());
-        if(blogMapper.checkTagIsHidden(blogArticleSearchParam.getTagId())==0)
-        {
-        return null;
-        }
-        return blogMapper.listBlogArticlesByTagId(blogArticleSearchParam);
-    }
 
     @Override
     public BlogTag getBlogTagByTagId(long tagId) {

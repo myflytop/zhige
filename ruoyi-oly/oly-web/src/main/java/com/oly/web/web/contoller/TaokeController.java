@@ -9,9 +9,9 @@ import com.oly.common.model.properties.OlyWebConfigProetries;
 import com.oly.common.model.support.PageData;
 import com.oly.framework.web.service.OlyCommonService;
 import com.oly.web.model.TaokeModel;
+import com.oly.web.model.pam.BlogArticleSearchParam;
 import com.oly.web.model.parm.TaokeParm;
-import com.oly.web.mould.BlogArticle;
-import com.oly.web.mould.pam.BlogArticleSearchParam;
+import com.oly.web.model.po.BlogArticle;
 import com.oly.web.service.impl.BlogServiceImpl;
 import com.oly.web.service.impl.TaokeServiceImpl;
 import com.oly.web.web.CommonController;
@@ -108,23 +108,22 @@ public class TaokeController extends CommonController {
         if (catId!=null){
             bl.setCatId(catId);
             startDefaultPage();
-           list= blogService.listBlogArticlesByCatId(bl);
+         
             mp.put("seo",blogService.getBlogMenuById(catId));
         }
         else if(tagId!=null)
         {
             bl.setTagId(tagId);
             startDefaultPage();
-            list= blogService.listBlogArticlesByTagId(bl);
             mp.put("seo",blogService.getBlogTagByTagId(tagId));
         }
         else {
             startDefaultPage();
-            list=blogService.listBlogArticles(bl);
+          
             mp.put("seo",blogService.getBlogMenuById(Long.parseLong( commonService.selectConfigDefauleValue(OlyWebConfigProetries.PAGE_TAO_WEAL))));
 
         }
-
+        list=blogService.listBlogArticles(bl);
         //封装分页
         PageData pageOne= PageData.getData(list);
         mp.put("wealPosts",pageOne);

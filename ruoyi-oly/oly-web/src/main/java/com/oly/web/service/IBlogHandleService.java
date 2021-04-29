@@ -1,8 +1,8 @@
 package com.oly.web.service;
 
-import com.oly.web.mould.BlogContact;
-
 import java.util.List;
+
+import com.oly.web.model.po.BlogContact;
 
 public interface IBlogHandleService {
 

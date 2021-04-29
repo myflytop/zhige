@@ -3,8 +3,8 @@ package com.oly.cms.web.controller;
 import java.util.List;
 
 import com.oly.cms.system.model.CmsTaoke;
+import com.oly.cms.system.model.param.ImportPam;
 import com.oly.cms.system.service.ICmsTaokeService;
-import com.oly.cms.system.web.controller.ImportPam;
 import com.oly.cms.web.CmsCommonController;
 import com.oly.common.model.enums.OlyConfigCommonEnum;
 import com.ruoyi.common.annotation.Log;

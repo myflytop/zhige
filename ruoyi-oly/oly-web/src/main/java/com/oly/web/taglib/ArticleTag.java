@@ -3,7 +3,7 @@ package com.oly.web.taglib;
 import java.util.List;
 
 import com.oly.common.model.support.PageData;
-import com.oly.web.mould.BlogArticle;
+import com.oly.web.model.po.BlogArticle;
 import com.oly.web.service.cache.BlogCacheService;
 
 import org.springframework.beans.factory.annotation.Autowired;

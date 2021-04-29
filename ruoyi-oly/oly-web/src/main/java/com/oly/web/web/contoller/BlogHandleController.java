@@ -1,6 +1,6 @@
 package com.oly.web.web.contoller;
 
-import com.oly.web.mould.BlogContact;
+import com.oly.web.model.po.BlogContact;
 import com.oly.web.service.impl.BlogHandleServiceImpl;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;

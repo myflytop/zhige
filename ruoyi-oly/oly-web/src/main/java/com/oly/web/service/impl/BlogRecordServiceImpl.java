@@ -1,10 +1,11 @@
 package com.oly.web.service.impl;
 
 import com.oly.web.mapper.BlogRecordMapper;
-import com.oly.web.mould.enums.CountColumnEnum;
-import com.oly.web.mould.enums.RecordTableEnum;
-import com.oly.web.mould.pam.BlogRecordParam;
+import com.oly.web.model.enums.CountColumnEnum;
+import com.oly.web.model.enums.RecordTableEnum;
+import com.oly.web.model.pam.BlogRecordParam;
 import com.oly.web.service.IBlogRecordService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

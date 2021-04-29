@@ -2,8 +2,8 @@ package com.oly.web.taglib;
 
 import java.util.List;
 
-import com.oly.web.mould.BlogArticleCountSort;
-import com.oly.web.mould.BlogArticleSort;
+import com.oly.web.model.po.BlogArticleCountSort;
+import com.oly.web.model.po.BlogArticleSort;
 import com.oly.web.service.cache.BlogCacheService;
 
 import org.springframework.beans.factory.annotation.Autowired;

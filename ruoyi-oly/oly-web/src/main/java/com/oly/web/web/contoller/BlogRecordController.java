@@ -1,7 +1,7 @@
 package com.oly.web.web.contoller;
 
-import com.oly.web.mould.enums.RecordTableEnum;
-import com.oly.web.mould.pam.BlogRecordParam;
+import com.oly.web.model.enums.RecordTableEnum;
+import com.oly.web.model.pam.BlogRecordParam;
 import com.oly.web.service.impl.BlogRecordServiceImpl;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.ServletUtils;

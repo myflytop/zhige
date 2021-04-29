@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oly.web.mapper.BlogHandleMapper">
     
-    <resultMap type="com.oly.web.mould.BlogContact" id="BlogContactResult">
+    <resultMap type="com.oly.web.model.po.BlogContact" id="BlogContactResult">
         <result property="contactId"    column="contact_id"    />
         <result property="subject"    column="subject"    />
         <result property="content"    column="content"    />
@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select contact_id, user_call,subject, content,create_by, email, phone, visible, other_contact, create_time, contact_type, handle_result, handle_time from cms_contact
     </sql>
 
-    <insert id="insertBlogContact" parameterType="com.oly.web.mould.BlogContact" useGeneratedKeys="true" keyProperty="contactId">
+    <insert id="insertBlogContact" parameterType="com.oly.web.model.po.BlogContact" useGeneratedKeys="true" keyProperty="contactId">
         insert into cms_contact
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="subject != null  and subject != ''">subject,</if>
@@ -54,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
 
-    <insert id="insertBlogTheme" parameterType="com.oly.web.mould.BlogTheme" useGeneratedKeys="true" keyColumn="theme_id" keyProperty="themeId" >
+    <insert id="insertBlogTheme" parameterType="com.oly.web.model.po.BlogTheme" useGeneratedKeys="true" keyColumn="theme_id" keyProperty="themeId" >
     insert into cms_theme
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="themeId != null" >
@@ -122,7 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </trim>
   </insert>
 
-  <update id="updateBlogThemeByName" parameterType="com.oly.web.mould.BlogTheme">
+  <update id="updateBlogThemeByName" parameterType="com.oly.web.model.po.BlogTheme">
   update cms_theme
     <set >
       <if test="themeAuthor != null" >
@@ -144,7 +144,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where theme_name = #{themeName}
   </update>
 
-    <select id="selectBlogContactList" parameterType="com.oly.web.mould.BlogContact" resultMap="BlogContactResult">
+    <select id="selectBlogContactList" parameterType="com.oly.web.model.po.BlogContact" resultMap="BlogContactResult">
         <include refid="selectBlogContactVo"/>
         <where>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>

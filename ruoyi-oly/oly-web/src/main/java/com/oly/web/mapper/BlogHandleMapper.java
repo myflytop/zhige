@@ -2,8 +2,8 @@ package com.oly.web.mapper;
 
 import java.util.List;
 
-import com.oly.web.mould.BlogContact;
-import com.oly.web.mould.BlogTheme;
+import com.oly.web.model.po.BlogContact;
+import com.oly.web.model.po.BlogTheme;
 
 /**
  * 前端操作控制

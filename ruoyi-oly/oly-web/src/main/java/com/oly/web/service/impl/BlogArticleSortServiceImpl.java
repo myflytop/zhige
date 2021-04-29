@@ -2,8 +2,8 @@ package com.oly.web.service.impl;
 
 
 import com.oly.web.mapper.BlogArticleSortMapper;
-import com.oly.web.mould.BlogArticleCountSort;
-import com.oly.web.mould.BlogArticleSort;
+import com.oly.web.model.po.BlogArticleCountSort;
+import com.oly.web.model.po.BlogArticleSort;
 import com.oly.web.service.IBlogArticleSortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.github.pagehelper.PageHelper;
 import com.oly.common.constant.CacheConstant;
-import com.oly.web.mould.BlogArticle;
-import com.oly.web.mould.BlogArticleCountSort;
-import com.oly.web.mould.BlogArticleSort;
-import com.oly.web.mould.BlogCat;
-import com.oly.web.mould.BlogLink;
-import com.oly.web.mould.BlogMenu;
-import com.oly.web.mould.BlogTag;
-import com.oly.web.mould.pam.BlogArticleSearchParam;
+import com.oly.web.model.pam.BlogArticleSearchParam;
+import com.oly.web.model.po.BlogArticle;
+import com.oly.web.model.po.BlogArticleCountSort;
+import com.oly.web.model.po.BlogArticleSort;
+import com.oly.web.model.po.BlogCat;
+import com.oly.web.model.po.BlogLink;
+import com.oly.web.model.po.BlogMenu;
+import com.oly.web.model.po.BlogTag;
 import com.oly.web.service.impl.BlogArticleSortServiceImpl;
 import com.oly.web.service.impl.BlogServiceImpl;
 
@@ -81,7 +81,7 @@ public class BlogCacheService {
         BlogArticleSearchParam blogArticleSearchParam = getArticleSearchParam();
         blogArticleSearchParam.setTagId(tagId);
         PageHelper.startPage(1, pageSize, "create_time desc");
-        return blogService.listBlogArticlesByTagId(blogArticleSearchParam);
+        return blogService.listBlogArticles(blogArticleSearchParam);
     }
 
     @Cacheable(key="'"+CacheConstant.TAGS_CACHE_KEY_PREFIX+"getTagUrl_'+#p0")
@@ -95,7 +95,7 @@ public class BlogCacheService {
         BlogArticleSearchParam blogArticleSearchParam = getArticleSearchParam();
         blogArticleSearchParam.setCatId(catId);
         PageHelper.startPage(1, pageSize, "create_time desc");
-        return blogService.listBlogArticlesByCatId(blogArticleSearchParam);
+        return blogService.listBlogArticles(blogArticleSearchParam);
     }
 
     @Cacheable(key="'"+CacheConstant.CATS_CACHE_KEY_PREFIX+"listArticleByCatUrl_'+#p0")

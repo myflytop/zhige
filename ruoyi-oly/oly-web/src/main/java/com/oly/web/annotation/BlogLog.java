@@ -6,8 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.oly.web.mould.enums.BlogBusinessType;
-import com.oly.web.mould.enums.BlogOperatorType;
+import com.oly.web.model.enums.BlogBusinessType;
+import com.oly.web.model.enums.BlogOperatorType;
 
 /**
  * 内容前台操作
