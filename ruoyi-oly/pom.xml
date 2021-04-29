@@ -71,12 +71,6 @@
 
         <dependency>
             <groupId>com.oly</groupId>
-            <artifactId>oly-api</artifactId>
-            <version>${ruoyi.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oly</groupId>
             <artifactId>oly-framework</artifactId>
             <version>${ruoyi.version}</version>
         </dependency>
@@ -86,8 +80,6 @@
 <modules>
 
 <module>oly-web</module>
-
-<module>oly-api</module>
 
 <module>oly-common</module>
 
