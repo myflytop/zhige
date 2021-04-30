@@ -20,6 +20,11 @@ public class MenuTreeUtils {
         if (parentId == null || list.size() == 0) {
             return re;
         }
+        else if(parentId==0L)
+        { 
+         re.setColumnId(0L);
+         re.setColumnName("根目录");
+        }
         List<BlogMenu> returnList = new ArrayList<BlogMenu>();
         for (Iterator<BlogMenu> iterator = list.iterator(); iterator.hasNext();) {
             BlogMenu t = (BlogMenu) iterator.next();

@@ -14,16 +14,16 @@ public class BlogLinkServiceImpl implements IBlogSearchService {
     @Autowired
     private BlogSearchMapper blogSearchMapper;
 
-    List<BlogLink> listBlogLinks(BlogLink blogLink) {
+    public List<BlogLink> listBlogLinks(BlogLink blogLink) {
         return blogSearchMapper.listBlogLinks(blogLink);
     }
 
-    BlogLink getBlogLinkById(Long linkId) {
+    public BlogLink getBlogLinkById(Long linkId) {
         return blogSearchMapper.getBlogLinkById(linkId);
     }
 
-    List<BlogLink> listBlogLinksByKey(String groupKey) {
-        BlogLink blogLink=new BlogLink();
+    public List<BlogLink> listBlogLinksByKey(String groupKey) {
+        BlogLink blogLink = new BlogLink();
         blogLink.setGroupKey(groupKey);
         return blogSearchMapper.listBlogLinks(blogLink);
     }

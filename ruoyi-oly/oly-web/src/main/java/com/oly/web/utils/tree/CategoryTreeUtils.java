@@ -20,6 +20,11 @@ public class CategoryTreeUtils {
         if (parentId == null || list.size() == 0) {
             return re;
         }
+        else if(parentId==0L)
+        { 
+         re.setCatId(0L);
+         re.setCatName("根目录");
+        }
         List<BlogCat> returnList = new ArrayList<BlogCat>();
         for (Iterator<BlogCat> iterator = list.iterator(); iterator.hasNext();) {
             BlogCat t = (BlogCat) iterator.next();

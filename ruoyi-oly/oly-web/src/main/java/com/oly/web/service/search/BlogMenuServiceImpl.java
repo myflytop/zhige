@@ -1,6 +1,5 @@
 package com.oly.web.service.search;
 
-
 import java.util.List;
 
 import com.oly.web.mapper.BlogSearchMapper;
@@ -16,44 +15,44 @@ public class BlogMenuServiceImpl implements IBlogSearchService {
     @Autowired
     private BlogSearchMapper blogSearchMapper;
 
-    BlogMenu getBlogMenuByMenuId(long columnId){
-       
-       return blogSearchMapper.getBlogMenuByMenuId(columnId);
+    public BlogMenu getBlogMenuByMenuId(long columnId) {
+
+        return blogSearchMapper.getBlogMenuByMenuId(columnId);
     }
 
-    List<BlogMenu> listBlogMenus(BlogMenu blogMenu){
-     
+    public List<BlogMenu> listBlogMenus(BlogMenu blogMenu) {
+
         return blogSearchMapper.listBlogMenus(blogMenu);
     }
 
     /**
-     *获取节点及所有子节点
+     * 获取节点及所有子节点
+     * 
      * @param menuId
      * @return
      */
-    List<BlogMenu> listBlogMenusById(long menuId){
-        BlogMenu blogMenu=new BlogMenu();
+    public List<BlogMenu> listBlogMenusById(long menuId) {
+        BlogMenu blogMenu = new BlogMenu();
         blogMenu.setColumnId(menuId);
         return this.listBlogMenus(blogMenu);
     }
-    
+
     /**
      * 转化为树
+     * 
      * @param menuId
      * @return
      */
-    BlogMenu listBlogMenusTreeById(long menuId){    
+    public BlogMenu listBlogMenusTreeById(long menuId) {
         return MenuTreeUtils.getColumnTree(this.listBlogMenusById(menuId), menuId);
     }
 
-    BlogMenu listBlogMenusTree(BlogMenu blogMenu){
-      
-        if(blogMenu!=null && blogMenu.getColumnId()!=null)
-        {
+    public BlogMenu listBlogMenusTree(BlogMenu blogMenu) {
+
+        if (blogMenu != null && blogMenu.getColumnId() != null) {
             blogMenu.setColumnId(0L);
         }
         return MenuTreeUtils.getColumnTree(this.listBlogMenus(blogMenu), blogMenu.getColumnId());
     }
-
 
 }

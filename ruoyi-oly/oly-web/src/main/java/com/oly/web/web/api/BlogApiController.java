@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.oly.common.model.enums.OlyConfigCommonEnum;
 import com.oly.web.model.po.BlogLink;
 import com.oly.web.service.cache.BlogCacheService;
+import com.oly.web.service.search.BlogCategoryServiceImpl;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 
@@ -32,6 +33,9 @@ public class BlogApiController {
     
     @Autowired
     private BlogCacheService blogService;
+
+    @Autowired
+    private BlogCategoryServiceImpl blogCategoryService;
 
     @Autowired
     ApplicationContext applicationContext;
@@ -64,6 +68,8 @@ public class BlogApiController {
     {
         return AjaxResult.success(blogService.getBlogMenuById(menuId));
     }
+
+
 
     /**
      * 获取节点及子节点
@@ -127,24 +133,22 @@ public class BlogApiController {
      * @return
      */
     @GetMapping("/cat/{catId}")
-    public AjaxResult getCat(@PathVariable("catId") long catId)
+    public AjaxResult getCatById(@PathVariable("catId") long catId)
     {
 
-       // return AjaxResult.success(blogService.getBlogCatByCatId(catId));
-
-       return null;
+     return AjaxResult.success(blogService.getBlogCatByCatId(catId));
     }
 
-     /**
-     * 获取节点及子节点
+    /**
+     * 获取分类
      * @param catId
      * @return
      */
-    @GetMapping("/list/catParent/{catId}")
-    public AjaxResult listCatParent(@PathVariable(value="catId") long catId)
-    {
-        return AjaxResult.success(blogService.listBlogMenus(catId));
+   @GetMapping("/cat/tree/{catId}")
+   public AjaxResult listBlogCatsTreeById(@PathVariable("catId")Long catId){
+        return AjaxResult.success(blogCategoryService.listBlogCatsTreeById(catId));
     }
+
 
     /**
      * 通过分类ID获取文章

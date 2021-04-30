@@ -1,6 +1,5 @@
 package com.oly.web.service.search;
 
-
 import java.util.List;
 
 import com.oly.web.mapper.BlogSearchMapper;
@@ -14,26 +13,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class BlogArticleServiceImpl implements IBlogSearchService {
     @Autowired
-    private BlogSearchMapper blogSearchMapper; 
+    private BlogSearchMapper blogSearchMapper;
 
-    public BlogArticle getBlogArticleById(Long articleId){
+    public BlogArticle getBlogArticleById(Long articleId) {
 
         return blogSearchMapper.getBlogArticleByArticleId(articleId);
     }
 
-    public BlogArticle getBlogArticleByUrl(String articleUrl){
+    public BlogArticle getBlogArticleByUrl(String articleUrl) {
 
         return blogSearchMapper.getBlogArticleByArticleUrl(articleUrl);
     }
-    
+
     /**
      * 获取文章列表
      * 
      * @param blogArticleSearchParam
      * @return
      */
-    List<BlogArticle> listBlogArticles(BlogArticleSearchParam blogArticleSearchParam){
-    return null;
+    public List<BlogArticle> listBlogArticles(BlogArticleSearchParam blogArticleSearchParam) {
+        
+        return blogSearchMapper.listBlogArticlesBySearch(blogArticleSearchParam);
     }
 
     /**
@@ -42,8 +42,10 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
      * @param blogArticleSearchParam
      * @return
      */
-    List<BlogArticle> listBlogArticlesByCatId(BlogArticleSearchParam blogArticleSearchParam){
-        return null;
+    public List<BlogArticle> listBlogArticlesByCatId(Long catId) {
+        BlogArticleSearchParam blogArticleSearchParam=new BlogArticleSearchParam();
+        blogArticleSearchParam.setCatId(catId);
+        return this.listBlogArticles(blogArticleSearchParam);
     }
 
     /**
@@ -52,9 +54,10 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
      * @param blogArticleSearchParam
      * @return
      */
-    List<BlogArticle> listBlogArticlesByTagId(BlogArticleSearchParam blogArticleSearchParam){
-        return null;
+    public List<BlogArticle> listBlogArticlesByTagId(Long tagId) {
+        BlogArticleSearchParam blogArticleSearchParam=new BlogArticleSearchParam();
+        blogArticleSearchParam.setTagId(tagId);
+        return this.listBlogArticles(blogArticleSearchParam);
     }
-
 
 }

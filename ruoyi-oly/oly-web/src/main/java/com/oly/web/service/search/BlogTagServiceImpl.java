@@ -1,6 +1,5 @@
 package com.oly.web.service.search;
 
-
 import java.util.List;
 
 import com.oly.web.mapper.BlogSearchMapper;
@@ -15,19 +14,18 @@ public class BlogTagServiceImpl implements IBlogSearchService {
     @Autowired
     private BlogSearchMapper blogSearchMapper;
 
-    List<BlogTag> listBlogTags(BlogTag blogTag){
-     return blogSearchMapper.listBlogTags(blogTag);
+    public List<BlogTag> listBlogTags(BlogTag blogTag) {
+        return blogSearchMapper.listBlogTags(blogTag);
     }
 
-    BlogTag getBlogTagByTagId(long tagId){
-     return blogSearchMapper.getBlogTagByTagId(tagId);
+    public BlogTag getBlogTagByTagId(long tagId) {
+        return blogSearchMapper.getBlogTagByTagId(tagId);
     }
 
-    List<BlogTag> listBlogTagsByType(Byte type){
-        BlogTag blogTag=new BlogTag();
+    public List<BlogTag> listBlogTagsByType(Byte type) {
+        BlogTag blogTag = new BlogTag();
         blogTag.setTagType(type);
         return this.listBlogTags(blogTag);
     }
-
 
 }

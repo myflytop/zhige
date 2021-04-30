@@ -260,6 +260,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select <include refid="cat_sql" />
 		from cms_cat
 		<where>
+		   <if test="catId!=null">
+			and (cat_id=#{catId} or
+				FIND_IN_SET(#{catId},ancestors))
+			</if>
 			<if test="catName!=null">
 				AND cat_name like concat('%', #{catName,jdbcType=VARCHAR}, '%')
 			</if>

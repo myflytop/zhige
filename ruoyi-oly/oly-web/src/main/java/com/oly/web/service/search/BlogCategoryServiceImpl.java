@@ -1,6 +1,5 @@
 package com.oly.web.service.search;
 
-
 import java.util.List;
 
 import com.oly.web.mapper.BlogSearchMapper;
@@ -16,7 +15,7 @@ public class BlogCategoryServiceImpl implements IBlogSearchService {
     @Autowired
     private BlogSearchMapper blogSearchMapper;
 
-    BlogCat getBlogCatByCatId(long catId){
+    public BlogCat getBlogCatByCatId(long catId) {
 
         return blogSearchMapper.getBlogCatByCatId(catId);
     }
@@ -27,39 +26,32 @@ public class BlogCategoryServiceImpl implements IBlogSearchService {
      * @param blogCat
      * @return
      */
-    List<BlogCat> listBlogCats(BlogCat blogCat){
+    public List<BlogCat> listBlogCats(BlogCat blogCat) {
 
         return blogSearchMapper.listBlogCats(blogCat);
     }
-     
-    List<BlogCat> listBlogCatsByType(byte type){
-        BlogCat blogCat= new BlogCat();
+
+    public List<BlogCat> listBlogCatsByType(byte type) {
+        BlogCat blogCat = new BlogCat();
         blogCat.setCatType(type);
         return blogSearchMapper.listBlogCats(blogCat);
     }
 
-    List<BlogCat> listBlogCatsById(Long catId){
-        BlogCat blogCat= new BlogCat();
+    public List<BlogCat> listBlogCatsById(Long catId) {
+        BlogCat blogCat = new BlogCat();
         blogCat.setCatId(catId);
         return blogSearchMapper.listBlogCats(blogCat);
     }
 
-    BlogCat listBlogCatsTreeById(Long catId){
-      
+    public BlogCat listBlogCatsTreeById(Long catId) {
+
         return CategoryTreeUtils.getCatTree(this.listBlogCatsById(catId), catId);
     }
 
-    BlogCat listBlogCatsTree(BlogCat blogCat){
-       if(blogCat!=null&& blogCat.getCatId()!=null)
-       {
-           blogCat.setCatId(0L);
-       }
+    public BlogCat listBlogCatsTree(BlogCat blogCat) {
+        if (blogCat != null && blogCat.getCatId() != null) {
+            blogCat.setCatId(0L);
+        }
         return CategoryTreeUtils.getCatTree(this.listBlogCats(blogCat), blogCat.getCatId());
     }
-
-
-
-    
-
-
 }

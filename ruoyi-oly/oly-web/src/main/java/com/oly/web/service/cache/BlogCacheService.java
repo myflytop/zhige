@@ -103,6 +103,11 @@ public class BlogCacheService {
         return blogService.getBlogCatByCatUrl(catUrl);
     }
 
+    @Cacheable(key="'"+CacheConstant.CATS_CACHE_KEY_PREFIX+"listArticleByCatId_'+#p0")
+    public BlogCat getBlogCatByCatId(Long catId) {
+        return blogService.getBlogCatByCatId(catId);
+    }
+
     @Cacheable(key="'"+CacheConstant.CATS_CACHE_KEY_PREFIX+"listCatVisible_'+#p0")
     public List<BlogCat> listBlogCats(Byte b) {
         BlogCat blogCat = new BlogCat();
