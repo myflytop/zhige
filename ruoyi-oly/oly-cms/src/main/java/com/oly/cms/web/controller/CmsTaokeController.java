@@ -6,20 +6,16 @@ import com.oly.cms.system.model.CmsTaoke;
 import com.oly.cms.system.model.param.ImportPam;
 import com.oly.cms.system.service.ICmsTaokeService;
 import com.oly.cms.web.CmsCommonController;
-import com.oly.common.model.enums.OlyConfigCommonEnum;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.ShiroUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.system.domain.SysConfig;
-import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,11 +36,6 @@ public class CmsTaokeController extends CmsCommonController {
     @Autowired
     private ICmsTaokeService cmsTaokeService;
 
-    @Autowired
-    private SysConfigServiceImpl configService;
-
-
-    private final String configPrefix= OlyConfigCommonEnum.OLY_TAO_PREFIX.getValue();
     /**
      * 淘客列表
      * @return
@@ -55,18 +46,7 @@ public class CmsTaokeController extends CmsCommonController {
         return prefix + "/taoke";
     }
 
-    /**
-     * 淘客配置
-     * @return
-     */
-    @RequiresPermissions("cms:taoke:config")
-    @GetMapping("/config")
-    public String manage(ModelMap mp) {
-        SysConfig cmsConfig = new SysConfig();
-        cmsConfig.setConfigKey(configPrefix);
-        mp.put("taokeConfig",configService.selectConfigValueMap(cmsConfig));
-        return prefix + "/config";
-    }
+    
 
     /**
      * 查询淘客列表

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/taoke/api")
+@RequestMapping("/api/taoke")
 public class TaoKeApiController {
     //blog配置前缀
     private final String CONFIG_PREFIX="taoke.config";

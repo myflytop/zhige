@@ -124,15 +124,9 @@ public class CmsCatController extends CmsCommonController {
    @RequiresPermissions("cms:cat:edit")
    @PostMapping("/edit")
    @ResponseBody
-   public AjaxResult editSave(@Validated CmsCat cmsCat)
-
-   {
-
+   public AjaxResult editSave(@Validated CmsCat cmsCat) {
       if (cmsCat.getCatId() == cmsCat.getParentId()) {
          return error("不能选择自己为父节点");
-      }
-      if (cmsCat.getParent() == 0 && cmsCatService.countCatByParentId(cmsCat.getCatId()) > 0) {
-         return error("存在子节点不允许修改");
       }
       cmsCat.setCreateBy(ShiroUtils.getUserId());
       int upCode = cmsCatService.updateCmsCat(cmsCat);

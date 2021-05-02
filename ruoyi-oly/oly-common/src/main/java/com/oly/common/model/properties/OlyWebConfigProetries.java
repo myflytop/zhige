@@ -77,6 +77,13 @@ public enum OlyWebConfigProetries implements PropertyEnum {
     //淘客排行页
     PAGE_TAO_RANK("oly.tao.pageRank", Long.class, "0"),
 
+
+      APP_IOS_EXAMAIN("oly.app.iosExamine", Boolean.class, "true"),
+
+      APP_NAME("oly.app.appName", String.class, ""),
+
+      APP_LOGO("oly.app.logo", String.class, ""),
+
     // 支付宝
     PAY_ZHI("oly.web.payZhi", Boolean.class, "true"),
     // 微信支付

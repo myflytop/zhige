@@ -15,6 +15,7 @@ import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
  */
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class BlogApiController {
     private final String CONFIG_PREIGX = OlyConfigCommonEnum.OLY_WBE_PREIFX.getValue();
     @Autowired
@@ -78,8 +80,7 @@ public class BlogApiController {
      */
     @GetMapping("/list/menu/{menuId}")
     public AjaxResult listMenu(@PathVariable("menuId")long menuId)
-    {  
-        
+    {       
         return AjaxResult.success(blogService.listBlogMenus(menuId));
     }
 
@@ -90,8 +91,7 @@ public class BlogApiController {
      */
     @GetMapping("/list/menuTree/{menuId}")
     public AjaxResult listMenuTree(@PathVariable("menuId")long menuId)
-    {  
-        
+    {      
         return AjaxResult.success(blogService.listBlogMenuTreeByColumnId(menuId));
     }
 

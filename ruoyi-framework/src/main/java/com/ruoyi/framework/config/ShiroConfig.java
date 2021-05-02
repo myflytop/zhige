@@ -290,6 +290,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/blog/**", "anon");
         //主页匿名访问
         filterChainDefinitionMap.put("/", "anon");
+        
+        filterChainDefinitionMap.put("/api/**", "anon");
         //博客静态资源匿名访问
         filterChainDefinitionMap.put("/themes/**/resources/**", "anon");
 
