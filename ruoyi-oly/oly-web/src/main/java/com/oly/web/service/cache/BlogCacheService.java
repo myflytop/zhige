@@ -70,6 +70,13 @@ public class BlogCacheService {
         PageHelper.startPage(1, pageSize, ordeString);
         return blogService.listBlogTags(null);
     }
+    @Cacheable(key="'"+CacheConstant.TAGS_CACHE_KEY_PREFIX+"listTagType_'+#p0+'_'+#p1+'_'+#p2")
+    public List<BlogTag> listBlogTagByType(Byte type, int size, String string) {
+        BlogTag tag=new BlogTag();
+        tag.setTagType(type);
+        PageHelper.startPage(1, size, string);
+        return blogService.listBlogTags(tag);
+	}
 
     @Cacheable(key="'"+CacheConstant.TAGS_CACHE_KEY_PREFIX+"getTagId_'+#p0")
     public BlogTag getBlogTagByTagId(long tagId) {
@@ -233,5 +240,7 @@ public class BlogCacheService {
         BlogArticleSearchParam blogArticleSearchParam = new BlogArticleSearchParam();
         return blogArticleSearchParam;
     }
+
+	
 
 }

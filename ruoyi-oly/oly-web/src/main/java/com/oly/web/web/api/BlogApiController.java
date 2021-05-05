@@ -118,6 +118,19 @@ public class BlogApiController {
 
         return AjaxResult.success(blogService.listBlogTags(size,"visible,create_time desc")); 
     }
+
+      /**
+     * 获取标签列表
+     * @param size
+     * @return
+     */
+    @GetMapping("/list/tag/type/{type}/{size}")
+    public AjaxResult listTagByType(@PathVariable("size")int size,@PathVariable("type")Byte type)
+    {
+  
+        return AjaxResult.success(blogService.listBlogTagByType(type,size,"order_num,visible,create_time desc")); 
+    }
+
     /**
      * 通过标签ID获取文章
      * @param tagId

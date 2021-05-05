@@ -50,6 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="remark" property="remark" jdbcType="VARCHAR" />
 		<result column="visible" property="visible" jdbcType="BIT" />
 		<result column="tag_url" property="tagUrl" jdbcType="VARCHAR" />
+		<result column="tag_type" property="tagType"  />
 		<result column="tag_ico" property="tagIco" jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime"
 				jdbcType="TIMESTAMP" />
@@ -78,6 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				jdbcType="TIMESTAMP" />
 		<result column="keywords" property="keywords" jdbcType="VARCHAR"/>
 		<result column="description" property="description" jdbcType="VARCHAR"/>
+		<result column="cat_type" property="catType"  />
         <collection property="catCount" jdbcType="BIGINT" select="getCatCountByCatId"  ofType="long" column="cat_id"/>
 	</resultMap>
 
