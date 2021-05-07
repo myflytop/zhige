@@ -140,8 +140,8 @@ public class BaseTaoke extends BaseEntity
     @Excel(name = "关联文章Id")
     private Long articleId;
     
-    /** 关联文章Id */
-    @Excel(name = "关联文章Id")
+    /** 商品来源 */
+    @Excel(name = "商品来源")
     private Byte taoType;
 
     public Byte getTaoType() {

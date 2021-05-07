@@ -1,10 +1,7 @@
 package com.oly.web.model.pam;
 
 import java.io.Serializable;
-
 import java.util.Map;
-
-import com.oly.common.model.enums.ArticleVisibleEnums;
 
 /**
  * 文章请求参数

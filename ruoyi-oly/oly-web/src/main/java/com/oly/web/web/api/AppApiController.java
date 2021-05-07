@@ -2,8 +2,6 @@ package com.oly.web.web.api;
 
 import java.util.Map;
 
-import javax.ws.rs.GET;
-
 import com.oly.common.model.enums.OlyConfigCommonEnum;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.domain.SysConfig;
@@ -25,6 +23,8 @@ public class AppApiController {
     private final String CONFIG_PREIGX = OlyConfigCommonEnum.OLY_APP_PREFIX.getValue();
     @Autowired
     private SysConfigServiceImpl sysConfigService;
+    
+  
 
     @GetMapping("/getAPPInfo")
     public AjaxResult getAPPInfo(){

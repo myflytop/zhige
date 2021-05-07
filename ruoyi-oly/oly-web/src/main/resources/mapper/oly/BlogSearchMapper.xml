@@ -356,11 +356,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
 		article_top,article_img,article_summary,allow_comment,article_build from cms_article 
 		<where>
-        <if test="tag_id != null">
+        <if test="tagId != null">
 	    and	article_id in (select article_id from cms_article_tag where tag_id=#{tagId})
 		</if>
 
-		<if test="cat_id != null">
+		<if test="catId != null">
 		 and article_id in (select article_id from cms_article_cat where cat_id=#{catId})
 		</if>
 

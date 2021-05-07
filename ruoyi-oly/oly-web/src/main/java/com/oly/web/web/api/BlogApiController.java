@@ -136,9 +136,9 @@ public class BlogApiController {
      * @param tagId
      * @return
      */
-    @GetMapping("/list/article/tag/{tagId}")
-    public AjaxResult listArticleByTagId(@PathVariable("tagId") long tagId){
-        return AjaxResult.success(blogService.listBlogArticlesByTagId(tagId, 100));
+    @GetMapping("/list/article/tag/{tagId}/{size}")
+    public AjaxResult listArticleByTagId(@PathVariable("tagId") long tagId,@PathVariable("size") Integer size){
+        return AjaxResult.success(blogService.listBlogArticlesByTagId(tagId, size));
     }
 /**
      * 获取分类
@@ -160,6 +160,16 @@ public class BlogApiController {
    @GetMapping("/cat/tree/{catId}")
    public AjaxResult listBlogCatsTreeById(@PathVariable("catId")Long catId){
         return AjaxResult.success(blogCategoryService.listBlogCatsTreeById(catId));
+    }
+
+     /**
+     * 获取分类
+     * @param catId
+     * @return
+     */
+   @GetMapping("/list/cat/{visible}/{catId}")
+   public AjaxResult listBlogByVisible(@PathVariable("catId")Long catId,@PathVariable("visible")Byte visible){
+        return AjaxResult.success(blogService.listBlogCats(visible,catId));
     }
 
 

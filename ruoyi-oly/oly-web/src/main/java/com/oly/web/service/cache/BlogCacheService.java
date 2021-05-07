@@ -121,6 +121,14 @@ public class BlogCacheService {
         blogCat.setVisible(b);
         return blogService.listBlogCats(blogCat);
     }
+
+    @Cacheable(key="'"+CacheConstant.CATS_CACHE_KEY_PREFIX+"listCatVisible_'+#p0+'-'+#p1")
+    public List<BlogCat> listBlogCats(Byte b,long catId) {
+        BlogCat blogCat = new BlogCat();
+        blogCat.setVisible(b);
+        blogCat.setCatId(catId);
+        return blogService.listBlogCats(blogCat);
+    }
     // 以上分类
 
     @Cacheable(key="'"+CacheConstant.POSTS_CACHE_KEY_PREFIX+"listArticle_'+#p0+'_'+#p1")
