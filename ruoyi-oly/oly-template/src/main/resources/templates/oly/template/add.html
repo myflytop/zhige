@@ -4,11 +4,44 @@
 <head>
     <th:block th:include="include :: header('新增模板')" />
     <th:block th:include="include :: oly_froala_css" />
-    <th:block th:include="include :: oly_jsonmate_css" />
+    <th:block th:include="include :: oly_jsoneditor_css" />
+    <th:block th:include="include :: codemirror-css" />
     <th:block th:include="include :: bootstrap-fileinput-css" />
+    <style>
+        .myEdit>div,
+        .tr {
+            display: none;
+        }
+
+        .CodeMirror {
+            border-radius: 10px !important;
+        }
+
+        .CodeMirror-line {
+            padding-left: 25px !important;
+        }
+    </style>
 </head>
 
 <body class="white-bg" th:object="${olyTemplate}">
+    <div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">模板预览</h4>
+                </div>
+                <div class="modal-body" id="htmlView">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-template-add">
             <input name="templateId" th:field="*{templateId}" type="hidden">
@@ -44,7 +77,7 @@
                 </div>
             </div>
 
-            <div class="form-group tOther tr">
+            <div class="form-group tUp tr">
                 <label class="col-sm-3 control-label">上传模板：</label>
                 <div class="col-sm-8">
                     <input name="file" class="form-control" type="file">
@@ -56,18 +89,23 @@
 
             <div class="form-group tHtml tr">
                 <label class="col-sm-3 control-label">模板内容：</label>
-                <div class="col-sm-8">
-                    <div id="htmlContent">
+                <div class="col-sm-8 myEdit">
+                    <textarea id="foHtmlContent">
 
 
-                    </div>
+                    </textarea>
+
+                    <textarea id="coHtmlContent">
+
+
+                    </textarea>
+
                 </div>
             </div>
 
-            <div class="form-group tHtml tr">
+            <div class="form-group tData tr">
                 <label class="col-sm-3 control-label">模板数据：</label>
                 <div class="col-sm-8">
-                    <input name="templateParam" type="hidden">
                     <div id="templateParam" class="json-editor"></div>
                 </div>
             </div>
@@ -75,7 +113,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">模板状态：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_show_hide')}">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('oly_template_visible')}">
                         <input type="radio" th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}"
                             th:checked="${dict.default}">
                         <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
@@ -111,16 +149,21 @@
                 <a class="btn btn-success" onclick="submitHandler()">
                     <i class="fa fa-plus"></i> 添加
                 </a>
+                <a class="btn btn-success" onclick="okView()" data-toggle="modal" id="viewBtn" data-target="#myModal6">
+                    <i class="fa fa-eye"></i> 预览
+                </a>
+
             </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: oly_froala_js" />
-    <th:block th:include="include :: oly_jsonmate_js" />
+    <th:block th:include="include :: oly_jsoneditor_js" />
+    <th:block th:include="include :: codemirror-js" />
     <th:block th:include="include :: bootstrap-fileinput-js" />
     <script th:inline="javascript">
         var prefix = ctx + "oly/template";
-        var supportSuffix = [[${@config.getKey('oly.template.supportSuffix')}]];
+        var supportSuffix = "pdf,excel,jpg" //[[${@config.getKey('oly.template.supportSuffix')}]];
         $("#form-template-add").validate({
             onkeyup: false,
             rules: {
@@ -142,56 +185,102 @@
             focusCleanup: true
         });
 
+        function submitHandler() {
+            if ($.validate.form()) {
+                var data = $('#form-template-add').serializeArray();
+                data.push({ "name": "templateHtml", "value": getHtml() });
+                data.push({ "name": "templateParam", "value": JSON.stringify(jaonEditor.get(), null, 2) });
+                $.operate.save(prefix + "/add", data);
+            }
+        }
+        $("input[name='templateType']").on('ifChecked', function (event) {
+            changeBox();
+        });
+
+
 
         /* 初始化富文本编辑器 */
-        var editor = new FroalaEditor("#htmlContent", {
+        var foEditor = new FroalaEditor("#foHtmlContent", {
             // Set the language code.
             language: 'zh_cn',
-            imageUploadURL: '/articleImg' //上传到本地服务器,返回{'link',url}
+            imageUploadURL: ctx + "cms/article/articleImg" //上传到本地服务器,返回{'link',url}
         }, function () {
             if ($("input[name='templateType']:checked").val() == 1 && $("input[name='templateUrl']").val().length > 10) {
-                $.get(prefix + "/getContent", { 'tUrl': $("input[name='templateUrl']").val() }, function (res) {
+                $.get(prefix + "/getContent", { 'templateUrl': $("input[name='templateUrl']").val() }, function (res) {
                     editor.html.set(res);
                 });
             }
         });
 
-
-        function submitHandler() {
-            if ($.validate.form()) {
-                var data = $('#form-template-add').serializeArray();
-                data.push({ "name": "templateHtml", "value": editor.html.get(true) });
-                $.operate.save(prefix + "/add", data);
-            }
-        }
-
-
-        $("input[name='templateType']").on('ifChecked', function (event) {
-            changeBox();
+        //高亮折叠编辑器插件
+        var coEditor = CodeMirror.fromTextArea(document.getElementById("coHtmlContent"), {
+            mode: {
+                name: "htmlmixed",
+                scriptTypes: [{
+                    matches: /\/x-handlebars-template|\/x-mustache/i,
+                    mode: null
+                },
+                {
+                    matches: /(text|application)\/(x-)?vb(a|script)/i,
+                    mode: "vbscript"
+                }]
+            },
+            selectionPointer: true,
+            theme: "erlang-dark",
+            lineNumbers: true,	//显示行号
+            lineWrapping: true, //代码折叠
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+            matchBrackets: true,  //括号匹配
+            lineWiseCopyCut: true,
+            extraKeys: { "Ctrl-Space": "autocomplete" }
         });
 
         /*olyTemplateType
-        0：为目录  目录 目录名 备注 用途
-        1：自定义html 多数据
-        2：以上需要上传 不支持修改*/
+       0：为目录  目录 目录名 备注 用途
+       1：自定义html 多数据
+       2：以上需要上传 不支持修改*/
         function changeBox() {
             let tType = $("input[name='templateType']:checked").val();
             $(".tr").show();
-
+            $(".myEdit>div").hide();
+            $("#viewBtn").hide();
             if (tType == 0) {
                 $(".tr").hide();
-
             }
             else if (tType == 1) {
                 $(".tHtml").show();
-                $(".tOther").hide();
+                $(".tUp").hide();
+                $(".tData").hide();
+                $(".myEdit>.fr-box").show();
+            }
+            else if (tType == 2) {
+                $(".tHtml").show();
+                $(".tData").show();
+                $(".tUp").hide();
+                $(".myEdit>.CodeMirror").show();
+                $("#viewBtn").show();
+
             }
             else {
                 $(".tHtml").hide();
-                $(".tOther").show();
+                $(".tData").hide();
+                $(".tUp").show();
             }
         }
-        changeBox();
+        setTimeout(() => {
+            changeBox();
+        }, 100);
+
+
+        function getHtml() {
+            if ($("input[name='templateType']:checked").val() == 1) {
+                return foEditor.html.get(true);
+            } else {
+                return coEditor.getValue();
+            }
+        }
+
         /*模板模型-新增-选择父树*/
         function selectTemplateTree() {
             var options = {
@@ -210,27 +299,73 @@
             layer.close(index);
         }
 
-        var json = {};
-        function updateJSON(data) {
-            json = data;
+        const json =
+        {
+            ni: "你好"
+        };
 
+        const options = {
+            mode: 'tree',
+            modes: ['code', 'form', 'text', 'tree', 'view', 'preview'], // allowed modes
+            onError: function (err) {
+                alert(err.toString())
+            },
+            onModeChange: function (newMode, oldMode) {
+                console.log('Mode switched from', oldMode, 'to', newMode)
+            },
+            templates: [
+                {
+                    text: 'Person',
+                    title: 'Insert a Person Node',
+                    className: 'jsoneditor-type-object',
+                    field: 'PersonTemplate',
+                    value: {
+                        'firstName': 'John',
+                        'lastName': 'Do',
+                        'age': 28
+                    }
+                },
+                {
+                    text: 'Address',
+                    title: 'Insert a Address Node',
+                    field: 'AddressTemplate',
+                    value: {
+                        'street': '',
+                        'city': '',
+                        'state': '',
+                        'ZIP code': ''
+                    }
+                }
+            ]
         }
-        $('#templateParam').jsonEditor(json, {
-            change: updateJSON
-        });
+
+        // create the editor
+        const container = document.getElementById('templateParam');
+        const jaonEditor = new JSONEditor(container, options, json);
+        jaonEditor.expandAll();
+
+        function okView() {
+            let data = jaonEditor.get();
+            data.content = getHtml();
+            console.log(data);
+            $.get(prefix + "/example", data, function (res) {
+                $("#htmlView").empty();
+                $("#htmlView").append(res);
+
+            })
+        }
         $(document).ready(function () {
             $("input[name='file']").fileinput({
                 rtl: true,
                 showPreview: false, //是否显示预览
                 hideThumbnailContent: true,//是否在缩略图中隐藏预览内容（图像，pdf内容，文本内容等）。
                 uploadUrl: prefix + "/templateUpload",
-                allowedFileExtensions: supportSuffix.splice(",")
+                allowedFileExtensions: supportSuffix.split(",")
             });
             $("input[name='file']").on("fileuploaded", function (event, data, previewId, index) {
                 $("input[name='templateUrl']").val(data.response.data.fk);
             })
         });
-
 
     </script>
 

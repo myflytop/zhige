@@ -78,6 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null">#{remark},</if>
             <if test="mailUsed != null">#{mailUsed},</if>
             <if test="bccTo != null">#{bccTo},</if>
+            <if test="visible != null">#{visible},</if>
             <if test="attachKeys != null and attachKeys != ''">#{attachKeys},</if>
          </trim>
     </insert>

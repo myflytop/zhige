@@ -55,6 +55,12 @@ public interface CmsTagMapper {
 	 * @return
 	 */
 	List<CmsTag> listCmsTagByTag(CmsTag cmsTag);
+    
+	/**
+	 * 获取未隐藏标签
+	 * @return
+	 */
+	List<CmsTag> listCmsTagNotHide(CmsTag cmsTag);
 
 
 	/**

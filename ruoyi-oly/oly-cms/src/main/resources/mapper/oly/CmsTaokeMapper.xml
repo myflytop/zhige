@@ -168,7 +168,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shopFettle != null">shop_fettle = #{shopFettle},</if>
             <if test="shopContent != null">shop_content = #{shopContent},</if>
             <if test="articleId != null">article_id = #{articleId},</if>
-             <if test="taoType != null">tao_type = {taoType},</if>
+             <if test="taoType != null">tao_type = #{taoType},</if>
         </trim>
         where shop_id = #{shopId}
     </update>
@@ -186,5 +186,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{shopId}
         </foreach>
     </delete>
-
+    
+    <update id="updateCmsTaokePutOn">
+        update cms_taoke set shop_fettle=#{fettle} where shop_id in
+        <foreach item="shopId" collection="ids" open="(" separator="," close=")">
+            #{shopId}
+        </foreach>
+    </update>
 </mapper>

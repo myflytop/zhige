@@ -1,49 +1,37 @@
 package com.oly.common.model.entity.base;
 
-import com.ruoyi.common.annotation.Excel;
-
 public class BaseArticle extends SeoBaseModel {
     private static final long serialVersionUID = -4796285731272251639L;
-    // 文章Id
+ 
     private Long articleId;
-    // 文章链接
-    @Excel(name = "文章名")
+ 
     private String articleTitle;
 
-    // 转载url
-    @Excel(name = "转载路径")
+  
     private String reprintUrl;
 
-    // 固定链接
-    @Excel(name = "固定链接")
+  
     private String articleUrl;
 
-    // 文章类型
-    @Excel(name = "文章类型")
+
     private Byte articleType;
 
-    // 文章编辑器
-    @Excel(name = "编辑器")
+  
     private Byte articleBuild;
 
-    // 顶置级别
-    @Excel(name = "顶置级别")
+  
     private Byte articleTop;
 
-    // 文章预览图
-    @Excel(name = "预览图")
+    
     private String articleImg;
 
-    // 文章简介
-    @Excel(name = "文章简介")
+   
     private String articleSummary;
 
-    // 是否允许评论
-    @Excel(name = "是否开启评论")
+
     private Boolean allowComment;
 
-    // 文章内容
-    @Excel(name = "文章内容")
+ 
     private String articleContent;
 
     public Long getArticleId() {

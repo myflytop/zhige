@@ -33,12 +33,16 @@ public class BlogMenuCacheService {
     }
 
  
-
-    
     @Cacheable(key="'"+CacheConstant.MENU_CACHE_KEY_PREFIX+"treeMenuId_'+#p0")
     public BlogMenu listBlogMenusTreeById(long menuId) {
         
         return menuServiceImpl.listBlogMenusTreeById(menuId);
+    }
+
+    
+    public List<BlogMenu> listBlogMenus(BlogMenu blogMenu) {
+
+        return menuServiceImpl.listBlogMenus(blogMenu);
     }
     
 }

@@ -43,6 +43,15 @@ public class TagTag {
         return blogService.listBlogTags(pageSize,"visible,create_time desc"); 
     }
 
+    /**获取推荐标签
+     * @return
+     */
+    public List<BlogTag> listTagByType(Byte tagType,Integer size) {
+        return blogService.listBlogTagByType(tagType,size, "visible,create_time desc");
+    }
+
+    
+
     
   /***
    * 

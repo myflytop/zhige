@@ -47,6 +47,12 @@ public interface CmsCatMapper {
 	 */
 	List<CmsCat> listCmsCatByCat(CmsCat cmsCat);
 
+    /**
+	 * 获取没有隐藏目录
+	 * @return
+	 */
+	List<CmsCat> listCmsCatNotHide(CmsCat cmsCat);
+
 	/**
 	 * 获取一条类目 所有字段
 	 * 

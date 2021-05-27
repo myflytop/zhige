@@ -1,26 +1,10 @@
 package com.oly.web.web.contoller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import com.github.pagehelper.PageHelper;
-import com.oly.comment.model.CmsComment;
-import com.oly.comment.servie.impl.CmsCommentServiceImpl;
-import com.oly.common.model.properties.OlyWebConfigProetries;
-import com.oly.common.model.support.PageData;
-import com.oly.framework.web.service.OlyCommonService;
 import com.oly.web.annotation.BlogLog;
-import com.oly.web.model.pam.BlogArticleSearchParam;
-import com.oly.web.model.po.BlogArticle;
 import com.oly.web.model.po.BlogCat;
-import com.oly.web.model.po.BlogLink;
 import com.oly.web.model.po.BlogTag;
-import com.oly.web.service.impl.BlogServiceImpl;
 import com.oly.web.web.CommonController;
-import com.ruoyi.system.service.impl.SysConfigServiceImpl;
+import com.oly.web.web.service.WebPageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,15 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/blog")
 public class BlogController extends CommonController {
+    
+    @Autowired
+    private WebPageService webPageService;
 
-    @Autowired
-    private BlogServiceImpl blogService;
-    @Autowired
-    private CmsCommentServiceImpl cmsCommentService;
-    @Autowired
-    private SysConfigServiceImpl configService;
-    @Autowired
-    private OlyCommonService commonService;
+    private static final String themeName=null;
 
     /**
      * 内容主页
@@ -53,8 +33,7 @@ public class BlogController extends CommonController {
     @GetMapping(value = { "", "/", "/index" })
     public String index(ModelMap mp) {
  
-        mp.put("menu", blogService.getBlogMenuById(Long.parseLong( commonService.selectConfigDefauleValue(OlyWebConfigProetries.PAGE_INDEX))));
-        return getPrefix(configService, "/index");
+       return webPageService.index(themeName, mp);
     }
 
     /**
@@ -66,21 +45,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/post/{postId}")
     public String post(@PathVariable("postId") Long postId, ModelMap mp) {
-        BlogArticle blogArticle = new BlogArticle();
-        blogArticle.setArticleId(postId);
-        BlogArticle bArticle = blogService.getBlogArticle(blogArticle);
-        if (bArticle == null) {
-            mp.put("postId", postId);
-            return getPrefix(configService, "/postNotFind");
-        } else {
-            mp.put("post", blogService.getBlogArticle(blogArticle));
-            CmsComment cmsComment = new CmsComment();
-            cmsComment.setArticleId(postId);
-            cmsComment.setParentId(0L);
-            // 获取第一页评论
-            mp.put("comments", cmsCommentService.listCmsCommentPage(cmsComment));
-            return getPrefix(configService, "/post");
-        }
+       return webPageService.post(themeName, postId, mp);
     }
 
     /**
@@ -92,9 +57,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/tag")
     public String tags(BlogTag tag, ModelMap mp) {
-        mp.put("menu",blogService.getBlogMenuById(Long.parseLong( commonService.selectConfigDefauleValue(OlyWebConfigProetries.PAGE_TAG))));
-        mp.put("tags", blogService.listBlogTags(tag));
-        return getPrefix(configService, "/tags");
+       return webPageService.tags(themeName, tag, mp);
     }
 
     /**
@@ -106,13 +69,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/tag/{tagId}")
     public String tag(@PathVariable("tagId") Long tagId, ModelMap mp) {
-        BlogArticleSearchParam bl = new BlogArticleSearchParam();
-        bl.setTagId(tagId);
-        // 文章列表
-        mp.put("posts", blogService.listBlogArticles(bl));
-        // 当前查询的标签
-        mp.put("tag", blogService.getBlogTagByTagId(tagId));
-        return getPrefix(configService, "/tag");
+        return webPageService.tag(themeName, tagId, mp);
     }
 
     /**
@@ -123,10 +80,8 @@ public class BlogController extends CommonController {
      * @return
      */
     @GetMapping("/cat")
-    public String cat(BlogCat cat, ModelMap mp) {
-        mp.put("menu", blogService.getBlogMenuById(Long.parseLong(commonService.selectConfigDefauleValue(OlyWebConfigProetries.PAGE_CATEGORY))));
-        mp.put("cats", blogService.listBlogCats(cat));
-        return getPrefix(configService, "/categories");
+    public String cats(BlogCat cat, ModelMap mp) {
+        return webPageService.cats(themeName, cat, mp);
 
     }
 
@@ -139,12 +94,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/cat/{catId}")
     public String cat(@PathVariable("catId") Long catId, ModelMap mp) {
-        BlogArticleSearchParam bl = new BlogArticleSearchParam();
-        bl.setCatId(catId);
-        mp.put("posts", blogService.listBlogArticles(bl));
-        // 当前查询的分类
-        mp.put("cat", blogService.getBlogCatByCatId(catId));
-        return getPrefix(configService, "/category");
+        return webPageService.cat(themeName, catId, mp);
     }
 
     /**
@@ -155,12 +105,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/links")
     public String links(ModelMap mp) {
-        mp.put("menu", blogService.getBlogMenuById(Long.parseLong( commonService.selectConfigDefauleValue(OlyWebConfigProetries.PAGE_LINKS))));
-        // 依据分组名将链接转化为分组
-        Map<String, List<BlogLink>> linkMap = blogService.listBlogLinks(null).stream()
-                .collect(Collectors.groupingBy(BlogLink::getGroupName));
-        mp.put("links", linkMap);
-        return getPrefix(configService, "/links");
+        return webPageService.links(themeName, mp);
     }
 
     /**
@@ -171,8 +116,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/about")
     public String about(ModelMap mp) {
-        mp.put("menu", blogService.getBlogMenuById(Long.parseLong( commonService.selectConfigDefauleValue(OlyWebConfigProetries.PAGE_ABOUT))));
-        return getPrefix(configService, "/about");
+        return webPageService.about(themeName, mp);
     }
 
     /**
@@ -183,8 +127,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/rank")
     public String rank(ModelMap modelMap) {
-        modelMap.put("menu", blogService.getBlogMenuById(Long.parseLong( commonService.selectConfigDefauleValue(OlyWebConfigProetries.PAGE_RANK))));
-        return getPrefix(configService, "/rank");
+        return webPageService.rank(themeName, modelMap);
     }
 
     /**
@@ -196,16 +139,7 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/timeLine")
     public String timeLine(ModelMap modelMap, @RequestParam(defaultValue = "1") int pageNum) {
-        modelMap.put("menu",blogService.getBlogMenuById(Long.parseLong( commonService.selectConfigDefauleValue(OlyWebConfigProetries.PAGE_TIMELINE))));
-        PageHelper.startPage(pageNum, 20, "create_time desc");
-        List<BlogArticle> list = blogService.listBlogArticles(null);
-        // 按照时间分组
-        Map<String, List<BlogArticle>> map = list.stream()
-                .collect(Collectors.groupingBy(blogArticle -> neData(blogArticle.getCreateTime())));
-        PageData pageOne = PageData.getData(list);
-        modelMap.put("timeLinePage", pageOne);
-        modelMap.put("timeLineMap", map);
-        return getPrefix(configService, "/timeLine");
+        return webPageService.timeLine(themeName, modelMap, pageNum);
     }
 
     /**
@@ -215,13 +149,8 @@ public class BlogController extends CommonController {
      */
     @GetMapping("/contact")
     public String contact(ModelMap mp) {
-        mp.put("menu", blogService.getBlogMenuById(Long.parseLong( commonService.selectConfigDefauleValue(OlyWebConfigProetries.PAGE_CATEGORY))));
-        return getPrefix(configService, "/contact");
+        return webPageService.contact(themeName, mp);
     }
 
-    private String neData(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM");
-        String newDate = sdf.format(date);
-        return newDate;
-    }
+   
 }

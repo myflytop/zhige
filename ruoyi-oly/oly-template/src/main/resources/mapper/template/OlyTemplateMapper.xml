@@ -40,10 +40,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectOlyTemplateById" parameterType="Long" resultMap="OlyTemplateResult">
-        select t.template_id, t.template_name, t.parent_id, t.remark, t.create_by, t.update_by, t.create_time, t.update_time, t.built, t.perms, t.visible, t.template_type, t.ancestors,  t.template_url, t.order_num
-        from oly_template t
-        left join oly_template p on p.template_id = t.parent_id
-        where t.template_id = #{templateId}
+        <include refid="selectOlyTemplateVo"/>
+        where template_id = #{templateId}
     </select>
         
     <insert id="insertOlyTemplate" parameterType="com.oly.template.domain.OlyTemplate" useGeneratedKeys="true" keyProperty="templateId">

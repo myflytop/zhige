@@ -17,7 +17,7 @@ public interface ICmsConfigBackService {
      * @param configGroup 配置文件备份ID
      * @return 配置文件备份
      */
-    public CmsConfigBack selectCmsConfigBackById(String configGroup);
+    public List<CmsConfigBack> listCmsConfigBackByGroup(String configGroup);
 
     /**
      * 查询配置文件备份列表
@@ -43,21 +43,18 @@ public interface ICmsConfigBackService {
      */
     public int updateCmsConfigBack(CmsConfigBack cmsConfigBack);
 
-    /**
-     * 批量删除配置文件备份
-     * 
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    public int deleteCmsConfigBackByIds(String ids);
-
+   
     /**
      * 删除配置文件备份信息
      * 
      * @param configGroup 配置文件备份ID
      * @return 结果
      */
-    public int deleteCmsConfigBackById(String configGroup);
+    public int deleteCmsConfigBackByGroup(String configGroup);
 
     public boolean isExist(String backGroup, String configKey);
+
+    public CmsConfigBack getConfigByUnink(String configGroup, String configKey);
+    
+    public List<String> listGroup();
 }

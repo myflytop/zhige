@@ -131,15 +131,8 @@ public class BlogApiController {
         return AjaxResult.success(blogService.listBlogTagByType(type,size,"order_num,visible,create_time desc")); 
     }
 
-    /**
-     * 通过标签ID获取文章
-     * @param tagId
-     * @return
-     */
-    @GetMapping("/list/article/tag/{tagId}/{size}")
-    public AjaxResult listArticleByTagId(@PathVariable("tagId") long tagId,@PathVariable("size") Integer size){
-        return AjaxResult.success(blogService.listBlogArticlesByTagId(tagId, size));
-    }
+ 
+
 /**
      * 获取分类
      * @param catId
@@ -178,10 +171,11 @@ public class BlogApiController {
      * @param catId
      * @return
      */
-    @GetMapping("/list/article/cat/{catId}")
+    @GetMapping("/list/article")
     public AjaxResult listArticleByCatId(@PathVariable("catId") long catId){
         return AjaxResult.success(blogService.listBlogArticlesByCatId(catId, 100));
     }
+
 
     /**
      * 通过外联组获取外联列表

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('文章列表')" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="config-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                标签ID：<input type="text" name="tagId" th:value="${tagId}" />
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i>&nbsp;搜索</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <div class="btn-group" shiro:hasPermission="cms:article:edit">
+                    <button class="btn btn-primary multiple disabled" onclick="removrRelation()"> 解除关联
+                    </button>
+                </div>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "cms/article";
+        var articleTypes = [[${@dict.getType('cms_article_type') }]], articleTops = [[${@dict.getType('cms_article_top') }]], articleVisibles = [[${@dict.getType('cms_article_visible') }]];
+        $(function () {
+            var options = {
+                url: prefix + "/list",
+                sortName: "createTime",
+                sortOrder: "desc",
+                modalName: "文章列表",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'articleId',
+                    title: '文章id'
+                },
+                {
+                    field: 'articleTitle',
+                    title: '文章标题',
+                    formatter: function (value, row, index) {
+                        if (value.length > 12) {
+                            return '<a href="#" title="' + value + '">' + value.substring(0, 12) + '..</a>';
+                        }
+                        else {
+                            return '<a href="#" title="' + value + '">' + value + '</a>';
+                        }
+                    }
+                },
+                {
+                    field: 'articleTop',
+                    title: '顶置级别',
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(articleTops, value);
+                    }
+                },
+                {
+
+                    field: 'visible',
+                    title: '状态',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(articleVisibles, value);
+                    }
+                },
+                {
+                    field: 'keywords',
+                    title: '关键词',
+                    align: "left",
+                    visible: false
+                },
+                {
+                    field: 'description',
+                    title: '描述',
+                    align: "left",
+                    visible: false
+                },
+                {
+
+                    title: '是否允许评论',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        if (row.allowComment == 1) {
+                            return '<i class=\"fa fa-toggle-on text-info fa-2x\" "></i> ';
+                        } else {
+
+                            return '<i class=\"fa fa-toggle-off text-info fa-2x\" "></i> ';
+                        }
+                    }
+                },
+                {
+                    field: 'articleType',
+                    title: '文章类型',
+                    formatter: function (value, item, index) {
+
+                        return $.table.selectDictLabel(articleTypes, value);
+
+                    }
+                },
+                {
+                    field: 'createBy',
+                    title: '创建人Id'
+                },
+                {
+                    field: 'createTime',
+                    title: '创建时间',
+                    sortable: true
+                }]
+            };
+            $.table.init(options);
+        });
+
+        function removrRelation() {
+            //获取选中行数据
+            var pam = {}, articleIds = [], chooseData = $("#bootstrap-table").bootstrapTable('getSelections');
+            pam.tagId = $("input[name='tagId']").val();
+            if (chooseData.length > 0) {
+                $.each(chooseData, function (index, ele) {
+                    articleIds.push(ele.articleId);
+                });
+                pam.articleIds = articleIds.join();
+                $.modal.confirm("确定要解除关联吗？", function () {
+                    $.operate.post(prefix + "/removeTagArticles", pam);
+                })
+            }
+            else {
+                $.modal.alert("请至少选择一项");
+            }
+
+        }
+
+        /* 添加用户-选择用户-提交 */
+        function submitHandler() {
+            $.modal.close();
+			// 父页面的方法
+			// 父页面的变量
+			parent.$.table.search();
+        }
+    </script>
+</body>
+
+</html>

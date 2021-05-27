@@ -109,7 +109,7 @@ public class CmsCatServiceImpl implements ICmsCatService {
     public List<Ztree> catTreeData(Byte b) {
         CmsCat cmsCat = new CmsCat();
         cmsCat.setParent((b));
-        List<CmsCat> catList = cmsCatMapper.listCmsCatByCat(cmsCat);
+        List<CmsCat> catList = cmsCatMapper.listCmsCatNotHide(cmsCat);
         List<Ztree> ztrees = initZtree(catList);
         return ztrees;
     }
@@ -213,5 +213,11 @@ public class CmsCatServiceImpl implements ICmsCatService {
     private int updateAncestors(Long parentId, String ancestors) {
 
         return cmsCatMapper.updateAncestors(parentId, ancestors);
+    }
+
+    @Override
+    public List<CmsCat> listCmsCatNotHide(CmsCat cmsCat) {
+       
+        return cmsCatMapper.listCmsCatNotHide(cmsCat);
     }
 }

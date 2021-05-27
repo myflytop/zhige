@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.web.mapper.BlogConfigMapper">
+<resultMap type="com.oly.web.model.po.BlogConfig" id="ConfigResult">
+        <result property="configGroup"    column="config_group"    />
+        <result property="configKey"    column="config_key"    />
+        <result property="configValue"    column="config_value"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBlogConfigBackVo">
+        select config_group, config_key, config_value, create_by, create_time, update_by, update_time, remark from oly_config_back
+    </sql>
+ 
+    <select id="listBlogConfigBackByGroup" parameterType="String" resultMap="ConfigResult">
+        <include refid="selectBlogConfigBackVo"/>
+        where config_group = #{configGroup}
+    </select>
+
+    <select id="getConfigByUnink"  resultMap="ConfigResult">
+        <include refid="selectBlogConfigBackVo"/>
+        where config_group = #{configGroup} and config_key = #{configKey}
+    </select>
+        
+</mapper> 

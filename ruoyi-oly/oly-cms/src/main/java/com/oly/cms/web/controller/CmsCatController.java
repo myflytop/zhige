@@ -39,7 +39,7 @@ public class CmsCatController extends CmsCommonController {
     */
    @RequiresPermissions("cms:cat:view")
    @GetMapping()
-   public String Cat() {
+   public String cat() {
       return prefix + "/cat";
    }
 
@@ -53,29 +53,23 @@ public class CmsCatController extends CmsCommonController {
    }
 
    @RequiresPermissions("cms:cat:list")
-   @GetMapping("/listCat")
+   @GetMapping("/listCatNotHide")
    @ResponseBody
-   public List<CmsCat> listNoHide(CmsCat cmsCat) {
-      cmsCat.setVisible((byte) CommonVisibleEnums.SHOW.ordinal());
-      return cmsCatService.listCmsCatByCat(cmsCat);
-
+   public List<CmsCat> listCatNotHide(CmsCat cmsCat) {
+      return cmsCatService.listCmsCatNotHide(cmsCat);
    }
 
-   @RequiresPermissions("cms:cat:list")
-   @PostMapping("/listCatCountVo")
-   @ResponseBody
-   public List<CmsCat> listCatCountVo(CmsCat cmsCat) {
-      startPage();
-      return cmsCatService.listCmsCatByCat(cmsCat);
-   }
-
-   @RequiresPermissions("cms:cat:list")
-   @GetMapping("/listCatCountNoHide")
-   @ResponseBody
-   public List<CmsCat> listCountVoNoHide() {
-
-      return cmsCatService.listCmsCatByCat(null);
-   }
+   /**
+    * 文章页面
+    * 
+    * @return
+    */
+    @RequiresPermissions("cms:article:view")
+    @GetMapping("/relation/{catId}")
+    public String relation(@PathVariable("catId") Long catId,ModelMap mp) {
+       mp.put("catId", catId);
+       return prefix + "/relation";
+    }
 
    @GetMapping("/add/{catId}")
    @RequiresPermissions("cms:cat:add")
@@ -167,7 +161,14 @@ public class CmsCatController extends CmsCommonController {
       }
       return toAjax(cmsCatService.deleteCmsCatById(catId));
    }
-
+   
+   /**
+    * 获取目录节点
+    * @param catId
+    * @param b 0代表目录 1代表节点
+    * @param mmp
+    * @return
+    */
    @GetMapping(value = { "/selectCatTree/{parent}/{catId}", "/selectCatTree/{parent}" })
    public String selectCatTree(@PathVariable(value = "catId", required = false) Long catId,
          @PathVariable(value = "parent") byte b, ModelMap mmp) {

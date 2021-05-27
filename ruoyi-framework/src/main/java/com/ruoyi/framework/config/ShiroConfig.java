@@ -276,18 +276,26 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/register", "anon,captchaValidate");
         // 系统权限列表
         // filterChainDefinitionMap.putAll(SpringUtils.getBean(IMenuService.class).selectPermsAll());
-        // 不需要拦截的访问
-        filterChainDefinitionMap.put("/blog/user/login", "anon,captchaValidate");
-        // 不需要拦截的访问
-        filterChainDefinitionMap.put("/blog/user/register", "anon,captchaValidate");
+        // 登陆页面不需要拦截
+        filterChainDefinitionMap.put("/user/login", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/zuser/*/login", "anon,captchaValidate");
+        // 注册页面不需要拦截
+        filterChainDefinitionMap.put("/user/register", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/zuser/*/register", "anon,captchaValidate");
         // 个人中心需认证
-         filterChainDefinitionMap.put("/blog/user/personal", "user");
-        // 不需要拦截的访问
-        filterChainDefinitionMap.put("/blog/user/forget", "anon,captchaValidate");
+         filterChainDefinitionMap.put("/user/personal", "user");
+         filterChainDefinitionMap.put("/zuser/*/personal", "user");
+        // 找回密码页面拦截的访问
+        filterChainDefinitionMap.put("/user/forget", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/zuser/*/forget", "anon,captchaValidate");
         //文件下载匿名访问
         filterChainDefinitionMap.put("/oly/oss/download/**", "anon");
         //博客匿名访问
         filterChainDefinitionMap.put("/blog/**", "anon");
+        filterChainDefinitionMap.put("/zblog/**", "anon");
+        //淘客匿名访问
+        filterChainDefinitionMap.put("/taoke/**", "anon");
+        filterChainDefinitionMap.put("/ztaoke/**", "anon");
         //主页匿名访问
         filterChainDefinitionMap.put("/", "anon");
         

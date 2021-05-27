@@ -30,6 +30,7 @@ public class CacheConstant {
              * 分类缓存
              */
             CATS_CACHE_KEY_PREFIX = "catsCache_",
+
             /**
              * 页面缓存
              */

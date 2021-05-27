@@ -211,6 +211,10 @@
                 and article_id in(select article_id from cms_article_cat where cat_id=#{catId} or cat_id in (select
                 cat_id from cms_cat WHERE FIND_IN_SET(#{catId},ancestors)))
             </if>
+             <if test="tagId!=null">
+                and article_id in(select article_id from cms_article_tag where tag_id=#{tagId})
+                
+            </if>
         </where>
     </select>
 

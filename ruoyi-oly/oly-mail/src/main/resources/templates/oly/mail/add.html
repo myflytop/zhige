@@ -7,6 +7,16 @@
     <th:block th:include="include :: bootstrap-select-css" />
     <th:block th:include="include :: summernote-css" />
     <th:block th:include="include :: oly_tagsinput_css" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <style>
+        .attachView input {
+            display: none;
+        }
+
+        .attachView .bootstrap-tagsinput {
+            padding: 0;
+        }
+    </style>
 </head>
 
 <body class="white-bg">
@@ -15,7 +25,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">接收者邮箱：</label>
                 <div class="col-sm-8">
-                    <input name="toMail" class="form-control" required type="text">
+                    <input name="toMail" class="form-control" email required type="email">
                 </div>
             </div>
             <div class="form-group">
@@ -29,7 +39,7 @@
                 <div class="col-sm-8">
                     <div class="radio check-box" th:each="dict : ${type}">
                         <label>
-                            <input type="radio" th:value="${dict.dictValue}" th:checked="${dict.dictValue}==0"
+                            <input type="radio" th:value="${dict.dictValue}" th:checked="${dict.dictValue}==1"
                                 name="mailType"> <i></i><span th:text="${dict.dictLabel}">文本</span></label>
                     </div>
                 </div>
@@ -39,7 +49,7 @@
                 <label class="col-sm-3 control-label">内容：</label>
                 <div class="col-sm-8">
                     <input id="mailContent" class="form-control" type="text">
-                    
+
                 </div>
             </div>
             <div class="form-group">
@@ -59,6 +69,18 @@
                 <div class="col-sm-8">
                     <input class="file" type="file" name="file" multiple data-min-file-count="1" id="file-input"
                         data-theme="fas">
+                    <div class="attachView">
+                        <label class=" col-sm-3 control-label">已经添加：</label>
+                        <input class="form-control" type="text" name="attachKeys" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">定时发送</label>
+                <div class="input-group date col-sm-8">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" class="form-control" id="selectTime" name="sendTime"
+                        placeholder="yyyy-MM-dd HH:mm">
                 </div>
             </div>
         </form>
@@ -68,6 +90,7 @@
     <th:block th:include="include::bootstrap-select-js" />
     <th:block th:include="include :: summernote-js" />
     <th:block th:include="include :: oly_tagsinput_js" />
+    <th:block th:include="include :: datetimepicker-js" />
     <script type="text/javascript">
         var prefix = ctx + "oly/mail";
         $('#file-input').fileinput('refresh', {
@@ -102,13 +125,13 @@
             var response = data.response;
             if (response.code === 0) {
                 uploadSuccsee[previewId] = data.response.data.msg;
+                $("input[name='attachKeys']").tagsinput('add', data.response.data.msg);
             }
-            console.log(uploadSuccsee);
         });
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.modal.alertWarning('<button type="button" class="btn btn-primary" onclick="saveMail()" >保存</button> <button type="button" class="btn btn-primary" onclick="sendMail()" >立即发送</button>', 2);
+                $.modal.alertWarning('<button type="button" class="btn btn-primary" onclick="saveMail()" >保存</button> <button type="button" class="btn btn-primary" onclick="sendMail()" >发送</button>', 2);
             }
         }
 
@@ -123,19 +146,29 @@
         });
 
         function saveMail() {
-            let data = getParams();
-            data.push({ "visible": "0" });
+            let data = getParams();  
+            data.push({ name: "visible", value: "0" });   
             $.operate.save(prefix + "/add", data);
-            console.log(data);
 
         }
-
         function sendMail() {
             let data = getParams();
-            data.push({ "visible": "1" });
-            $.operate.save(prefix + "/send", data);
-            console.log(data);
+            let onT=$("#selectTime").val();
+            if (onT.length > 0) {
+                data.push({ name: "visible", value: "0" });
+                $.modal.confirm("确定要定时发送吗？邮件将会在"+onT+"发送",function(){
+                    $.operate.save(prefix + "/sendOnTime", data);
+                });
+            }
+            else {
+                data.push({ name: "visible", value: "1" });
+                $.modal.confirm("确定要马上发送吗?",function(){
+                    $.operate.save(prefix + "/send", data);
+                });
+               
+            }
         }
+
         $("#mailContent").summernote({
             lang: 'zh-CN', // default: 'en-US'  
             focus: true,
@@ -170,22 +203,52 @@
             });
         }
 
+        //附件
+        $("input[name='attachKeys']").tagsinput({
+            maxTags: 10,
+        });
+
+        $("input[name='copyTo']").tagsinput({
+            maxTags: 10,
+        });
+
+        $("input[name='bccTo']").tagsinput({
+            maxTags: 10,
+        });
+
+
+        $("input[name='copyTo']").on('beforeItemAdd', function (event) {
+            if (!tEmail(event.item)) {
+                setTimeout(function () {
+                    $("input[name='copyTo']").tagsinput('remove', event.item);
+                }, 500);
+            }
+
+        });
+        $("input[name='bccTo']").on('beforeItemAdd', function (event) {
+            if (!tEmail(event.item)) {
+                setTimeout(function () {
+                    $("input[name='bccTo']").tagsinput('remove', event.item);
+                }, 500);
+            }
+        });
+
+        function tEmail(value) {
+
+            return (/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(value));
+        }
+
         function getParams() {
             var data = $('#form-email-add').serializeArray();
             //带参数模板
-            if ($('input[name="mailType"]:checked').val() == 1) {   //模板id
-                data.push({ "name": "params[templateId]", "value": indeId });
-            }
-            var ats = [];
-            for (var key in uploadSuccsee) {
-                ats.push(uploadSuccsee[key])
-            }
-            //附件列表
-            data.push({ "name": "attachKeys", "value": ats.join(";") });
-            data.push({ "name": "content","value": $("#mailContent").summernote('code')});
+            // if ($('input[name="mailType"]:checked').val() == 2) {  
+            //     data.push({ "name": "params[templateId]", "value": indeId });
+            // }
+            let content=($('input[name="mailType"]:checked').val() == 0)?$("#mailContent").text():$("#mailContent").summernote('code');
+            data.push({ "name": "content", "value":content  });
             return data;
         }
-
+        $("#selectTime").datetimepicker();
     </script>
 </body>
 

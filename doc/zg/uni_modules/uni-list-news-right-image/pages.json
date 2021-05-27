@@ -1,0 +1,11 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/uni-list-news-right-image/uni-list-news-right-image",
+			"style": {
+				"navigationBarTitleText": "水平排列，右图左文",
+				"enablePullDownRefresh": true
+			}
+		}
+	]
+}

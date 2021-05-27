@@ -321,7 +321,7 @@
       function getImgSrc(dom){
     	   var srcs=[];
     	   $.each(dom, function(i,val){
-			   srcs.push("'"+$(this).attr("src")+"'")
+			   srcs.push($(this).attr("src"))
     	  });
     	return srcs;
       }
@@ -445,7 +445,7 @@
         function selectCatTree() {
         	var treeId = $("#treeId").val();
         	var catId = treeId > 0 ? treeId : 1;
-        	var url = baseCat+"/selectCatTree/0/" + catId;
+        	var url = baseCat+"/selectCatTree/1/" + catId;
 			var options = {
 				title: '类目选择',
 				width: "380",
@@ -541,7 +541,7 @@
 				 },url=baseArticle+'/addTagArticle';
 				 tagsSync(url,data,event).then(function(res){
 
-		                if(res===0)
+		                if(res===0||res===500)
 		                	{
                                 event.cancel
 		                	}
@@ -618,7 +618,7 @@
 		 });
 	//获取标签列表
 	function getTag(){
-		$.get(baseTag+"/listTagCountNoHide",function(data,status){
+		$.get(baseTag+"/listTagNotHide",function(data,status){
 			$("#chooseTag").empty();
 			$.each(data,function(i,e){//i是索引，e是json对象
 				$("#chooseTag").append("<option value="+e.tagId+">"+e.tagName+"("+((e.tagCount)===null?0:e.tagCount)+")</option>");

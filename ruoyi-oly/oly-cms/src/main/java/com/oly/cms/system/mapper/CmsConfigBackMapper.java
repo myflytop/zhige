@@ -19,7 +19,7 @@ public interface CmsConfigBackMapper {
      * @param configGroup 配置文件备份ID
      * @return 配置文件备份
      */
-    public CmsConfigBack selectCmsConfigBackById(String configGroup);
+    public List<CmsConfigBack> listCmsConfigBackByGroup(String configGroup);
 
     /**
      * 查询配置文件备份列表
@@ -48,18 +48,15 @@ public interface CmsConfigBackMapper {
     /**
      * 删除配置文件备份
      * 
-     * @param configGroup 配置文件备份ID
+     * @param configGroup 备份组
      * @return 结果
      */
-    public int deleteCmsConfigBackById(String configGroup);
+    public int deleteCmsConfigByGroup(String configGroup);
 
-    /**
-     * 批量删除配置文件备份
-     * 
-     * @param configGroups 需要删除的数据ID
-     * @return 结果
-     */
-    public int deleteCmsConfigBackByIds(String[] configGroups);
 
     public int isExist(@Param("configGroup") String configGroup, @Param("configKey") String configKey);
+
+    public CmsConfigBack getConfigByUnink(@Param("configGroup") String configGroup, @Param("configKey") String configKey);
+
+    public List<String> listGroup();
 }

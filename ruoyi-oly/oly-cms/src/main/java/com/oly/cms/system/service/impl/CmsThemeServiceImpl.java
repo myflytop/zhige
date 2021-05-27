@@ -3,7 +3,6 @@ package com.oly.cms.system.service.impl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +13,7 @@ import com.oly.cms.system.mapper.CmsThemeMapper;
 import com.oly.cms.system.model.po.CmsTheme;
 import com.oly.cms.system.service.ICmsThemeService;
 import com.oly.cms.system.utils.CmsUtils;
-import com.oly.common.model.entity.base.BaseTheme;
 import com.oly.common.model.properties.OlyThemeProperties;
-import com.oly.common.model.support.OperateStatus;
 import com.oly.oss.service.impl.NativeOssHandler;
 import com.oly.web.mapper.BlogHandleMapper;
 import com.oly.web.model.po.BlogTheme;
@@ -27,12 +24,13 @@ import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ZipUtil;
@@ -49,9 +47,12 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	@Autowired
 	private BlogHandleMapper blogHandleMapper;
 
-
 	@Autowired
 	private SysConfigServiceImpl sysConfigService;
+
+
+	@Autowired
+	private CmsConfigBackServiceImpl configBackService;
 
 	/**
 	 * 删除主题
@@ -62,69 +63,27 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	 */
 	@Override
 	public int deleteByName(String themeName) throws FileNotFoundException {
+		configBackService.deleteCmsConfigBackByGroup(themeName);
+		configBackService.deleteCmsConfigBackByGroup(themeName+"_tao");
 		CmsUtils.deleteThemeFile(themeName);
 		return themeMapper.deleteByName(themeName);
 
 	}
 
-	/**
-	 * 插入主题
-	 * 
-	 * @param theme
-	 * @return
-	 */
-	@Override
-	public int insert(CmsTheme theme) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
-	/**
-	 * 有选择插入主题
-	 * 
-	 * @param theme
-	 * @return
-	 */
-	@Override
-	public int insertSelective(CmsTheme theme) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
-	/**
-	 * 根据主题ID查询 主题
-	 * 
-	 * @param themeId
-	 * @return
-	 */
-	@Override
-	public CmsTheme selectById(Integer themeId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public CmsTheme selectThemeByUsed() {
 		return themeMapper.selectThemeByUsed();
 	}
 
-	/**
-	 * 更新主题
-	 * 
-	 * @param theme
-	 * @return
-	 */
-	@Override
-	public int updateById(CmsTheme theme) {
-	
-		return 0;
-	}
-
 	@Override
 	public int uploadTheme(MultipartFile file, boolean covery) throws Throwable, IOException {
 		String fileName = FilenameUtils.getName(file.getOriginalFilename());
 		String baseName = FilenameUtils.getBaseName(file.getOriginalFilename());
-		int re=0;
+		int re = 0;
 		// 需要复制的地方
 		File f = Paths.get(RuoYiConfig.getWorkPath(), OlyStageRoot.THEME_DIR.getDir(), fileName).toFile();
 		File fl = Paths.get(RuoYiConfig.getWorkPath(), OlyStageRoot.THEME_DIR.getDir(), baseName).toFile();
@@ -156,20 +115,19 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 			theme.setThemeEnabled((byte) 0);
 			// 设置主题名字
 			theme.setThemeName(baseName);
-			// 插入数据库上传主题	
-            if(uDb)
-			{
-			log.info("主题上传完毕,配置文件已经加载");
-			re=blogHandleMapper.insertBlogTheme(theme);
-				
+			// 插入数据库上传主题
+			if (uDb) {
+				log.info("主题上传完毕,配置文件已经加载");
+				re = blogHandleMapper.insertBlogTheme(theme);
+
 			}
 			{
-			log.info("主题上传完毕,配置文件已更新");
-			re=blogHandleMapper.updateBlogThemeByName(theme);		
+				log.info("主题上传完毕,配置文件已更新");
+				re = blogHandleMapper.updateBlogThemeByName(theme);
 			}
-			
+
 		} else {
-			
+
 			FileUtil.del(fl);
 			new BusinessException("主题安装失败,找不到或者读取配置文件");
 		}
@@ -226,35 +184,21 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	public int setTheme(String themeName) {
 		// 获取使用的主题
 		CmsTheme cmsTheme = themeMapper.selectThemeByUsed();
-		SysConfig sysConfig=new SysConfig();
+		SysConfig sysConfig = new SysConfig();
 		sysConfig.setConfigKey(OlyThemeProperties.THEME_USED.getValue());
 		sysConfig.setConfigValue(themeName);
 		sysConfigService.updateConfigByKey(sysConfig);
-		int re=0;
-		if(cmsTheme==null)
-		{
-			re= themeMapper.updateThemeEnable(OlyThemeProperties.THEME_USED.defaultValue(), themeName);
+		int re = 0;
+		if (cmsTheme == null) {
+			re = themeMapper.updateThemeEnable(OlyThemeProperties.THEME_USED.defaultValue(), themeName);
 		}
-		re= themeMapper.updateThemeEnable(cmsTheme.getThemeName(), themeName);
+		re = themeMapper.updateThemeEnable(cmsTheme.getThemeName(), themeName);
 		return re;
 	}
 
 	@Override
 	public CmsTheme selectByName(String themeName) {
 		return themeMapper.selectByName(themeName);
-	}
-    
-	/**1.获取本地上传的文件
-	 * 2.通过文件名查询是否存在于数据库
-	 * 3.读取配置
-	 * 4.同步到数据库
-	 * 
-	 */
-	public void sysncDb(){
-
-
-
-
 	}
 
 }

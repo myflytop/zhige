@@ -41,7 +41,7 @@ public class ArticleTag {
      * @param articleType 文章类型
      * @return
      */
-    public List<BlogArticle> listBlogArticleByType(int pageSize,byte articleType) {
+    public List<BlogArticle> listBlogArticleByType(byte articleType,int pageSize) {
         return this.sortType(articleType,pageSize, "create_time desc");
     }
 

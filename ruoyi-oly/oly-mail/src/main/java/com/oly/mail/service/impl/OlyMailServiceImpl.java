@@ -1,14 +1,13 @@
 package com.oly.mail.service.impl;
 
-import com.ruoyi.common.config.RuoYiConfig;
-import com.ruoyi.common.core.text.Convert;
-import com.ruoyi.common.enums.OlyStageRoot ;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.ShiroUtils;
-import com.ruoyi.common.utils.StringUtils;
-import com.alibaba.druid.sql.ast.statement.SQLIfStatement.Else;
-import com.oly.common.constant.OlySystemConstant;
-import com.oly.mail.config.MailSenderFactory;
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.mail.MessagingException;
+
 import com.oly.mail.domain.MailTypeEnums;
 import com.oly.mail.domain.MailUsedEnums;
 import com.oly.mail.domain.OlyMail;
@@ -16,6 +15,12 @@ import com.oly.mail.mapper.OlyMailMapper;
 import com.oly.mail.service.AbstractMailService;
 import com.oly.template.domain.OlyTemplate;
 import com.oly.template.service.impl.OlyTemplateServiceImpl;
+import com.ruoyi.common.config.RuoYiConfig;
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.enums.OlyStageRoot ;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.ShiroUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 
 import org.apache.commons.io.FilenameUtils;
@@ -23,14 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
-import javax.mail.MessagingException;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 /**
  * 邮件记录Service业务层处理
@@ -182,7 +179,6 @@ public class OlyMailServiceImpl extends AbstractMailService {
             olyMail.setCreateBy(ShiroUtils.getUserId());
             this.insertOlyMail(olyMail);
         } else {
-
             this.updateOlyMail(olyMail);
         }
 

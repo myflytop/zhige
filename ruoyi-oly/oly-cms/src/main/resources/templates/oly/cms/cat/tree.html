@@ -40,7 +40,8 @@ button {
 	<th:block th:include="include :: ztree-js" />
 	<script th:inline="javascript">
 		var parent=[[${parent}]];
-		if(parent!=1)
+		//非目录获取所有
+		if(parent!=0)
 		{
 			parent='';
 		}

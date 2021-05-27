@@ -129,8 +129,30 @@
             <if test="tagName != null  and tagName != ''"> and tag_name like concat('%', #{tagName}, '%')</if>
             <if test="visible != null "> and visible = #{visible}</if>
             <if test="perms != null  and perms != ''"> and perms like concat('%', #{perms}, '%')</if>
-            <if test="keywords != null  and keywords != ''"> and keywords like concat('%', #{keywords}, '%')</if>
-            <if test="description != null  and description != ''"> and description like concat('%', #{description}, '%')</if>
+            <if test="tagType != null "> and tag_type = #{tagType}</if>
+            <if test="createBy!=null">
+                and create_by=#{createBy,jdbcType=BIGINT}
+            </if>
+            <if test="updateBy!=null">
+                and update_by=#{updateBy,jdbcType=BIGINT}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+      <!--获取标签列表-->
+    <select id="listCmsTagNotHide"   parameterType="com.oly.cms.system.model.po.CmsTag"
+            resultMap="TagResultMap">
+         <include refid="selectCmsTag"/>
+         <where>  
+            <if test="tagName != null  and tagName != ''"> and tag_name like concat('%', #{tagName}, '%')</if>
+            <if test="true"> and visible != 0</if>
+            <if test="perms != null  and perms != ''"> and perms like concat('%', #{perms}, '%')</if>  
             <if test="tagType != null "> and tag_type = #{tagType}</if>
             <if test="createBy!=null">
                 and create_by=#{createBy,jdbcType=BIGINT}

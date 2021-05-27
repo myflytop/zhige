@@ -1,5 +1,10 @@
 package com.oly.common.model.properties;
 
+
+
+/**
+ * 前端相关配置参数
+ */
 public enum OlyWebConfigProetries implements PropertyEnum {
     
     

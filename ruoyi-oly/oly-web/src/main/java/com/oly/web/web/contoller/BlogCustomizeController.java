@@ -20,7 +20,7 @@ public class BlogCustomizeController extends CommonController {
     
     @GetMapping("/{page}")
     public String view(String page ){
-       return getPrefix(serviceImpl,"/fr/"+ page);
+       return "";
     }
 
 

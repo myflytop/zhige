@@ -5,7 +5,6 @@ import java.util.List;
 import com.oly.cms.system.mapper.CmsConfigBackMapper;
 import com.oly.cms.system.model.po.CmsConfigBack;
 import com.oly.cms.system.service.ICmsConfigBackService;
-import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,8 @@ public class CmsConfigBackServiceImpl implements ICmsConfigBackService {
      * @return 配置文件备份
      */
     @Override
-    public CmsConfigBack selectCmsConfigBackById(String configGroup) {
-        return cmsConfigBackMapper.selectCmsConfigBackById(configGroup);
+    public List<CmsConfigBack> listCmsConfigBackByGroup(String configGroup) {
+        return cmsConfigBackMapper.listCmsConfigBackByGroup(configGroup);
     }
 
     /**
@@ -68,17 +67,7 @@ public class CmsConfigBackServiceImpl implements ICmsConfigBackService {
         return cmsConfigBackMapper.updateCmsConfigBack(cmsConfigBack);
     }
 
-    /**
-     * 删除配置文件备份对象
-     * 
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    @Override
-    public int deleteCmsConfigBackByIds(String ids) {
-        return cmsConfigBackMapper.deleteCmsConfigBackByIds(Convert.toStrArray(ids));
-    }
-
+    
     /**
      * 删除配置文件备份信息
      * 
@@ -86,13 +75,25 @@ public class CmsConfigBackServiceImpl implements ICmsConfigBackService {
      * @return 结果
      */
     @Override
-    public int deleteCmsConfigBackById(String configGroup) {
-        return cmsConfigBackMapper.deleteCmsConfigBackById(configGroup);
+    public int deleteCmsConfigBackByGroup(String configGroup) {
+        return cmsConfigBackMapper.deleteCmsConfigByGroup(configGroup);
     }
 
     @Override
     public boolean isExist(String backGroup, String configKey) {
 
         return cmsConfigBackMapper.isExist(backGroup, configKey) > 0 ? true : false;
+    }
+
+    @Override
+    public CmsConfigBack getConfigByUnink(String configGroup, String configKey) {
+        
+        return cmsConfigBackMapper.getConfigByUnink(configGroup,configKey);
+    }
+
+    @Override
+    public List<String> listGroup() {
+       
+        return cmsConfigBackMapper.listGroup();
     }
 }

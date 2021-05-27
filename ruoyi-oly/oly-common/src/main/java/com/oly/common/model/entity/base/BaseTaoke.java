@@ -24,8 +24,8 @@ public class BaseTaoke extends BaseEntity
     @Excel(name = "商品id")
     private String shopId;
 
-    /** 店铺名称 */
-    @Excel(name = "店铺名称")
+    /** 商品标题 */
+    @Excel(name = "商品标题")
     private String shopName;
 
     /** 商品主图 */

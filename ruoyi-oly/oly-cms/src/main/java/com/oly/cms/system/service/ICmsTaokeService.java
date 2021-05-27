@@ -55,7 +55,7 @@ public interface ICmsTaokeService {
      */
     public int deleteCmsTaokeByIds(String ids);
 
-    String importTaos(List<CmsTaoke> taokeList,Integer[] cats ,Integer[]  tags,Byte taoType,boolean updateSupport,String operName);
+    String importTaos(List<CmsTaoke> taokeList,Integer[] cats ,Integer[]  tags,Byte taoType,boolean updateSupport,Long templateId,String operName);
 
     int updateCmsTaokePutOn(String ids, Byte fettle);
 

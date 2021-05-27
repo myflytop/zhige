@@ -6,6 +6,7 @@ import com.oly.common.model.enums.CommonVisibleEnums;
 import com.oly.web.model.po.BlogArticle;
 import com.oly.web.model.po.BlogCat;
 import com.oly.web.service.cache.BlogCacheService;
+import com.oly.web.service.search.BlogCategoryServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,20 @@ public class CategoryTag {
     @Autowired
     private BlogCacheService blogService;
 
+    @Autowired
+    private BlogCategoryServiceImpl blogCategoryServiceImpl;
+
+    /**
+     * 分类树
+     * @param catId
+     * @return
+     */
+    public BlogCat  getCatTreeById(Long catId){
+
+        return blogCategoryServiceImpl.listBlogCatsTreeById(catId);
+    }
+
+
     /**
      * 获取分类列表不分页
      * 
@@ -27,6 +42,18 @@ public class CategoryTag {
         
         return blogService.listBlogCats(null);
     }
+    /**
+     * 
+     * @param b
+     * @param catId
+     * @return
+     */
+    public List<BlogCat> listCategory(Byte b,Long catId) {
+        
+      return  blogService.listBlogCats(b,catId);
+    }
+
+    
 
     /**
      * 获取分类列表不分页

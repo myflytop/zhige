@@ -1,12 +1,10 @@
 package com.oly.cms.system.service;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import com.oly.common.model.support.OperateStatus;
 import com.oly.cms.system.model.po.CmsTheme;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -22,30 +20,6 @@ public interface ICmsThemeService {
     int deleteByName(String themeName) throws FileNotFoundException;
 
     /**
-     * 添加主题
-     * 
-     * @param theme
-     * @return
-     */
-    int insert(CmsTheme theme);
-
-    /**
-     * 有选择添加
-     * 
-     * @param theme
-     * @return
-     */
-    int insertSelective(CmsTheme theme);
-
-    /**
-     * 查询主题
-     * 
-     * @param themeId
-     * @return
-     */
-    CmsTheme selectById(Integer themeId);
-
-    /**
      * 查询主题
      * 
      * @param themeName
@@ -59,14 +33,6 @@ public interface ICmsThemeService {
      * @return
      */
     CmsTheme selectThemeByUsed();
-
-    /**
-     * 更新主题
-     * 
-     * @param theme
-     * @return
-     */
-    int updateById(CmsTheme theme);
 
     /**
      * 

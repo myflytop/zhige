@@ -1,6 +1,8 @@
 package com.oly.cms.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.oly.cms.system.model.po.CmsConfigBack;
 import com.oly.cms.system.service.ICmsConfigBackService;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -40,7 +43,11 @@ public class CmsConfigBackController extends CmsCommonController {
 
     private static final String prefix = acceptPreifx + "configBack";
 
-    private static final String backPrefix = OlyConfigCommonEnum.OLY_WBE_PREIFX.getValue();
+    private static final String taoGroupSuffix="_tao";
+
+    private static final String backWebPrefix = OlyConfigCommonEnum.OLY_WBE_PREIFX.getValue();
+
+    private static final String backTaoPrefix = OlyConfigCommonEnum.OLY_TAO_PREFIX.getValue();
 
     @Autowired
     private SysConfigServiceImpl sysConfigService;
@@ -50,7 +57,8 @@ public class CmsConfigBackController extends CmsCommonController {
 
     @RequiresPermissions("cms:configBack:view")
     @GetMapping()
-    public String back() {
+    public String back(ModelMap mp) {
+        mp.put("configGroups", cmsConfigBackService.listGroup());
         return prefix + "/configBack";
     }
 
@@ -67,6 +75,70 @@ public class CmsConfigBackController extends CmsCommonController {
     }
 
     /**
+     * 修改配置文件
+     */
+    @GetMapping("/edit/{configGroup}")
+    public String edit(@PathVariable("configGroup") String configGroup, ModelMap mmap) {
+        Map<String,String> mps=selectConfigValueMap(configGroup);
+        if(mps.isEmpty())
+        {
+            backConfig(configGroup, backWebPrefix);
+            mps=selectConfigValueMap(configGroup);
+        }
+        mmap.put("webConfig", mps);
+        mmap.put("configGroup", configGroup);
+        return prefix + "/webConfig";
+    }
+
+     /**
+     * 修改淘客配置文件
+     */
+    @GetMapping("/editTao/{configGroup}")
+    public String editTao(@PathVariable("configGroup") String configGroup, ModelMap mmap) {
+        configGroup=configGroup+taoGroupSuffix;
+        Map<String,String> mps=selectConfigValueMap(configGroup);
+        if(mps.isEmpty())
+        {
+            backConfig(configGroup, backTaoPrefix);
+            mps=selectConfigValueMap(configGroup);
+        }
+        mmap.put("webConfig", mps);
+        mmap.put("configGroup", configGroup);
+        return prefix + "/taoConfig";
+    }
+
+
+/**
+     * 修改保存参数配置 通过key批量保存 默认设置为字符串类型
+     */
+    @RequiresPermissions("system:config:edit")
+    @Log(title = "参数管理", businessType = BusinessType.UPDATE)
+    @PostMapping("/update/{configGroup}")
+    @ResponseBody
+    public AjaxResult editSaves(@PathVariable("configGroup")String configGroup,@RequestParam Map<String, String> mp) {
+        int i = 0;
+        for (Map.Entry<String, String> entry : mp.entrySet()) {
+            CmsConfigBack config = new CmsConfigBack();
+            config.setConfigKey(entry.getKey());
+            config.setConfigValue(entry.getValue());
+            config.setConfigGroup(configGroup);
+            CmsConfigBack rsConfig = cmsConfigBackService.getConfigByUnink(configGroup,config.getConfigKey());
+            // 存在执行更新操作
+            if (StringUtils.isNotNull(rsConfig)) {     
+                    config.setUpdateBy(ShiroUtils.getUserId());
+                    cmsConfigBackService.updateCmsConfigBack(config);
+    
+            }
+            // 不存在执行插入操作
+            else {
+                config.setCreateBy(ShiroUtils.getUserId());
+                cmsConfigBackService.insertCmsConfigBack(config);
+            }
+            i = +1;
+        }
+        return toAjax(i);
+    }
+      /**
      * 导出配置文件备份列表
      */
     @RequiresPermissions("cms:configBack:export")
@@ -80,35 +152,14 @@ public class CmsConfigBackController extends CmsCommonController {
     }
 
     /**
-     * 修改配置文件备份
-     */
-    @GetMapping("/edit/{configGroup}")
-    public String edit(@PathVariable("configGroup") String configGroup, ModelMap mmap) {
-        CmsConfigBack cmsConfigBack = cmsConfigBackService.selectCmsConfigBackById(configGroup);
-        mmap.put("cmsConfigBack", cmsConfigBack);
-        return prefix + "/edit";
-    }
-
-    /**
-     * 修改保存配置文件备份
-     */
-    @RequiresPermissions("cms:configBack:edit")
-    @Log(title = "配置文件备份", businessType = BusinessType.UPDATE)
-    @PostMapping("/edit")
-    @ResponseBody
-    public AjaxResult editSave(CmsConfigBack cmsConfigBack) {
-        return toAjax(cmsConfigBackService.updateCmsConfigBack(cmsConfigBack));
-    }
-
-    /**
      * 删除配置文件备份
      */
     @RequiresPermissions("cms:configBack:remove")
     @Log(title = "配置文件备份", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids) {
-        return toAjax(cmsConfigBackService.deleteCmsConfigBackByIds(ids));
+    public AjaxResult removeByGroup(String configGroup) {
+        return toAjax(cmsConfigBackService.deleteCmsConfigBackByGroup(configGroup));
     }
 
     /**
@@ -121,25 +172,8 @@ public class CmsConfigBackController extends CmsCommonController {
     @PostMapping("/back")
     @ResponseBody
     public AjaxResult back(String configGroup) {
-        SysConfig sysConfig = new SysConfig();
-        sysConfig.setConfigKey(backPrefix);
-        List<SysConfig> lists = sysConfigService.selectConfigList(sysConfig);
-        if (!lists.isEmpty()) {
-            for (SysConfig sysConfig2 : lists) {
-                CmsConfigBack cmsConfigBack = new CmsConfigBack();
-                cmsConfigBack.setConfigKey(sysConfig2.getConfigKey());
-                cmsConfigBack.setConfigValue(sysConfig2.getConfigValue());
-                cmsConfigBack.setConfigGroup(configGroup);
-                if (cmsConfigBackService.isExist(configGroup, sysConfig2.getConfigKey())) {
-                    cmsConfigBack.setUpdateBy(ShiroUtils.getUserId());
-                    cmsConfigBackService.updateCmsConfigBack(cmsConfigBack);
-                } else {
-                    cmsConfigBack.setCreateBy(ShiroUtils.getUserId());
-                    cmsConfigBackService.insertCmsConfigBack(cmsConfigBack);
-                }
-            }
-
-        }
+        backConfig(configGroup, backWebPrefix);
+        backConfig(configGroup+taoGroupSuffix, backTaoPrefix);
         return AjaxResult.success();
     }
 
@@ -149,27 +183,12 @@ public class CmsConfigBackController extends CmsCommonController {
      * @return
      */
     @RequiresPermissions("cms:configBack:update")
-    @Log(title = "配置文件备份", businessType = BusinessType.UPDATE)
+    @Log(title = "配置文件还原", businessType = BusinessType.UPDATE)
     @PostMapping("/vatting")
     @ResponseBody
     public AjaxResult vatting(String configGroup) {
-        CmsConfigBack cmsConfigBack = new CmsConfigBack();
-        cmsConfigBack.setConfigGroup(configGroup);
-        List<CmsConfigBack> backs = cmsConfigBackService.selectCmsConfigBackList(cmsConfigBack);
-        for (CmsConfigBack cmsConfigBack2 : backs) {
-            SysConfig rsConfig = sysConfigService.getConfigByKey(cmsConfigBack2.getConfigKey());
-            // 存在执行更新操作
-            if (StringUtils.isNotNull(rsConfig)) {
-                if (checkType(rsConfig.getConfigValueType(), cmsConfigBack2.getConfigValue())) {
-                    SysConfig sysConfig = new SysConfig();
-                    sysConfig.setUpdateBy(ShiroUtils.getLoginName());
-                    sysConfig.setConfigKey(cmsConfigBack2.getConfigKey());
-                    sysConfig.setConfigValue(cmsConfigBack2.getConfigValue());
-                    sysConfigService.updateConfigByKey(sysConfig);
-                }
-            }
-
-        }
+        vattingConfig(configGroup);
+        vattingConfig(configGroup+taoGroupSuffix);
         return AjaxResult.success();
     }
 
@@ -188,6 +207,55 @@ public class CmsConfigBackController extends CmsCommonController {
         } else {
             return true;
         }
+    }
+
+    private Map<String, String> selectConfigValueMap(String configGroup) {
+        List<CmsConfigBack> sysConfigs = cmsConfigBackService.listCmsConfigBackByGroup(configGroup);
+        Map<String, String> collect = sysConfigs.stream().collect(HashMap::new,
+                (k, v) -> k.put(v.getConfigKey(), v.getConfigValue()), HashMap::putAll);
+        return collect;
+    }
+
+    private void backConfig( String configGroup,String backPrefix){
+        SysConfig sysConfig = new SysConfig();
+        sysConfig.setConfigKey(backPrefix);
+        List<SysConfig> lists = sysConfigService.selectConfigList(sysConfig);
+        if (!lists.isEmpty()) {
+            for (SysConfig sysConfig2 : lists) {
+                CmsConfigBack cmsConfigBack = new CmsConfigBack();
+                cmsConfigBack.setConfigKey(sysConfig2.getConfigKey());
+                cmsConfigBack.setConfigValue(sysConfig2.getConfigValue());
+                cmsConfigBack.setConfigGroup(configGroup);
+                if (cmsConfigBackService.isExist(configGroup, sysConfig2.getConfigKey())) {
+                    cmsConfigBack.setUpdateBy(ShiroUtils.getUserId());
+                    cmsConfigBackService.updateCmsConfigBack(cmsConfigBack);
+                } else {
+                    cmsConfigBack.setCreateBy(ShiroUtils.getUserId());
+                    cmsConfigBackService.insertCmsConfigBack(cmsConfigBack);
+                }
+            }
+        }
+    }
+
+    private void vattingConfig(String configGroup){
+        CmsConfigBack cmsConfigBack = new CmsConfigBack();
+        cmsConfigBack.setConfigGroup(configGroup);
+        List<CmsConfigBack> backs = cmsConfigBackService.selectCmsConfigBackList(cmsConfigBack);
+        for (CmsConfigBack cmsConfigBack2 : backs) {
+            SysConfig rsConfig = sysConfigService.getConfigByKey(cmsConfigBack2.getConfigKey());
+            // 存在执行更新操作
+            if (StringUtils.isNotNull(rsConfig)) {
+                if (checkType(rsConfig.getConfigValueType(), cmsConfigBack2.getConfigValue())) {
+                    SysConfig sysConfig = new SysConfig();
+                    sysConfig.setUpdateBy(ShiroUtils.getLoginName());
+                    sysConfig.setConfigKey(cmsConfigBack2.getConfigKey());
+                    sysConfig.setConfigValue(cmsConfigBack2.getConfigValue());
+                    sysConfigService.updateConfigByKey(sysConfig);
+                }
+            }
+
+        }
+
     }
 
 }

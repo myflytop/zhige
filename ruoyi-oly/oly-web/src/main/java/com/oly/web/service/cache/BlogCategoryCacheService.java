@@ -52,4 +52,8 @@ public class BlogCategoryCacheService {
         return categoryServiceImpl.listBlogCatsTreeById(catId);
     }
     
+    public List<BlogCat> listBlogCats(BlogCat blogCat) {
+
+        return categoryServiceImpl.listBlogCats(blogCat);
+    }
 }

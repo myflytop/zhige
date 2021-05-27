@@ -6,12 +6,16 @@ import com.oly.cms.system.model.po.CmsArticle;
 
 public class ArticleVo extends CmsArticle {
 	private static final long serialVersionUID = 1L;
-	// 标签
+	// 标签Id
 	private Integer[] tags;
-	// 分类
+	// 分类Id
 	private Integer[] cats;
 	// 用于查询
 	private Long catId;
+
+	// 用于查询
+	private Long tagId;
+
 	// catName
 	private String catName;
 
@@ -29,6 +33,15 @@ public class ArticleVo extends CmsArticle {
 
 	public void setCats(Integer[] cats) {
 		this.cats = cats;
+	}
+
+	
+	public Long getTagId() {
+		return tagId;
+	}
+
+	public void setTagId(Long tagId) {
+		this.tagId = tagId;
 	}
 
 	@Override
@@ -78,6 +91,8 @@ public class ArticleVo extends CmsArticle {
 		builder.append(catId);
 		builder.append(", catName=");
 		builder.append(catName);
+		builder.append(",tagId=");
+		builder.append(tagId);
 		builder.append("]");
 		return builder.toString();
 	}

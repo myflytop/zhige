@@ -11,8 +11,11 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>备份组：</label>
-                                <input type="text" name="configGroup"/>
+                                <label>备份组：</label><select name="configGroup"  >
+                                    <option value="">所有</option>
+                                    <option th:each="cName :${configGroups}"  th:value="${cName}"  th:text="${cName}"></option>
+    
+                               </select>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -53,22 +56,34 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 modalName: "配置文件备份",
-                columns: [{
-                    checkbox: true
-                },
+                columns: [
                 {
                     field: 'configGroup',
-                    title: '备份组',
-                    visible: false
+                    title: '备份组'
                 },
                 {
                     field: 'configKey',
-                    title: '备份key',
-                    visible: false
+                    title: '备份key'
+                },
+                {
+                    field: 'createTime',
+                    title: '创建时间'
+                },
+                {
+                    field: 'updateTime',
+                    title: '更新时间'
                 },
                 {
                     field: 'configValue',
-                    title: '备份参数'
+                    title: '备份参数',
+					formatter: function (value, row, index) {
+						if (value!=null&&value.length > 24) {
+							return '<span>内容过长,请在详情中查看..</span>';
+						}
+						else {
+							return '<span>' + (value==null?'':value) + '</span>';
+						}
+					}
                 },
                 {
                     field: 'remark',

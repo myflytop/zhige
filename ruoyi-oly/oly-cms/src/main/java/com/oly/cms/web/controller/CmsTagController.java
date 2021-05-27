@@ -6,7 +6,6 @@ import com.oly.cms.system.model.CmsConstants;
 import com.oly.cms.system.model.po.CmsTag;
 import com.oly.cms.system.service.impl.CmsTagServiceImpl;
 import com.oly.cms.web.CmsCommonController;
-import com.oly.common.model.enums.CommonVisibleEnums;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -44,6 +43,19 @@ public class CmsTagController extends CmsCommonController {
       return prefix + "/tag";
    }
 
+    /**
+   * 文章页面
+   * @return
+   */
+   @RequiresPermissions("cms:artcle:view")
+   @GetMapping("/relation/{tagId}")
+   public String relation(@PathVariable("tagId") Long tagId,ModelMap mp) {
+      mp.put("tagId", tagId);
+      return prefix + "/relation";
+   }
+
+
+
    @RequiresPermissions("cms:tag:list")
    @PostMapping("/list")
    @ResponseBody
@@ -59,40 +71,11 @@ public class CmsTagController extends CmsCommonController {
     * @return
     */
    @RequiresPermissions("cms:tag:list")
-   @GetMapping("/listTag")
+   @GetMapping("/listTagNotHide")
    @ResponseBody
-   public List<CmsTag> listNoHide(CmsTag cmsTag) {
-      cmsTag.setVisible((byte) CommonVisibleEnums.SHOW.ordinal());
-      return cmsTagService.listCmsTagByTag(cmsTag);
-
-   }
-
-   /**
-    * 获取正常带统计标签列表
-    * 
-    * @return
-    */
-   @RequiresPermissions("cms:tag:list")
-   @GetMapping("/listTagCountNoHide")
-   @ResponseBody
-   public List<CmsTag> listCountVoNoHide() {
-      CmsTag cmsTag = new CmsTag();
-      cmsTag.setVisible((byte) CommonVisibleEnums.SHOW.ordinal());
-      return cmsTagService.listCmsTagByTag(cmsTag);
-   }
-
-   /**
-    * 获取没有隐藏的列表 带文章统计
-    * 
-    * @param cmsTag
-    * @return
-    */
-   @RequiresPermissions("cms:tag:list")
-   @PostMapping("/listTagCountVo")
-   @ResponseBody
-   public List<CmsTag> listTagCountVo(final CmsTag cmsTag) {
-      startPage();
-      return cmsTagService.listCmsTagByTag(cmsTag);
+   public List<CmsTag> listTagNotHide(CmsTag tag) {
+    
+      return cmsTagService.listCmsTagNotHide(tag);
    }
 
    /**

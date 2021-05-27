@@ -51,7 +51,6 @@ public class ScheduleConfig
         factory.setOverwriteExistingJobs(true);
         // 设置自动启动，默认为true
         factory.setAutoStartup(true);
-
         return factory;
     }
 }

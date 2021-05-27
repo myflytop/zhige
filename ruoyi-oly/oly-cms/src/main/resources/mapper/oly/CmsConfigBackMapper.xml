@@ -28,9 +28,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectCmsConfigBackById" parameterType="String" resultMap="CmsConfigBackResult">
+    <select id="listCmsConfigBackByGroup" parameterType="String" resultMap="CmsConfigBackResult">
         <include refid="selectCmsConfigBackVo"/>
         where config_group = #{configGroup}
+    </select>
+
+    <select id="getConfigByUnink"  resultMap="CmsConfigBackResult">
+        <include refid="selectCmsConfigBackVo"/>
+        where config_group = #{configGroup} and config_key = #{configKey}
     </select>
         
     <insert id="insertCmsConfigBack" parameterType="CmsConfigBack">
@@ -58,27 +63,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="configValue != null">config_value = #{configValue},</if>     
             <if test="updateBy != null">update_by = #{updateBy},</if>
-            update_time = sysdate,
+            update_time = sysdate(),
             <if test="remark != null">remark = #{remark},</if>
         </trim>
         where config_group = #{configGroup} and config_key = #{configKey}
     </update>
 
-    <delete id="deleteCmsConfigBackById" parameterType="String">
+    <delete id="deleteCmsConfigByGroup" parameterType="String">
         delete from oly_config_back where config_group = #{configGroup}
     </delete>
-
-    <delete id="deleteCmsConfigBackByIds" parameterType="String">
-        delete from oly_config_back where config_group in 
-        <foreach item="configGroup" collection="array" open="(" separator="," close=")">
-            #{configGroup}
-        </foreach>
-    </delete>
-
+    
     <select id="isExist" resultType="int">
     select count(1) from oly_config_back
-    where  config_key = #{configKey} and config_group = #{configGroup}
-           
+    where  config_key = #{configKey} and config_group = #{configGroup}         
+    </select>
+
+    <select id="listGroup" resultType="string">
+    select distinct config_group from oly_config_back
+
     </select>
 
 </mapper>

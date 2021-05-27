@@ -1,7 +1,6 @@
 package com.oly.web.model.pam;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * 文章请求参数
@@ -23,9 +22,6 @@ public class BlogArticleSearchParam implements Serializable {
     /* 顶置类型 */
     private Byte articleTop;
     
-    /* 请求参数 */
-    private Map<String, Object> params;
-
     public String getArticleTitle() {
         return articleTitle;
     }
@@ -82,13 +78,6 @@ public class BlogArticleSearchParam implements Serializable {
         this.articleTop = articleTop;
     }
 
-    public Map<String, Object> getParams() {
-        return params;
-    }
-
-    public void setParams(Map<String, Object> params) {
-        this.params = params;
-    }
 
     @Override
     public String toString() {
@@ -100,7 +89,6 @@ public class BlogArticleSearchParam implements Serializable {
         sb.append(", catId=").append(catId);
         sb.append(", tagId=").append(tagId);
         sb.append(", articleTop=").append(articleTop);
-        sb.append(", params=").append(params);
         sb.append('}');
         return sb.toString();
     }

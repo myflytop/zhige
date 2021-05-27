@@ -1,13 +1,13 @@
 package com.oly.cms.system.model;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.oly.common.model.entity.base.BaseTaoke;
 import com.ruoyi.common.annotation.Excel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.oly.common.model.entity.base.BaseTaoke;
 /**
  * 淘客对象 cms_taoke
  * 
@@ -24,8 +24,8 @@ public class CmsTaoke extends BaseTaoke
     @Excel(name = "商品id")
     private String shopId;
 
-    /** 店铺名称 */
-    @Excel(name = "店铺名称")
+    /** 商品名称 */
+    @Excel(name = "商品名称")
     private String shopName;
 
     /** 商品主图 */
@@ -36,8 +36,8 @@ public class CmsTaoke extends BaseTaoke
     @Excel(name = "商品详情页链接地址")
     private String shopIndex;
 
-    /** 店铺名字 */
-    @Excel(name = "店铺名字")
+    /** 店铺名称 */
+    @Excel(name = "店铺名称")
     private String homeName;
 
     /** 商品价格(单位：元) */
@@ -140,8 +140,8 @@ public class CmsTaoke extends BaseTaoke
     @Excel(name = "关联文章Id")
     private Long articleId;
     
-    /** 关联文章Id */
-    @Excel(name = "关联文章Id")
+    /** 商品来源 */
+    @Excel(name = "商品来源")
     private Byte taoType;
 
     public Byte getTaoType() {

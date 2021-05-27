@@ -37,5 +37,9 @@ public class BlogLinkCacheService {
         .collect(Collectors.groupingBy(BlogLink::getGroupName));
         return linkMap;
     }
+
+    public List<BlogLink> listBlogLinks(BlogLink blogLink) {
+        return linkServiceImpl.listBlogLinks(blogLink);
+    }
     
 }

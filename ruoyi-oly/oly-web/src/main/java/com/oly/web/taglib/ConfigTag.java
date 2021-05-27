@@ -1,6 +1,8 @@
 package com.oly.web.taglib;
 
-import com.oly.framework.web.service.OlyCommonService;
+import java.util.Map;
+
+import com.oly.web.service.cache.BlogConfigCacheService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,16 +10,16 @@ import org.springframework.stereotype.Service;
 @Service("configTag")
 public class ConfigTag {
     @Autowired
-    private OlyCommonService commonService;
+    private BlogConfigCacheService bService;
 
-    public String getWebConfigValueByKey(String key){
+  
+    public String getTaoConfigValueByKey(String key){
 
         return null;
     }
 
-    public String getTaoConfigValueByKey(String key){
-
-        return null;
+    public Map<String,String> getWebConfigByGroup(String group){
+        return bService.getWebConfigByGroup(group);
     }
     
 }

@@ -172,11 +172,11 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 		Integer sc[] = Convert.toIntArray(catId);	
 		sc = cmsArticleLiquidMapper.filterCats(sc);
 		if (sc.length == 0) {
-			throw new BusinessException("关联失败,关联分类可能不存在");
+			throw new BusinessException("关联失败,关联分类可能不存在。分类ID"+catId);
 		}
 		if(cmsArticleLiquidMapper.countArticleCat(articleId)>=Integer.parseInt(configService.selectConfigByKey(OlyCmsConfigPropetries.ARTICLE_CAT_MAXNUM.getValue())))
 		{
-			throw new BusinessException("关联失败,关联分类已达上限");
+			throw new BusinessException("关联失败,关联分类已达上限。文章Id"+articleId);
 		}
        int re=cmsArticleLiquidMapper.insertCatArticle(articleId, catId);
 	   cmsArticleLiquidMapper.updateCmsCatCount(sc);
@@ -190,7 +190,7 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 	@Override
 	public int removeCatArticle(Long articleId, Long catId) {
 		if (cmsArticleLiquidMapper.countArticleCat(articleId) == 1) {
-			throw new BusinessException("删除失败,请至少关联一个分类");
+			throw new BusinessException("解除关联失败,请至少关联一个分类");
 		}
       int  re=cmsArticleLiquidMapper.deleteCatArticle(articleId, catId);
 	  cmsArticleLiquidMapper.updateCmsCatCount(Convert.toIntArray(catId));

@@ -52,6 +52,7 @@ public class CmsThemeController extends CmsCommonController {
 
 	@Autowired
 	private SysConfigServiceImpl sysConfigService;
+
 	/**
 	 * 转向列表页设置页面
 	 * 
@@ -66,9 +67,10 @@ public class CmsThemeController extends CmsCommonController {
 		mp.put("themes", themeService.listThemes());
 		return prefix + "/theme";
 	}
-   
+
 	/**
 	 * 主题编辑视图
+	 * 
 	 * @return
 	 */
 	@GetMapping("/themeEdit")
@@ -93,7 +95,7 @@ public class CmsThemeController extends CmsCommonController {
 	public AjaxResult themeUpload(@RequestParam("themeFile") MultipartFile file,
 			@RequestParam(value = "covery", defaultValue = "false", required = false) boolean covery,
 			HttpServletRequest request) throws Throwable {
-		if (file.isEmpty()||!"zip|gz|rar".contains(FilenameUtils.getExtension(file.getOriginalFilename()))) {
+		if (file.isEmpty() || !"zip|gz|rar".contains(FilenameUtils.getExtension(file.getOriginalFilename()))) {
 			return AjaxResult.error("文件不存在或者不支持压缩类型,请上传zip|.gz|.rar压缩包");
 		} else {
 			return toAjax(themeService.uploadTheme(file, covery));
@@ -119,7 +121,7 @@ public class CmsThemeController extends CmsCommonController {
 			return AjaxResult.error("当前主题本地可能不存在,请确定!");
 		} else if (themeService.selectByName(themeName) == null) {
 			return AjaxResult.error("当前主题数据库可能不存在,请确定!");
-		} else  {
+		} else {
 			themeService.setTheme(themeName);
 			SysConfig sysConfig = new SysConfig();
 			sysConfig.setConfigKey(OlyThemeProperties.THEME_USED.getValue());
@@ -171,9 +173,9 @@ public class CmsThemeController extends CmsCommonController {
 		if (StringUtils.isEmpty(path)) {
 			path = "";
 		}
-		List<ThemeTreeNode> themeTreeNodes = new ArrayList<>();	
+		List<ThemeTreeNode> themeTreeNodes = new ArrayList<>();
 		// 获取主题路径
-		final File themesPath = new File(RuoYiConfig.getWorkPath(),OlyStageRoot.THEME_DIR.getDir());
+		final File themesPath = new File(RuoYiConfig.getWorkPath(), OlyStageRoot.THEME_DIR.getDir());
 		// 默认无法获取内置配置文件
 		listFile(themesPath, path, themeTreeNodes);
 		return themeTreeNodes;
@@ -189,7 +191,6 @@ public class CmsThemeController extends CmsCommonController {
 	@RequiresPermissions("cms:theme:view")
 	@ResponseBody
 	public AjaxResult themeContent(String path) throws FileNotFoundException {
-
 		if (!"html|js|css|txt|json".contains(FilenameUtils.getExtension(path))) {
 			return AjaxResult.error("不支持文件类型！");
 		}
@@ -202,7 +203,6 @@ public class CmsThemeController extends CmsCommonController {
 		}
 		return AjaxResult.success(readFileContent(themesPath));
 	}
-
 
 	@Log(title = "主题管理-保存主题内容", businessType = BusinessType.UPDATE)
 	@PostMapping("/themeContentSave")
@@ -238,7 +238,8 @@ public class CmsThemeController extends CmsCommonController {
 			}
 		}
 	}
-    // 读取主题配置
+
+	// 读取主题配置
 	private String readFileContent(File file) {
 		BufferedReader reader = null;
 		StringBuffer sbf = new StringBuffer();
@@ -246,7 +247,8 @@ public class CmsThemeController extends CmsCommonController {
 			reader = new BufferedReader(new FileReader(file));
 			String tempStr;
 			while ((tempStr = reader.readLine()) != null) {
-				sbf.append(tempStr).append("\n");;
+				sbf.append(tempStr).append("\n");
+				;
 			}
 			reader.close();
 			return sbf.toString();
@@ -280,7 +282,6 @@ public class CmsThemeController extends CmsCommonController {
 		}
 		return flag;
 	}
-
 
 	/**
 	 * 确定主题本地存在

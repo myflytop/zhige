@@ -1,0 +1,113 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	// "condition": { //模式配置，仅开发期间生效
+	// 	"current": 0, //当前激活的模式(list 的索引项)
+	// 	"list": [{
+	// 		"name": "test", //模式名称
+	// 		"path": "pages/componentsC/test/index", //启动页面，必选
+	// 		"query": "uuid=c4bba940-f69e-11ea-a419-6bafda9d095e&__id__=1" //启动参数，在页面的onLoad函数里面得到
+	// 	}]
+	// },
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/home/index/index",
+			"style": {
+				"navigationBarTitleText": "京淘客"
+			}
+		},
+		{
+			"path": "pages/home/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		},
+		{
+			"path": "pages/tao/category/category",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		},
+		{
+			"path": "pages/weal/list/list",
+			"style": {
+				"navigationBarTitleText": "福利"
+			}
+		},
+		{
+			"path": "pages/course/list/list",
+			"style": {
+				"navigationBarTitleText": "教程"
+			}
+		},
+		{
+			"path": "pages/tao/coupon/coupon",
+			"style": {
+				"navigationBarTitleText": "优惠券"
+			}
+		},
+		{
+			"path": "pages/tao/list/list",
+			"style": {
+				"navigationStyle": "custom" ,// 隐藏系统导航栏
+				"navigationBarTitleText": "宝贝列表"
+			}
+		}
+        ,{
+            "path" : "pages/error/noNet/noNet",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationStyle": "custom",
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#fff"
+	},
+	"tabBar": {
+		"color": "#C0C4CC",
+		"selectedColor": "#fa436a",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/home/index/index",
+				"iconPath": "static/images/navs/nav-icon-index.png",
+				"selectedIconPath": "static/images/navs/nav-icon-index.active.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/tao/category/category",
+				"iconPath": "static/images/navs/nav-icon-cat.png",
+				"selectedIconPath": "static/images/navs/nav-icon-cat.active.png",
+				"text": "分类"
+			},
+			{
+				"pagePath": "pages/home/search/search",
+				"iconPath": "static/images/navs/nav-icon-search.png",
+				"selectedIconPath": "static/images/navs/nav-icon-search.active.png",
+				"text": "搜索"
+			},
+			{
+				"pagePath": "pages/weal/list/list",
+				"iconPath": "./static/images/navs/nav-icon-weal.png",
+				"selectedIconPath": "static/images/navs/nav-icon-weal.active.png",
+				"text": "福利"
+			},
+			{
+				"pagePath": "pages/course/list/list",
+				"iconPath": "static/images/navs/nav-icon-user.png",
+				"selectedIconPath": "static/images/navs/nav-icon-user.active.png",
+				"text": "教程"
+			}
+		]
+		
+	}
+}

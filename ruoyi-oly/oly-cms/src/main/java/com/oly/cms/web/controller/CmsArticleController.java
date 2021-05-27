@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oly.cms.system.model.po.CmsArticle;
+import com.oly.cms.system.model.po.CmsTag;
 import com.oly.cms.system.model.vo.ArticleVo;
 import com.oly.cms.system.service.impl.CmsArticleServiceImpl;
 import com.oly.cms.system.service.impl.CmsCatServiceImpl;
@@ -62,7 +63,8 @@ public class CmsArticleController extends CmsCommonController {
 	 */
 	@RequiresPermissions("cms:article:view")
 	@GetMapping
-	public String article() {
+	public String article(ModelMap map) {
+        map.put("tags", cmsTagService.listCmsTagNotHide(new CmsTag())) ;   
 		return prefix + "/article";
 	}
 
@@ -193,6 +195,7 @@ public class CmsArticleController extends CmsCommonController {
 	 * 文章状态操作
 	 * 
 	 * @param articleIds
+	 * @param visible
 	 * @return
 	 */
 	@PostMapping("/editVisible")
@@ -202,6 +205,82 @@ public class CmsArticleController extends CmsCommonController {
 	public AjaxResult editVisible(String articleIds, Byte visible) {
 		Long[] ids = Convert.toLongArray(articleIds);
 		return toAjax(articleService.updateVisible(ids, visible));
+	}
+
+	/**
+	 * 标签批量关联文章
+	 * 
+	 * @param articleIds
+	 * @return
+	 */
+	@PostMapping("/addTagArticles")
+	@Log(title = "内容文章管理", businessType = BusinessType.UPDATE)
+	@RequiresPermissions("cms:article:edit")
+	@ResponseBody
+	public AjaxResult addTagArticles(String articleIds, Long tagId) {
+		Long[] ids = Convert.toLongArray(articleIds);
+        int success=0;
+        for (Long id : ids) {
+		success+=articleService.addTagArticle(id, tagId);
+		}
+		return toAjax(success);
+	}
+
+	/**
+	 * 分类批量关联文章
+	 * 
+	 * @param articleIds
+	 * @return
+	 */
+	@PostMapping("/addCatArticles")
+	@Log(title = "内容文章管理", businessType = BusinessType.UPDATE)
+	@RequiresPermissions("cms:article:edit")
+	@ResponseBody
+	public AjaxResult addCatArticles(String articleIds,  Long catId) {
+		Long[] ids = Convert.toLongArray(articleIds);
+		int success=0;
+        for (Long id : ids) {
+		success+=articleService.addCatArticle(id, catId);
+		}
+		return toAjax(success);
+	}
+
+	/**
+	 * 标签批量解除关联文章
+	 * 
+	 * @param articleIds
+	 * @return
+	 */
+	@PostMapping("/removeTagArticles")
+	@Log(title = "内容文章管理", businessType = BusinessType.UPDATE)
+	@RequiresPermissions("cms:article:edit")
+	@ResponseBody
+	public AjaxResult removeTagArticles(String articleIds, Long tagId) {
+		Long[] ids = Convert.toLongArray(articleIds);
+        int success=0;
+        for (Long id : ids) {
+		success+=articleService.removeTagArticle(id, tagId);
+		}
+		return toAjax(success);
+	}
+
+	/**
+	 * 分类批量解除关联文章
+	 * 
+	 * @param articleIds
+	 * @return
+	 */
+	@PostMapping("/removeCatArticles")
+	@Log(title = "内容文章管理", businessType = BusinessType.UPDATE)
+	@RequiresPermissions("cms:article:edit")
+	@ResponseBody
+	public AjaxResult removeCatArticles(String articleIds,  Long catId) {
+		Long[] ids = Convert.toLongArray(articleIds);
+		int success=0;
+        for (Long id : ids) {
+		success+=articleService.removeCatArticle(id, catId);
+		}
+		return toAjax(success);
 	}
 
 	/**

@@ -52,14 +52,20 @@
         <include refid="selectTaokeVo"/> where shop_id=#{shopId} and shop_fettle!=0
     </select>
 
-   <select id="listTaokeByTaoKe" parameterType="com.oly.web.model.TaokeModel" resultMap="TaokeResult">
+   <select id="listTaokeByTaoKe" parameterType="com.oly.web.model.parm.TaokeParm" resultMap="TaokeResult">
     <include refid="selectTaokeVo"/>
         <where>
-            <if test="shopName != null  and shopName != ''">and shop_name like concat('%', #{shopName}, '%')</if>
-            <if test="taoType != null">
-            and tao_type=#{taoType}
-            </if>
-            and  shop_fettle!=0
+        <if test="tagId != null">
+	    and	article_id in (select article_id from cms_article_tag where tag_id=#{tagId})
+		</if>
+		<if test="catId != null">
+		 and article_id in (select article_id from cms_article_cat where cat_id=#{catId})
+		</if>
+        <if test="shopName != null  and shopName != ''">and shop_name like concat('%', #{shopName}, '%')</if>
+       <if test="taoType != null">
+         and tao_type=#{taoType}
+        </if>
+        and  shop_fettle!=0
         </where>
     </select>
 

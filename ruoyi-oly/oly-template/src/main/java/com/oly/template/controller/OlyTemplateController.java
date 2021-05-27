@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.oly.common.model.enums.CommonVisibleEnums;
 import com.oly.oss.service.impl.NativeOssHandler;
 import com.oly.template.domain.OlyTemplate;
 import com.oly.template.domain.enums.TemplateTypeEnum;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,6 +73,20 @@ public class OlyTemplateController extends BaseController {
     }
 
     /**
+     * 查询模板模型树列表
+     */
+    @RequiresPermissions("oly:template:list")
+    @GetMapping("/listByType/{type}")
+    @ResponseBody
+    public List<OlyTemplate> listByType(@PathVariable("type") Integer type) {
+        OlyTemplate olyTemplate = new OlyTemplate();
+        olyTemplate.setTemplateType(type);
+        olyTemplate.setVisible((byte) CommonVisibleEnums.SHOW.ordinal());
+        List<OlyTemplate> list = olyTemplateService.selectOlyTemplateList(olyTemplate);
+        return list;
+    }
+
+    /**
      * 导出模板模型列表
      */
     @RequiresPermissions("oly:template:export")
@@ -103,9 +120,10 @@ public class OlyTemplateController extends BaseController {
     @ResponseBody
     public AjaxResult addSave(OlyTemplate olyTemplate, String templateHtml, MultipartFile file) throws IOException {
         if (StringUtils.isEmpty(olyTemplate.getTemplateName())) {
-            return error("文件名不能为空");
+            return error("模板名不能为空");
         }
-        if (TemplateTypeEnum.HTML.ordinal() == olyTemplate.getTemplateType()) {
+        if (TemplateTypeEnum.HTML.ordinal() == olyTemplate.getTemplateType()
+                || TemplateTypeEnum.DATAHTML.ordinal() == olyTemplate.getTemplateType()) {
             if (StringUtils.isEmpty(templateHtml)) {
                 return error("模板内容不能为空");
             }
@@ -127,7 +145,6 @@ public class OlyTemplateController extends BaseController {
     public String edit(@PathVariable("templateId") Long templateId, ModelMap mmap) {
         String parentName = "根目录";
         OlyTemplate olyTemplate = olyTemplateService.selectOlyTemplateById(templateId);
-
         if (olyTemplate.getParentId() != 0L) {
             OlyTemplate parentOlyTemplate = olyTemplateService.selectOlyTemplateById(olyTemplate.getParentId());
             if (parentOlyTemplate != null) {
@@ -148,7 +165,11 @@ public class OlyTemplateController extends BaseController {
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(OlyTemplate olyTemplate, String templateHtml) {
-        if (TemplateTypeEnum.HTML.ordinal() == olyTemplate.getTemplateType()) {
+        if (StringUtils.isEmpty(olyTemplate.getTemplateName())) {
+            return error("模板名不能为空");
+        }
+        if (TemplateTypeEnum.HTML.ordinal() == olyTemplate.getTemplateType()
+                || TemplateTypeEnum.DATAHTML.ordinal() == olyTemplate.getTemplateType()) {
             if (StringUtils.isEmpty(templateHtml)) {
                 return error("模板内容不能为空");
             }
@@ -226,9 +247,40 @@ public class OlyTemplateController extends BaseController {
         return ztrees;
     }
 
+    /**
+     * 模板演示
+     */
+    @RequiresPermissions("oly:template:example")
+    @GetMapping("/example/{id}")
+    public String exampleView(ModelMap mp, @PathVariable("id") Long id) {
+        mp.put("templateId", id);
+
+        return prefix + "/example";
+    }
+
+    /**
+     * 模板演示
+     */
+    @RequiresPermissions("oly:template:example")
+    @GetMapping("/example")
+    @ResponseBody
+    public String example(@RequestParam Map<String, Object> map, HttpServletResponse response) {
+        return olyTemplateService.getContent(map.get("content").toString(), map);
+    }
+
     @GetMapping("/getContent")
-    public void download(String tUrl, HttpServletResponse response) {
-        olyTemplateService.getTemolateContent(tUrl, response);
+    public void download(String templateUrl, HttpServletResponse response) {
+        olyTemplateService.getTemplateContent(templateUrl, response);
+    }
+
+    /**
+     * 模板演示
+     */
+    @RequiresPermissions("oly:template:view")
+    @GetMapping("/get/{id}")
+    @ResponseBody
+    public AjaxResult getTemplate(@PathVariable("id") Long id) {
+        return AjaxResult.success(olyTemplateService.selectOlyTemplateById(id));
     }
 
     /**

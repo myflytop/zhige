@@ -72,14 +72,14 @@
 
 
     <insert id="insertCmsArticleTags">
-             insert into cms_article_tag(article_id,tag_id)
+             insert ignore into cms_article_tag(article_id,tag_id)
             values <foreach collection="tags" separator="," item="tagId">
             (#{articleId},#{tagId})</foreach>
 
     </insert>
 
     <insert id="insertCmsArticleCats">
-            insert into cms_article_cat(article_id,cat_id)
+            insert ignore into cms_article_cat(article_id,cat_id)
             values
             <foreach collection="cats" separator="," item="catId">
                 (#{articleId},#{catId})</foreach>
@@ -90,10 +90,10 @@
     </insert>
 
     <insert id="insertCatArticle">
-        insert into cms_article_cat(article_id,cat_id) values (#{articleId},#{catId})
+        insert ignore into cms_article_cat(article_id,cat_id) values (#{articleId},#{catId})
     </insert>
     <insert id="insertTagArticle">
-        insert into cms_article_tag(article_id,tag_id) values (#{articleId},#{tagId})
+        insert ignore into cms_article_tag(article_id,tag_id) values (#{articleId},#{tagId})
     </insert>
     <delete id="deleteCatArticle">
         delete from cms_article_cat where article_id=#{articleId} and cat_id=#{catId}

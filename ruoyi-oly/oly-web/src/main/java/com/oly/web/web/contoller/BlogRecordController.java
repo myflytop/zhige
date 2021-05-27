@@ -6,8 +6,7 @@ import com.oly.web.service.impl.BlogRecordServiceImpl;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.ShiroUtils;
-
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +40,7 @@ public class BlogRecordController {
      * @return
      */
     @PostMapping("/addLikeRecord")
-    @RequiresAuthentication
+    @RequiresUser
     @ResponseBody
     public AjaxResult addLikeRecord(BlogRecordParam blogRecordParam) {
         s(blogRecordParam);
@@ -64,7 +63,7 @@ public class BlogRecordController {
      * @return
      */
     @PostMapping("/addNastyRecord")
-    @RequiresAuthentication
+    @RequiresUser
     @ResponseBody
     public AjaxResult addNastyRecord(BlogRecordParam blogRecordParam) {
         s(blogRecordParam);
@@ -86,7 +85,7 @@ public class BlogRecordController {
      * @return
      */
     @PostMapping("/addScoreRecord")
-    @RequiresAuthentication
+    @RequiresUser
     @ResponseBody
     public AjaxResult addScoreRecord(BlogRecordParam blogRecordParam) {
         s(blogRecordParam);
@@ -99,20 +98,20 @@ public class BlogRecordController {
      * @return
      */
     @PostMapping("/addShareRecord")
-    @RequiresAuthentication
+    @RequiresUser
     @ResponseBody
     public AjaxResult addShareRecord(BlogRecordParam blogRecordParam) {
         s(blogRecordParam);
         return AjaxResult.success(recordService.insertShareRecord(blogRecordParam));
     }
-    
+
     /**
      * 添加收藏
      * @param blogRecordParam
      * @return
      */
     @PostMapping("/addCollectRecord")
-    @RequiresAuthentication
+    @RequiresUser
     @ResponseBody
     public AjaxResult addCollectRecord(BlogRecordParam blogRecordParam) {
         s(blogRecordParam);

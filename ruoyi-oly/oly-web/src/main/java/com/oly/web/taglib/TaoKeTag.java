@@ -6,7 +6,6 @@ import java.util.List;
 import com.github.pagehelper.PageHelper;
 
 import com.oly.web.model.TaokeModel;
-import com.oly.web.service.impl.BlogServiceImpl;
 import com.oly.web.service.impl.TaokeServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Service;
 
 @Service("taoKeTag")
 public class TaoKeTag {
-    @Autowired
-    private BlogServiceImpl blogService;
     @Autowired
     private TaokeServiceImpl taoKeService;
 

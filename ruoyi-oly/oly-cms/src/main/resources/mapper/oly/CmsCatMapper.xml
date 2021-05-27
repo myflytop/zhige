@@ -179,7 +179,37 @@
 		</where>
 		order by order_num
 	</select>
-
+    
+	<select id="listCmsCatNotHide" resultMap="CatResultMap"
+		parameterType="com.oly.cms.system.model.po.CmsCat">
+		select
+		<include refid="Base_Cat_List" />
+		from cms_cat
+				<where>
+			<if test="catName != null and catName != ''">
+				AND cat_name like concat('%', #{catName}, '%')
+			</if>
+			<if test="true">
+				AND visible != 0
+			</if>
+			<if test="parent != null">
+				AND parent = #{parent}
+			</if>
+			<if test="createBy!=null">
+				and create_by=#{createBy,jdbcType=BIGINT}
+			</if>
+			<if test="updateBy!=null">
+				and update_by=#{updateBy,jdbcType=BIGINT}
+			</if>
+			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>
+		</where>
+		order by order_num
+	</select>
 
 	<select id="getCmsCatById" resultMap="CatResultMap"
 		parameterType="java.lang.Long">

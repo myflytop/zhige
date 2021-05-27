@@ -1,6 +1,7 @@
 package com.oly.template.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -77,7 +78,17 @@ public interface IOlyTemplateService {
      */
     public List<Ztree> selectOlyTemplateTree(int olType);
 
-    public void getTemolateContent(String tUrl,HttpServletResponse response);
+    public void getTemplateContent(String tUrl,HttpServletResponse response);
+
+    public String getContentByTemplateUrl(String tUrl);
+    
+    /**
+     * 
+     * @param templateContent 模板内容
+     * @param field 填充数据
+     * @return
+     */
+    public String getContent(String templateContent,Map<String,Object> field);
 
     public int countTemplate(Long templateId);
 }

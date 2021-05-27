@@ -1,0 +1,282 @@
+.topbarbox {
+	display: flex;
+	width: 100%;
+	height: var(--status-bar-height);
+	background-color: transparent;
+}
+
+.borderBox {
+	box-sizing: border-box;
+}
+
+.defIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.defIcon>image {
+	width: 100%;
+	height: 100%;
+}
+
+.wrapperLayer {
+	width: 100%;
+	overflow: hidden;
+}
+
+.row {
+	display: flex;
+}
+
+.rowCen {
+	display: flex;
+	align-items: center;
+}
+
+.rowSta {
+	display: flex;
+	align-items: flex-start;
+}
+
+.rowEnd {
+	display: flex;
+	align-items: flex-end;
+}
+
+.rowBase {
+	display: flex;
+	align-items: baseline;
+}
+
+.rowCenCen {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.rowCenBet {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.rowCenAro {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.rowCenSta {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.rowCenEnd {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.rowStaBet {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.rowStaCen {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.rowEndBet {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+}
+
+.col {
+	display: flex;
+	flex-direction: column;
+}
+
+.colCen {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.colBase {
+	display: flex;
+	flex-direction: column;
+	align-items: baseline;
+}
+
+.colSta {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.colEnd {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+.colCenCen {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.colCenBet {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.colCenSta {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.colCenEnd {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.colCenAro {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.colStaBet {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.colStaCen {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.colEndBet {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: space-between;
+}
+
+.btn {
+	width: 140upx;
+	height: 56upx;
+	line-height: 56upx;
+	background-color: #F6BF29;
+	border-radius: 8upx;
+	font-size: 30upx;
+	color: #FFFFFF;
+	text-align: center;
+	color: #FFFFFF;
+}
+
+.btnYel {
+	width: 640upx;
+	height: 80upx;
+	line-height: 80upx;
+	background: linear-gradient(90deg, rgba(246, 190, 41, 1) 0%, rgba(251, 203, 72, 1) 100%);
+	border-radius: 6upx;
+	margin-left: 50%;
+	transform: translate(-50%);
+	text-align: center;
+	font-size: 28upx;
+}
+
+/* complaint */
+.checkbox {
+	font-size: 30upx;
+	color: #929292;
+	text-align: center;
+	padding: 16upx 20upx;
+	border: 2upx solid #EEEEEE;
+	margin-top: 30upx;
+	margin-right: 50upx;
+	border-radius: 4upx;
+}
+
+.selectBox {
+	background: linear-gradient(90deg, rgba(246, 190, 41, 1) 0%, rgba(251, 203, 72, 1) 100%);
+	border: 2upx solid #F6BF29;
+	color: #FFFFFF;
+}
+
+.canCommitFalse {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 80upx;
+	background: #DDDDDD;
+	color: #FFFFFF;
+	line-height: 80upx;
+	font-size: 30upx;
+	text-align: center;
+}
+
+.complaintTrue {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 80upx;
+	background: linear-gradient(90deg, rgba(246, 190, 41, 1) 0%, rgba(251, 203, 72, 1) 100%);
+	color: #FFFFFF;
+	line-height: 80upx;
+	font-size: 30upx;
+	text-align: center;
+}
+
+.topicBtn {
+	height: 80upx;
+	line-height: 80upx;
+	background-color: #F6BF29;
+	font-size: 30upx;
+	color: #FFFFFF;
+	text-align: center;
+	position: fixed;
+	bottom: 40upx;
+	left: 20upx;
+	right: 20upx;
+	border-radius: 4upx;
+}
+
+@font-face {
+  font-family: 'iconfont';  /* project id 2178560 */
+  src: url('https://at.alicdn.com/t/font_2178560_4ckb1c2ahyi.eot');
+  src: url('https://at.alicdn.com/t/font_2178560_4ckb1c2ahyi.eot?#iefix') format('embedded-opentype'),
+  url('https://at.alicdn.com/t/font_2178560_4ckb1c2ahyi.woff2') format('woff2'),
+  url('https://at.alicdn.com/t/font_2178560_4ckb1c2ahyi.woff') format('woff'),
+  url('https://at.alicdn.com/t/font_2178560_4ckb1c2ahyi.ttf') format('truetype'),
+  url('https://at.alicdn.com/t/font_2178560_4ckb1c2ahyi.svg#iconfont') format('svg');
+}
+
+.iconfont {
+	font-family: 'iconfont' !important;
+}
+

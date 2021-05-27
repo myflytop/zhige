@@ -1,9 +1,12 @@
 package com.oly.cms.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.oly.cms.system.model.CmsTaoke;
 import com.oly.cms.system.model.param.ImportPam;
+import com.oly.cms.system.model.po.taoke.JdImportExcel;
+import com.oly.cms.system.model.po.taoke.PddImportExcel;
 import com.oly.cms.system.service.ICmsTaokeService;
 import com.oly.cms.web.CmsCommonController;
 import com.ruoyi.common.annotation.Log;
@@ -46,8 +49,6 @@ public class CmsTaokeController extends CmsCommonController {
         return prefix + "/taoke";
     }
 
-    
-
     /**
      * 查询淘客列表
      */
@@ -83,12 +84,32 @@ public class CmsTaokeController extends CmsCommonController {
     @PostMapping("/importData")
     @ResponseBody
     public AjaxResult importData(ImportPam importPam) throws Exception
-    {
+    {  
         ExcelUtil<CmsTaoke> util = new ExcelUtil<CmsTaoke>(CmsTaoke.class);
-        List<CmsTaoke> userList = util.importExcel(importPam.getFile().getInputStream());
+        ExcelUtil<JdImportExcel> jDutil = new ExcelUtil<JdImportExcel>(JdImportExcel.class);
+        ExcelUtil<PddImportExcel> pDdutil = new ExcelUtil<PddImportExcel>(PddImportExcel.class);
+        List<CmsTaoke> userList=new ArrayList<>();
+        if(importPam.getTaoType()==0)
+        {
+            userList = util.importExcel(importPam.getFile().getInputStream());
+        }
+        else if(importPam.getTaoType()==1)
+        {
+            for (CmsTaoke cmsTaoke : jDutil.importExcel(importPam.getFile().getInputStream())) {
+                cmsTaoke.setShopId(Integer.toString(cmsTaoke.getShopName().hashCode()));
+                cmsTaoke.setShopImg("https:////"+cmsTaoke.getShopImg());
+                userList.add(cmsTaoke);
+            }
+          
+        }
+        else{
+            for (CmsTaoke cmsTaoke : pDdutil.importExcel(importPam.getFile().getInputStream())) {
+                userList.add(cmsTaoke);
+            }
+        }
         //操作人
         String operName = ShiroUtils.getLoginName();
-        String message = cmsTaokeService.importTaos(userList,importPam.getCats(),importPam.getTags(), importPam.getTaoType(),importPam.getUpdateSupport(), operName);
+        String message = cmsTaokeService.importTaos(userList,importPam.getCats(),importPam.getTags(), importPam.getTaoType(),importPam.getUpdateSupport(),importPam.getTemplateId(), operName);
         return AjaxResult.success(message);
     }
 
@@ -118,7 +139,6 @@ public class CmsTaokeController extends CmsCommonController {
     }
 
     /**
-     * 批量上架（1）下架(0)
      * @param ids
      * @return
      */
@@ -127,15 +147,6 @@ public class CmsTaokeController extends CmsCommonController {
     @PostMapping("/putOn")
     @ResponseBody
     public AjaxResult putOn(String ids,Byte fettle) {
-        if(fettle==0)
-        {
-            fettle=0;
-        }
-        else
-        {
-            fettle=1;
-        }
-        //撤销
         return toAjax(cmsTaokeService.updateCmsTaokePutOn(ids,fettle));
     }
 

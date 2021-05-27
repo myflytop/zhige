@@ -108,4 +108,10 @@ public class CmsTagServiceImpl implements ICmsTagService {
         return cmsTagMapper.listCmsTagByTag(cmsTag);
     }
 
+    @Override
+    public List<CmsTag> listCmsTagNotHide(CmsTag cmsTag) {
+        
+        return cmsTagMapper.listCmsTagNotHide(cmsTag);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.oly.web.service.search;
 
 import java.util.List;
 
+import com.github.pagehelper.PageHelper;
 import com.oly.web.mapper.BlogSearchMapper;
 import com.oly.web.model.pam.BlogArticleSearchParam;
 import com.oly.web.model.po.BlogArticle;
@@ -45,7 +46,7 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
     public List<BlogArticle> listBlogArticlesByCatId(Long catId) {
         BlogArticleSearchParam blogArticleSearchParam=new BlogArticleSearchParam();
         blogArticleSearchParam.setCatId(catId);
-        return this.listBlogArticles(blogArticleSearchParam);
+        return blogSearchMapper.listBlogArticlesBySearch(blogArticleSearchParam);
     }
 
     /**
@@ -58,6 +59,13 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
         BlogArticleSearchParam blogArticleSearchParam=new BlogArticleSearchParam();
         blogArticleSearchParam.setTagId(tagId);
         return this.listBlogArticles(blogArticleSearchParam);
+    }
+
+    public List<BlogArticle> listBlogArticlesByType(Byte type, Integer size) {
+        BlogArticleSearchParam bb=new BlogArticleSearchParam();
+        bb.setArticleType(type);
+        PageHelper.startPage(1,size, "create_time asc");
+       return blogSearchMapper.listBlogArticlesBySearch(bb);
     }
 
 }
