@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('邮件配置')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-email-config">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮箱名字：</label>
+                <div class="col-sm-8">
+                    <input name="oly.mail.from.name" class="form-control" type="text" th:value="${mail['oly.mail.from.name']}">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮箱服务器地址：</label>
+                <div class="col-sm-8">
+                    <input name="oly.mail.host" class="form-control" type="text" th:value="${mail['oly.mail.host']}">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮箱协议：</label>
+                <div class="col-sm-8">
+                    <input name="oly.mail.protocol" class="form-control" type="text"th:value="${mail['oly.mail.protocol']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">邮箱端口：</label>
+                <div class="col-sm-8">
+                    <input name="oly.mail.ssl.port" class="form-control" type="text" th:value="${mail['oly.mail.ssl.port']}">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮箱账号：</label>
+                <div class="col-sm-8">
+                    <input name="oly.mail.username" class="form-control" type="text" th:value="${mail['oly.mail.username']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">邮箱密码|授权码：</label>
+                <div class="col-sm-8">
+                    <input name="oly.mail.password" class="form-control" type="text" th:value="${mail['oly.mail.password']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">邮件开关：</label>
+                <div class="col-sm-8">
+                    <label class="toggle-switch switch-solid">
+                        <input type="checkbox" id="oly.mail.enabled" th:checked="${mail['oly.mail.enabled'] == 'true' ? true : false}">
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/config";
+        $("#form-email-config").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            var data = $("#form-email-config").serializeArray();
+            var status = $("input[id='oly.mail.enabled']").is(':checked') == true ? "true" : "false";
+            data.push({"name": "oly.mail.enabled", "value": status});
+            if ($.validate.form()) {
+               $.operate.save(prefix + "/updateByKey", data);
+            }
+        }
+
+        $("input[name='sendTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

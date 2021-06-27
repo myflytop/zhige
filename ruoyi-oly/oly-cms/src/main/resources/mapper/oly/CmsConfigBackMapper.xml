@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.system.mapper.CmsConfigBackMapper">
+    
+    <resultMap type="CmsConfigBack" id="CmsConfigBackResult">
+        <result property="configGroup"    column="config_group"    />
+        <result property="configKey"    column="config_key"    />
+        <result property="configValue"    column="config_value"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectCmsConfigBackVo">
+        select config_group, config_key, config_value, create_by, create_time, update_by, update_time, remark from oly_config_back
+    </sql>
+
+    <select id="selectCmsConfigBackList" parameterType="CmsConfigBack" resultMap="CmsConfigBackResult">
+        <include refid="selectCmsConfigBackVo"/>
+        <where>  
+            <if test="configGroup != null  and configGroup != ''"> and config_group = #{configGroup}</if>
+            <if test="configKey != null  and configKey != ''"> and config_key like concat(#{configKey},'%')</if>
+            <if test="remark != null  and remark != ''"> and remark = #{remark}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>
+        </where>
+    </select>
+    
+    <select id="getConfigByUnink"  resultMap="CmsConfigBackResult">
+        <include refid="selectCmsConfigBackVo"/>
+        where config_group = #{configGroup} and config_key = #{configKey}
+    </select>
+        
+    <insert id="insertCmsConfigBack" parameterType="CmsConfigBack">
+        insert into oly_config_back
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="configGroup != null">config_group,</if>
+            <if test="configKey != null">config_key,</if>
+            <if test="configValue != null">config_value,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time,
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="configGroup != null">#{configGroup},</if>
+            <if test="configKey != null">#{configKey},</if>
+            <if test="configValue != null">#{configValue},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate(),
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCmsConfigBack" parameterType="CmsConfigBack">
+        update oly_config_back
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="configValue != null">config_value = #{configValue},</if>     
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate(),
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where config_group = #{configGroup} and config_key = #{configKey}
+    </update>
+
+    <delete id="deleteCmsConfigByGroup" parameterType="String">
+        delete from oly_config_back where config_group = #{configGroup}
+    </delete>
+    
+    <select id="isExist" resultType="int">
+    select count(1) from oly_config_back
+    where  config_key = #{configKey} and config_group = #{configGroup}         
+    </select>
+
+    <select id="listGroup" resultType="string">
+    select distinct config_group from oly_config_back
+
+    </select>
+
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ruoyi-oly</artifactId>
+        <groupId>com.oly</groupId>
+        <version>4.6.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>oly-web</artifactId>
+
+    <description>
+        止戈网站
+    </description>
+   
+     <dependencies>  
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring5</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-comment</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>5.1.5</version>
+            <scope>compile</scope>
+        </dependency>   
+    </dependencies>
+	
+
+</project>

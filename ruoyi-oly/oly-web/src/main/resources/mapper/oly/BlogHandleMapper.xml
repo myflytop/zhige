@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.web.mapper.BlogHandleMapper">
+    
+    <resultMap type="com.oly.web.model.po.BlogContact" id="BlogContactResult">
+        <result property="contactId"    column="contact_id"    />
+        <result property="subject"    column="subject"    />
+        <result property="content"    column="content"    />
+        <result property="handler"    column="handler"    />
+        <result property="email"    column="email"    />
+        <result property="phone"    column="phone"    />
+        <result property="visible"    column="visible"    />
+        <result property="otherContact"    column="other_contact"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="contactType"    column="contact_type"    />
+        <result property="handleResult"    column="handle_result"    />
+        <result property="handleTime"    column="handle_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="userCall"    column="user_call"    />
+    </resultMap>
+
+    <sql id="selectBlogContactVo">
+        select contact_id, user_call,subject, content,create_by, email, phone, visible, other_contact, create_time, contact_type, handle_result, handle_time from cms_contact
+    </sql>
+
+    <insert id="insertBlogContact" parameterType="com.oly.web.model.po.BlogContact" useGeneratedKeys="true" keyProperty="contactId">
+        insert into cms_contact
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="subject != null  and subject != ''">subject,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="handler != null ">handler,</if>
+            <if test="email != null  and email != ''">email,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="otherContact != null  and otherContact != ''">other_contact,</if>
+            create_time,
+            <if test="contactType != null ">contact_type,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="userCall != null  and userCall != ''">user_call,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="subject != null  and subject != ''">#{subject},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="handler != null ">#{handler},</if>
+            <if test="email != null  and email != ''">#{email},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="otherContact != null  and otherContact != ''">#{otherContact},</if>
+            sysdate(),
+            <if test="contactType != null ">#{contactType},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="userCall != null  and userCall != ''">#{userCall},</if>
+        </trim>
+    </insert>
+
+
+    <insert id="insertBlogTheme" parameterType="com.oly.web.model.po.BlogTheme" useGeneratedKeys="true" keyColumn="theme_id" keyProperty="themeId" >
+    insert into cms_theme
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="themeId != null" >
+        theme_id,
+      </if>
+      <if test="themeName != null" >
+        theme_name,
+      </if>
+      <if test="themeAuthor != null" >
+        theme_author,
+      </if>
+      <if test="true" >
+        create_time,
+      </if>
+      <if test="themeInfo != null" >
+        theme_info,
+      </if>
+      <if test="themeEnabled != null" >
+        theme_enabled,
+      </if>
+      <if test="themeTouch != null" >
+        theme_touch,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="themeUpdate != null" >
+        theme_update,
+      </if>
+      <if test="themeVersion != null" >
+        theme_version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="themeId != null" >
+        #{themeId,jdbcType=INTEGER},
+      </if>
+      <if test="themeName != null" >
+        #{themeName,jdbcType=VARCHAR},
+      </if>
+      <if test="themeAuthor != null" >
+        #{themeAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="true" >
+      sysdate(),
+      </if>
+      <if test="themeInfo != null" >
+        #{themeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="themeEnabled != null" >
+        #{themeEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="themeTouch != null" >
+        #{themeTouch,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="themeUpdate != null" >
+        #{themeUpdate,jdbcType=VARCHAR},
+      </if>
+      <if test="themeVersion != null" >
+        #{themeVersion,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateBlogThemeByName" parameterType="com.oly.web.model.po.BlogTheme">
+  update cms_theme
+    <set >
+      <if test="themeAuthor != null" >
+        theme_author = #{themeAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="themeInfo != null" >
+        theme_info = #{themeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="themeEnabled != null" >
+        theme_enabled = #{themeEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="themeTouch != null" >
+        theme_touch = #{themeTouch,jdbcType=VARCHAR},
+      </if>
+       <if test="themeVersion != null" >
+        theme_version = #{themeVersion,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where theme_name = #{themeName}
+  </update>
+
+    <select id="selectBlogContactList" parameterType="com.oly.web.model.po.BlogContact" resultMap="BlogContactResult">
+        <include refid="selectBlogContactVo"/>
+        <where>
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="otherContact != null  and otherContact != ''"> and other_contact = #{otherContact}</if>
+            <if test="contactType != null "> and contact_type = #{contactType}</if>
+            <if test="handleResult != null  and handleResult != ''"> and handle_result = #{handleResult}</if>
+        </where>
+    </select>
+
+    <select id="selectBlogContactById" parameterType="Long" resultMap="BlogContactResult">
+        <include refid="selectBlogContactVo"/>
+        where contact_id = #{contactId}
+    </select>
+
+</mapper>

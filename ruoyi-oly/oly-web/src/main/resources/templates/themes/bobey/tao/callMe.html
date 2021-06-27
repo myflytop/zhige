@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:with="taoConfig=${@configTag.getWebConfigByGroup('bobey_tao')}">
+
+<head xmlns="http://www.w3.org/1999/html">
+    <th:block
+        th:include="bobey/tao/taoke_include::taokeHeader(title=${taoConfig['oly.tao.title']+'-'+seo.columnName},keywords=${taoConfig['oly.tao.keywords']+','+seo.keywords},description=${seo.description})" />
+</head>
+<body>
+<!--== Start Header Section ==-->
+<header id="header-area" class="header__2"  xmlns="http://www.w3.org/1999/html">
+    <!-- Start PreHeader Area -->
+ <div class="preheader-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-lg-6">
+                    <div class="preheader-contact-info d-flex align-items-center justify-content-between justify-content-md-start">
+                        <div class="single-contact-info">
+                            <span class="contact-icon">
+                                <i class="fa fa-envelope"></i>
+                            </span>
+                            <a href="mailto:your@example.com" class="contact-text">
+                                <strong>邮箱:</strong> <a th:href="'mailto:'+${taoConfig['oly.tao.contact.mail']}" th:text="${taoConfig['oly.tao.contact.mail']}">your@email.here</a>
+                            </a>
+                        </div>
+                        <div class="single-contact-info">
+                            <span class="contact-icon">
+                                <i class="fa fa-phone"></i>
+                            </span>
+                            <a href="" class="contact-text">
+                                <strong>联系电话:</strong>  <a href="javaScript:void(0)" th:text="${taoConfig['oly.tao.contact.phone']}">+231 40596971</a>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Start Header Middle Area -->
+        <div class="header-middle-area">
+            <div class="container">
+                <div class="row">
+                    <th:block th:include="bobey/tao/taoke_include :: logo"></th:block>
+                </div>
+            </div>
+        </div>
+        <!-- End Header Middle Area -->
+
+        <!-- Start Main Menu Area -->
+        <div class="navigation-area" id="fixheader">
+            <th:block  th:include="bobey/tao/taoke_include::taokeNav()"></th:block>
+        </div>
+        <!-- End Main Menu Area -->
+    </header>
+    <!--== End Header Section ==-->
+
+
+    <!--== End Header Section ==-->
+
+    <div class="page-breadcrumb-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-breadcrumb">
+                        <ul class="nav">
+                            <li><a href="@{'/taoke'}">Home</a></li>
+                            <li><a th:href="@{'/taoke/callMe'}" class="active">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--== End Page Breadcrumb ==-->
+
+    <div id="page-content-wrapper">
+        <div class="container">
+            <div class="row">
+                <!-- Start Contact Info  -->
+                <div class="col-lg-6">
+                    <div class="contact-info-wrap contact-method">
+                        <h2>联系信息</h2>
+                        <div th:utext="${taoConfig['oly.tao.content']}">If you have any
+                            problems,suggestions and feedback then please feel free to contact with us.
+                            Choose our communication soruces. We will love to hear from you.</div>
+
+                        <div class="contact-info-items">
+                            <div class="single-contact-info">
+                                <h3><i class="fa fa-phone"></i> 电话</h3>
+                                <a href="javaScript:void(0)"
+                                    th:text="${taoConfig['oly.tao.contact.phone']}">+231 40596971</a>
+                            </div>
+
+                            <div class="single-contact-info">
+                                <h3><i class="fa fa-envelope"></i> 邮件</h3>
+                                <a th:href="'mailto:'+${taoConfig['oly.tao.contact.mail']}"
+                                    th:text="${taoConfig['oly.tao.contact.mail']}">your@email.here</a>
+                            </div>
+
+                            <div class="single-contact-info">
+                                <h3><i class="fa fa-map-marker"></i> 地址</h3>
+                                <a href="javaScript:void(0)"
+                                    th:text="${taoConfig['oly.tao.contact.location']}">San Francisco, CA
+                                    94111, United States</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Contact Info  -->
+
+                <!-- Start Contact Form -->
+                <div class="col-lg-6">
+                    <div class="contact-form-wrap contact-method">
+                        <h2>联系我们</h2>
+                        <form action="#" method="post" id="contact-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="single-input-item">
+                                        <input type="text" name="userCall" placeholder="称呼" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-input-item">
+                                        <input type="text" name="phone" placeholder="电话" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-input-item">
+                                <input type="email" name="email" placeholder="邮件" required />
+                            </div>
+
+                            <div class="single-input-item">
+                                <input type="text" name="subject" placeholder="主题" required />
+                            </div>
+
+                            <div class="single-input-item">
+                                <textarea name="content" cols="30" rows="5" placeholder="内容" required></textarea>
+                            </div>
+
+                            <div class="single-input-item">
+                                <button class="btn" type="submit" name="submit">发送</button>
+                            </div>
+                            <!-- Show Succes or Error Message -->
+                            <div class="form-message"></div>
+                        </form>
+                    </div>
+                </div>
+                <!-- End Contact Form -->
+            </div>
+        </div>
+    </div>
+    <!--== End Page Breadcrumb ==-->
+
+    <!--== Page Content Wrapper Start ==-->
+
+
+    <!-- 结束 -->
+    <!--== Start Footer Area ==-->
+    <th:block th:include="bobey/tao/taoke_include::taokeBottom" />
+    <!--== End Footer Area ==-->
+
+
+    <!-- Scroll to Top Start -->
+    <a href="#" class="scrolltotop"><i class="fa fa-angle-up"></i></a>
+    <!-- Scroll to Top End -->
+
+
+    <!--=======================Javascript============================-->
+    <th:block th:include="bobey/tao/taoke_include::taokeFooter"></th:block>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oly.cms.system.mapper.CmsToolMapper">
+
+    <select id="listCatIds" resultType="string">select cat_id from cms_cat where visible!=0
+        <if test="beginTime != null and beginTime != ''">
+            and date_format(create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+        </if>
+        <if test="types != null and types != ''"><!-- 支持主题 -->
+            and FIND_IN_SET(cat_type,#{types})
+        </if>
+    </select>
+
+    <select id="listTagIds" resultType="string">select tag_id from cms_tag where visible!=0
+        <if test="beginTime != null and beginTime != ''">
+            and date_format(create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+        </if>
+        <if test="types != null and types != ''"><!-- 支持主题 -->
+            and FIND_IN_SET(tag_type,#{types})
+        </if>
+    </select>
+
+    <select id="listPostIds" resultType="string">select article_id from cms_article where visible=3
+        <if test="beginTime != null and beginTime != ''">
+            and date_format(create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+        </if>
+        <if test="types != null and types != ''"><!-- 支持主题 -->
+            and FIND_IN_SET(article_type,#{types})
+        </if>
+    </select>
+
+</mapper>

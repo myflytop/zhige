@@ -1,0 +1,898 @@
+<!-- 通用头部 -->
+<head th:fragment=blogHeader(title,keywords,description,blogConfig) xmlns="http://www.w3.org/1999/html">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title th:text="${title}"></title>
+	<meta name="description" th:content="${description}">
+	<meta name="keywords" th:content="${keywords}">
+	<meta name="author" th:content="${blogConfig['oly.web.author']}">
+	<meta name="copyright" th:content="${blogConfig['oly.web.copyright']}">
+	<link rel="shortcut icon" th:href="${blogConfig['oly.web.ico']}">
+	<link th:href="@{/themes/bobey/resources/model/layui/src/css/layui.css}" rel="stylesheet" />
+	<link th:href="@{/themes/bobey/resources/model/animate/animate.css}" rel="stylesheet" />
+	<link th:href="@{/themes/bobey/resources/model/font-awesome-4.7.0/css/font-awesome.css}" rel="stylesheet" />
+	<link th:href="@{/themes/bobey/resources/css/index.css}" rel="stylesheet" />
+	<style type="text/css">
+		.tagcloud {
+			width: 100%;
+			height: 100%;
+			overflow: hidden
+		}
+
+		.tagcloud a {
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: block;
+			padding: 11px 30px;
+			color: #333;
+			font-size: 16px;
+			border: 1px solid #e6e7e8;
+			border-radius: 18px;
+			background-color: #f2f4f8;
+			text-decoration: none;
+			white-space: nowrap;
+			-o-box-shadow: 6px 4px 8px 0 rgba(151, 142, 136, .34);
+			-ms-box-shadow: 6px 4px 8px 0 rgba(151, 142, 136, .34);
+			-moz-box-shadow: 6px 4px 8px 0 rgba(151, 142, 136, .34);
+			-webkit-box-shadow: 6px 4px 8px 0 rgba(151, 142, 136, .34);
+			box-shadow: 6px 4px 8px 0 rgba(151, 142, 136, .34);
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4,Direction=135, Color='#000000')";
+			/*兼容ie7/8*/
+			filter: progid:DXImageTransform.Microsoft.Shadow(color='#969696', Direction=125, Strength=9);
+			/*strength是阴影大小，direction是阴影方位，单位为度，可以为负数，color是阴影颜色 （尽量使用数字）使用IE滤镜实现盒子阴影的盒子必须是行元素或以行元素显示（block或inline-block;）*/
+		}
+
+		.tagcloud a:hover {
+			color: #3385cf;
+		}
+	</style>
+</head>
+
+<!-- 通用JS -->
+<div th:fragment="footer_js">
+	<script th:src="@{/themes/bobey/resources/model/layui/src/layui.js}"></script>
+	<script th:src="@{/themes/bobey/resources/model/headroom/headroom.js}"></script>
+	<script th:src="@{/themes/bobey/resources/model/couldtag/js/jquery-2.1.1.min.js}"></script>
+	<script th:src="@{/themes/bobey/resources/model/couldtag/js/jquery.svg3dtagcloud.min.js}"></script>
+	<script th:src="@{/themes/bobey/resources/js/tagcloud.js}"></script>
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+	<script th:inline="JavaScript">
+		$(document).ready(function () {
+			layui.use(['element'], function () {
+				var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+			});
+			/*3D标签云*/
+			tagcloud({
+				selector: ".tagcloud",  //元素选择器
+				fontsize: 16,       //基本字体大小, 单位px
+				radius: 100,         //滚动半径, 单位px
+				mspeed: "normal",   //滚动最大速度, 取值: slow, normal(默认), fast
+				ispeed: "normal",   //滚动初速度, 取值: slow, normal(默认), fast
+				direction: 135,     //初始滚动方向, 取值角度(顺时针360): 0对应top, 90对应left, 135对应right-bottom(默认)...
+				keep: false          //鼠标移出组件后是否继续随鼠标滚动, 取值: false, true(默认) 对应 减速至初速度滚动, 随鼠标滚动
+			});
+			var tags = [[${@tagTag.listTagByVisible(0, "bobey")
+		}]], entries = [];
+		$.each(tags, function (index, element) {
+			entries.push({
+				label: element.tagName,
+				url: [[${ blogConfig['oly.web.index']}]] + "/blog/tag/" + element.tagId,
+				target: '_top'
+			})
+		});
+
+		var settings = {
+			entries: entries,
+			width: $('#bobey-tags').width(),
+			height: $('#bobey-tags').width(),
+			radius: '60%',
+			radiusMin: 75,
+			bgDraw: true,
+			bgColor: '#494A5F',
+			opacityOver: 1.00,
+			opacityOut: 0.05,
+			opacitySpeed: 6,
+			fov: 800,
+			speed: 0.5,
+			fontFamily: 'Oswald, Arial, sans-serif',
+			fontSize: '15',
+			fontColor: '#fff',
+			fontWeight: 'normal',//bold
+			fontStyle: 'normal',//italic
+			fontStretch: 'normal',//wider, narrower, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded
+			fontToUpperCase: true
+		};
+
+		//var svg3DTagCloud = new SVG3DTagCloud( document.getElementById( 'holder'  ), settings );
+		$('#tag-cloud').svg3DTagCloud(settings);
+
+		window.onresize = function () {
+			location.reload();
+		}
+
+		$(".bobey-aside-button").click(function () {
+			$(".bobey-nav-aside").css("display", "block");
+
+			if ($(".bobey-nav-aside").hasClass("slideInDown")) {
+
+				$(".bobey-nav-aside").removeClass("slideInDown");
+				$(".bobey-nav-aside").addClass("slideOutUp");
+				$("body").css("overflow-y", "auto");
+			} else {
+
+				$(".bobey-nav-aside").removeClass("slideOutUp");
+				$(".bobey-nav-aside").addClass("slideInDown");
+				$("body").css("overflow-y", "hidden");
+
+			}
+
+		});
+		$(".side_con>li").mousemove(function () {
+			$(".side_con>li").removeClass("on");
+			$(this).addClass("on");
+		})
+		// grab an element
+		var elem = document.querySelector("nav");
+		var headroom = new Headroom(elem, {
+			"tolerance": 5,
+			"offset": 205,
+			"classes": {
+				"initial": "animated",
+				"pinned": "slideInDown",
+				"unpinned": "slideOutUp"
+			}
+		});
+		headroom.init();
+		});
+	</script>
+</div>
+
+<!-- 导航 -->
+<div th:fragment=menu(menus,blogConfig)>
+	<div class="blog-nav-box">
+		<!-- 主导航 桌面端-->
+		<nav style="position: fixed; width: 100%; z-index: 10004;" class="bobey-nav">
+			<!-- 主导航  居中-->
+			<ul class="layui-nav" style="text-align: center;padding: 0 40px;">
+				<!-- 导航logo -->
+				<li class="layui-nav-item bobey-nav-logo">
+					<div>
+						<a th:href="${blogConfig['oly.web.index']==''? '/':blogConfig['oly.web.index']}"
+							class="navbar-logo">
+
+							<img th:if="${!#strings.isEmpty(blogConfig['oly.web.logo'])}"
+								th:src="${blogConfig['oly.web.logo']}" th:alt="${blogConfig['oly.web.title']}" />
+							<span th:if="${#strings.isEmpty(blogConfig['oly.web.logo'])}"
+								th:text="${blogConfig['oly.web.title']}"></span>
+						</a>
+					</div>
+				</li>
+
+				<!-- 导航菜单 -->
+				<li class="layui-nav-item" th:each="column: ${menus.childMenus}">
+					<a th:href="${column.columnUrl==''?'javascript:void(0)':column.columnUrl}"
+						th:text="${column.columnName}">最新活动</a>
+					<dl th:if="${!#lists.isEmpty(column.childMenus)}" class="layui-nav-child">
+						<dd th:each="columnChild: ${column.childMenus}">
+							<a th:href="${columnChild.columnUrl}" th:text="${columnChild.columnName}">选项1</a>
+						</dd>
+					</dl>
+				</li>
+
+				<!-- 导航工具 -->
+				<li class="layui-nav-item bobey-nav-tool" style="float: right;">
+					<div class="layui-btn-group">
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-sm bobey-aside-button">
+							<i class="layui-icon layui-icon-more"></i>
+						</button>
+					</div>
+				</li>
+				<shiro:user>　　　
+					<li class="layui-nav-item" lay-unselect="" style="float: right;"
+						th:with="user=${@userTag.getLoginUser()}">
+						<a href="javascript:;"><img
+								th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}"
+								class="layui-nav-img">
+							<shiro:principal property="userName" />
+						</a>
+						<input id="userId" type="hidden" th:value="${user.userId}" />
+						<dl class="layui-nav-child">
+							<dd><a th:href="@{/user/personal}">个人中心</a></dd>
+							<dd><a th:href="@{/user/logout}">退了</a></dd>
+						</dl>
+					</li>
+				</shiro:user>
+				<shiro:guest>
+					<li class="layui-nav-item" lay-unselect="" style="float: right;">
+						<input id="userId" type="hidden" th:value="''" />
+						<a th:href="@{/user/login}"><i class="fa fa-sign-in" aria-hidden="true"></i> </a>
+					</li>
+				</shiro:guest>
+			</ul>
+		</nav>
+
+		<!-- 侧边导航 -->
+		<aside>
+			<ul class="layui-nav layui-nav-tree layui-nav-side bobey-nav-aside animated"
+				style="text-align: center; margin-top: 60px; width: 100%; z-index: 10000;">
+				<shiro:user>　
+					<li class="layui-nav-item" lay-unselect="" th:with="user=${@userTag.getLoginUser()}">
+						<a href="javascript:;"><img
+								th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}"
+								class="layui-nav-img">
+							<shiro:principal property="userName" />
+						</a>
+						<dl class="layui-nav-child">
+							<dd><a th:href="@{/user/personal}">个人中心</a></dd>
+							<dd><a th:href="@{/user/logout}">退了</a></dd>
+						</dl>
+					</li>
+				</shiro:user>
+				<shiro:guest>
+					<li class="layui-nav-item">
+						<a th:href="@{/user/login}"><i class="fa fa-sign-in" aria-hidden="true"></i> </a>
+					</li>
+				</shiro:guest>
+				<!-- 导航菜单 -->
+				<li class="layui-nav-item" th:each="column: ${menus.childMenus}">
+					<a th:href="${column.columnUrl==''?'javascript:void(0)':column.columnUrl}"
+						th:text="${column.columnName}">最新活动</a>
+					<dl th:if="${!#lists.isEmpty(column.childMenus)}" class="layui-nav-child">
+						<dd th:each="columnChild: ${column.childMenus}">
+							<a th:href="${columnChild.columnUrl}" th:text="${columnChild.columnName}">选项1</a>
+						</dd>
+					</dl>
+				</li>
+
+			</ul>
+		</aside>
+	</div>
+</div>
+
+<!--文章排行 文本-->
+<div th:fragment=articleSortText(articles)>
+	<ul class="bobey-tab-list" th:each="article:${articles}">
+		<li><a th:title="${article.articleTitle}" th:href="${blogConfig['oly.web.index']+'/blog/post/'+article.articleId}"><i
+					class="layui-icon layui-icon-right"></i> <span
+					th:text="${article.articleTitle}">为什么程序媛比程序猿写的代码更好？</span></a></li>
+	</ul>
+</div>
+
+<!--文章排行 图片-->
+<div th:fragment=articleSortImg(articles)>
+	<ul class="sidebar_content side_con">
+		<li th:each="article,articleStatus:${articles}" th:class="${articleStatus.index!=1}?'':'on'">
+			<a th:href="${blogConfig['oly.web.index']+'/blog/post/'+article.articleId}" th:title="${article.articleTitle}"
+				target="_blank">
+				<div class="hotcom-img" th:with="imgs=${T(com.oly.web.utils.ThymeleafUtils).split(article.articleImg)}">
+					<img th:src="${imgs==null?'https://vdposter.bdstatic.com/e695d5529cd4e26a9b28693e4f2cfc92.jpeg?x-bce-process=image/resize,m_fill,w_242,h_182/format,f_jpg/quality,Q_100':imgs[0]}"
+						th:alt="${article.articleTitle}">
+				</div>
+				<div class="hotcom-left">
+					<div class="hot-com-title">
+						<span th:class="${'num'+(articleStatus.index+1)}" th:text="${articleStatus.index+1}">1</span>
+						<apan th:text="${article.articleTitle}">谷歌暂停与华为部分业务合作,华为:中国市场不受影响</apan>
+					</div>
+					<div class="hot-com-clock">阅读：<span th:text="${article.articleLook}">511</span></div>
+				</div>
+			</a>
+		</li>
+	</ul>
+</div>
+<!--底部信息-->
+<div th:fragment=bottom>
+	<footer>
+		<div class="layui-row">
+			<!-- 友情链接 -->
+			<div class="layui-col-md12 bobey-footer-other">
+				<ul id="link-home">
+					<li th:each="link:${@linkTag.listLink('footGroup')}"><a th:href="${link.linkUrl}" target="_blank"
+							th:title="${link.linkName}"><img th:src="${link.linkFavicon}" th:alt="${link.linkName}" />
+							<span th:text="${link.linkName}">叶天冬博客</span></a></li>
+				</ul>
+			</div>
+			<!-- 备案信息|网站信息 -->
+			<div class="layui-col-md12 bobey-footer-copyright">
+				<div>
+					<span th:utext="${blogConfig['oly.web.footer']}">湘ICP备18005863号-1</span>@<span
+						th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy')}">|©2019</span>
+					<a th:href="${blogConfig['oly.web.index']}" th:text="${blogConfig['oly.web.author']}"></a> 版权所有
+				</div>
+			</div>
+		</div>
+	</footer>
+</div>
+<!-- 首页文章列表 -->
+<div th:fragment=blogArticles(posts)>
+	<div class="layui-row">
+		<!-- 文章列表 -->
+		<div th:each="post,postStat:${posts.rows}"
+			th:class="'layui-col-md4 layui-col-sm6 bobey-post-list '+${'post-page-'+(1+postStat.index/18)}">
+			<div class="post-list-item">
+				<div class="post-list-item-container">
+					<div class="item-thumb  bg-deepgrey"
+						th:with="imgs=${T(com.oly.web.utils.ThymeleafUtils).split(post.articleImg)},rando=${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*10),1,0)},iul=@{/themes/bobey/resources/images/thumbs/}"
+						th:style="'background-image:url('+${imgs==null?(iul+rando+'.jpg'):imgs[0]}+')'">
+					</div>
+					<div class="item-desc">
+						<a th:href="${blogConfig['oly.web.index']+'/blog/post/'+post.articleId}">
+							<p th:text="${post.articleSummary}">产生原因最近做一简单的缓存，使用到springcache框架，集成EhCache。其间多方面努力解决</p>
+						</a> <br> <br>
+						<p class="post-tags" th:if="${!#lists.isEmpty(post.blogTags)}">
+							<a th:each="tag:${post.blogTags}" th:href="${blogConfig['oly.web.index']+'/blog/tag/'+tag.tagId}"
+								th:text="${tag.tagName}">产生原因 </a>
+						</p>
+					</div>
+					<div class="item-slant reverse-slant  bg-deepgrey"></div>
+					<div class="item-slant reverse-slant  bg-deepgrey"></div>
+					<div class="item-slant"></div>
+					<div class="item-label">
+						<div class="item-title">
+							<a th:href="${blogConfig['oly.web.index']+'/blog/post/'+post.articleId}"
+								th:text="${post.articleTitle}">Spring
+								Cache注解无效：可能是类内方法调用注解缓存的方法</a>
+						</div>
+						<div class="item-meta clearfix">
+							<div class="item-meta-info">
+								<span> <i class="layui-icon ayui-icon-reply-fill" style="color: #1E9FFF;"></i> <span
+										th:text="${#dates.format(post.createTime,'yyyy-MM-dd HH:mm')}"></span>
+								</span> <span> <i class="layui-icon layui-icon-read l" style="color: #1E9FFF;"></i><span
+										th:text="${post.blogArticleCount==null?0:post.blogArticleCount.articleLook}"></span>
+								</span>
+							</div>
+
+							<div class="item-meta-cat" th:if="${!#lists.isEmpty(post.blogCats)}">
+								<a th:each="cat:${post.blogCats}"
+									th:href="${blogConfig['oly.web.index']+'/blog/cat/'+cat.catId}"
+									th:text="${cat.catName}">产生原因 </a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12 bobey-post-page" style=" text-align: center;" th:if="${posts.total>0}">
+			<div class="layui-box layui-laypage layui-laypage-default">
+				<a href="javascript:void(0)" class="page-this">1</a>
+				<a href="javascript:void(0)" th:if="${posts.total>18&&posts.total<73}"
+					th:each="i:${#numbers.sequence(2,posts.total%18==0?(posts.total/18):(posts.total/18+1))}"
+					th:text="${i}"></a>
+				<a href="javascript:void(0)" th:if="${posts.total>72}" th:each="i:${#numbers.sequence(2,4)}"
+					th:text="${i}"></a>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 文章展示 -->
+<div th:fragment=blogArticle(postId)>
+	<div class="layui-row" th:with="post=${@articleTag.getBlogArticleHtmlById(postId)}">
+		<div class="layui-col-md12 bobey-box">
+			<article class="bobey-post-box" style="background-color: white">
+				<input id="articleId" th:value="${post.articleId}" type="hidden">
+				<div class="layui-row">
+					<div class="layui-col-md12 post-heard">
+						<header>
+							<h1 class="post-title">
+								<a th:href="${blogConfig['oly.web.index']+'/blog/post/'+post.articleId}"
+									th:title="${post.articleTitle}" th:text="${post.articleTitle}">php mb_strpos()php
+									mb_strpos()函数详解php mb_strpos()函数详解函数详解</a>
+							</h1>
+							<br>
+							<span class="post-read-reduce">
+								<span class="layui-badge layui-bg-green"
+									th:text="${#strings.isEmpty(post.reprintUrl)?'原':'转'}"></span>
+								<i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<span
+									th:text="${#dates.format(post.createTime,'yyyy-MM-dd HH:mm')}">2019-05-14
+									13:55</span>
+								<i class="fa fa-eye" aria-hidden="true"></i><span
+									th:text="${post.blogArticleCount==null?0:post.blogArticleCount.articleLook}"></span>
+								<span class="hidden-xs">&nbsp;
+									<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;
+									<a th:each="tag:${post.blogTags}"
+										th:href="${blogConfig['oly.web.index']+'/blog/tag/'+tag.tagId}"
+										th:title="${tag.tagName}" th:text="${tag.tagName}">个人网站</a> &nbsp;
+									<a th:each="cat:${post.blogCats}"
+										th:href="${blogConfig['oly.web.index']+'/blog/cat/'+cat.catId}"
+										th:title="${cat.catName}" th:text="${cat.catName}">个人网站</a> &nbsp;
+
+								</span>
+							</span>
+						</header>
+					</div>
+					<div class="layui-col-md12 post-content" th:utext="${post.articleContent}">
+					</div>
+					<div class="layui-col-md12 ">
+						<div class="entry-meta">
+							<fieldset class="layui-elem-field layui-field-title">
+								<legend class="meta-leg">
+									<span class="post-like" id="post-like"><i class="layui-icon layui-icon-praise"></i>
+									</span>
+									<span class="post-award" id="post-award">赏
+										<img th:src="${blogConfig['oly.web.shang.zhi']}" alt="" srcset="">
+									</span>
+									<span class="post-nasty" id="post-nasty"><i class="layui-icon layui-icon-tread"></i>
+									</span>
+								</legend>
+							</fieldset>
+						</div>
+						<div class="post-suggest">
+							<fieldset class="layui-elem-field layui-field-title">
+								<legend>文章版权及转载声明</legend>
+								<div class="layui-field-box">
+									<ul>
+										<li class="post-authot"><label>作者：</label><span
+												th:text="${blogConfig['oly.web.author']}">bobey</span></li>
+										<li class="post-url"><label>本文地址：</label><a
+												th:href="${blogConfig['oly.web.index']+'/blog/post/'+post.articleId}"
+												th:text="${blogConfig['oly.web.index']+'/blog/post/'+post.articleId}"></a>
+										<li class="post-rerint"><label>版权说明：</label><span
+												th:text="${blogConfig['oly.web.post.copyright']}">采用 知识共享署名4.0
+												国际许可协议进行许可
+												本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名</span></li>
+									</ul>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+					<div class="layui-col-md12 post-comment">
+						<fieldset th:if="${post.allowComment&&#strings.equals('true',@configTag.getSysConfigDefauleValue('oly.comment.open'))}"
+							class="layui-elem-field layui-field-title">
+							<legend>评论</legend>
+							<div class="layui-field-box" th:with="comments=${@commentTag.listPageCommentById(postId)}">
+								<div class="layui-row">
+									<div class="layui-col-md12">
+										<button type="button" class="layui-btn  layui-btn-normal  comment-ok"
+											th:data-comment="${0+','+post.articleId+','+''}">评论</button>
+									</div>
+									<div class="layui-col-md12 post-comment-list"  id="commentContent">
+										<ul>
+											<li th:each="commentOne,commentOneStat:${comments.rows}">
+												<div class="comment-parent">
+													<section
+														th:with="user=${@userTag.getUserByUserId(commentOne.fromBy)}">
+														<div class="comment-head">
+															<a class="comment-name" href="javaScript:void(0)"
+																rel="nofollow"><img th:src="${user.avatar}"><br />
+																<span th:utext="${user.userName}">博主大大请问你的</span>
+															</a>
+															<span class="comment-ua"
+																th:text="${commentOne.userBower}">Ip</span>
+															<span class="comment-index"
+																th:text="${(commentOneStat.index+1)+(comments.pageNum-1)*comments.pageSize}+'楼'">1楼</span>
+														</div>
+														<br />
+														<div class="comment-content">
+															<div th:utext="${commentOne.content}">九九九</div>
+														</div>
+														<div class="comment-footer">
+															<span class="footer-time layui-text"
+																th:text="${#dates.format(commentOne.createTime,'yyyy-MM-dd HH:mm')}">2019-05-17
+																08:52</span>
+
+															<!--回复需要文章id,评论id,用户id-->
+															<span at="148"
+																class="footer-reback layui-btn layui-btn-xs layui-btn-normal comment-ok"
+																th:data-comment="${commentOne.commentId+','+commentOne.articleId+','+commentOne.fromBy}">回复</span>
+														</div>
+													</section>
+													<hr>
+												</div>
+												<div class="comment-child" th:with="childrenData=${commentOne.childrenPageData}">
+													<ul>
+														<li th:each="commentTwo,commentTwoStat:${childrenData.rows}">
+															<section
+																th:with="user=${@userTag.getUserByUserId(commentTwo.fromBy)}">
+																<div class="comment-head">
+																	<a class="comment-name" href="javaScript:void(0)"
+																		rel="nofollow"><img
+																			th:src="${user.avatar}"><br />
+																		<span
+																			th:utext="${user.userName}">博主大大请问你的</span>
+																	</a>
+																	<span class="comment-ua"
+																		th:text="${commentTwo.userBower}">Ip</span>
+																	<span class="comment-index"
+																		th:text="${(commentTwoStat.index+1)+(childrenData.pageNum-1)*childrenData.pageSize}+'楼'">1楼</span>
+																</div>
+																<br />
+																<div class="comment-content">
+																	<span>回复@<a
+																			th:with="user2=${@userTag.getUserByUserId(commentTwo.replyBy)}"
+																			href="javaScript:void(0)"
+																			th:text="${user2.userName}"></a>：</span><span
+																		th:utext="${commentTwo.content}">九九九</span>
+																</div>
+																<div class="comment-footer">
+																	<span class="footer-time layui-text"
+																		th:text="${#dates.format(commentTwo.createTime,'yyyy-MM-dd HH:mm')}">2019-05-17
+																		08:52</span>
+
+																	<!--回复需要文章id,评论id,用户id-->
+																	<span at="148"
+																		class="footer-reback layui-btn layui-btn-xs layui-btn-normal comment-ok"
+																		th:data-comment="${commentTwo.parentId+','+commentTwo.articleId+','+commentTwo.fromBy}">回复</span>
+																</div>
+															</section>
+															<hr>
+														</li>
+													</ul>
+													<div class="layui-box layui-laypage layui-laypage-default" th:if="${childrenData.pages>1}">
+														<a href="javascript:void(0)" class="page-this" th:onclick="javascript:getTwoPage([[${commentOne.commentId}]], [[${comments.pageNum-1}]],this)" th:if="${childrenData.pageNum>1}">上一页</a>
+														<a href="javascript:void(0)" class="page-this" th:onclick="javascript:getTwoPage([[${commentOne.commentId}]], [[${comments.pageNum+1}]],this)" th:if="${childrenData.pages>childrenData.pageNum}">下一页</a>
+													</div>
+												</div>
+											</li>
+										</ul>
+										<div class="layui-box layui-laypage layui-laypage-default" th:if="${comments.pages>1}">
+														<a href="javascript:void(0)" class="page-this" th:onclick="javascript:getOnePage([[${post.articleId}]], [[${comments.pageNum-1}]])" th:if="${comments.pageNum>1}">上一页</a>
+														<a href="javascript:void(0)" class="page-this" th:onclick="javascript:getOnePage([[${post.articleId}]], [[${comments.pageNum+1}]])" th:if="${comments.pages>comments.pageNum}">下一页</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset th:if="${!#strings.equals('true',@configTag.getSysConfigDefauleValue('oly.comment.open'))||!post.allowComment}"
+							class="layui-elem-field layui-field-title">
+							文章评论已关闭！
+						</fieldset>
+					</div>
+				</div>
+			</article>
+		</div>
+	</div>
+</div>
+<!-- 标签列表 -->
+<div th:fragment=blogTags(tags)>
+	<div class="layui-row">
+		<div class="layui-col-md12 bobey-box">
+			<div class="layui-card-body" style="background-color: white;height: 100vh">
+				<fieldset class="layui-elem-field" style="padding: 10px">
+					<legend>标签列表</legend>
+					<div class="layui-row layui-col-space10">
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md3" th:each="tag:${tags}">
+							<blockquote class="layui-elem-quote" style="padding:10px;"> <a
+									th:href="${blogConfig['oly.web.index']+'/blog/tag/'+tag.tagId}"
+									th:text="${tag.tagName+'（'+tag.tagCount+')'}"></a></blockquote>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 标签查询文章 -->
+<div th:fragment=blogArticlesByTag(tag,posts)>
+	<div class="layui-row">
+		<div class="layui-col-md12 bobey-box">
+			<div class="bobey-posts">
+				<fieldset class="layui-elem-field">
+					<legend th:text="'标签：'+${tag.tagName+'('+tag.tagCount+')'}"></legend>
+					<ul style="margin: 15px">
+						<li th:each="post:${posts.rows}">
+							<div class="bobey-post-heard">
+								<h2> <span class="layui-badge-rim" th:text="${post.articleType}">提问</span>
+									<a th:href="${blogConfig['oly.web.index']+'/blog/post/'+post.articleId}"
+										th:text="${post.articleTitle}">layim如何与环信对接，购买会员有没有技术人员帮助呢</a>
+								</h2>
+							</div>
+							<div class="bobey-post-summary">
+								<p th:text="${post.articleSummary}" class="layui-text bobey-text"></p>
+							</div>
+							<div class="bobey-post-footer">
+								<span class="author">作者：</span>
+								<a href="http://oly.web.csdn.net/qq_35860138" target="_blank"
+									th:text="${post.createBy}">qq_35860138</a>
+								<span class="attr">浏览量：</span><span class="mr16"
+									th:text="${post.blogArticleCount==null?0:post.blogArticleCount.articleLook}">235700</span>
+								<span class="attr">时间：</span><span class="date"
+									th:text="${#dates.format(post.createTime,'yyyy-MM-dd HH:mm')}">2018-09-14</span>
+							</div>
+						</li>
+					</ul>
+
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 分类列表 -->
+<div th:fragment=blogCats(cats)>
+	<div class="layui-row">
+		<div class="layui-col-md12 bobey-box">
+			<div class="layui-card-body" style="background-color: white;height: 100vh">
+				<fieldset class="layui-elem-field" style="padding: 10px">
+					<legend>分类列表</legend>
+					<div class="layui-row layui-col-space10">
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md3" th:each="cat:${cats}">
+							<blockquote class="layui-elem-quote" style="padding:10px;"> <a
+									th:href="${blogConfig['oly.web.index']+'/blog/cat/'+cat.catId}"
+									th:text="${cat.catName+'（'+cat.catCount+')'}"></a></blockquote>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 分类查询文章 -->
+<div th:fragment=blogArticlesByCat(cat,posts)>
+	<div class="layui-row">
+		<div class="layui-col-md12 bobey-box">
+			<div class="bobey-posts">
+				<fieldset class="layui-elem-field">
+					<legend th:text="'分类：'+${cat.catName+'('+cat.catCount+')'}"></legend>
+					<ul style="margin: 15px">
+						<li th:each="post:${posts.rows}">
+							<div class="bobey-post-heard">
+								<h2> <span class="layui-badge-rim" th:text="${post.articleType}">提问</span>
+									<a th:href="${blogConfig['oly.web.index']+'/blog/post/'+post.articleId}"
+										th:text="${post.articleTitle}">layim如何与环信对接，购买会员有没有技术人员帮助呢</a>
+								</h2>
+							</div>
+							<div class="bobey-post-summary">
+								<p th:text="${post.articleSummary}" class="layui-text bobey-text"></p>
+							</div>
+							<div class="bobey-post-footer">
+								<span class="author">作者：</span>
+								<a href="http://oly.web.csdn.net/qq_35860138" target="_blank"
+									th:text="${post.createBy}">qq_35860138</a>
+								<span class="attr">浏览量：</span><span class="mr16"
+									th:text="${post.blogArticleCount==null?0:post.blogArticleCount.articleLook}">235700</span>
+								<span class="attr">时间：</span><span class="date"
+									th:text="${#dates.format(post.createTime,'yyyy-MM-dd HH:mm')}">2018-09-14</span>
+							</div>
+						</li>
+					</ul>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 友情链接 -->
+<div th:fragment=blogLinks(groupLink)>
+	<div class="layui-row">
+		<div class="layui-col-md12 bobey-box">
+			<div class="layui-card">
+				<div class="layui-card-header">止戈导航</div>
+				<div class="layui-row">
+					<div class="layui-col-md3" th:each="groupLink,userStat:${groupLink}">
+						<div class="layui-card-body">
+							<div class="layui-card-header" th:text="${userStat.current.key}">止戈导航</div>
+							<div class="layui-row">
+								<div class="layui-col-md4" th:each="link:${userStat.current.value}">
+									<a th:href="${link.linkUrl}" target="_blank" rel="nofollow external"><img
+											th:src="${link.linkFavicon}" th:alt="${link.linkName}" style="width: 16px;
+height: 16px;">
+										<span th:text="${link.linkName}"></span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 关于本站 -->
+<div th:fragment=blogAbout(blogConfig)>
+	<div class="layui-row">
+		<div class="layui-col-md12 bobey-box">
+			<ul class="layui-timeline bobey-about-box" style="background-color: white">
+				<li class="layui-timeline-item">
+					<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+					<div class="layui-timeline-content layui-text">
+						<h3 class="layui-timeline-title">关于本站</h3>
+						<div th:utext="${blogConfig['oly.web.about.website']}">
+						</div>
+					</div>
+				</li>
+				<li class="layui-timeline-item">
+					<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+					<div class="layui-timeline-content layui-text">
+						<h3 class="layui-timeline-title">关于作者</h3>
+						<div th:utext="${blogConfig['oly.web.about.author']}">
+						</div>
+					</div>
+				</li>
+				<li class="layui-timeline-item">
+					<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+					<div class="layui-timeline-content layui-text">
+						<h3 class="layui-timeline-title">个人主页</h3>
+						<div th:utext="${blogConfig['oly.web.about.index']}">
+						</div>
+					</div>
+				</li>
+				<li class="layui-timeline-item">
+					<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+					<div class="layui-timeline-content layui-text">
+						<h3 class="layui-timeline-title">联系方式</h3>
+						<div th:utext="${blogConfig['oly.web.about.callme']}">
+						</div>
+					</div>
+				</li>
+				<li class="layui-timeline-item">
+					<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+					<div class="layui-timeline-content layui-text">
+						<h3 class="layui-timeline-title"></h3>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- 时间线 -->
+<div th:fragment=blogArticleTimeLine(timeData)>
+	<div class="layui-row" style="background-color: white">
+		<div class="layui-col-md12">
+			<ul class="layui-timeline bobey-about-box">
+				<li class="layui-timeline-item" th:each="postMap,postStat:${timeData.map}">
+					<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+					<div class="layui-timeline-content layui-text">
+						<h3 class="layui-timeline-title" th:text="${postStat.current.key}">关于本站</h3>
+						<div th:each="post:${postStat.current.value}" class="line-posts">
+							<div class="layui-card">
+								<div class="layui-card-body">
+									<div style="margin-top: 5px;">
+										<span class="layui-badge layui-bg-green">原创</span>
+										<span><a style="font-size: large;font-weight: bold"
+												th:href="${blogConfig['oly.web.index']+'/blog/post/'+post.articleId}"
+												th:title="${post.articleTitle}" th:text="${post.articleTitle}">Spring
+												Boot集成开源Markdown编辑器Editor.md</a></span>
+									</div>
+									<hr class="layui-bg-gray">
+									<div style="margin-top: 10px;">
+										<div class="item-summary">
+											<span style="color: #666666" th:text="${post.articleSummary}">Spring
+												Boot中引入Editor.md</span>
+										</div>
+										<div class="item-tag">
+
+											<div class="layui-btn-container">
+
+												<i class="layui-icon layui-icon-note"></i>
+												<a class="layui-btn layui-btn-normal layui-btn-sm"
+													th:each="tag:${post.blogTags}"
+													th:href="${blogConfig['oly.web.index']+'/blog/tag/'+tag.tagId}"
+													th:title="${tag.tagName}" th:text="${tag.tagName}">个人网站</a> &nbsp;
+												<a class="layui-btn layui-btn-warm layui-btn-sm"
+													th:each="cat:${post.blogCats}"
+													th:href="${blogConfig['oly.web.index']+'/blog/cat/'+cat.catId}"
+													th:title="${cat.catName}" th:text="${cat.catName}">个人网站</a>
+											</div>
+
+
+										</div>
+										<div style="margin-top: 10px;">
+											<span><a style="color: #000000"
+													th:href="${blogConfig['oly.web.index']+'/blog/post/'+post.articleId}">阅读全文</a><i
+													class="layui-icon layui-icon-next" style="font-size: small"></i>
+											</span>
+										</div>
+										<span class="item-date">
+											<i class="layui-icon layui-icon-date"></i><span
+												th:text="${#dates.format(post.createTime,'yyyy-MM-dd HH:mm')}">2020-04-13</span>
+										</span>
+										<span class="item-user">
+											<i class="layui-icon layui-icon-username"></i><span>wjy329</span>
+										</span>
+
+										<span class="item-count">
+											<i class="layui-icon layui-icon-read"></i><span>62</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="layui-col-md12 ">
+			<div class="layui-box layui-laypage layui-laypage-default" style="margin-left: 100px"
+				th:if="${timeData.pages>0}">
+				<a th:if="${timeData.pages>6}" th:href="${blogConfig['oly.web.index']+'/timeLine?pageNum=1'}">首页</a>
+				<!--显示1-5页 页数少于5页-->
+				<a th:if="${timeData.pages<6}" th:each="i:${#numbers.sequence(1,timeData.pages)}" th:text="${i}"
+					th:href="${blogConfig['oly.web.index']+'/timeLine?pageNum='+i}"
+					th:style="${(i==timeData.pageNum)}?'color:#1E9FFF':''"></a>
+				<!--显示中间页 页数大于5页-->
+				<a th:if="${timeData.pages>5 and timeData.pageNum<4}" th:each="i:${#numbers.sequence(1,5)}"
+					th:text="${i}" th:href="${blogConfig['oly.web.index']+'/timeLine?pageNum='+i}"
+					th:style="${(i==timeData.pageNum)}?'color:#1E9FFF':''"></a>
+				<a th:if="${timeData.pages>5 and (timeData.pages-timeData.pageNum)>5 and timeData.pageNum>3}"
+					th:each="i:${#numbers.sequence(timeData.pageNum-2,timeData.pageNum+2)}" th:text="${i}"
+					th:href="${blogConfig['oly.web.index']+'/timeLine?pageNum='+i}"
+					th:style="${(i==timeData.pageNum)}?'color:#1E9FFF':''"></a>
+				<!--显示最后5页 页数大于5页-->
+				<a th:if="${timeData.pages>5 and (timeData.pages-timeData.pageNum)<6 and (timeData.pages-timeData.pageNum)>2}"
+					th:each="i:${#numbers.sequence(timeData.pageNum-2,timeData.pageNum+2)}" th:text="${i}"
+					th:href="${blogConfig['oly.web.index']+'/timeLine?pageNum='+i}"
+					th:style="${(i==timeData.pageNum)}?'color:#1E9FFF':''"></a>
+				<a th:if="${timeData.pages>5 and (timeData.pages-timeData.pageNum)<3}"
+					th:each="i:${#numbers.sequence(timeData.pages-4,timeData.pages)}" th:text="${i}"
+					th:href="${blogConfig['oly.web.index']+'/timeLine?pageNum='+i}"
+					th:style="${(i==timeData.pageNum)}?'color:#1E9FFF':''"></a>
+				<a th:if="${timeData.pages>6}"
+					th:href="${blogConfig['oly.web.index']+'/timeLine?pageNum='+timeData.pages}">尾页</a>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 热门标签 -->
+<div th:fragment=hotTag(tags)>
+	<div class="tagcloud">
+		<a th:each="tag:${tags}" th:href="${blogConfig['oly.web.index']+'/blog/tag/'+tag.tagId}"
+			th:text="${tag.tagName}"></a>
+	</div>
+</div>
+<!-- 热门分类 -->
+<div th:fragment=hotCategory(cats)>
+	<div class="tagcloud">
+		<a th:each="cat:${cats}" th:href="${blogConfig['oly.web.index']+'/blog/cat/'+cat.catId}"
+			th:text="${cat.catName}"></a>
+	</div>
+</div>
+<!-- 通用右侧 -->
+<div th:fragment=rightCommen>
+	<div class="layui-row">
+		<div class="layui-col-md12">
+			<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title" style="text-align: center">
+					<li class="layui-this">最新发布</li>
+					<li>文章推荐</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">
+						<th:block
+							th:include="bobey/blog_include::articleSortText(articles=${@articleTag.listBlogArticleOrderByTime(10,'bobey')})" />
+					</div>
+					<div class="layui-tab-item">
+						<th:block
+							th:include="bobey/blog_include::articleSortText(articles=${@articleTag.listBlogArticleOrderByTop(10,'bobey')})" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="layui-col-md12">
+			<div class="layui-card">
+				<div class="layui-card-header">阅读排行</div>
+				<div class="layui-card-body" id="side_con">
+					<th:block
+						th:include="bobey/blog_include::articleSortImg(articles=${@articleCountSortTag.listBlogArticleCountOrderByLook(10,'bobey')})" />
+				</div>
+			</div>
+		</div>
+
+		<div class="layui-col-md12">
+			<div class="layui-tab">
+				<ul class="layui-tab-title" style="text-align: center">
+					<li class="layui-this">推荐标签</li>
+					<li>推荐分类</li>
+				</ul>
+				<div class="layui-tab-content" style="overflow:hidden;">
+					<div class="layui-tab-item layui-show">
+						<th:block
+							th:include="bobey/blog_include::hotTag(tags=${@tagTag.listTagByVisible(2,'bobey')})" />
+					</div>
+					<div class="layui-tab-item">
+						<th:block
+							th:include="bobey/blog_include::hotCategory(cats=${@categoryTag.listCategoryByVisible(2,22,'bobey')})" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="layui-col-md12">
+			<div class="layui-card">
+				<div class="layui-card-header">标签云</div>
+				<div class="layui-card-body" id="bobey-tags">
+					<div id='tag-cloud'></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

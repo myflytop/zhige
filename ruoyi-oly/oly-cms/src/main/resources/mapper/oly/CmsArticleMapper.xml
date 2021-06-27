@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oly.cms.system.mapper.CmsArticleMapper">
+    <resultMap id="BaseResultMap"
+               type="com.oly.cms.system.model.po.CmsArticle">
+        <id column="article_id" property="articleId" />
+        <result property="articleTitle"    column="article_title"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="articleType"    column="article_type"    />
+        <result property="articleContent"    column="article_content"    />
+        <result property="articleBuild"    column="article_build"    />
+        <result property="articleTop"    column="article_top"    />
+        <result property="articleImg"    column="article_img"    />
+        <result property="articleSummary"    column="article_summary"    />
+        <result property="visible"    column="visible"    />
+        <result property="allowComment"    column="allow_comment"    />
+        <result property="reprintUrl"    column="reprint_url"    />
+        <result property="articleUrl"    column="article_url"    />
+        <result property="keywords"    column="keywords"    />
+        <result property="description"    column="description"    />
+        <result property="articleToc"    column="article_toc"    />
+        <result property="articleMd"    column="article_md"    />
+    </resultMap>
+
+    <sql id="selectCmsArticleVoBase">
+       select article_id, article_title, create_by, create_time, update_by, update_time, article_type, article_build, article_top, article_img, article_summary, visible, allow_comment, reprint_url, article_url, keywords, description from cms_article
+    </sql>
+
+     <sql id="selectCmsArticleVoAll">
+        select article_id, article_title, create_by, create_time, update_by, update_time, article_type, CAST(article_content AS CHAR) AS article_content, article_build, article_top, article_img, article_summary, visible, allow_comment, reprint_url, article_url, keywords, description,CAST(article_toc AS CHAR) AS article_toc,CAST(article_md AS CHAR) as article_md from cms_article
+    </sql>
+
+    <!--插入文章-->
+    <insert id="insertCmsArticle" parameterType="com.oly.cms.system.model.po.CmsArticle" useGeneratedKeys="true"
+            keyProperty="articleId">
+	 insert into cms_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleTitle != null and articleTitle != ''">article_title,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="true">create_time,</if>
+            <if test="articleType != null">article_type,</if>
+            <if test="articleContent != null">article_content,</if>
+            <if test="articleBuild != null">article_build,</if>
+            <if test="articleTop != null">article_top,</if>
+            <if test="articleImg != null">article_img,</if>
+            <if test="articleSummary != null">article_summary,</if>
+            <if test="visible != null">visible,</if>
+            <if test="allowComment != null">allow_comment,</if>
+            <if test="reprintUrl != null">reprint_url,</if>
+            <if test="articleUrl != null">article_url,</if>
+            <if test="keywords != null">keywords,</if>
+            <if test="description != null">description,</if>
+            <if test="articleToc != null">article_toc,</if>
+            <if test="articleMd != null">article_md,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleTitle != null and articleTitle != ''">#{articleTitle},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="true">sysdate(),</if>
+            <if test="articleType != null">#{articleType},</if>
+            <if test="articleContent != null">#{articleContent},</if>
+            <if test="articleBuild != null">#{articleBuild},</if>
+            <if test="articleTop != null">#{articleTop},</if>
+            <if test="articleImg != null">#{articleImg},</if>
+            <if test="articleSummary != null">#{articleSummary},</if>
+            <if test="visible != null">#{visible},</if>
+            <if test="allowComment != null">#{allowComment},</if>
+            <if test="reprintUrl != null">#{reprintUrl},</if>
+            <if test="articleUrl != null">#{articleUrl},</if>
+            <if test="keywords != null">#{keywords},</if>
+            <if test="description != null">#{description},</if>
+            <if test="articleToc != null">#{articleToc},</if>
+            <if test="articleMd != null">#{articleMd},</if>
+         </trim>
+	</insert>
+
+    <!--检查路径是否唯一-->
+    <select id="checkArticleUrlUnique" resultType="int">
+        select count(1) from cms_article where <if test="articleId!=null">
+        article_id not in(#{articleId}) and
+    </if> article_url=#{articleUrl}
+    </select>
+
+    <!--检查标题是否唯一-->
+    <select id="checkArticleTitleUnique" resultType="int">
+        select count(1) from cms_article where <if test="articleId!=null">
+        article_id not in(#{articleId}) and
+    </if> article_title=#{articleTitle}
+    </select>
+
+    <!--检查标题|路径是否唯一-->
+    <select id="checkUrlAndTitleUnique" resultType="int">
+        select count(1) from cms_article where
+        <if test="articleId!=null">
+            article_id not in(#{articleId}) and
+        </if>
+        (article_title=#{articleTitle} or article_url=#{articleUrl})
+    </select>
+
+
+    <!-- 更新新文章Id -->
+    <update id="updateCmsArticleById"
+            parameterType="com.oly.cms.system.model.po.CmsArticle">
+       update cms_article
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="articleTitle != null and articleTitle != ''">article_title = #{articleTitle},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="true">update_time = sysdate(),</if>
+            <if test="articleType != null">article_type = #{articleType},</if>
+            <if test="articleContent != null">article_content = #{articleContent},</if>
+            <if test="articleBuild != null">article_build = #{articleBuild},</if>
+            <if test="articleTop != null">article_top = #{articleTop},</if>
+            <if test="articleImg != null">article_img = #{articleImg},</if>
+            <if test="articleSummary != null">article_summary = #{articleSummary},</if>
+            <if test="visible != null">visible = #{visible},</if>
+            <if test="allowComment != null">allow_comment = #{allowComment},</if>
+            <if test="reprintUrl != null">reprint_url = #{reprintUrl},</if>
+            <if test="articleUrl != null">article_url = #{articleUrl},</if>
+            <if test="keywords != null">keywords = #{keywords},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="articleToc != null">article_toc = #{articleToc},</if>
+            <if test="articleMd != null">article_md = #{articleMd},</if>
+        </trim>
+        where article_id = #{articleId}
+    </update>
+
+    <!--顶置文章-->
+    <update id="updateArticleTop">
+        update cms_article set article_top=#{articleTop} where article_id in (
+        <foreach collection="articleIds" separator="," item="articleId">
+            #{articleId}
+        </foreach>
+        )
+    </update>
+
+    <!--文章审核-->
+    <update id="updateVisible">
+        update cms_article set visible=#{visible} where article_id in (
+        <foreach collection="articleIds" separator="," item="articleId">
+            #{articleId}
+        </foreach>
+        )
+    </update>
+
+  
+    <!--获取文章-->
+    <select id="getCmsArticleById" parameterType="long" resultMap="BaseResultMap">
+        <include refid="selectCmsArticleVoAll"/> where article_id=#{articleId}
+    </select>
+
+    <!--获取文章列表-->
+    <select id="listCmsArticle" parameterType="com.oly.cms.system.model.vo.ArticleVo" resultMap="BaseResultMap">
+        <include refid="selectCmsArticleVoBase"/>
+        <where>
+            <if test="articleId!=null">
+                and article_id=#{articleId}
+            </if>
+            <if test="articleTitle!=null and articleTitle != ''">
+                and article_title like concat('%', #{articleTitle}, '%')
+            </if>
+            <if test="createBy!=null">
+                and create_by=#{createBy}
+            </if>
+             <if test="updateBy!=null">
+                and update_by=#{updateBy}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+            <if test="articleType!=null">
+                and article_type=#{articleType}
+            </if>
+            <if test="articleTop!=null">
+                and article_top=#{articleTop}
+            </if>
+            <if test="visible!=null">
+                and visible=#{visible}
+            </if>
+            <if test="articleBuild!=null">
+                and article_build=#{articleBuild}
+            </if>
+            <if test="catId!=null">
+                and article_id in(select article_id from cms_article_cat where cat_id=#{catId} or cat_id in (select
+                cat_id from cms_cat WHERE FIND_IN_SET(#{catId},ancestors)))
+            </if>
+             <if test="tagId!=null">
+                and article_id in(select article_id from cms_article_tag where tag_id=#{tagId})        
+            </if>
+             <if test="params.supportType != null and params.supportType != ''"><!-- 支持主题 -->
+				and FIND_IN_SET(article_type,#{params.supportType})
+			</if>
+        </where>
+    </select>
+
+    <!--删除文章 0为淘客类型-->
+    <delete id="deleteCmsArticleByIds">
+        delete from cms_article where article_id in
+        <foreach close=")" separator="," open="(" collection="array" item="articleId">#{articleId}</foreach>
+    </delete>
+    
+    <select id="listNotIncludeTaoId" resultType="long">
+       select article_id from cms_article where article_type!=0 and article_id in
+        <foreach close=")" separator="," open="(" collection="array" item="articleId">#{articleId}</foreach>
+    </select>
+
+</mapper>

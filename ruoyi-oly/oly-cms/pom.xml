@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ruoyi-oly</artifactId>
+        <groupId>com.oly</groupId>
+        <version>4.6.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    <artifactId>oly-cms</artifactId>
+    <description>内容管理后台系统管理模块</description>
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <!-- 核心模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-framework</artifactId>
+        </dependency>
+     
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-oss</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oly</groupId>
+            <artifactId>oly-websocket</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>5.1.5</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+    </dependencies>
+</project>

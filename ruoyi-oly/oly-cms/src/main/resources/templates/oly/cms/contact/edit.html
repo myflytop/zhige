@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('修改反馈|建议')" />
+</head>
+
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-contact-edit" th:object="${cmsContact}">
+            <input name="contactId" th:field="*{contactId}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">主题：</label>
+                <div class="col-sm-8">
+                    <input name="subject" disabled th:field="*{subject}" class="form-control disabled" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">内容：</label>
+                <div class="col-sm-8">
+                    <textarea name="content" readonly class="form-control disabled">[[*{content}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">邮件：</label>
+                <div class="col-sm-8">
+                    <input name="email" th:field="*{email}" readonly class="form-control disabled" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">电话：</label>
+                <div class="col-sm-8">
+                    <input name="phone" th:field="*{phone}" readonly class="form-control disabled" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('cms_contact_visible')}">
+                        <input type="radio" th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}"
+                            th:checked="${dict.default}">
+                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">其它联系方式：</label>
+                <div class="col-sm-8">
+                    <input name="otherContact" readonly th:field="*{otherContact}" class="form-control disabled" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">结果：</label>
+                <div class="col-sm-8">
+                    <textarea name="handleResult" class="form-control">[[*{handleResult}]]</textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "cms/contact";
+        $("#form-contact-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-contact-edit').serialize());
+            }
+        }
+    </script>
+</body>
+
+</html>

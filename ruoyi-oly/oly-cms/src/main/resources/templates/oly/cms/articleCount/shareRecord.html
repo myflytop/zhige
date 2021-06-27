@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('文章收藏数')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            文章id：
+                            <input type="text" name="articleId"/>
+                        </li>
+                        <li>
+                            用户Id：
+                            <input type="text" name="userId"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:record:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:record:remove')}]];
+    var prefix = ctx + "cms/articleCount";
+
+    $(function() {
+        var options = {
+            url: prefix + "/shareRecord",
+            modalName: "评分",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field : 'scoreId',
+                    title : '主键',
+                    visible: false
+                },
+                {
+                    field : 'articleId',
+                    title : '文章Id'
+                },
+                {
+                    field: 'articleTitle',
+                    title: '文章标题',
+                    formatter:function(value, row, index) {
+                        if(value.length>12){
+                            return '<a href="#" title="'+value+'">'+value.substring(0,12)+'..</a>';
+                        }
+                        else
+                        {
+                            return '<a href="#" title="'+value+'">'+value+'</a>';
+                        }
+                    }
+                },
+                {
+                    field : 'userId',
+                    title : '用户Id'
+                },
+                {
+                    field : 'remark',
+                    title : '备注'
+                },
+                {
+                    field : 'ip',
+                    title : 'ip'
+                },
+                {
+                    field : 'userSystem',
+                    title : '用户使用系统/或者浏览器'
+                },
+                {
+                    field : 'userBower',
+                    title : '用户浏览器'
+                },
+                {
+                    field : 'fettle',
+                    title : '状态'
+                },
+                {
+                    field : 'score',
+                    title : '评分'
+                } ]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>
