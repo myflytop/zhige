@@ -9,8 +9,7 @@ import com.ruoyi.common.core.domain.entity.SysDept;
  * 
  * @author ruoyi
  */
-public interface SysDeptMapper
-{
+public interface SysDeptMapper {
     /**
      * 查询部门人数
      * 
@@ -93,11 +92,11 @@ public interface SysDeptMapper
     public List<String> selectRoleDeptTree(Long roleId);
 
     /**
-     * 修改所在部门的父级部门状态
+     * 修改所在部门正常状态
      * 
-     * @param dept 部门
+     * @param deptIds 部门ID组
      */
-    public void updateDeptStatus(SysDept dept);
+    public void updateDeptStatusNormal(Long[] deptIds);
 
     /**
      * 根据ID查询所有子部门

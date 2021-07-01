@@ -4,13 +4,10 @@ import com.oly.oss.utils.OssUtils;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.MimeTypeUtils;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
-
 import com.oly.oss.utils.FileTypes;
 
 public enum EnumCheckSupportType {

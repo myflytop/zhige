@@ -1,4 +1,6 @@
+
 package com.oly.common.model.enums;
+
 /**
  * 链接,菜单，分类，标签通用
  */

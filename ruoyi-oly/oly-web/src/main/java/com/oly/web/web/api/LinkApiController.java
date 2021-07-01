@@ -27,18 +27,9 @@ public class LinkApiController extends CommonController {
   private BlogLinkCacheService linkService;
 
   /**
-   * 获取链接列表
+   * 综合查询
    * 
-   * @param groupKey
-   * @return
-   */
-  @GetMapping("/list/key/{groupKey}")
-  public AjaxResult listLink(@PathVariable("groupKey") String groupKey) {
-    return AjaxResult.success(linkService.listBlogLinksByKey(groupKey));
-  }
-
-   /**
-   * 获取链接列表
+   * @param blogLink
    * @return
    */
   @GetMapping("/list")
@@ -50,6 +41,21 @@ public class LinkApiController extends CommonController {
     return AjaxResult.success(pageOne);
   }
 
+  /**
+   * 获取链接列表
+   * 
+   * @param groupKey
+   * @return
+   */
+  @GetMapping("/list/groupKey/{groupKey}")
+  public AjaxResult listLinkByKey(@PathVariable("groupKey") String groupKey) {
+    return AjaxResult.success(linkService.listBlogLinksByKey(groupKey));
+  }
+
+  @GetMapping("/list/visible/{visible}")
+  public AjaxResult listLink(@PathVariable("visible") int visible) {
+    return AjaxResult.success(linkService.listBlogLinksByVisible(visible));
+  }
 
   /**
    * 获取链接通过ID
@@ -63,7 +69,7 @@ public class LinkApiController extends CommonController {
   }
 
   /**
-   * 组名分组
+   * 组名分组支持模糊查询 确保分组key与组名唯一
    * 
    * @param groupKey
    * @return

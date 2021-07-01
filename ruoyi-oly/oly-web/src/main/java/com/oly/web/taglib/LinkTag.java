@@ -21,26 +21,26 @@ public class LinkTag {
    * @return
    */
   public List<BlogLink> listLink(String groupKey) {
-   
     return blogLinkService.listBlogLinksByKey(groupKey);
   }
 
   /**
    * 获取链接通过ID
+   * 
    * @param linkId
    * @return
    */
   public BlogLink getLinkById(Long linkId) {
-   return blogLinkService.getBlogLinkById(linkId);
+    return blogLinkService.getBlogLinkById(linkId);
   }
 
   /**
    * 组名分组
+   * 
    * @param groupKey
    * @return
    */
   public Map<String, List<BlogLink>> groupLink(String groupKey) {
-  
     return blogLinkService.listBlogLinksGroupByKey(groupKey);
   }
 
