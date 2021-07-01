@@ -1,7 +1,5 @@
 package com.oly.comment.model.properties;
 
-import java.util.List;
-
 import com.oly.common.model.properties.PropertyEnum;
 
 /**
@@ -60,5 +58,4 @@ public enum OlyCommentProperties implements PropertyEnum {
 
         return PropertyEnum.convertToEnum(value, OlyCommentProperties.class);
     }
-
 }

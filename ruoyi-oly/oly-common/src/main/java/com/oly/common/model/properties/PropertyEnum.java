@@ -108,7 +108,6 @@ public interface PropertyEnum extends ValueEnum<String> {
     @Nullable
     static <T extends Enum<T>> T convertToEnum(@NonNull String value, @NonNull Class<T> type) {
         Assert.hasText(value, "Property value must not be blank");
-
         try {
             return Enum.valueOf(type, value.toUpperCase());
         } catch (Exception e) {

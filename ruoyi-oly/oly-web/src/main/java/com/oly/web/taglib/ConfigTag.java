@@ -1,11 +1,8 @@
 package com.oly.web.taglib;
 
 import java.util.Map;
-
 import com.oly.comment.model.properties.OlyCommentProperties;
-import com.oly.common.model.properties.PropertyEnum;
 import com.oly.web.service.cache.BlogConfigCacheService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +26,6 @@ public class ConfigTag {
      * @return
      */
     public String getSysConfigDefauleValue(String value) {
-
         return bService.getSysConfigDefauleValue(OlyCommentProperties.getEnum(value));
     }
 }

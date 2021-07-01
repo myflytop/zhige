@@ -352,7 +352,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where article_url=#{articleurl} and visible=3
 	</select>
     
-	<select id="allowComment" parameterType="boolean">
+	<select id="allowComment" resultType="boolean">
        	select allow_comment from cms_article
 		where article_id=#{postId} and visible=3
     </select>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:with="blogConfig=${@configTag.getWebConfigByGroup('bobey')}">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:with="blogConfig=${@configTag.getWebConfigByGroup('bobey')},post=${@articleTag.getBlogArticleHtmlById(postId)}">
 
 <head>
 	<th:block th:include="bobey/blog_include :: blogHeader(title=${blogConfig['oly.web.title']+'-'+post.articleTitle},
@@ -15,7 +15,7 @@ blogConfig=${blogConfig})" />
 		<div class="layui-row ">
 			<div class="layui-col-md9  bobey-left-box" id="miao-left">
 				<div class="bobey-left-content">
-					<th:block th:include="bobey/blog_include::blogArticle(postId=${postId})" />
+					<th:block th:include="bobey/blog_include::blogArticle(post=${post})" />
 				</div>
 			</div>
 

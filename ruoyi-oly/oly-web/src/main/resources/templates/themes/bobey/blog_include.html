@@ -366,8 +366,8 @@
 	</div>
 </div>
 <!-- 文章展示 -->
-<div th:fragment=blogArticle(postId)>
-	<div class="layui-row" th:with="post=${@articleTag.getBlogArticleHtmlById(postId)}">
+<div th:fragment=blogArticle(post)>
+	<div class="layui-row" th:with="post=${post}">
 		<div class="layui-col-md12 bobey-box">
 			<article class="bobey-post-box" style="background-color: white">
 				<input id="articleId" th:value="${post.articleId}" type="hidden">
@@ -437,16 +437,16 @@
 						</div>
 					</div>
 					<div class="layui-col-md12 post-comment">
-						<fieldset th:if="${post.allowComment&&#strings.equals('true',@configTag.getSysConfigDefauleValue('oly.comment.open'))}"
+						<fieldset th:if="${post.allowComment&&#strings.equals('true',@configTag.getSysConfigDefauleValue('COMMENT_OPEN'))}"
 							class="layui-elem-field layui-field-title">
 							<legend>评论</legend>
-							<div class="layui-field-box" th:with="comments=${@commentTag.listPageCommentById(postId)}">
+							<div class="layui-field-box" th:with="comments=${@commentTag.listPageCommentById(post.articleId)}" id="commentContent">
 								<div class="layui-row">
 									<div class="layui-col-md12">
 										<button type="button" class="layui-btn  layui-btn-normal  comment-ok"
 											th:data-comment="${0+','+post.articleId+','+''}">评论</button>
 									</div>
-									<div class="layui-col-md12 post-comment-list"  id="commentContent">
+									<div class="layui-col-md12 post-comment-list">
 										<ul>
 											<li th:each="commentOne,commentOneStat:${comments.rows}">
 												<div class="comment-parent">
@@ -533,7 +533,7 @@
 								</div>
 							</div>
 						</fieldset>
-						<fieldset th:if="${!#strings.equals('true',@configTag.getSysConfigDefauleValue('oly.comment.open'))||!post.allowComment}"
+						<fieldset th:if="${!#strings.equals('true',@configTag.getSysConfigDefauleValue('COMMENT_OPEN'))||!post.allowComment}"
 							class="layui-elem-field layui-field-title">
 							文章评论已关闭！
 						</fieldset>

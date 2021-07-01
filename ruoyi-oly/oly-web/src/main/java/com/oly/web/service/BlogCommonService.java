@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BlogCommonService{
+public class BlogCommonService {
     @Autowired
     private BlogConfigMapper bMapper;
 
@@ -61,8 +61,8 @@ public class BlogCommonService{
     }
 
     public String getConfigByUninkValue(String group, String key) {
-        BlogConfig b=this.getConfigByUnink(group, key);
-        return b==null?null:b.getConfigValue();
+        BlogConfig b = this.getConfigByUnink(group, key);
+        return b == null ? null : b.getConfigValue();
     }
 
 }
