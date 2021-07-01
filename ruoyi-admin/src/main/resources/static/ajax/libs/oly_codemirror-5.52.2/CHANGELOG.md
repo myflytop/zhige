@@ -1280,14 +1280,14 @@ Emergency single-patch update to 4.9\. Fixes Firefox-specific problem where the 
 *   Improvements to the [Vim bindings](https://codemirror.net/demo/vim.html): Arbitrary insert mode key mappings are now possible, and text objects are supported in visual mode.
 *   The mode [meta-information file](https://codemirror.net/mode/meta.js) now includes information about file extensions, and [helper functions](https://codemirror.net/doc/manual.html#addon_meta) `findModeByMIME` and `findModeByExtension`.
 *   New logo!
-*   Full [list of patches](https://github.com/codemirror/CodeMirror/compare/4.6.0...4.7.0).
+*   Full [list of patches](https://github.com/codemirror/CodeMirror/compare/4.6.2...4.7.0).
 
-## 4.6.0 (2014-09-19)
+## 4.6.2 (2014-09-19)
 
 *   New mode: [Modelica](https://codemirror.net/mode/modelica/index.html)
 *   New method: [`findWordAt`](https://codemirror.net/doc/manual.html#findWordAt)
 *   Make it easier to [use text background styling](https://codemirror.net/demo/markselection.html)
-*   Full [list of patches](https://github.com/codemirror/CodeMirror/compare/4.5.0...4.6.0).
+*   Full [list of patches](https://github.com/codemirror/CodeMirror/compare/4.5.0...4.6.2).
 
 ## 4.5.0 (2014-08-21)
 

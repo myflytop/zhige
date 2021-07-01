@@ -8,12 +8,11 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
-    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
-    <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>
+    <link href="../static/css/style.min.css" th:href="@{/css/style.min.css}" rel="stylesheet"/>
 </head>
 
 <body class="gray-bg">
-    <div class="row  border-bottom white-bg dashboard-header">
+    <div class="row border-bottom white-bg dashboard-header">
         <div class="col-sm-12">
             <blockquote class="text-warning" style="font-size:14px">
                                            领取阿里云通用云产品1888优惠券
@@ -80,7 +79,7 @@
                     <div class="ibox-content">
                         <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.ruoyi.vip" target="_blank">http://www.ruoyi.vip</a>
                         </p>
-                        <p><i class="fa fa-qq"></i> QQ群：<s>满1389287</s> <s>满1679294</s> <s>满1529866</s> <s>满1772718</s> <s>满1366522</s> <s>满1382251</s> <s>满1145125</s> <s>满86752435</s> <s>满134072510</s> <s>满210336300</s> <s>满339522636</s> <s>满130035985</s> <a href="https://jq.qq.com/?_wv=1027&k=4NsjKbtU" target="_blank">143151071</a> 
+                        <p><i class="fa fa-qq"></i> QQ群：<s>满1389287</s> <s>满1679294</s> <s>满1529866</s> <s>满1772718</s> <s>满1366522</s> <s>满1382251</s> <s>满1145125</s> <s>满86752435</s> <s>满134072510</s> <s>满210336300</s> <s>满339522636</s> <s>满130035985</s> <s>满143151071</s> <s>满158781320</s> <a href="https://jq.qq.com/?_wv=1027&k=HlshFwkJ" target="_blank">201531282</a> 
                         </p>
                         <p><i class="fa fa-weixin"></i> 微信：<a href="javascript:;">/ *若依</a>
                         </p>
@@ -100,10 +99,111 @@
                             <div class="panel panel-default">
 								<div class="panel-heading">
 								   <h5 class="panel-title">
+									   <a data-toggle="collapse" data-parent="#version" href="#v462">v4.6.2</a><code class="pull-right">2021.07.01</code>
+								   </h5>
+								</div>
+								<div id="v462" class="panel-collapse collapse in">
+									<div class="panel-body">
+									   <ol>
+									        <li>优化参数&字典缓存操作</li>
+									        <li>新增表格参数（导出方式&导出文件类型）</li>
+									        <li>新增表格示例（自定义视图分页）</li>
+									        <li>新增示例（表格列拖拽）</li>
+									        <li>集成yuicompressor实现(CSS/JS压缩)</li>
+									        <li>新增表格参数（是否支持打印页面showPrint）</li>
+									        <li>支持bat脚本执行应用</li>
+									        <li>修复存在的SQL注入漏洞问题</li>
+									        <li>定时任务屏蔽rmi远程调用</li>
+									        <li>导出Excel文件支持数据流下载方式</li>
+									        <li>实例演示弹层组件增加相册层示例</li>
+									        <li>删除操作日志记录信息</li>
+									        <li>增加表格重置分页的参数</li>
+									        <li>限制超级管理员不允许操作</li>
+									        <li>树级结构更新子节点使用replaceFirst</li>
+									        <li>支持动态生成密匙，防止默认密钥泄露</li>
+									        <li>升级pagehelper到最新版1.3.1</li>
+									        <li>升级oshi到最新版本v5.7.4</li>
+									        <li>升级swagger到最新版本v3.0.0</li>
+									        <li>升级commons.io到最新版本v2.10.0</li>
+									        <li>升级commons.fileupload到最新版本v1.4</li>
+									        <li>升级bootstrap-table到最新版本v1.18.3</li>
+									        <li>升级druid到最新版本v1.2.6</li>
+									        <li>升级fastjson到最新版1.2.76</li>
+									        <li>升级layui到最新版本v2.6.6</li>
+									        <li>升级layer到最新版本v3.5.0</li>
+									        <li>升级laydate到最新版本v5.3.0</li>
+									        <li>优化表格树移动端&边框显示</li>
+									        <li>新增表格刷新options配置方法</li>
+									        <li>优化图片工具类读取文件，防止异常</li>
+									        <li>修复表格图片预览移动端宽高无效问题</li>
+									        <li>主子表通用操作封装处理增加文本域类型</li>
+									        <li>日志注解兼容获取json类型的参数</li>
+									        <li>修复表单向导插件有滚动条时底部工具栏无法固定问题</li>
+									        <li>修复导出角色数据范围翻译缺少仅本人</li>
+									        <li>修正Velocity模板初始字符集</li>
+									        <li>升级mybatis到最新版3.5.6 阻止远程代码执行漏洞</li>
+									        <li>优化代码生成导出模板名称</li>
+									        <li>修改个人中心密码长度提醒</li>
+									        <li>实例演示中弹出表格增加以回调形式回显到父窗体</li>
+									        <li>修复登录页面弹窗文字不显示的问题</li>
+									        <li>其他细节优化</li>
+										</ol>
+									</div>
+								</div>
+							</div>
+                            <div class="panel panel-default">
+								<div class="panel-heading">
+								   <h5 class="panel-title">
+									   <a data-toggle="collapse" data-parent="#version" href="#v461">v4.6.1</a><code class="pull-right">2021.04.12</code>
+								   </h5>
+								</div>
+								<div id="v461" class="panel-collapse collapse">
+									<div class="panel-body">
+									   <ol>
+									        <li>新增IE浏览器版本过低提示页面</li>
+									        <li>新增详细信息tab页签方式</li>
+									        <li>新增解锁屏幕打开上次页签</li>
+									        <li>数据监控默认账户密码防止越权访问</li>
+									        <li>新增表格示例（导出选择列）</li>
+									        <li>个人信息添加手机&邮箱重复验证</li>
+									        <li>个人中心刷新后样式问题</li>
+									        <li>操作日志返回参数添加非空验证</li>
+									        <li>velocity剔除commons-collections版本，防止3.2.1版本的反序列化漏洞</li>
+									        <li>子表模板默认日期格式化</li>
+									        <li>代码生成预览语言根据后缀名高亮显示</li>
+									        <li>代码生成主子表相同字段导致数据问题</li>
+									        <li>升级SpringBoot到最新版本2.2.13</li>
+									        <li>升级shiro到最新版1.7.1 阻止身份认证绕过漏洞</li>
+									        <li>升级bootstrapTable到最新版本v1.18.2</li>
+									        <li>升级bootstrapTable相关组件到最新版本v1.18.2</li>
+									        <li>升级fastjson到最新版1.2.75</li>
+									        <li>升级druid到最新版本v1.2.4</li>
+									        <li>升级oshi到最新版本v5.6.0</li>
+									        <li>修改ip字段长度防止ipv6地址长度不够</li>
+									        <li>搜索建议示例选择后隐藏列表</li>
+									        <li>主子表示例增加初始化数据</li>
+									        <li>优化Excel导入增加空行判断</li>
+									        <li>修复横向菜单无法打开页签问题</li>
+									        <li>修复导入数据为负浮点数时，导入结果会丢失精度问题</li>
+									        <li>优化更多操作按钮左侧移入内容闪现消失情况</li>
+									        <li>修复主子表提交中列隐藏后出现列偏移问题</li>
+									        <li>单据打印网页时通过hidden-print隐藏元素</li>
+									        <li>表格销毁清除记住选择数据</li>
+									        <li>增加表格动态列示例</li>
+									        <li>代码生成选择主子表关联元素必填</li>
+									        <li>tree根据Id和Name选中指定节点增加空判断</li>
+									        <li>其他细节优化</li>
+										</ol>
+									</div>
+								</div>
+							</div>
+                            <div class="panel panel-default">
+								<div class="panel-heading">
+								   <h5 class="panel-title">
 									   <a data-toggle="collapse" data-parent="#version" href="#v46">v4.6.0</a><code class="pull-right">2021.01.01</code>
 								   </h5>
 								</div>
-								<div id="v46" class="panel-collapse collapse in">
+								<div id="v46" class="panel-collapse collapse">
 									<div class="panel-body">
 									   <ol>
 									        <li>新增缓存监控管理</li>

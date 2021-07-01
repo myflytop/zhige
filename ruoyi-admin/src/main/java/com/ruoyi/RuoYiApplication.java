@@ -1,5 +1,4 @@
 package com.ruoyi;
-
 import com.ruoyi.common.config.RuoYiConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

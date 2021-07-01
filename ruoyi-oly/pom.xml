@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ruoyi</artifactId>
         <groupId>com.ruoyi</groupId>
-        <version>4.6.0</version>
+        <version>4.6.2</version>
     </parent>
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
@@ -17,7 +17,7 @@
     </description>
 
 <properties>
-<ruoyi.version>4.6.0</ruoyi.version>
+<ruoyi.version>4.6.2</ruoyi.version>
 </properties>
     <dependencyManagement>
         <dependencies>

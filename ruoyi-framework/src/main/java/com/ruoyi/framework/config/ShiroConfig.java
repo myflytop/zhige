@@ -107,12 +107,11 @@ public class ShiroConfig {
     @Value("${shiro.cookie.maxAge}")
     private int maxAge;
 
-      /**
+    /**
      * 设置cipherKey密钥
      */
     @Value("${shiro.cookie.cipherKey}")
     private String cipherKey;
-
 
     /**
      * 登录地址
@@ -125,13 +124,13 @@ public class ShiroConfig {
      */
     @Value("${shiro.user.unauthorizedUrl}")
     private String unauthorizedUrl;
-    
+
     /**
      * 缓存管理器 使用Ehcache实现
      */
     @Bean
     public EhCacheManager getEhCacheManager() {
-        net.sf.ehcache.CacheManager    cacheManager = net.sf.ehcache.CacheManager.getCacheManager("ruoyi");
+        net.sf.ehcache.CacheManager cacheManager = net.sf.ehcache.CacheManager.getCacheManager("ruoyi");
 
         EhCacheManager em = new EhCacheManager();
         if (StringUtils.isNull(cacheManager)) {
@@ -141,8 +140,9 @@ public class ShiroConfig {
             em.setCacheManager(cacheManager);
             return em;
         }
- 
+
     }
+
     /**
      * 返回配置文件流 避免ehcache配置文件一直被占用，无法完全销毁项目重新部署
      */
@@ -260,7 +260,8 @@ public class ShiroConfig {
         // 对静态资源设置匿名访问
         filterChainDefinitionMap.put("/favicon.ico**", "anon");
         filterChainDefinitionMap.put("/ruoyi.png**", "anon");
-        filterChainDefinitionMap.put("/html/**", "anon");        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/html/**", "anon");
+        filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/docs/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
@@ -284,28 +285,28 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/user/register", "anon,captchaValidate");
         filterChainDefinitionMap.put("/zuser/*/user/register", "anon,captchaValidate");
         // 个人中心需认证
-         filterChainDefinitionMap.put("/user/personal", "user");
-         filterChainDefinitionMap.put("/zuser/*/user/personal", "user");
+        filterChainDefinitionMap.put("/user/personal", "user");
+        filterChainDefinitionMap.put("/zuser/*/user/personal", "user");
         // 找回密码页面拦截的访问
         filterChainDefinitionMap.put("/user/forget", "anon,captchaValidate");
         filterChainDefinitionMap.put("/zuser/*/user/forget", "anon,captchaValidate");
-         // 退出登陆匿名访问
-         filterChainDefinitionMap.put("/user/logout", "logout");
-         filterChainDefinitionMap.put("/zuser/*/user/logout", "logout");
-        //文件下载匿名访问
+        // 退出登陆匿名访问
+        filterChainDefinitionMap.put("/user/logout", "logout");
+        filterChainDefinitionMap.put("/zuser/*/user/logout", "logout");
+        // 文件下载匿名访问
         filterChainDefinitionMap.put("/oly/oss/download/**", "anon");
-        //博客匿名访问
+        // 博客匿名访问
         filterChainDefinitionMap.put("/blog/**", "anon");
         filterChainDefinitionMap.put("/zblog/**", "anon");
-        //淘客匿名访问
+        // 淘客匿名访问
         filterChainDefinitionMap.put("/taoke/**", "anon");
         filterChainDefinitionMap.put("/ztaoke/**", "anon");
-        //主页匿名访问
+        // 主页匿名访问
         filterChainDefinitionMap.put("/", "anon");
-        
+
         filterChainDefinitionMap.put("/api/**", "anon");
         filterChainDefinitionMap.put("/comment/**", "anon");
-        //博客静态资源匿名访问
+        // 博客静态资源匿名访问
         filterChainDefinitionMap.put("/themes/**/resources/**", "anon");
 
         Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
@@ -367,19 +368,14 @@ public class ShiroConfig {
     /**
      * 记住我
      */
-    public CookieRememberMeManager rememberMeManager()
-    {
+    public CookieRememberMeManager rememberMeManager() {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(rememberMeCookie());
-       if (StringUtils.isNotEmpty(cipherKey))
-        {
+        if (StringUtils.isNotEmpty(cipherKey)) {
             cookieRememberMeManager.setCipherKey(Base64.decode(cipherKey));
-        }
-        else
-        {
+        } else {
             cookieRememberMeManager.setCipherKey(CipherUtils.generateNewKey(128, "AES").getEncoded());
         }
-        return cookieRememberMeManager;
         return cookieRememberMeManager;
     }
 
