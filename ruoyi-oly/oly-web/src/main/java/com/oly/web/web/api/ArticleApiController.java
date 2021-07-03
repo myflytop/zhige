@@ -9,7 +9,6 @@ import com.oly.web.model.po.BlogArticle;
 import com.oly.web.service.cache.BlogArticleCacheService;
 import com.oly.web.web.CommonController;
 import com.ruoyi.common.core.domain.AjaxResult;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,10 +31,10 @@ public class ArticleApiController extends CommonController {
    * @return
    */
   @GetMapping("/list")
-  public AjaxResult listArticleByArticleParam(BlogArticleSearchParam parm,String themeName) {
+  public AjaxResult listArticleByArticleParam(BlogArticleSearchParam parm, String themeName) {
     List<BlogArticle> list = new ArrayList<>();
     startDefaultPage();
-    list = articleService.listBlogArticles(parm,themeName);
+    list = articleService.listBlogArticles(parm, themeName);
     PageData pageOne = PageData.getData(list);
     return AjaxResult.success(pageOne);
   }
@@ -65,9 +64,10 @@ public class ArticleApiController extends CommonController {
   }
 
   /**
-   * 通过标签ID获取文章
    * 
-   * @param tagId
+   * @param tagId     标签Id
+   * @param size      大小
+   * @param themeName
    * @return
    */
   @GetMapping({ "/list/tag/{tagId}/size/{size}", "/list/tag/{tagId}/size/{size}/themeName/{themeName}" })
@@ -76,7 +76,6 @@ public class ArticleApiController extends CommonController {
 
     return AjaxResult.success(articleService.listBlogArticlesByTagId(tagId, size, themeName));
   }
-
 
   @GetMapping({ "/list/type/{type}/{size}", "/list/type/{type}/{size}/themeName/{themeName}" })
   public AjaxResult listArticleByType(@PathVariable("type") Byte type, @PathVariable("size") Integer size,

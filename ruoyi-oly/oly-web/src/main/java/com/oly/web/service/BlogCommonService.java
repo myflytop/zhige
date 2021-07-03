@@ -21,14 +21,32 @@ public class BlogCommonService {
     @Autowired
     private SysConfigServiceImpl serviceImpl;
 
+    /**
+     * 获取配置
+     * 
+     * @param configGroup
+     * @param configKey
+     * @return
+     */
     public BlogConfig getConfigByUnink(String configGroup, String configKey) {
         return bMapper.getConfigByUnink(configGroup, configKey);
     }
 
+    /**
+     * 
+     * @param configGroup
+     * @return
+     */
     public List<BlogConfig> listBlogConfigBackByGroup(String configGroup) {
         return bMapper.listBlogConfigBackByGroup(configGroup);
     }
 
+    /**
+     * 获取配置转换为map
+     * 
+     * @param configGroup
+     * @return
+     */
     public Map<String, String> selectConfigValueMap(String configGroup) {
         List<BlogConfig> sysConfigs = this.listBlogConfigBackByGroup(configGroup);
         Map<String, String> collect = sysConfigs.stream().collect(HashMap::new,

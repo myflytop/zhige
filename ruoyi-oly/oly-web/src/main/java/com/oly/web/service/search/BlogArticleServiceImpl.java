@@ -8,15 +8,17 @@ import java.util.stream.Collectors;
 
 import com.github.pagehelper.PageHelper;
 import com.oly.common.model.properties.OlyWebConfigProetries;
-import com.oly.common.model.support.PageData;
 import com.oly.web.mapper.BlogSearchMapper;
 import com.oly.web.model.PageArticleTimeLine;
 import com.oly.web.model.pam.BlogArticleSearchParam;
 import com.oly.web.model.po.BlogArticle;
+import com.oly.web.model.po.BlogCat;
+import com.oly.web.model.po.BlogTag;
 import com.oly.web.service.IBlogSearchService;
 import com.oly.web.service.cache.BlogConfigCacheService;
 import com.ruoyi.common.utils.StringUtils;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,16 +32,19 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
 
     /**
      * 综合查询
+     * 
      * @param bb
      * @return
      */
-    public List<BlogArticle> listBlogArticles(BlogArticleSearchParam bb,String themeName) {
-        setSupportType(bb, themeName);
+    public List<BlogArticle> listBlogArticles(BlogArticleSearchParam bb, String themeName) {
+        if (StringUtils.isNotEmpty(themeName))
+            setSupportType(bb, themeName);
         return blogSearchMapper.listBlogArticlesBySearch(bb);
     }
 
     /**
      * 通过文章Id获取Html
+     * 
      * @param articleId
      * @return
      */
@@ -50,6 +55,7 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
 
     /**
      * 通过文章Id获取Md
+     * 
      * @param articleId
      * @return
      */
@@ -77,15 +83,25 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
     public List<BlogArticle> listBlogArticlesByCatId(Long catId, Integer size, String themeName) {
         BlogArticleSearchParam blogArticleSearchParam = new BlogArticleSearchParam();
         blogArticleSearchParam.setCatId(catId);
-        PageHelper.startPage(1, size);
-        return this.listBlogArticles(blogArticleSearchParam,themeName);
+        BlogCat blogCat = blogSearchMapper.getBlogCatByCatId(catId);
+        if (blogCat != null && ArrayUtils.contains(getSupportType(themeName).split(","), blogCat.getCatType())) {
+            PageHelper.startPage(1, size);
+            return this.listBlogArticles(blogArticleSearchParam, null);
+        } else {
+            return null;
+        }
     }
 
     public List<BlogArticle> listBlogArticlesByTagId(Long tagId, Integer size, String themeName) {
         BlogArticleSearchParam blogArticleSearchParam = new BlogArticleSearchParam();
-        blogArticleSearchParam.setTagId(tagId);
-        PageHelper.startPage(1, size);
-        return this.listBlogArticles(blogArticleSearchParam,themeName);
+        BlogTag blogTag = blogSearchMapper.getBlogTagByTagId(tagId);
+        if (blogTag != null && ArrayUtils.contains(getSupportType(themeName).split(","), blogTag.getTagType())) {
+            blogArticleSearchParam.setTagId(tagId);
+            PageHelper.startPage(1, size);
+            return this.listBlogArticles(blogArticleSearchParam, null);
+        } else {
+            return null;
+        }
     }
 
     public List<BlogArticle> listBlogArticlesByType(Byte type, Integer size, String orderString) {
@@ -95,21 +111,20 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
         return blogSearchMapper.listBlogArticlesBySearch(bb);
     }
 
-
-    public PageArticleTimeLine groupByTime(Integer pageNum, Integer pageSize, BlogArticleSearchParam bb,String themeName) {
+    public PageArticleTimeLine groupByTime(Integer pageNum, Integer pageSize, BlogArticleSearchParam bb,
+            String themeName) {
         setSupportType(bb, themeName);
         PageHelper.startPage(pageNum, pageSize, "create_time desc");
         List<BlogArticle> list = blogSearchMapper.listBlogArticlesBySearch(bb);
         // 按照时间分组
         Map<String, List<BlogArticle>> map = list.stream()
                 .collect(Collectors.groupingBy(blogArticle -> neData(blogArticle.getCreateTime())));
-        return PageArticleTimeLine.getData(list,map);
+        return PageArticleTimeLine.getData(list, map);
     }
 
-
-    public PageArticleTimeLine groupByTime(Integer pageNum, Integer pageSize,String themeName) {
+    public PageArticleTimeLine groupByTime(Integer pageNum, Integer pageSize, String themeName) {
         BlogArticleSearchParam bb = new BlogArticleSearchParam();
-        return this.groupByTime(pageNum, pageSize, bb,themeName);
+        return this.groupByTime(pageNum, pageSize, bb, themeName);
     }
 
     private void setSupportType(BlogArticleSearchParam bb, String themeName) {
@@ -117,6 +132,10 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
         if (StringUtils.isNotEmpty(supportType)) {
             bb.setTypes(supportType);
         }
+    }
+
+    private String getSupportType(String themeName) {
+        return commonService.getBackConfigDefauleValue(themeName, OlyWebConfigProetries.ARTICLE_TYPES);
     }
 
     public boolean allowComment(Long postId) {
