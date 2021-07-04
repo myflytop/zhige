@@ -37,8 +37,10 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
      * @return
      */
     public List<BlogArticle> listBlogArticles(BlogArticleSearchParam bb, String themeName) {
-        if (StringUtils.isNotEmpty(themeName))
+        if (StringUtils.isNotEmpty(themeName)) {
             setSupportType(bb, themeName);
+        }
+
         return blogSearchMapper.listBlogArticlesBySearch(bb);
     }
 
@@ -75,16 +77,18 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
 
     public List<BlogArticle> listBlogArticlesOrder(Integer size, Integer num, String order, String themeName) {
         BlogArticleSearchParam ba = new BlogArticleSearchParam();
-        setSupportType(ba, themeName);
         PageHelper.startPage(num, size, order);
-        return blogSearchMapper.listBlogArticlesBySearch(ba);
+        return this.listBlogArticles(ba, themeName);
     }
 
     public List<BlogArticle> listBlogArticlesByCatId(Long catId, Integer size, String themeName) {
-        BlogArticleSearchParam blogArticleSearchParam = new BlogArticleSearchParam();
-        blogArticleSearchParam.setCatId(catId);
+
         BlogCat blogCat = blogSearchMapper.getBlogCatByCatId(catId);
-        if (blogCat != null && ArrayUtils.contains(getSupportType(themeName).split(","), blogCat.getCatType())) {
+        String supportType = getSupportType(themeName);
+        if (blogCat != null && (StringUtils.isEmpty(supportType) || (StringUtils.isNotEmpty(supportType)
+                && ArrayUtils.contains(supportType.split(","), blogCat.getCatType())))) {
+            BlogArticleSearchParam blogArticleSearchParam = new BlogArticleSearchParam();
+            blogArticleSearchParam.setCatId(catId);
             PageHelper.startPage(1, size);
             return this.listBlogArticles(blogArticleSearchParam, null);
         } else {
@@ -93,9 +97,11 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
     }
 
     public List<BlogArticle> listBlogArticlesByTagId(Long tagId, Integer size, String themeName) {
-        BlogArticleSearchParam blogArticleSearchParam = new BlogArticleSearchParam();
         BlogTag blogTag = blogSearchMapper.getBlogTagByTagId(tagId);
-        if (blogTag != null && ArrayUtils.contains(getSupportType(themeName).split(","), blogTag.getTagType())) {
+        String supportType = getSupportType(themeName);
+        if (blogTag != null && (StringUtils.isEmpty(supportType) || (StringUtils.isNotEmpty(supportType)
+                && ArrayUtils.contains(supportType.split(","), blogTag.getTagType())))) {
+            BlogArticleSearchParam blogArticleSearchParam = new BlogArticleSearchParam();
             blogArticleSearchParam.setTagId(tagId);
             PageHelper.startPage(1, size);
             return this.listBlogArticles(blogArticleSearchParam, null);
@@ -108,14 +114,13 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
         BlogArticleSearchParam bb = new BlogArticleSearchParam();
         bb.setArticleType(type);
         PageHelper.startPage(1, size, orderString);
-        return blogSearchMapper.listBlogArticlesBySearch(bb);
+        return this.listBlogArticles(bb, null);
     }
 
     public PageArticleTimeLine groupByTime(Integer pageNum, Integer pageSize, BlogArticleSearchParam bb,
             String themeName) {
-        setSupportType(bb, themeName);
         PageHelper.startPage(pageNum, pageSize, "create_time desc");
-        List<BlogArticle> list = blogSearchMapper.listBlogArticlesBySearch(bb);
+        List<BlogArticle> list = this.listBlogArticles(bb, themeName);
         // 按照时间分组
         Map<String, List<BlogArticle>> map = list.stream()
                 .collect(Collectors.groupingBy(blogArticle -> neData(blogArticle.getCreateTime())));
@@ -128,6 +133,9 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
     }
 
     private void setSupportType(BlogArticleSearchParam bb, String themeName) {
+        if (StringUtils.isEmpty(themeName)) {
+            return;
+        }
         String supportType = commonService.getBackConfigDefauleValue(themeName, OlyWebConfigProetries.ARTICLE_TYPES);
         if (StringUtils.isNotEmpty(supportType)) {
             bb.setTypes(supportType);
@@ -135,6 +143,9 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
     }
 
     private String getSupportType(String themeName) {
+        if (StringUtils.isEmpty(themeName)) {
+            return null;
+        }
         return commonService.getBackConfigDefauleValue(themeName, OlyWebConfigProetries.ARTICLE_TYPES);
     }
 
