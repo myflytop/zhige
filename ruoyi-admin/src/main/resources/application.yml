@@ -104,7 +104,7 @@ shiro:
     # 权限认证失败地址
     unauthorizedUrl: /unauth
     # 首页地址
-    indexUrl: /blog
+    indexUrl: /
     # 验证码开关
     captchaEnabled: true
     # 验证码类型 math 数组计算 char 字符

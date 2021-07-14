@@ -84,11 +84,12 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label is-">支持类型：</label>
-                                <div class="col-sm-8">
-                                    <input name="oly.web.article.supportType"
-                                        th:value="${webConfig['oly.web.article.supportType']}" class="form-control"
-                                        type="text">
-                                    </input>
+                                <div class="col-sm-8">  
+                                    <input type="hidden" name="oly.web.article.supportType" th:value="${webConfig['oly.web.article.supportType']}" />                  
+                                    <select class="form-control noselect2 selectpicker" data-live-search="true" data-max-options="10"  multiple="multiple"  id="supportType" th:with="type=${@dict.getType('cms_support_type')}">
+                                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                                        </option>
+                                    </select>    
                                 </div>
                             </div>
                         </form>
@@ -313,13 +314,15 @@
             var prefix = ctx + "cms/configBack";
             var toolPrefix=ctx + "cms/tool";
             var myForm = "form-normal";
+            var sup= $("input[name='oly.web.article.supportType']").val().split(',');
             $('#config-title a').click(function (e) {
                 e.preventDefault();
                 $(this).tab('show');
                 myForm = $(this).attr('href').replace("#", "form-");
             });
             function submitHandler() {
-                $.operate.save(prefix + "/update/" + [[${ configGroup }]], $('#' + myForm).serialize());
+                $("input[name='oly.web.article.supportType']").val($("#supportType").selectpicker('val'));
+                $.operate.save(prefix + "/update/" + [[${configGroup}]], $('#' + myForm).serialize());
             }
             $("#submit-btn").click(function () {
                 submitHandler();
@@ -330,6 +333,9 @@
                function siteMapByTime() {
                 $.operate.save(toolPrefix + "/siteMapXmlByByBeginTime/" + [[${ configGroup }]], {'beginTime':$('#datetimepicker').val()});
             }
+            $("#supportType").selectpicker('val', sup);
+            console.log(sup);
+            $("#supportType").selectpicker('refresh');
         </script>
 </body>
 

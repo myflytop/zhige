@@ -14,39 +14,43 @@ import org.springframework.stereotype.Service;
 @Service
 @CacheConfig(cacheNames = "oly-web")
 public class BlogCategoryCacheService {
-    
+
     @Autowired
     private BlogCategoryServiceImpl categoryServiceImpl;
 
-    
-    @Cacheable(key="'"+CacheConstant.CATS_CACHE_KEY_PREFIX+"getCatId_'+#p0")
+    @Cacheable(key = "'" + CacheConstant.CATS_CACHE_KEY_PREFIX + "getCatId_'+#p0")
     public BlogCat getBlogCatByCatId(long catId) {
-        
+
         return categoryServiceImpl.getBlogCatByCatId(catId);
     }
 
-    @Cacheable(key="'"+CacheConstant.CATS_CACHE_KEY_PREFIX+"listCatId_'+#p0+'themeName_'+#p2")
-    public List<BlogCat> listBlogCatsById(Long catId,String themeName) {
-        
-        return categoryServiceImpl.listBlogCatsById(catId,themeName);
-    }
-      
-    @Cacheable(key="'"+CacheConstant.CATS_CACHE_KEY_PREFIX+"listCatType_'+#p0+'_'+#p1")
-    public List<BlogCat> listBlogCatsByType(Byte catType,Long catId) {
-        return categoryServiceImpl.listBlogCatsByType(catType,catId);
+    @Cacheable(key = "'" + CacheConstant.CATS_CACHE_KEY_PREFIX + "listCatId_'+#p0+'themeName_'+#p2")
+    public List<BlogCat> listBlogCatsById(Long catId, String themeName) {
+
+        return categoryServiceImpl.listBlogCatsById(catId, themeName);
     }
 
-    @Cacheable(key="'"+CacheConstant.CATS_CACHE_KEY_PREFIX+"listCatVisible_'+#p0+'_'+#p1+'themeName_'+#p2")
-    public List<BlogCat> listBlogCatsByVisible(Integer visible,Long catId,String themeName) {
-        return categoryServiceImpl.listBlogCatsByVisible(visible,catId,themeName);
+    @Cacheable(key = "'" + CacheConstant.CATS_CACHE_KEY_PREFIX + "listCatType_'+#p0+'_'+#p1")
+    public List<BlogCat> listBlogCatsByType(Byte catType, Long catId) {
+        return categoryServiceImpl.listBlogCatsByType(catType, catId);
     }
 
-    @Cacheable(key="'"+CacheConstant.CATS_CACHE_KEY_PREFIX+"treeCatId_'+#p0+'themeName_'+#p2")
-    public BlogCat listBlogCatsTreeById(Long catId,String themeName) {
-        
-        return categoryServiceImpl.listBlogCatsTreeById(catId,themeName);
+    @Cacheable(key = "'" + CacheConstant.CATS_CACHE_KEY_PREFIX + "listCatVisible_'+#p0+'_'+#p1+'themeName_'+#p2")
+    public List<BlogCat> listBlogCatsByVisible(Integer visible, Long catId, String themeName) {
+        return categoryServiceImpl.listBlogCatsByVisible(visible, catId, themeName);
     }
-    
+
+    @Cacheable(key = "'" + CacheConstant.CATS_CACHE_KEY_PREFIX + "listCatVisible_'+#p0+'_'+#p1")
+    public List<BlogCat> listBlogCatsByVisible(Integer visible, Long catId) {
+        return categoryServiceImpl.listBlogCatsByVisible(visible, catId, null);
+    }
+
+    @Cacheable(key = "'" + CacheConstant.CATS_CACHE_KEY_PREFIX + "treeCatId_'+#p0+'themeName_'+#p2")
+    public BlogCat listBlogCatsTreeById(Long catId, String themeName) {
+
+        return categoryServiceImpl.listBlogCatsTreeById(catId, themeName);
+    }
+
     public List<BlogCat> listBlogCats(BlogCat blogCat) {
 
         return categoryServiceImpl.listBlogCats(blogCat);

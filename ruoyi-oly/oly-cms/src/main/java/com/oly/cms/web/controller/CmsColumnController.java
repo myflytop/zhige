@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 页面 控制层
  * 
- * @author bobey
+ * @author zgblog
  *
  */
 @Controller
@@ -82,9 +82,9 @@ public class CmsColumnController extends CmsCommonController {
 		} else {
 			parentId = 0L;
 		}
-		CmsCat cat=new CmsCat();
+		CmsCat cat = new CmsCat();
 		cat.setVisible(CommonVisibleEnums.SHOW.ordinal());
-		CmsTag tag=new CmsTag();
+		CmsTag tag = new CmsTag();
 		tag.setVisible(CommonVisibleEnums.SHOW.ordinal());
 		mmap.put("cats", catService.listCmsCatByCat(cat));
 		mmap.put("tags", tagService.listCmsTagByTag(tag));
@@ -132,9 +132,9 @@ public class CmsColumnController extends CmsCommonController {
 		} else {
 			parentName = columnService.getCmsColumnNameById(cmsColumn.getParentId());
 		}
-		CmsCat cat=new CmsCat();
+		CmsCat cat = new CmsCat();
 		cat.setVisible(CommonVisibleEnums.SHOW.ordinal());
-		CmsTag tag=new CmsTag();
+		CmsTag tag = new CmsTag();
 		tag.setVisible(CommonVisibleEnums.SHOW.ordinal());
 		mmap.put("cats", catService.listCmsCatByCat(cat));
 		mmap.put("tags", tagService.listCmsTagByTag(tag));
@@ -239,7 +239,5 @@ public class CmsColumnController extends CmsCommonController {
 	public String checkColumnNameUnique(CmsColumn cms) {
 		return columnService.checkColumnNameUnique(cms);
 	}
-
-
 
 }

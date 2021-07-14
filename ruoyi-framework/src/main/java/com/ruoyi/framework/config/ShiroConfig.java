@@ -278,38 +278,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/register", "anon,captchaValidate");
         // 系统权限列表
         // filterChainDefinitionMap.putAll(SpringUtils.getBean(IMenuService.class).selectPermsAll());
-        // 登陆页面不需要拦截
-        filterChainDefinitionMap.put("/user/login", "anon,captchaValidate");
-        filterChainDefinitionMap.put("/zuser/*/user/login", "anon,captchaValidate");
-        // 注册页面不需要拦截
-        filterChainDefinitionMap.put("/user/register", "anon,captchaValidate");
-        filterChainDefinitionMap.put("/zuser/*/user/register", "anon,captchaValidate");
-        // 个人中心需认证
-        filterChainDefinitionMap.put("/user/personal", "user");
-        filterChainDefinitionMap.put("/zuser/*/user/personal", "user");
-        // 找回密码页面拦截的访问
-        filterChainDefinitionMap.put("/user/forget", "anon,captchaValidate");
-        filterChainDefinitionMap.put("/zuser/*/user/forget", "anon,captchaValidate");
-        // 退出登陆匿名访问
-        filterChainDefinitionMap.put("/user/logout", "logout");
-        filterChainDefinitionMap.put("/zuser/*/user/logout", "logout");
-        // 文件下载匿名访问
-        filterChainDefinitionMap.put("/oly/oss/download/**", "anon");
-        // 博客匿名访问
-        filterChainDefinitionMap.put("/blog/**", "anon");
-        filterChainDefinitionMap.put("/zblog/**", "anon");
-        // 淘客匿名访问
-        filterChainDefinitionMap.put("/taoke/**", "anon");
-        filterChainDefinitionMap.put("/ztaoke/**", "anon");
-        // 主页匿名访问
-        filterChainDefinitionMap.put("/", "anon");
-
-        filterChainDefinitionMap.put("/api/**", "anon");
-        filterChainDefinitionMap.put("/comment/**", "anon");
-        // 博客静态资源匿名访问
-        filterChainDefinitionMap.put("/themes/**/resources/**", "anon");
 
         Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
+
         filters.put("onlineSession", onlineSessionFilter());
         filters.put("syncOnlineSession", syncOnlineSessionFilter());
         filters.put("captchaValidate", captchaValidateFilter());
@@ -318,8 +289,19 @@ public class ShiroConfig {
         filters.put("logout", logoutFilter());
         shiroFilterFactoryBean.setFilters(filters);
 
-        // 所有请求需要认证
-        filterChainDefinitionMap.put("/**", "user,kickout,onlineSession,syncOnlineSession");
+        // 所有系统请求需要认证
+        filterChainDefinitionMap.put("/system/**", "user,kickout,onlineSession,syncOnlineSession");
+        filterChainDefinitionMap.put("/monitor/**", "user,kickout,onlineSession,syncOnlineSession");
+        filterChainDefinitionMap.put("/tool/**", "user,kickout,onlineSession,syncOnlineSession");
+        // 所有内容管理请求需要认证
+        filterChainDefinitionMap.put("/cms/**", "user,kickout,onlineSession,syncOnlineSession");
+        // 文件下载匿名访问
+        filterChainDefinitionMap.put("/oly/oss/download/**", "anon");
+        filterChainDefinitionMap.put("/zweb/**", "anon");
+        // 主页匿名访问
+        filterChainDefinitionMap.put("/**", "anon");
+        // 博客静态资源匿名访问
+        filterChainDefinitionMap.put("/themes/**/resources/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

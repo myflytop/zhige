@@ -1,11 +1,10 @@
 package com.oly.web.model;
 
-import com.github.pagehelper.PageInfo;
-import com.oly.common.model.support.PageData;
-import com.oly.web.model.po.BlogArticle;
-
 import java.util.List;
 import java.util.Map;
+
+import com.github.pagehelper.PageInfo;
+import com.oly.web.model.po.BlogArticle;
 
 public class PageArticleTimeLine {
     /** 总记录数 */
@@ -18,7 +17,7 @@ public class PageArticleTimeLine {
     private long pageSize;
     /** 总页数 */
     private long pages;
-    
+
     Map<String, List<BlogArticle>> map;
 
     public long getTotal() {
@@ -74,7 +73,7 @@ public class PageArticleTimeLine {
      *
      * @return
      */
-    public static PageArticleTimeLine getData(List<?> list,Map<String, List<BlogArticle>> map) {
+    public static PageArticleTimeLine getData(List<?> list, Map<String, List<BlogArticle>> map) {
         PageArticleTimeLine rspData = new PageArticleTimeLine();
         PageInfo page = new PageInfo(list);
         rspData.setCode(0);

@@ -10,20 +10,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class BlogWebConfig implements WebMvcConfigurer {
 
-    @Override
+        @Override
 
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String path = ("file:" + RuoYiConfig.getWorkPath() + "/" + OlyStageRoot.THEME_DIR.getDir() + "/").replace("\\",
-                "/");
-        /** 主题静态资源配置 */
-        registry.addResourceHandler("/themes/**").addResourceLocations(path);
-        registry.addResourceHandler("/site/**")
-                .addResourceLocations("file:" + RuoYiConfig.getWorkPath() + "/" + OlyStageRoot.SITE_DIR.getDir() + "/");
-        registry.addResourceHandler("/robots.txt")
-                .addResourceLocations("file:" + RuoYiConfig.getWorkPath() + "/" + OlyStageRoot.SITE_DIR.getDir() + "/");
-        /** 主题静态资源配置 */
-        // registry.addResourceHandler("/themes/**").addResourceLocations("classpath:/templates/themes/");
-
-    }
+        public void addResourceHandlers(ResourceHandlerRegistry registry) {
+                String path = ("file:" + RuoYiConfig.getWorkPath() + "/" + OlyStageRoot.THEME_DIR.getDir() + "/")
+                                .replace("\\", "/");
+                /** 主题静态资源配置 */
+                registry.addResourceHandler("/themes/**").addResourceLocations("classpath:/templates/themes/")
+                                .addResourceLocations(path);
+                registry.addResourceHandler("/site/**").addResourceLocations(
+                                "file:" + RuoYiConfig.getWorkPath() + "/" + OlyStageRoot.SITE_DIR.getDir() + "/");
+        }
 
 }

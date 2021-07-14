@@ -79,8 +79,6 @@ public class CmsThemeController extends CmsCommonController {
 		return prefix + "/themeEdit";
 	}
 
-	
-
 	/**
 	 * 上传主题
 	 * 
@@ -244,13 +242,12 @@ public class CmsThemeController extends CmsCommonController {
 	// 读取主题配置
 	private String readFileContent(File file) {
 		BufferedReader reader = null;
-		StringBuffer sbf = new StringBuffer();
 		try {
+			StringBuffer sbf = new StringBuffer();
 			reader = new BufferedReader(new FileReader(file));
 			String tempStr;
 			while ((tempStr = reader.readLine()) != null) {
 				sbf.append(tempStr).append("\n");
-				;
 			}
 			reader.close();
 			return sbf.toString();
@@ -265,7 +262,7 @@ public class CmsThemeController extends CmsCommonController {
 				}
 			}
 		}
-		return sbf.toString();
+		return null;
 	}
 
 	// 覆盖原内容
@@ -284,8 +281,6 @@ public class CmsThemeController extends CmsCommonController {
 		}
 		return flag;
 	}
-
-   
 
 	/**
 	 * 确定主题本地存在

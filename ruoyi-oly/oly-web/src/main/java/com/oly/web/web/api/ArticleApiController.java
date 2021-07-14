@@ -73,7 +73,6 @@ public class ArticleApiController extends CommonController {
   @GetMapping({ "/list/tag/{tagId}/size/{size}", "/list/tag/{tagId}/size/{size}/themeName/{themeName}" })
   public AjaxResult listArticleByTagId(@PathVariable("tagId") long tagId, @PathVariable("size") Integer size,
       @PathVariable(value = "themeName", required = false) String themeName) {
-
     return AjaxResult.success(articleService.listBlogArticlesByTagId(tagId, size, themeName));
   }
 

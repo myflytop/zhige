@@ -15,9 +15,6 @@ public enum OlyCmsConfigPropetries implements PropertyEnum {
     // 固定链接前缀
     ARTICLE_FIXED_URL("oly.cms.articleUrl.fixedPrefix", String.class, "/post"),
 
-    // 是否支持多主题
-    THEME_OPEN_MORE("oly.cms.theme.more", Boolean.class, "true"),
-
     // 是否开启用户
     USER_OPEN("oly.cms.userOpen", Boolean.class, "true"),
     // 用户默认部门

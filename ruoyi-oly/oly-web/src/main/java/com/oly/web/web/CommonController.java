@@ -1,6 +1,5 @@
 package com.oly.web.web;
 
-import com.oly.common.model.properties.OlyCmsConfigPropetries;
 import com.oly.common.model.properties.OlyThemeProperties;
 import com.oly.common.model.properties.PropertyEnum;
 import com.oly.web.model.po.BlogMenu;
@@ -28,7 +27,7 @@ public class CommonController extends BaseController {
     protected String getPrefix(String themeName, String page) {
         if (StringUtils.isNotEmpty(themeName)) {
             boolean support = "true"
-                    .equals(commonService.getSysConfigDefauleValue(OlyCmsConfigPropetries.THEME_OPEN_MORE));
+                    .equals(commonService.getSysConfigDefauleValue(OlyThemeProperties.THEME_MORE_INSTALL));
             if (support && StringUtils.isNotEmpty(themeName)) {
                 return themeName + page;
             }

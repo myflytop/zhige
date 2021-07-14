@@ -35,6 +35,9 @@ public class ThymeleafConfigration {
         templateEngine.addTemplateResolver(resolver);
     }
 
+    /**
+     * 从本地加载
+     */
     @Bean
     public ClassLoaderTemplateResolver thirdTemplateResolver() {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();

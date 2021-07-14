@@ -1,24 +1,25 @@
 package com.oly.web.web.service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.oly.common.model.properties.OlyWebConfigProetries;
 import com.oly.common.model.support.PageData;
+import com.oly.web.model.TaokeModel;
 import com.oly.web.model.pam.BlogArticleSearchParam;
+import com.oly.web.model.parm.TaokeParm;
 import com.oly.web.model.po.BlogArticle;
 import com.oly.web.model.po.BlogCat;
 import com.oly.web.model.po.BlogTag;
 import com.oly.web.service.cache.BlogArticleCacheService;
 import com.oly.web.service.cache.BlogCategoryCacheService;
 import com.oly.web.service.cache.BlogTagCacheService;
+import com.oly.web.service.impl.TaokeServiceImpl;
 import com.oly.web.web.CommonController;
-
+import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,8 @@ public class WebPageService extends CommonController {
     private BlogTagCacheService blogTagService;
     @Autowired
     private BlogArticleCacheService blogPostService;
+    @Autowired
+    private TaokeServiceImpl taoKeService;
 
     /**
      * 主页
@@ -44,7 +47,7 @@ public class WebPageService extends CommonController {
      */
     public String index(String themeName, ModelMap mp) {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_INDEX));
-        return getPrefix(themeName, "/index");
+        return getPrefix(themeName, "/pages/web//index");
     }
 
     /**
@@ -57,7 +60,7 @@ public class WebPageService extends CommonController {
      */
     public String post(String themeName, Long postId, ModelMap mp) {
         mp.put("postId", postId);
-        return getPrefix(themeName, "/post");
+        return getPrefix(themeName, "/pages/web//post");
     }
 
     /**
@@ -74,7 +77,42 @@ public class WebPageService extends CommonController {
         list = blogPostService.listBlogArticles(parm, themeName);
         PageData pageOne = PageData.getData(list);
         mp.put("posts", pageOne);
-        return getPrefix(themeName, "/search");
+        return getPrefix(themeName, "/pages/web//search");
+    }
+
+    /**
+     * 商品页
+     * 
+     * @param themeName
+     * @param mp
+     * @param taokeParm
+     * @return
+     */
+    public String shop(String themeName, ModelMap mp, TaokeParm taokeParm) {
+        String pam = "?";
+        if (taokeParm.getCatId() != null) {
+            pam = pam + "catId=" + taokeParm.getCatId();
+            mp.put("seo", blogCatService.getBlogCatByCatId(taokeParm.getCatId()));
+
+        } else if (taokeParm.getTagId() != null) {
+            pam = pam + "tagId=" + taokeParm.getTagId();
+            mp.put("seo", blogTagService.getBlogTagByTagId(taokeParm.getTagId()));
+
+        } else {
+            pam = pam + "s=1";
+            mp.put("seo", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_TAO_SHOP));
+        }
+        // 分页
+        if (StringUtils.isNotEmpty(taokeParm.getOrderByColumn()) && StringUtils.isNotEmpty(taokeParm.getIsAsc())) {
+            pam = pam + "&orderByColumn=" + taokeParm.getOrderByColumn() + "&isAsc=" + taokeParm.getIsAsc();
+        }
+        startDefaultPage();
+        List<TaokeModel> list = taoKeService.listTaokeByTaoKe(taokeParm);
+        // 封装分页
+        PageData pageOne = PageData.getData(list);
+        mp.put("pages", pageOne);
+        mp.put("pam", pam);
+        return getPrefix(themeName, "/pages/web//tao/shop");
     }
 
     /**
@@ -89,7 +127,7 @@ public class WebPageService extends CommonController {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_TAG));
         tag.getParams().put("supportType", getSupportType(themeName, OlyWebConfigProetries.ARTICLE_TYPES));
         mp.put("tags", blogTagService.listBlogTags(tag));
-        return getPrefix(themeName, "/tags");
+        return getPrefix(themeName, "/pages/web//tags");
     }
 
     /**
@@ -117,7 +155,7 @@ public class WebPageService extends CommonController {
         // 当前查询的标签
         mp.put("tag", tag);
         mp.put("posts", pageOne);
-        return getPrefix(themeName, "/tag");
+        return getPrefix(themeName, "/pages/web//tag");
     }
 
     /**
@@ -132,7 +170,7 @@ public class WebPageService extends CommonController {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_CATEGORY));
         cat.getParams().put("supportType", getSupportType(themeName, OlyWebConfigProetries.ARTICLE_TYPES));
         mp.put("cats", blogCatService.listBlogCats(cat));
-        return getPrefix(themeName, "/categories");
+        return getPrefix(themeName, "/pages/web//categories");
     }
 
     /**
@@ -160,7 +198,7 @@ public class WebPageService extends CommonController {
         // 当前查询的分类
         mp.put("cat", cat);
         mp.put("posts", pageOne);
-        return getPrefix(themeName, "/category");
+        return getPrefix(themeName, "/pages/web//category");
     }
 
     /**
@@ -172,7 +210,7 @@ public class WebPageService extends CommonController {
      */
     public String links(String themeName, ModelMap mp) {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_LINKS));
-        return getPrefix(themeName, "/links");
+        return getPrefix(themeName, "/pages/web//links");
     }
 
     /**
@@ -184,7 +222,7 @@ public class WebPageService extends CommonController {
      */
     public String about(String themeName, ModelMap mp) {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_ABOUT));
-        return getPrefix(themeName, "/about");
+        return getPrefix(themeName, "/pages/web//about");
     }
 
     /**
@@ -196,7 +234,7 @@ public class WebPageService extends CommonController {
      */
     public String rank(String themeName, ModelMap modelMap) {
         modelMap.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_RANK));
-        return getPrefix(themeName, "/rank");
+        return getPrefix(themeName, "/pages/web//rank");
     }
 
     /**
@@ -210,7 +248,7 @@ public class WebPageService extends CommonController {
     public String timeLine(String themeName, ModelMap modelMap, Integer pageNum, Integer pageSize) {
         modelMap.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_TIMELINE));
         modelMap.put("timeData", blogPostService.groupByTime(pageNum, pageSize, themeName));
-        return getPrefix(themeName, "/timeLine");
+        return getPrefix(themeName, "/pages/web//timeLine");
     }
 
     /**
@@ -222,7 +260,15 @@ public class WebPageService extends CommonController {
      */
     public String contact(String themeName, ModelMap mp) {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_CATEGORY));
-        return getPrefix(themeName, "/contact");
+        return getPrefix(themeName, "/pages/web//contact");
     }
 
+    public String fr(String themeName, ModelMap mp, String page) {
+        Map<String, String[]> map = ServletUtils.getRequest().getParameterMap();
+        return getPrefix(themeName, "/pages/fr/" + page);
+    }
+
+    public void robots(String themeName, ModelMap mp) {
+
+    }
 }

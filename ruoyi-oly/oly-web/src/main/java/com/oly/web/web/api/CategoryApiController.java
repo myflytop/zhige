@@ -24,30 +24,45 @@ public class CategoryApiController extends CommonController {
   @Autowired
   private BlogCategoryCacheService categoryService;
 
+  /**
+   * 获取分类信息
+   * 
+   * @param catId
+   * @return
+   */
   @GetMapping("/get/{catId}")
   public AjaxResult getCatById(@PathVariable("catId") Long catId) {
     return AjaxResult.success(categoryService.getBlogCatByCatId(catId));
   }
 
+  /**
+   * 通过类型获取分类列表
+   * 
+   * @param type 类型
+   * @param id
+   * @return
+   */
   @GetMapping("/list/type/{type}/{id}")
   public AjaxResult listBlogCatByType(@PathVariable("type") Byte type, @PathVariable("id") Long id) {
     return AjaxResult.success(categoryService.listBlogCatsByType(type, id));
   }
 
   @GetMapping("/list/visible/{visible}/{id}")
-  public AjaxResult listBlogCatByVisible(@PathVariable("visible") Byte visible, @PathVariable("id") Long id) {
-    return AjaxResult.success(categoryService.listBlogCatsByType(visible, id));
+  public AjaxResult listBlogCatByVisible(@PathVariable("visible") Integer visible, @PathVariable("id") Long id) {
+    return AjaxResult.success(categoryService.listBlogCatsByVisible(visible, id));
   }
 
-  @GetMapping({"/list/{id}/themeName/{themeName}","/list/{id}"})
-  public AjaxResult listBlogCatById(@PathVariable("id") Long id,@PathVariable(value = "themeName",required = false)String themeName) {
-    return AjaxResult.success(categoryService.listBlogCatsById(id,themeName));
+  @GetMapping({ "/list/{id}/themeName/{themeName}", "/list/{id}" })
+  public AjaxResult listBlogCatById(@PathVariable("id") Long id,
+      @PathVariable(value = "themeName", required = false) String themeName) {
+    return AjaxResult.success(categoryService.listBlogCatsById(id, themeName));
   }
 
-  @GetMapping({"/tree/{catId}/themeName/{themeName}","/tree/{catId}"})
-  public AjaxResult getCatTreeById(@PathVariable("catId") Long catId,@PathVariable(value = "themeName",required = false)String themeName) {
+  @GetMapping({ "/tree/{catId}/themeName/{themeName}", "/tree/{catId}" })
+  public AjaxResult getCatTreeById(@PathVariable("catId") Long catId,
+      @PathVariable(value = "themeName", required = false) String themeName) {
 
-    return AjaxResult.success(categoryService.listBlogCatsTreeById(catId,themeName));
+    return AjaxResult.success(categoryService.listBlogCatsTreeById(catId, themeName));
   }
 
   @GetMapping("/list")

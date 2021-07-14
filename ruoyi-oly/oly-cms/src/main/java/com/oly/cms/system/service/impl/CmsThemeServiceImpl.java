@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oly.cms.system.mapper.CmsThemeMapper;
 import com.oly.cms.system.model.po.CmsTheme;
@@ -50,7 +51,6 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	@Autowired
 	private SysConfigServiceImpl sysConfigService;
 
-
 	@Autowired
 	private CmsConfigBackServiceImpl configBackService;
 
@@ -63,18 +63,14 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	 */
 	@Override
 	public int deleteByName(String themeName) throws FileNotFoundException {
-		//删除主题配置
+		// 删除主题配置
 		configBackService.deleteCmsConfigBackByGroup(themeName);
-		//删除主题淘客配置
-		configBackService.deleteCmsConfigBackByGroup(themeName+"_tao");
+		// 删除主题淘客配置
+		configBackService.deleteCmsConfigBackByGroup(themeName + "_tao");
 		CmsUtils.deleteThemeFile(themeName);
 		return themeMapper.deleteByName(themeName);
 
 	}
-
-	
-
-
 
 	@Override
 	public CmsTheme selectThemeByUsed() {
@@ -88,6 +84,7 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 		int re = 0;
 		// 需要复制的地方
 		File f = Paths.get(RuoYiConfig.getWorkPath(), OlyStageRoot.THEME_DIR.getDir(), fileName).toFile();
+		// 主题文件夹
 		File fl = Paths.get(RuoYiConfig.getWorkPath(), OlyStageRoot.THEME_DIR.getDir(), baseName).toFile();
 		// 说明主题未上传
 		boolean uDb = (themeMapper.countThemeByName(baseName) == 0);
@@ -107,12 +104,12 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 		ZipUtil.unzip(f.getAbsolutePath(), f.getParent(), CharsetUtil.systemCharset());
 		// 删除压缩文件
 		FileUtil.del(f);
-		File themeJson = new File(fl.getPath(), OlyThemeProperties.THEME_INFO.defaultValue());
-		if (themeJson.exists() && !themeJson.isDirectory()) {
+		File themeYaml = new File(fl.getPath(), OlyThemeProperties.THEME_INFO.defaultValue());
+		if (themeYaml.exists() && !themeYaml.isDirectory()) {
 			// 用于读取json
-			ObjectMapper mapper = new ObjectMapper();
+			ObjectMapper mapper = new ObjectMapper(new JsonFactory());
 			// 读取主题说明 将配置文件转换为CmsTheme
-			BlogTheme theme = mapper.readValue(themeJson, BlogTheme.class);
+			BlogTheme theme = mapper.readValue(themeYaml, BlogTheme.class);
 			// 默认不开启
 			theme.setThemeEnabled((byte) 0);
 			// 设置主题名字
@@ -121,20 +118,16 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 			if (uDb) {
 				log.info("主题上传完毕,配置文件已经加载");
 				re = blogHandleMapper.insertBlogTheme(theme);
-
-			}
-			{
+			} else {
 				log.info("主题上传完毕,配置文件已更新");
 				re = blogHandleMapper.updateBlogThemeByName(theme);
 			}
 
 		} else {
-
 			FileUtil.del(fl);
 			new BusinessException("主题安装失败,找不到或者读取配置文件");
 		}
 		return re;
-
 	}
 
 	/**

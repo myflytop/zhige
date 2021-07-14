@@ -1,9 +1,11 @@
 package com.oly.web.listener;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,7 +64,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
   private void initTheme() throws UtilException, JsonParseException, JsonMappingException, IOException {
 
     // 获取默认目录下的
-    InputStream input = this.getClass().getResourceAsStream("/templates/themes/zip/bobey.zip");
+    InputStream input = this.getClass().getResourceAsStream(OlyThemeProperties.THEME_DEFAULT_PACKAGE.defaultValue());
     // 需要解压的目录
     File file = Paths.get(RuoYiConfig.getWorkPath(), OlyStageRoot.THEME_DIR.getDir()).toFile();
     // 解压
@@ -71,21 +73,23 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
     ObjectMapper mapper = null;
     // 读取主题说明 将配置文件转换为BlogTheme
     BlogTheme theme = null;
-
+    // 主题是否已经使用
     String themeUsed = commonService.checkConfigKeyUnique(OlyThemeProperties.THEME_USED.getValue());
+    // 默认主题是否已经安装
     String themeInstall = commonService.checkConfigKeyUnique(OlyThemeProperties.THEME_DEFAULT_INSTALL.getValue());
     SysConfig sysConfig = new SysConfig();
     sysConfig.setConfigValueType((byte) ConfigValueTypeEnum.STRING.ordinal());
-    // 不存在
+    // 主题是否存在 key唯一可以插入
     if (UserConstants.CONFIG_KEY_UNIQUE.equals(themeUsed)) {
       sysConfig.setConfigKey(OlyThemeProperties.THEME_USED.getValue());
       sysConfig.setConfigValue(OlyThemeProperties.THEME_USED.defaultValue());
       sysConfig.setConfigName("使用主题");
       sysConfig.setConfigGroup("主题配置");
       sysConfig.setRemark("使用的主题");
+      // 插入配置
       commonService.insertConfig(sysConfig);
-
     }
+    // 默认主题是否安装 key唯一可以插入
     if (UserConstants.CONFIG_KEY_UNIQUE.equals(themeInstall)) {
       sysConfig.setConfigKey(OlyThemeProperties.THEME_DEFAULT_INSTALL.getValue());
       sysConfig.setConfigValue(OlyThemeProperties.THEME_DEFAULT_INSTALL.defaultValue());
@@ -94,41 +98,38 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
       sysConfig.setRemark("默认主题是否安装,系统是否首次运行");
       commonService.insertConfig(sysConfig);
     }
-
     sysConfig.setConfigName(null);
     sysConfig.setConfigGroup(null);
     sysConfig.setRemark(null);
-
-    File themeJson = new File(file.getPath() + "/bobey", OlyThemeProperties.THEME_INFO.defaultValue());
-    if (themeJson.exists() && !themeJson.isDirectory()) {
-      mapper = new ObjectMapper();
-      theme = mapper.readValue(themeJson, BlogTheme.class);
+    File themeYaml = new File(file.getPath() + "/" + OlyThemeProperties.THEME_USED.defaultValue(),
+        OlyThemeProperties.THEME_INFO.defaultValue());
+    if (themeYaml.exists() && !themeYaml.isDirectory()) {
+      mapper = new ObjectMapper(new JsonFactory());
+      theme = mapper.readValue(themeYaml, BlogTheme.class);
       // 设置默认主题名字
-      theme.setThemeName( OlyThemeProperties.THEME_USED.defaultValue());
-       // 判断是否是首次启动
+      theme.setThemeName(OlyThemeProperties.THEME_USED.defaultValue());
+      // 判断是否是首次启动
       if ("false".equals(commonService.selectConfigDefauleValue(OlyThemeProperties.THEME_DEFAULT_INSTALL))) {
-      // 启用默认主题
-      theme.setThemeEnabled((byte) 1);
-      // 插入数据库上传主题
-      handerMapper.insertBlogTheme(theme);
-      // 启用默认主题
-      sysConfig.setConfigKey(OlyThemeProperties.THEME_USED.getValue());
-      sysConfig.setConfigValue(OlyThemeProperties.THEME_USED.defaultValue());
-      commonService.updateConfigBy(sysConfig);
-      //系统已经安装
-      sysConfig.setConfigKey(OlyThemeProperties.THEME_DEFAULT_INSTALL.getValue());
-      sysConfig.setConfigValue("true");
-      commonService.updateConfigBy(sysConfig);
-      log.info("首次安装,默认主题上传成功");
-    } else {
-      theme.setThemeEnabled(null);
-    
-     if(handerMapper.updateBlogThemeByName(theme)==0)
-     {
-       handerMapper.insertBlogTheme(theme);
-     }
-      log.info("主题覆盖成功");
-    }
+        // 启用默认主题
+        theme.setThemeEnabled((byte) 1);
+        // 插入数据库上传主题
+        handerMapper.insertBlogTheme(theme);
+        // 启用默认主题
+        sysConfig.setConfigKey(OlyThemeProperties.THEME_USED.getValue());
+        sysConfig.setConfigValue(OlyThemeProperties.THEME_USED.defaultValue());
+        commonService.updateConfigBy(sysConfig);
+        // 系统已经安装
+        sysConfig.setConfigKey(OlyThemeProperties.THEME_DEFAULT_INSTALL.getValue());
+        sysConfig.setConfigValue("true");
+        commonService.updateConfigBy(sysConfig);
+        log.info("首次安装,默认主题上传成功");
+      } else {
+        theme.setThemeEnabled(null);
+        if (handerMapper.updateBlogThemeByName(theme) == 0) {
+          handerMapper.insertBlogTheme(theme);
+        }
+        log.info("主题覆盖成功");
+      }
     } else {
       FileUtil.del(Paths
           .get(RuoYiConfig.getWorkPath(), OlyStageRoot.THEME_DIR.getDir(), OlyThemeProperties.THEME_USED.defaultValue())

@@ -20,7 +20,7 @@ public class UserPageService {
     @Autowired
     private SysConfigServiceImpl configService;
 
-    public String login(String themeName,HttpServletRequest request, HttpServletResponse response, ModelMap mp) {
+    public String login(String themeName, HttpServletRequest request, HttpServletResponse response, ModelMap mp) {
         // 如果是Ajax请求，返回Json字符串。
         if (ServletUtils.isAjaxRequest(request)) {
             return ServletUtils.renderString(response, "{\"code\":\"1\",\"msg\":\"未登录或登录超时。请重新登录\"}");
@@ -28,19 +28,17 @@ public class UserPageService {
         return getPrefix(themeName, "/user/login");
     }
 
-    public String personal(String themeName,ModelMap mp) {
+    public String personal(String themeName, ModelMap mp) {
         mp.put("user", ShiroUtils.getSysUser());
         return getPrefix(themeName, "/user/personal");
     }
 
- 
-
-    public String register(String themeName,ModelMap mp) {
+    public String register(String themeName, ModelMap mp) {
 
         return getPrefix(themeName, "/user/register");
     }
 
-    public String forget(String themeName,ModelMap mp) {
+    public String forget(String themeName, ModelMap mp) {
         return getPrefix(themeName, "/user/forget");
     }
 
@@ -53,7 +51,7 @@ public class UserPageService {
     protected String getPrefix(String themeName, String page) {
         if (StringUtils.isNotEmpty(themeName)) {
             boolean support = "true"
-                    .equals(configService.selectConfigByKey(OlyCmsConfigPropetries.THEME_OPEN_MORE.getValue()));
+                    .equals(configService.selectConfigByKey(OlyThemeProperties.THEME_MORE_INSTALL.getValue()));
             if (support && StringUtils.isNotEmpty(themeName)) {
                 return themeName + page;
             }
