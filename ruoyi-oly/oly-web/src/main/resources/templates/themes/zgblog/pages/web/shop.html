@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:with="blogConfig=${@configTag.getWebConfigByGroup('bobey')},post=${@articleTag.getBlogArticleHtmlById(postId)}">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:with="blogConfig=${@configTag.getWebConfigByGroup('zgblog')},post=${@articleTag.getBlogArticleHtmlById(postId)}">
 
 <head>
 	<th:block th:include="zgblog/blog_include :: blogHeader(title=${blogConfig['oly.web.title']+'-'+post.articleTitle},
@@ -11,16 +11,16 @@ blogConfig=${blogConfig})" />
 <body>
 	<th:block th:include="zgblog/blog_include::menu(menus=${@menuTag.getMenuTreeById(76)},blogConfig=${blogConfig})" />
 	<!-- 主体部分 -->
-	<section class="bobey-main-box">
+	<section class="zgblog-main-box">
 		<div class="layui-row ">
-			<div class="layui-col-md9  bobey-left-box" id="miao-left">
-				<div class="bobey-left-content">
+			<div class="layui-col-md9  zgblog-left-box" id="miao-left">
+				<div class="zgblog-left-content">
 					<th:block th:include="zgblog/blog_include::blogArticle(post=${post})" />
 				</div>
 			</div>
 
 			<!-- 主体部分右边 -->
-			<div class="layui-col-md3 bobey-right-box">
+			<div class="layui-col-md3 zgblog-right-box">
 				<th:block th:include="zgblog/blog_include::rightCommen" />
 			</div>
 		</div>
@@ -216,7 +216,7 @@ blogConfig=${blogConfig})" />
 				layer.confirm('你还未登陆!', {
 					btn: ['登陆', '取消'] //按钮
 				}, function () {
-					location.href = ctx + 'zuser/bobey/user/login';
+					location.href = ctx + 'zuser/zgblog/user/login';
 				}, function () {
 					layer.close();
 				});

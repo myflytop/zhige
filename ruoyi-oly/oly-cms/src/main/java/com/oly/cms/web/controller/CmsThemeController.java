@@ -9,9 +9,7 @@ import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.oly.cms.system.model.support.ThemeTreeNode;
@@ -162,7 +160,7 @@ public class CmsThemeController extends CmsCommonController {
 	}
 
 	/**
-	 * 获取主题文件 不获取默认主题
+	 * 获取主题文件
 	 * 
 	 * @return
 	 */

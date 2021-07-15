@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.oly.cms.system.mapper.CmsThemeMapper;
 import com.oly.cms.system.model.po.CmsTheme;
 import com.oly.cms.system.service.ICmsThemeService;
@@ -106,8 +106,8 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 		FileUtil.del(f);
 		File themeYaml = new File(fl.getPath(), OlyThemeProperties.THEME_INFO.defaultValue());
 		if (themeYaml.exists() && !themeYaml.isDirectory()) {
-			// 用于读取json
-			ObjectMapper mapper = new ObjectMapper(new JsonFactory());
+			// 用于读取yaml
+			ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 			// 读取主题说明 将配置文件转换为CmsTheme
 			BlogTheme theme = mapper.readValue(themeYaml, BlogTheme.class);
 			// 默认不开启
@@ -143,6 +143,9 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 		return themeMap;
 	}
 
+	/**
+	 * 获启用的主题
+	 */
 	@Override
 	public String getUseTheme() {
 		Object ob = sysConfigService.selectConfigByKey(OlyThemeProperties.THEME_USED.getValue());

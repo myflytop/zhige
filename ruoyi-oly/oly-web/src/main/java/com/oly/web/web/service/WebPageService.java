@@ -1,8 +1,14 @@
 package com.oly.web.web.service;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.oly.common.model.properties.OlyWebConfigProetries;
 import com.oly.common.model.support.PageData;
@@ -17,10 +23,14 @@ import com.oly.web.service.cache.BlogCategoryCacheService;
 import com.oly.web.service.cache.BlogTagCacheService;
 import com.oly.web.service.impl.TaokeServiceImpl;
 import com.oly.web.web.CommonController;
+import com.ruoyi.common.config.RuoYiConfig;
+import com.ruoyi.common.enums.OlyStageRoot;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -28,7 +38,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class WebPageService extends CommonController {
-
+    private static final Logger log = LoggerFactory.getLogger(WebPageService.class);
     @Autowired
     private BlogCategoryCacheService blogCatService;
     @Autowired
@@ -47,7 +57,8 @@ public class WebPageService extends CommonController {
      */
     public String index(String themeName, ModelMap mp) {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_INDEX));
-        return getPrefix(themeName, "/pages/web//index");
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/index");
     }
 
     /**
@@ -60,7 +71,8 @@ public class WebPageService extends CommonController {
      */
     public String post(String themeName, Long postId, ModelMap mp) {
         mp.put("postId", postId);
-        return getPrefix(themeName, "/pages/web//post");
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/post");
     }
 
     /**
@@ -77,7 +89,8 @@ public class WebPageService extends CommonController {
         list = blogPostService.listBlogArticles(parm, themeName);
         PageData pageOne = PageData.getData(list);
         mp.put("posts", pageOne);
-        return getPrefix(themeName, "/pages/web//search");
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/search");
     }
 
     /**
@@ -112,7 +125,8 @@ public class WebPageService extends CommonController {
         PageData pageOne = PageData.getData(list);
         mp.put("pages", pageOne);
         mp.put("pam", pam);
-        return getPrefix(themeName, "/pages/web//tao/shop");
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/shop");
     }
 
     /**
@@ -127,7 +141,8 @@ public class WebPageService extends CommonController {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_TAG));
         tag.getParams().put("supportType", getSupportType(themeName, OlyWebConfigProetries.ARTICLE_TYPES));
         mp.put("tags", blogTagService.listBlogTags(tag));
-        return getPrefix(themeName, "/pages/web//tags");
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/tags");
     }
 
     /**
@@ -155,7 +170,8 @@ public class WebPageService extends CommonController {
         // 当前查询的标签
         mp.put("tag", tag);
         mp.put("posts", pageOne);
-        return getPrefix(themeName, "/pages/web//tag");
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/tag");
     }
 
     /**
@@ -170,7 +186,8 @@ public class WebPageService extends CommonController {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_CATEGORY));
         cat.getParams().put("supportType", getSupportType(themeName, OlyWebConfigProetries.ARTICLE_TYPES));
         mp.put("cats", blogCatService.listBlogCats(cat));
-        return getPrefix(themeName, "/pages/web//categories");
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/categories");
     }
 
     /**
@@ -198,7 +215,8 @@ public class WebPageService extends CommonController {
         // 当前查询的分类
         mp.put("cat", cat);
         mp.put("posts", pageOne);
-        return getPrefix(themeName, "/pages/web//category");
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/category");
     }
 
     /**
@@ -210,7 +228,8 @@ public class WebPageService extends CommonController {
      */
     public String links(String themeName, ModelMap mp) {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_LINKS));
-        return getPrefix(themeName, "/pages/web//links");
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/links");
     }
 
     /**
@@ -222,7 +241,8 @@ public class WebPageService extends CommonController {
      */
     public String about(String themeName, ModelMap mp) {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_ABOUT));
-        return getPrefix(themeName, "/pages/web//about");
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/about");
     }
 
     /**
@@ -234,7 +254,8 @@ public class WebPageService extends CommonController {
      */
     public String rank(String themeName, ModelMap modelMap) {
         modelMap.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_RANK));
-        return getPrefix(themeName, "/pages/web//rank");
+        setParams(modelMap);
+        return getPrefix(themeName, "/pages/web/rank");
     }
 
     /**
@@ -248,7 +269,8 @@ public class WebPageService extends CommonController {
     public String timeLine(String themeName, ModelMap modelMap, Integer pageNum, Integer pageSize) {
         modelMap.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_TIMELINE));
         modelMap.put("timeData", blogPostService.groupByTime(pageNum, pageSize, themeName));
-        return getPrefix(themeName, "/pages/web//timeLine");
+        setParams(modelMap);
+        return getPrefix(themeName, "/pages/web/timeLine");
     }
 
     /**
@@ -260,15 +282,52 @@ public class WebPageService extends CommonController {
      */
     public String contact(String themeName, ModelMap mp) {
         mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_CATEGORY));
-        return getPrefix(themeName, "/pages/web//contact");
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/contact");
     }
 
     public String fr(String themeName, ModelMap mp, String page) {
-        Map<String, String[]> map = ServletUtils.getRequest().getParameterMap();
+        setParams(mp);
         return getPrefix(themeName, "/pages/fr/" + page);
     }
 
-    public void robots(String themeName, ModelMap mp) {
+    private void setParams(ModelMap mp) {
 
+        mp.putAll(ServletUtils.getRequest().getParameterMap());
+    }
+
+    public void robots(String themeName, HttpServletResponse response) {
+        File file = Paths
+                .get(RuoYiConfig.getWorkPath(), OlyStageRoot.THEME_DIR.getDir(), getPrefix(themeName, ""), "robots.txt")
+                .toFile();
+        BufferedReader reader = null;
+        if (!file.exists()) {
+            try {
+                response.getWriter().println();
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+        } else {
+            try {
+                StringBuffer sbf = new StringBuffer();
+                reader = new BufferedReader(new FileReader(file));
+                String tempStr;
+                while ((tempStr = reader.readLine()) != null) {
+                    sbf.append(tempStr).append("\n");
+                }
+                reader.close();
+                response.getWriter().println(sbf.toString());
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e1) {
+                        log.error(e1.getMessage());
+                    }
+                }
+            }
+        }
     }
 }

@@ -7,12 +7,8 @@ public enum OlyThemeProperties implements PropertyEnum {
     THEME_INFO("oly.theme.info", String.class, "setting/theme.yaml"),
     // 主题配置
     THEME_SETTING("oly.theme.setting", String.class, "setting/setting.yaml"),
-    // 默认主题是否安装
-    THEME_DEFAULT_INSTALL("oly.theme.default.install", Boolean.class, "false"),
-    // 是否允许多主题
-    THEME_MORE_INSTALL("oly.theme.more", Boolean.class, "false"),
-    // 默认安装包路径
-    THEME_DEFAULT_PACKAGE("oly.theme.defaule.package", String.class, "/templates/themes/zip/zgblog.zip");
+    // 是否支持多主题
+    THEME_MORE_INSTALL("oly.theme.more", Boolean.class, "false");
 
     private final String value;
 

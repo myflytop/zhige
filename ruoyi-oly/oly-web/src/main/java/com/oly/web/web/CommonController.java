@@ -31,7 +31,7 @@ public class CommonController extends BaseController {
             if (support && StringUtils.isNotEmpty(themeName)) {
                 return themeName + page;
             }
-            return "redirect:/";
+            return "redirect:" + page;
         } else {
             themeName = commonService.getSysConfigDefauleValue(OlyThemeProperties.THEME_USED);
             return themeName + page;

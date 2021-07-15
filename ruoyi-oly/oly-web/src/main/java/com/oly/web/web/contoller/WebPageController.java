@@ -1,5 +1,7 @@
 package com.oly.web.web.contoller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.oly.web.annotation.BlogLog;
 import com.oly.web.model.pam.BlogArticleSearchParam;
 import com.oly.web.model.po.BlogCat;
@@ -183,8 +185,9 @@ public class WebPageController {
     }
 
     @GetMapping(value = { "/robots.txt", "/{themeName}/robotx.txt" })
-    public void robots(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
-        webPageService.robots(themeName, mp);
+    public void robots(@PathVariable(name = "themeName", required = false) String themeName,
+            HttpServletResponse response) {
+        webPageService.robots(themeName, response);
     }
 
     /**

@@ -24,7 +24,11 @@
             <groupId>com.oly</groupId>
             <artifactId>oly-mail</artifactId>
         </dependency>
-
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-yaml</artifactId>
+    <version>2.9.8</version>
+</dependency>
         <dependency>
             <groupId>com.oly</groupId>
             <artifactId>oly-comment</artifactId>

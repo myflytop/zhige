@@ -5,20 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.oly.common.model.properties.OlyThemeProperties;
-
 import com.oly.web.mapper.BlogHandleMapper;
 import com.oly.web.model.po.BlogTheme;
-import com.oly.web.service.BlogCommonService;
 import com.ruoyi.common.config.RuoYiConfig;
-import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.enums.ConfigValueTypeEnum;
 import com.ruoyi.common.enums.OlyStageRoot;
-import com.ruoyi.system.domain.SysConfig;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,112 +24,50 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
-import cn.hutool.core.exceptions.UtilException;
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.core.util.ZipUtil;
-
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class StartedListener implements ApplicationListener<ApplicationStartedEvent> {
   private static final Logger log = LoggerFactory.getLogger(StartedListener.class);
+
   @Autowired
   private BlogHandleMapper handerMapper;
 
-  @Autowired
-  private BlogCommonService commonService;
-
   @Override
   public void onApplicationEvent(ApplicationStartedEvent arg0) {
-
-    try {
-      initTheme();
-    } catch (JsonParseException e) {
-
-    } catch (JsonMappingException e) {
-
-    } catch (UtilException e) {
-
-    } catch (IOException e) {
-
-    }
-
+    initRobots();
   }
 
-  private void initTheme() throws UtilException, JsonParseException, JsonMappingException, IOException {
-
+  /**
+   * 初始化默认Robots
+   */
+  private void initRobots() {
     // 获取默认目录下的
-    InputStream input = this.getClass().getResourceAsStream(OlyThemeProperties.THEME_DEFAULT_PACKAGE.defaultValue());
-    // 需要解压的目录
-    File file = Paths.get(RuoYiConfig.getWorkPath(), OlyStageRoot.THEME_DIR.getDir()).toFile();
-    // 解压
-    ZipUtil.unzip(input, file, CharsetUtil.systemCharset());
-    // 用于读取json
-    ObjectMapper mapper = null;
-    // 读取主题说明 将配置文件转换为BlogTheme
-    BlogTheme theme = null;
-    // 主题是否已经使用
-    String themeUsed = commonService.checkConfigKeyUnique(OlyThemeProperties.THEME_USED.getValue());
-    // 默认主题是否已经安装
-    String themeInstall = commonService.checkConfigKeyUnique(OlyThemeProperties.THEME_DEFAULT_INSTALL.getValue());
-    SysConfig sysConfig = new SysConfig();
-    sysConfig.setConfigValueType((byte) ConfigValueTypeEnum.STRING.ordinal());
-    // 主题是否存在 key唯一可以插入
-    if (UserConstants.CONFIG_KEY_UNIQUE.equals(themeUsed)) {
-      sysConfig.setConfigKey(OlyThemeProperties.THEME_USED.getValue());
-      sysConfig.setConfigValue(OlyThemeProperties.THEME_USED.defaultValue());
-      sysConfig.setConfigName("使用主题");
-      sysConfig.setConfigGroup("主题配置");
-      sysConfig.setRemark("使用的主题");
-      // 插入配置
-      commonService.insertConfig(sysConfig);
-    }
-    // 默认主题是否安装 key唯一可以插入
-    if (UserConstants.CONFIG_KEY_UNIQUE.equals(themeInstall)) {
-      sysConfig.setConfigKey(OlyThemeProperties.THEME_DEFAULT_INSTALL.getValue());
-      sysConfig.setConfigValue(OlyThemeProperties.THEME_DEFAULT_INSTALL.defaultValue());
-      sysConfig.setConfigName("是否安装");
-      sysConfig.setConfigGroup("主题配置");
-      sysConfig.setRemark("默认主题是否安装,系统是否首次运行");
-      commonService.insertConfig(sysConfig);
-    }
-    sysConfig.setConfigName(null);
-    sysConfig.setConfigGroup(null);
-    sysConfig.setRemark(null);
-    File themeYaml = new File(file.getPath() + "/" + OlyThemeProperties.THEME_USED.defaultValue(),
-        OlyThemeProperties.THEME_INFO.defaultValue());
-    if (themeYaml.exists() && !themeYaml.isDirectory()) {
-      mapper = new ObjectMapper(new JsonFactory());
-      theme = mapper.readValue(themeYaml, BlogTheme.class);
-      // 设置默认主题名字
-      theme.setThemeName(OlyThemeProperties.THEME_USED.defaultValue());
-      // 判断是否是首次启动
-      if ("false".equals(commonService.selectConfigDefauleValue(OlyThemeProperties.THEME_DEFAULT_INSTALL))) {
-        // 启用默认主题
-        theme.setThemeEnabled((byte) 1);
-        // 插入数据库上传主题
+    InputStream input = this.getClass().getResourceAsStream("/templates/themes/zgblog/setting/theme.yaml");
+    ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+    try {
+      BlogTheme theme = mapper.readValue(input, BlogTheme.class);
+      if (handerMapper.updateBlogThemeByName(theme) == 0) {
         handerMapper.insertBlogTheme(theme);
-        // 启用默认主题
-        sysConfig.setConfigKey(OlyThemeProperties.THEME_USED.getValue());
-        sysConfig.setConfigValue(OlyThemeProperties.THEME_USED.defaultValue());
-        commonService.updateConfigBy(sysConfig);
-        // 系统已经安装
-        sysConfig.setConfigKey(OlyThemeProperties.THEME_DEFAULT_INSTALL.getValue());
-        sysConfig.setConfigValue("true");
-        commonService.updateConfigBy(sysConfig);
-        log.info("首次安装,默认主题上传成功");
-      } else {
-        theme.setThemeEnabled(null);
-        if (handerMapper.updateBlogThemeByName(theme) == 0) {
-          handerMapper.insertBlogTheme(theme);
-        }
-        log.info("主题覆盖成功");
+      }
+    } catch (JsonParseException e1) {
+      log.info("JsonParseException:" + e1.getMessage());
+    } catch (JsonMappingException e1) {
+      log.info("JsonMappingException:" + e1.getMessage());
+    } catch (IOException e1) {
+      log.info("IOException:" + e1.getMessage());
+    }
+    File file = Paths.get(RuoYiConfig.getWorkPath(), OlyStageRoot.THEME_DIR.getDir(),
+        OlyThemeProperties.THEME_USED.defaultValue(), "robots.txt").toFile();
+    if (!file.exists()) {
+      try {
+        file.getParentFile().mkdirs();
+        String msg = file.createNewFile() ? "成功" : "失败";
+        log.info("robots.txt创建" + msg);
+      } catch (IOException e) {
+        log.error("创建robots.txt异常:" + e.getMessage());
       }
     } else {
-      FileUtil.del(Paths
-          .get(RuoYiConfig.getWorkPath(), OlyStageRoot.THEME_DIR.getDir(), OlyThemeProperties.THEME_USED.defaultValue())
-          .toFile());
-      log.info("默认主题设置失败");
+      log.info("robots.txt已经存在！");
     }
   }
 

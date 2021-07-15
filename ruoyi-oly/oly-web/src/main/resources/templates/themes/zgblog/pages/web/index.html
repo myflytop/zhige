@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:with="blogConfig=${@configTag.getWebConfigByGroup('bobey')}">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:with="blogConfig=${@configTag.getWebConfigByGroup('zgblog')}">
 
 <head>
 	<th:block th:include="zgblog/blog_include :: blogHeader(title=${blogConfig['oly.web.title']+'-'+menu.columnName},
@@ -12,16 +12,16 @@ blogConfig=${blogConfig})" />
 	<!--导航-->
 	<th:block th:include="zgblog/blog_include::menu(menus=${@menuTag.getMenuTreeById(76)},blogConfig=${blogConfig})" />
 	<!-- 主体部分 -->
-	<section class="bobey-main-box">
+	<section class="zgblog-main-box">
 		<div class="layui-row">
 			<!-- 主体部分左边 -->
-			<div class="layui-col-md9  bobey-left-box">
-				<div class="bobey-left-content">
-					<th:block th:include="zgblog/blog_include::blogArticles(posts=${@articleTag.indexPosts('bobey',72)})" />
+			<div class="layui-col-md9  zgblog-left-box">
+				<div class="zgblog-left-content">
+					<th:block th:include="zgblog/blog_include::blogArticles(posts=${@articleTag.indexPosts('zgblog',72)})" />
 				</div>
 			</div>
 			<!-- 主体部分右边 -->
-			<div class="layui-col-md3 bobey-right-box">
+			<div class="layui-col-md3 zgblog-right-box">
 				<th:block th:include="zgblog/blog_include::rightCommen" />
 			</div>
 		</div>
@@ -34,13 +34,13 @@ blogConfig=${blogConfig})" />
 
 	<script th:inline="JavaScript">
 		//模拟分页
-		$(".bobey-post-page>div>a").click(function () {
-			$(".bobey-post-page>div>a").removeClass("page-this");
+		$(".zgblog-post-page>div>a").click(function () {
+			$(".zgblog-post-page>div>a").removeClass("page-this");
 			$(this).addClass("page-this");
-			$(".bobey-post-list").hide();
+			$(".zgblog-post-list").hide();
 			$(".post-page-" + $(this).html()).show();
 		});
-		$(".bobey-post-list").hide();
+		$(".zgblog-post-list").hide();
 		$(".post-page-1").show();
 	</script>
 </body>

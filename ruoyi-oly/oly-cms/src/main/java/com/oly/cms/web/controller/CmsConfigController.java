@@ -1,5 +1,7 @@
 package com.oly.cms.web.controller;
 
+import java.util.Map;
+
 import com.oly.cms.web.CmsCommonController;
 import com.oly.common.model.enums.OlyConfigCommonEnum;
 import com.ruoyi.system.domain.SysConfig;
@@ -23,6 +25,8 @@ public class CmsConfigController extends CmsCommonController {
     private final String WEB_CONFIG_PREFIX = OlyConfigCommonEnum.OLY_WBE_PREIFX.getValue();
     // 内容参数配置
     private final String CMS_CONFIG_PREFIX = OlyConfigCommonEnum.OLY_CMS_PREIFX.getValue();
+    // 内容参数配置
+    private final String THEME_CONFIG_PREFIX = OlyConfigCommonEnum.OLY_THEME_PREFIX.getValue();
     // app参数设置
     private final String APP_CONFIG_PREFIX = OlyConfigCommonEnum.OLY_APP_PREFIX.getValue();
     // 淘客参数设置模板
@@ -35,13 +39,14 @@ public class CmsConfigController extends CmsCommonController {
     public String configCms(ModelMap mm) {
         SysConfig cmsConfig = new SysConfig();
         cmsConfig.setConfigKey(CMS_CONFIG_PREFIX);
-        mm.put("cmsConfig", sysConfigService.selectConfigValueMap(cmsConfig));
+        Map<String, String> mps = sysConfigService.selectConfigValueMap(cmsConfig);
         cmsConfig.setConfigKey(COMMENT_CONFIG_PREFIX);
-        mm.put("commentConfig", sysConfigService.selectConfigValueMap(cmsConfig));
+        mps.putAll(sysConfigService.selectConfigValueMap(cmsConfig));
+        cmsConfig.setConfigKey(THEME_CONFIG_PREFIX);
+        mps.putAll(sysConfigService.selectConfigValueMap(cmsConfig));
+        mm.put("cmsConfig", mps);
         return prefix + "/cmsConfig";
     }
-
-  
 
     @GetMapping("/app")
     @RequiresPermissions("cms:config:view")
@@ -64,6 +69,7 @@ public class CmsConfigController extends CmsCommonController {
 
     /**
      * 淘客配置
+     * 
      * @return
      */
     @RequiresPermissions("cms:config:view")

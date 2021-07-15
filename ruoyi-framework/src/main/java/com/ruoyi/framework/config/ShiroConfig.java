@@ -288,11 +288,11 @@ public class ShiroConfig {
         // 注销成功，则跳转到指定页面
         filters.put("logout", logoutFilter());
         shiroFilterFactoryBean.setFilters(filters);
-
         // 所有系统请求需要认证
         filterChainDefinitionMap.put("/system/**", "user,kickout,onlineSession,syncOnlineSession");
         filterChainDefinitionMap.put("/monitor/**", "user,kickout,onlineSession,syncOnlineSession");
         filterChainDefinitionMap.put("/tool/**", "user,kickout,onlineSession,syncOnlineSession");
+        filterChainDefinitionMap.put("/admin", "user,kickout,onlineSession,syncOnlineSession");
         // 所有内容管理请求需要认证
         filterChainDefinitionMap.put("/cms/**", "user,kickout,onlineSession,syncOnlineSession");
         // 文件下载匿名访问

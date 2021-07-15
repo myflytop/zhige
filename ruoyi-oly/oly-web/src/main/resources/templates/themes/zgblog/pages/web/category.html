@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:with="blogConfig=${@configTag.getWebConfigByGroup('bobey')}">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:with="blogConfig=${@configTag.getWebConfigByGroup('zgblog')}">
 
 <head>
 	<th:block th:include="zgblog/blog_include :: blogHeader(title=${blogConfig['oly.web.title']+'-'+cat.catName},
@@ -12,16 +12,16 @@ blogConfig=${blogConfig})" />
 <body>
 	<th:block th:include="zgblog/blog_include::menu(menus=${@menuTag.getMenuTreeById(76)},blogConfig=${blogConfig})" />
 	<!-- 主体部分 -->
-	<section class="bobey-main-box">
+	<section class="zgblog-main-box">
 		<div class="layui-row ">
-			<div class="layui-col-md9  bobey-left-box" id="miao-left">
-				<div class="bobey-left-content">
+			<div class="layui-col-md9  zgblog-left-box" id="miao-left">
+				<div class="zgblog-left-content">
 					<th:block th:include="zgblog/blog_include::blogArticlesByCat(cat=${cat},posts=${posts})" />
 				</div>
 			</div>
 
 			<!-- 主体部分右边 -->
-			<div class="layui-col-md3 bobey-right-box">
+			<div class="layui-col-md3 zgblog-right-box">
 				<th:block th:include="zgblog/blog_include::rightCommen" />
 			</div>
 		</div>

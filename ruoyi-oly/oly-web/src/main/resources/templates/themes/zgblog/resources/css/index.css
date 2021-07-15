@@ -24,31 +24,31 @@ body {
 }
 
 /* 全局导航开始 */
-.bobey-nav {
+.zgblog-nav {
 	box-shadow: 0 1px 5px rgba(177, 177, 177, 0.3);
 }
 
-.bobey-nav-logo {
+.zgblog-nav-logo {
 	float: left;
 }
 
-.bobey-nav-logo img {
+.zgblog-nav-logo img {
 	width: auto;
 	height: 22px;
 	outline: 0;
 }
 
-.bobey-aside-button,
-.bobey-nav-aside {
+.zgblog-aside-button,
+.zgblog-nav-aside {
 	display: none;
 }
 
-.bobey-nav-tool button {
+.zgblog-nav-tool button {
 	color: wheat !important;
 	float: left;
 }
 
-.bobey-nav-tool>div>button {
+.zgblog-nav-tool>div>button {
 	background: none;
 	border: none !important;
 }
@@ -58,19 +58,19 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-	.bobey-aside-button {
+	.zgblog-aside-button {
 		display: block;
 	}
 
-	.bobey-nav>.layui-nav>li>a {
+	.zgblog-nav>.layui-nav>li>a {
 		display: none !important;
 	}
 
-	.bobey-nav-logo {
+	.zgblog-nav-logo {
 		float: none;
 	}
 
-	.bobey-nav-tool {
+	.zgblog-nav-tool {
 		display: block;
 	}
 }
@@ -78,15 +78,15 @@ body {
 /* 全局导航结束 */
 
 
-.bobey-post-box>.layui-row>div {
+.zgblog-post-box>.layui-row>div {
 	padding: 20px;
 }
 
-.bobey-left-content {
+.zgblog-left-content {
 	width: 99%;
 }
 
-.bobey-right-box>div>div {
+.zgblog-right-box>div>div {
 	background-color: #fff;
 	margin-bottom: 10px;
 	margin-top: 10px;
@@ -95,14 +95,14 @@ body {
 	-webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
-.bobey-left-content>div>div{
+.zgblog-left-content>div>div{
 
 
 	overflow: hidden;
 
 }
 
-.bobey-left-content>div>div>*{
+.zgblog-left-content>div>div>*{
 
 	border-radius: 10px;
 }
@@ -298,7 +298,7 @@ body {
 }
 
 /*//首页模拟分页*/
-.bobey-post-page>div>a.page-this {
+.zgblog-post-page>div>a.page-this {
 	background-color: #009688;
 	color: #fff
 }
@@ -312,7 +312,7 @@ body {
 	border-top: 1px solid #e0e0e0;
 }
 
-.bobey-tab-list {
+.zgblog-tab-list {
 	width: 80%;
 	line-height: 210%;
 	display: block;
@@ -322,7 +322,7 @@ body {
 
 }
 
-.bobey-tab-list a {
+.zgblog-tab-list a {
 	display: block;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -330,7 +330,7 @@ body {
 
 }
 
-.bobey-tab-list a:hover {
+.zgblog-tab-list a:hover {
 	color: #398E9F;
 	margin-left: 5px;
 }
@@ -341,29 +341,29 @@ footer {
 	padding-top: 20px;
 }
 
-.bobey-footer-share,
-.bobey-footer-copyright {
+.zgblog-footer-share,
+.zgblog-footer-copyright {
 	padding: 20px;
 	text-align: center;
 	background-color: rgba(0, 0, 0, 0.89);
 	color: #fff;
 }
 
-.bobey-footer-share a {
+.zgblog-footer-share a {
 	padding: 5px;
 }
 
-.bobey-footer-other {
+.zgblog-footer-other {
 	background-color: #2c2d2f;
 	text-align: center
 }
 
-.bobey-footer-other #link-home {
+.zgblog-footer-other #link-home {
 	font-size: 0;
 	padding: 20px 20px 4px 25px;
 }
 
-.bobey-footer-other ul#link-home li {
+.zgblog-footer-other ul#link-home li {
 	display: inline-block;
 	text-align: left;
 	vertical-align: top;
@@ -376,12 +376,12 @@ footer {
 	padding-right: 10px
 }
 
-.bobey-footer-other #link-home li a {
+.zgblog-footer-other #link-home li a {
 	vertical-align: middle;
 	color: #fff
 }
 
-.bobey-footer-other #link-home li a img {
+.zgblog-footer-other #link-home li a img {
 	width: 16px;
 	height: 16px;
 	margin-right: 3px;
@@ -568,23 +568,23 @@ span.num3,
 	left: 15px;
 }
 
-.bobey-main-box {
+.zgblog-main-box {
 	background-color: #f5f0f0;
 	padding-top: 70px;
 	padding-left: 3%;
 	padding-right: 3%
 }
 
-.bobey-left-box .bobey-about-box {
+.zgblog-left-box .zgblog-about-box {
 	padding: 10px
 }
 
-.bobey-post-box .post-title {
+.zgblog-post-box .post-title {
 	text-align: center;
 	font-size: 20px;
 }
 
-.bobey-post-box .post-read-reduce {
+.zgblog-post-box .post-read-reduce {
 	text-align: center;
 	margin-top: 20px;
 	display: block;
@@ -764,33 +764,33 @@ span.num3,
 /* 评论相关 结束*/
 o
 /* 右边关于我 开始 */
-.bobey-right-box .about-me {
+.zgblog-right-box .about-me {
 	text-align: center;
 }
 
-.bobey-right-box .about-me {
+.zgblog-right-box .about-me {
 	padding-top: 20px
 }
 
-.bobey-right-box .about-me .layui-row>div {
+.zgblog-right-box .about-me .layui-row>div {
 	margin-top: 20px;
 }
 
-.bobey-right-box .about-me .me-herd img {
+.zgblog-right-box .about-me .me-herd img {
 
 	width: 80px;
 	height: 80px;
 	border-radius: 100%;
 }
 
-.bobey-right-box .about-me ul {
+.zgblog-right-box .about-me ul {
 	display: table;
 	text-align: center;
 	width: auto;
 	margin: 0 auto;
 }
 
-.bobey-right-box .about-me .me-social li {
+.zgblog-right-box .about-me .me-social li {
 	padding: 10px;
 	float: left;
 	margin: 5px;
@@ -815,27 +815,27 @@ o
 }
 
 /* 右边关于我 结束 */
-.bobey-box {
+.zgblog-box {
 	padding: 10px;
 }
 
-.bobey-posts {
+.zgblog-posts {
 	padding: 15px;
 	background-color: white;
 
 }
-.bobey-posts li {
+.zgblog-posts li {
 	padding: 20px;
 	margin-bottom: 10px;
 border: 1px solid #f1f1f1; overflow: hidden;float: left;border-radius: 10px; margin-right: 2%;margin-bottom: 20px;box-sizing:border-box; transition:all .2s linear;-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-ms-transition:all .2s linear;-o-transition:all .2s linear;}
 
 
-.bobey-posts li:hover {
+.zgblog-posts li:hover {
 
  box-shadow: 0px 5px 10px 2px #cac8c8; transform:translateY(-4px);-webkit-transform:translateY(-4px);-moz-transform:translateY(-4px);-ms-transform:translateY(-4px);-o-transform:translateY(-4px);}
 
 
-.bobey-text {
+.zgblog-text {
 	white-space: pre-wrap;
 	word-wrap: break-word;
 	font-size: 15px;
@@ -856,12 +856,12 @@ border: 1px solid #f1f1f1; overflow: hidden;float: left;border-radius: 10px; mar
 
 
 
-.bobey-tab-list>li a {
+.zgblog-tab-list>li a {
 	 overflow: hidden !important;
 	 white-space: nowrap !important;
  }
 
-.bobey-left-box .layui-tab-content {
+.zgblog-left-box .layui-tab-content {
 	overflow: hidden !important;
 	height: 210px;
 	padding-left: 20px;

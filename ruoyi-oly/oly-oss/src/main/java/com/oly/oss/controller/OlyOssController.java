@@ -31,6 +31,8 @@ import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.service.impl.SysConfigServiceImpl;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tika.Tika;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -45,6 +47,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/oly/oss")
 public class OlyOssController extends BaseController {
 
+    private static final Logger log = LoggerFactory.getLogger(OlyOssController.class);
     @Autowired
     private OssFactory ossHandler;
     @Autowired
@@ -86,7 +89,7 @@ public class OlyOssController extends BaseController {
      * @throws FileSizeLimitExceededException
      */
     @RequiresPermissions("oly:oss:upload")
-    @Log(title = "文件内容管理", businessType = BusinessType.INSERT)
+    @Log(title = "文件管理", businessType = BusinessType.INSERT)
     @PostMapping("/upload")
     @ResponseBody
     public OssResult upload(MultipartFile file)
@@ -109,7 +112,6 @@ public class OlyOssController extends BaseController {
             }
             olyOsses.add(o);
         }
-
         tableDataInfo.setRows(olyOsses);
         return tableDataInfo;
     }
@@ -122,7 +124,7 @@ public class OlyOssController extends BaseController {
      * @param filename
      * @return
      */
-    @Log(title = "内容文章管理", businessType = BusinessType.DELETE)
+    @Log(title = "文件管理", businessType = BusinessType.DELETE)
     @GetMapping("/delete/{f}/{y}/{m}/{d}/{file:.+}")
     @ResponseBody
     public OssResult delete(@PathVariable("f") String f, @PathVariable("y") String y, @PathVariable("m") String m,
@@ -167,18 +169,16 @@ public class OlyOssController extends BaseController {
                         "<!doctype html><title>404 Not Found</title><h1 style=\"text-align: center\">404 Not Found</h1><hr/><p style=\"text-align: center\">Easy File Server</p>");
                 writer.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.debug("文件不存在:" + fileDir + ",e" + e.getMessage());
             }
             return;
         }
         // 获取文件类型
         String contentType = null;
         try {
-            // Path path = Paths.get(inFile.getName());
-            // contentType = Files.probeContentType(path);
             contentType = new Tika().detect(inFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.debug("获取文件头异常:" + fileDir + ",e" + e.getMessage());
         }
         if (contentType != null) {
             response.setContentType(contentType);
@@ -188,7 +188,7 @@ public class OlyOssController extends BaseController {
             try {
                 newName = URLEncoder.encode(inFile.getName(), "utf-8");
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                log.debug("不支持的编码:" + fileDir + ",e" + e.getMessage());
                 newName = inFile.getName();
             }
             response.setHeader("Content-Disposition", "attachment;fileName=" + newName);
@@ -206,15 +206,15 @@ public class OlyOssController extends BaseController {
             }
             os.flush();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.debug("文件不存在:" + fileDir + ",e" + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.debug("io异常:" + fileDir + ",e" + e.getMessage());
         } finally {
             try {
                 is.close();
                 os.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.debug("异常:" + fileDir + ",e" + e.getMessage());
             }
         }
     }

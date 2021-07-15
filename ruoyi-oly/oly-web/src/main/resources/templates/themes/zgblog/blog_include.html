@@ -73,7 +73,7 @@
 				direction: 135,     //初始滚动方向, 取值角度(顺时针360): 0对应top, 90对应left, 135对应right-bottom(默认)...
 				keep: false          //鼠标移出组件后是否继续随鼠标滚动, 取值: false, true(默认) 对应 减速至初速度滚动, 随鼠标滚动
 			});
-			var tags = [[${@tagTag.listTagByVisible(0, "bobey")
+			var tags = [[${@tagTag.listTagByVisible(0, "zgblog")
 		}]], entries = [];
 		$.each(tags, function (index, element) {
 			entries.push({
@@ -85,8 +85,8 @@
 
 		var settings = {
 			entries: entries,
-			width: $('#bobey-tags').width(),
-			height: $('#bobey-tags').width(),
+			width: $('#zgblog-tags').width(),
+			height: $('#zgblog-tags').width(),
 			radius: '60%',
 			radiusMin: 75,
 			bgDraw: true,
@@ -112,18 +112,18 @@
 			location.reload();
 		}
 
-		$(".bobey-aside-button").click(function () {
-			$(".bobey-nav-aside").css("display", "block");
+		$(".zgblog-aside-button").click(function () {
+			$(".zgblog-nav-aside").css("display", "block");
 
-			if ($(".bobey-nav-aside").hasClass("slideInDown")) {
+			if ($(".zgblog-nav-aside").hasClass("slideInDown")) {
 
-				$(".bobey-nav-aside").removeClass("slideInDown");
-				$(".bobey-nav-aside").addClass("slideOutUp");
+				$(".zgblog-nav-aside").removeClass("slideInDown");
+				$(".zgblog-nav-aside").addClass("slideOutUp");
 				$("body").css("overflow-y", "auto");
 			} else {
 
-				$(".bobey-nav-aside").removeClass("slideOutUp");
-				$(".bobey-nav-aside").addClass("slideInDown");
+				$(".zgblog-nav-aside").removeClass("slideOutUp");
+				$(".zgblog-nav-aside").addClass("slideInDown");
 				$("body").css("overflow-y", "hidden");
 
 			}
@@ -153,11 +153,11 @@
 <div th:fragment=menu(menus,blogConfig)>
 	<div class="blog-nav-box">
 		<!-- 主导航 桌面端-->
-		<nav style="position: fixed; width: 100%; z-index: 10004;" class="bobey-nav">
+		<nav style="position: fixed; width: 100%; z-index: 10004;" class="zgblog-nav">
 			<!-- 主导航  居中-->
 			<ul class="layui-nav" style="text-align: center;padding: 0 40px;">
 				<!-- 导航logo -->
-				<li class="layui-nav-item bobey-nav-logo">
+				<li class="layui-nav-item zgblog-nav-logo">
 					<div>
 						<a th:href="${blogConfig['oly.web.index']==''? '/':blogConfig['oly.web.index']}"
 							class="navbar-logo">
@@ -182,9 +182,9 @@
 				</li>
 
 				<!-- 导航工具 -->
-				<li class="layui-nav-item bobey-nav-tool" style="float: right;">
+				<li class="layui-nav-item zgblog-nav-tool" style="float: right;">
 					<div class="layui-btn-group">
-						<button type="button" class="layui-btn layui-btn-primary layui-btn-sm bobey-aside-button">
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-sm zgblog-aside-button">
 							<i class="layui-icon layui-icon-more"></i>
 						</button>
 					</div>
@@ -215,7 +215,7 @@
 
 		<!-- 侧边导航 -->
 		<aside>
-			<ul class="layui-nav layui-nav-tree layui-nav-side bobey-nav-aside animated"
+			<ul class="layui-nav layui-nav-tree layui-nav-side zgblog-nav-aside animated"
 				style="text-align: center; margin-top: 60px; width: 100%; z-index: 10000;">
 				<shiro:user>　
 					<li class="layui-nav-item" lay-unselect="" th:with="user=${@userTag.getLoginUser()}">
@@ -253,7 +253,7 @@
 
 <!--文章排行 文本-->
 <div th:fragment=articleSortText(articles)>
-	<ul class="bobey-tab-list" th:each="article:${articles}">
+	<ul class="zgblog-tab-list" th:each="article:${articles}">
 		<li><a th:title="${article.articleTitle}" th:href="${blogConfig['oly.web.index']+'/post/'+article.articleId}"><i
 					class="layui-icon layui-icon-right"></i> <span
 					th:text="${article.articleTitle}">为什么程序媛比程序猿写的代码更好？</span></a></li>
@@ -286,7 +286,7 @@
 	<footer>
 		<div class="layui-row">
 			<!-- 友情链接 -->
-			<div class="layui-col-md12 bobey-footer-other">
+			<div class="layui-col-md12 zgblog-footer-other">
 				<ul id="link-home">
 					<li th:each="link:${@linkTag.listLink('footGroup')}"><a th:href="${link.linkUrl}" target="_blank"
 							th:title="${link.linkName}"><img th:src="${link.linkFavicon}" th:alt="${link.linkName}" />
@@ -294,7 +294,7 @@
 				</ul>
 			</div>
 			<!-- 备案信息|网站信息 -->
-			<div class="layui-col-md12 bobey-footer-copyright">
+			<div class="layui-col-md12 zgblog-footer-copyright">
 				<div>
 					<span th:utext="${blogConfig['oly.web.footer']}">湘ICP备18005863号-1</span>@<span
 						th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy')}">|©2019</span>
@@ -309,7 +309,7 @@
 	<div class="layui-row">
 		<!-- 文章列表 -->
 		<div th:each="post,postStat:${posts.rows}"
-			th:class="'layui-col-md4 layui-col-sm6 bobey-post-list '+${'post-page-'+(1+postStat.index/18)}">
+			th:class="'layui-col-md4 layui-col-sm6 zgblog-post-list '+${'post-page-'+(1+postStat.index/18)}">
 			<div class="post-list-item">
 				<div class="post-list-item-container">
 					<div class="item-thumb  bg-deepgrey"
@@ -353,7 +353,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="layui-col-md12 bobey-post-page" style=" text-align: center;" th:if="${posts.total>0}">
+		<div class="layui-col-md12 zgblog-post-page" style=" text-align: center;" th:if="${posts.total>0}">
 			<div class="layui-box layui-laypage layui-laypage-default">
 				<a href="javascript:void(0)" class="page-this">1</a>
 				<a href="javascript:void(0)" th:if="${posts.total>18&&posts.total<73}"
@@ -368,8 +368,8 @@
 <!-- 文章展示 -->
 <div th:fragment=blogArticle(post)>
 	<div class="layui-row" th:with="post=${post}">
-		<div class="layui-col-md12 bobey-box">
-			<article class="bobey-post-box" style="background-color: white">
+		<div class="layui-col-md12 zgblog-box">
+			<article class="zgblog-post-box" style="background-color: white">
 				<input id="articleId" th:value="${post.articleId}" type="hidden">
 				<div class="layui-row">
 					<div class="layui-col-md12 post-heard">
@@ -423,7 +423,7 @@
 								<div class="layui-field-box">
 									<ul>
 										<li class="post-authot"><label>作者：</label><span
-												th:text="${blogConfig['oly.web.author']}">bobey</span></li>
+												th:text="${blogConfig['oly.web.author']}">zgblog</span></li>
 										<li class="post-url"><label>本文地址：</label><a
 												th:href="${blogConfig['oly.web.index']+'/post/'+post.articleId}"
 												th:text="${blogConfig['oly.web.index']+'/post/'+post.articleId}"></a>
@@ -546,7 +546,7 @@
 <!-- 标签列表 -->
 <div th:fragment=blogTags(tags)>
 	<div class="layui-row">
-		<div class="layui-col-md12 bobey-box">
+		<div class="layui-col-md12 zgblog-box">
 			<div class="layui-card-body" style="background-color: white;height: 100vh">
 				<fieldset class="layui-elem-field" style="padding: 10px">
 					<legend>标签列表</legend>
@@ -565,22 +565,22 @@
 <!-- 标签查询文章 -->
 <div th:fragment=blogArticlesByTag(tag,posts)>
 	<div class="layui-row">
-		<div class="layui-col-md12 bobey-box">
-			<div class="bobey-posts">
+		<div class="layui-col-md12 zgblog-box">
+			<div class="zgblog-posts">
 				<fieldset class="layui-elem-field">
 					<legend th:text="'标签：'+${tag.tagName+'('+tag.tagCount+')'}"></legend>
 					<ul style="margin: 15px">
 						<li th:each="post:${posts.rows}">
-							<div class="bobey-post-heard">
+							<div class="zgblog-post-heard">
 								<h2> <span class="layui-badge-rim" th:text="${post.articleType}">提问</span>
 									<a th:href="${blogConfig['oly.web.index']+'/post/'+post.articleId}"
 										th:text="${post.articleTitle}">layim如何与环信对接，购买会员有没有技术人员帮助呢</a>
 								</h2>
 							</div>
-							<div class="bobey-post-summary">
-								<p th:text="${post.articleSummary}" class="layui-text bobey-text"></p>
+							<div class="zgblog-post-summary">
+								<p th:text="${post.articleSummary}" class="layui-text zgblog-text"></p>
 							</div>
-							<div class="bobey-post-footer">
+							<div class="zgblog-post-footer">
 								<span class="author">作者：</span>
 								<a href="http://oly.web.csdn.net/qq_35860138" target="_blank"
 									th:text="${post.createBy}">qq_35860138</a>
@@ -600,7 +600,7 @@
 <!-- 分类列表 -->
 <div th:fragment=blogCats(cats)>
 	<div class="layui-row">
-		<div class="layui-col-md12 bobey-box">
+		<div class="layui-col-md12 zgblog-box">
 			<div class="layui-card-body" style="background-color: white;height: 100vh">
 				<fieldset class="layui-elem-field" style="padding: 10px">
 					<legend>分类列表</legend>
@@ -619,22 +619,22 @@
 <!-- 分类查询文章 -->
 <div th:fragment=blogArticlesByCat(cat,posts)>
 	<div class="layui-row">
-		<div class="layui-col-md12 bobey-box">
-			<div class="bobey-posts">
+		<div class="layui-col-md12 zgblog-box">
+			<div class="zgblog-posts">
 				<fieldset class="layui-elem-field">
 					<legend th:text="'分类：'+${cat.catName+'('+cat.catCount+')'}"></legend>
 					<ul style="margin: 15px">
 						<li th:each="post:${posts.rows}">
-							<div class="bobey-post-heard">
+							<div class="zgblog-post-heard">
 								<h2> <span class="layui-badge-rim" th:text="${post.articleType}">提问</span>
 									<a th:href="${blogConfig['oly.web.index']+'/post/'+post.articleId}"
 										th:text="${post.articleTitle}">layim如何与环信对接，购买会员有没有技术人员帮助呢</a>
 								</h2>
 							</div>
-							<div class="bobey-post-summary">
-								<p th:text="${post.articleSummary}" class="layui-text bobey-text"></p>
+							<div class="zgblog-post-summary">
+								<p th:text="${post.articleSummary}" class="layui-text zgblog-text"></p>
 							</div>
-							<div class="bobey-post-footer">
+							<div class="zgblog-post-footer">
 								<span class="author">作者：</span>
 								<a href="http://oly.web.csdn.net/qq_35860138" target="_blank"
 									th:text="${post.createBy}">qq_35860138</a>
@@ -653,7 +653,7 @@
 <!-- 友情链接 -->
 <div th:fragment=blogLinks(groupLink)>
 	<div class="layui-row">
-		<div class="layui-col-md12 bobey-box">
+		<div class="layui-col-md12 zgblog-box">
 			<div class="layui-card">
 				<div class="layui-card-header">止戈导航</div>
 				<div class="layui-row">
@@ -678,8 +678,8 @@ height: 16px;">
 <!-- 关于本站 -->
 <div th:fragment=blogAbout(blogConfig)>
 	<div class="layui-row">
-		<div class="layui-col-md12 bobey-box">
-			<ul class="layui-timeline bobey-about-box" style="background-color: white">
+		<div class="layui-col-md12 zgblog-box">
+			<ul class="layui-timeline zgblog-about-box" style="background-color: white">
 				<li class="layui-timeline-item">
 					<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
 					<div class="layui-timeline-content layui-text">
@@ -726,7 +726,7 @@ height: 16px;">
 <div th:fragment=blogArticleTimeLine(timeData)>
 	<div class="layui-row" style="background-color: white">
 		<div class="layui-col-md12">
-			<ul class="layui-timeline bobey-about-box">
+			<ul class="layui-timeline zgblog-about-box">
 				<li class="layui-timeline-item" th:each="postMap,postStat:${timeData.map}">
 					<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
 					<div class="layui-timeline-content layui-text">
@@ -846,11 +846,11 @@ height: 16px;">
 				<div class="layui-tab-content">
 					<div class="layui-tab-item layui-show">
 						<th:block
-							th:include="zgblog/blog_include::articleSortText(articles=${@articleTag.listBlogArticleOrderByTime(10,'bobey')})" />
+							th:include="zgblog/blog_include::articleSortText(articles=${@articleTag.listBlogArticleOrderByTime(10,'zgblog')})" />
 					</div>
 					<div class="layui-tab-item">
 						<th:block
-							th:include="zgblog/blog_include::articleSortText(articles=${@articleTag.listBlogArticleOrderByTop(10,'bobey')})" />
+							th:include="zgblog/blog_include::articleSortText(articles=${@articleTag.listBlogArticleOrderByTop(10,'zgblog')})" />
 					</div>
 				</div>
 			</div>
@@ -861,7 +861,7 @@ height: 16px;">
 				<div class="layui-card-header">阅读排行</div>
 				<div class="layui-card-body" id="side_con">
 					<th:block
-						th:include="zgblog/blog_include::articleSortImg(articles=${@articleCountSortTag.listBlogArticleCountOrderByLook(10,'bobey')})" />
+						th:include="zgblog/blog_include::articleSortImg(articles=${@articleCountSortTag.listBlogArticleCountOrderByLook(10,'zgblog')})" />
 				</div>
 			</div>
 		</div>
@@ -875,11 +875,11 @@ height: 16px;">
 				<div class="layui-tab-content" style="overflow:hidden;">
 					<div class="layui-tab-item layui-show">
 						<th:block
-							th:include="zgblog/blog_include::hotTag(tags=${@tagTag.listTagByVisible(2,'bobey')})" />
+							th:include="zgblog/blog_include::hotTag(tags=${@tagTag.listTagByVisible(2,'zgblog')})" />
 					</div>
 					<div class="layui-tab-item">
 						<th:block
-							th:include="zgblog/blog_include::hotCategory(cats=${@categoryTag.listCategoryByVisible(2,22,'bobey')})" />
+							th:include="zgblog/blog_include::hotCategory(cats=${@categoryTag.listCategoryByVisible(2,22,'zgblog')})" />
 					</div>
 				</div>
 			</div>
@@ -888,7 +888,7 @@ height: 16px;">
 		<div class="layui-col-md12">
 			<div class="layui-card">
 				<div class="layui-card-header">标签云</div>
-				<div class="layui-card-body" id="bobey-tags">
+				<div class="layui-card-body" id="zgblog-tags">
 					<div id='tag-cloud'></div>
 				</div>
 			</div>
