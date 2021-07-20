@@ -69,12 +69,4 @@
         </where>
     </select>
 
-    <select id="listTaoKeByTagId" resultMap="TaokeResult" parameterType="long">
-    <include refid="selectTaokeVo"/>as y where y.shop_fettle!=0 and y.article_id in (select t.article_id from cms_article_tag as t where t.tag_id=#{tagId})
-    </select>
-
-    <select id="listTaoKeByCatId" resultMap="TaokeResult" parameterType="long">
-    <include refid="selectTaokeVo"/> as y where y.shop_fettle!=0 and y.article_id in (select t.article_id from cms_article_cat as t where t.cat_id=#{catId})
-    </select>
-
 </mapper>

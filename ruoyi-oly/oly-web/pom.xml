@@ -16,10 +16,7 @@
     </description>
    
      <dependencies>  
-        <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf-spring5</artifactId>
-        </dependency>
+        
         <dependency>
             <groupId>com.oly</groupId>
             <artifactId>oly-mail</artifactId>

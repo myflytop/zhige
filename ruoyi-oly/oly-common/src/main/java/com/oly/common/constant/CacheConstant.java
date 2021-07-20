@@ -9,33 +9,34 @@ import java.util.List;
  */
 public class CacheConstant {
 
-    public final static String CACHE_NAME="oly-web";
+    public final static String CACHE_NAME = "oly-web";
 
     /* 菜单缓存 */
-    public final static String MENU_CACHE_KEY_PREFIX = "menuCache_",
+    public final static String MENU_CACHE_KEY_PREFIX = "menu-cache",
             /* 文章缓存 */
-            POST_CACHE_KEY_PREFIX = "postCache_",
-            /* 文章列表缓存 */
-            POSTS_CACHE_KEY_PREFIX = "postsCache_",
+            POST_CACHE_KEY_PREFIX = "post-cache",
             /**
              * 链接缓存
              */
-            LINKS_CACHE_KEY_PREFIX = "linksCache_",
+            LINKS_CACHE_KEY_PREFIX = "links-cache",
             /**
-             * 配置缓存
+             * 配置缓存config_back
              */
-            CONFIG_CACHE_KEY_PREFIX = "configCache_",
+            CONFIG_CACHE_KEY_PREFIX = "config-cache",
             /* 标签缓存 */
-            TAGS_CACHE_KEY_PREFIX = "tagsCache_",
+            TAGS_CACHE_KEY_PREFIX = "tags-cache",
             /**
              * 分类缓存
              */
-            CATS_CACHE_KEY_PREFIX = "catsCache_",
-
+            CATS_CACHE_KEY_PREFIX = "cats-cache",
+            /**
+             * 商品缓存
+             */
+            SHOP_CACHE_KEY_PREFIX = "shop-cache",
             /**
              * 页面缓存
              */
-            PAGE_CACHE_KEY_PREFIX = "pageCache_";
+            PAGE_CACHE_KEY_PREFIX = "page-cache";
 
     private CacheConstant() {
     }

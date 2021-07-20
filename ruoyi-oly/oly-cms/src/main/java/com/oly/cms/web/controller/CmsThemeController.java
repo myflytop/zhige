@@ -160,9 +160,9 @@ public class CmsThemeController extends CmsCommonController {
 	}
 
 	/**
-	 * 获取主题文件
-	 * 
+	 * @param path
 	 * @return
+	 * @throws FileNotFoundException
 	 */
 	@GetMapping("/treeData")
 	@RequiresPermissions("cms:theme:view")

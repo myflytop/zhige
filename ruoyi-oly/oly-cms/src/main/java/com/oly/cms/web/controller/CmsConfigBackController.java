@@ -1,6 +1,5 @@
 package com.oly.cms.web.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,11 +45,7 @@ public class CmsConfigBackController extends CmsCommonController {
 
     private static final String prefix = acceptPreifx + "configBack";
 
-    private static final String taoGroupSuffix = "_tao";
-
     private static final String backWebPrefix = OlyConfigCommonEnum.OLY_WBE_PREIFX.getValue();
-
-    private static final String backTaoPrefix = OlyConfigCommonEnum.OLY_TAO_PREFIX.getValue();
 
     private static final String backThemePrefix = OlyConfigCommonEnum.OLY_THEME_PREFIX.getValue();
 
@@ -98,26 +93,6 @@ public class CmsConfigBackController extends CmsCommonController {
     }
 
     /**
-     * 修改淘客配置文件
-     *
-     * @param configGroup 主题名
-     * @param mmap
-     * @return
-     */
-    @GetMapping("/editTao/{configGroup}")
-    public String editTao(@PathVariable("configGroup") String configGroup, ModelMap mmap) {
-        configGroup = configGroup + taoGroupSuffix;
-        Map<String, String> mps = selectConfigValueMap(configGroup);
-        if (mps.isEmpty()) {
-            backConfig(configGroup, backTaoPrefix);
-            mps = selectConfigValueMap(configGroup);
-        }
-        mmap.put("taoConfig", mps);
-        mmap.put("configGroup", configGroup);
-        return prefix + "/taoConfig";
-    }
-
-    /**
      * 主题设置
      *
      * @return
@@ -128,7 +103,7 @@ public class CmsConfigBackController extends CmsCommonController {
         Map<String, String> mps = cmsConfigBackService.getConfigBackValueMap(configGroup, backThemePrefix);
         mmap.put("themeConfig", mps);
         mmap.put("configGroup", configGroup);
-        //从主题加载
+        // 从主题加载
         return configGroup + "/setting/setting";
     }
 
@@ -184,27 +159,31 @@ public class CmsConfigBackController extends CmsCommonController {
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult removeByGroup(String configGroup) {
-        return toAjax(cmsConfigBackService.deleteCmsConfigBackByGroup(configGroup));
+        int re = cmsConfigBackService.deleteCmsConfigBackByGroup(configGroup);
+        app.publishEvent(new CacheWebRefreshEvent(this, CacheConstant.CONFIG_CACHE_KEY_PREFIX));
+        return toAjax(re);
     }
 
     /**
+     * 配置文件备份 config--config_back
+     * 
      * @param configGroup 组别名
      * @return
      */
-    @RequiresPermissions("cms:configBack:remove")
+    @RequiresPermissions("cms:configBack:add")
     @Log(title = "配置文件备份", businessType = BusinessType.INSERT)
     @PostMapping("/back")
     @ResponseBody
     public AjaxResult back(String configGroup) {
         backConfig(configGroup, backWebPrefix);
-        backConfig(configGroup + taoGroupSuffix, backTaoPrefix);
         app.publishEvent(new CacheWebRefreshEvent(this, CacheConstant.CONFIG_CACHE_KEY_PREFIX));
         return AjaxResult.success();
     }
 
     /**
-     * 备份还原 只做更新操作
-     *
+     * 备份还原 只做更新操作 config_back--config
+     * 
+     * @param configGroup 组别名
      * @return
      */
     @RequiresPermissions("cms:configBack:update")
@@ -213,7 +192,7 @@ public class CmsConfigBackController extends CmsCommonController {
     @ResponseBody
     public AjaxResult vatting(String configGroup) {
         vattingConfig(configGroup);
-        vattingConfig(configGroup + taoGroupSuffix);
+        app.publishEvent(new CacheWebRefreshEvent(this, CacheConstant.CONFIG_CACHE_KEY_PREFIX));
         return AjaxResult.success();
     }
 
@@ -247,11 +226,6 @@ public class CmsConfigBackController extends CmsCommonController {
         SysConfig sysConfig = new SysConfig();
         sysConfig.setConfigKey(backPrefix);
         List<SysConfig> lists = sysConfigService.selectConfigList(sysConfig);
-        if (!configGroup.endsWith(taoGroupSuffix)) {
-            sysConfig.setConfigKey(backPrefix + "themeName");
-            sysConfig.setConfigValue(configGroup);
-            lists.add(sysConfig);
-        }
         if (!lists.isEmpty()) {
             for (SysConfig sysConfig2 : lists) {
                 CmsConfigBack cmsConfigBack = new CmsConfigBack();

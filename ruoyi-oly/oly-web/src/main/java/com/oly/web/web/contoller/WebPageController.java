@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.oly.web.annotation.BlogLog;
 import com.oly.web.model.pam.BlogArticleSearchParam;
+import com.oly.web.model.parm.TaokeParm;
 import com.oly.web.model.po.BlogCat;
 import com.oly.web.model.po.BlogTag;
 import com.oly.web.web.service.WebPageService;
@@ -49,17 +50,16 @@ public class WebPageController {
     }
 
     /**
-     * 请求指定文章
      * 
-     * @param postId
+     * @param themeName
      * @param mp
+     * @param parm
      * @return
      */
-
-    @GetMapping(value = { "/search", "/{themeName}/search" })
-    public String search(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp,
+    @GetMapping(value = { "/posts", "/{themeName}/posts" })
+    public String posts(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp,
             BlogArticleSearchParam parm) {
-        return webPageService.search(themeName, mp, parm);
+        return webPageService.posts(themeName, mp, parm);
     }
 
     /**
@@ -70,10 +70,23 @@ public class WebPageController {
      * @param parm
      * @return
      */
-    @GetMapping(value = { "/shop", "/{themeName}/shop" })
-    public String shop(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp,
-            BlogArticleSearchParam parm) {
-        return webPageService.search(themeName, mp, parm);
+    @GetMapping(value = { "/shops", "/{themeName}/shops" })
+    public String shops(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp,
+            TaokeParm parm) {
+        return webPageService.shops(themeName, mp, parm);
+    }
+
+    /**
+     * 请求指定文章
+     * 
+     * @param postId
+     * @param mp
+     * @return
+     */
+    @GetMapping(value = { "/shop/{shopId}", "/{themeName}/shop/{shopId}" })
+    public String shop(@PathVariable(name = "shopId", required = false) String shopId,
+            @PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
+        return webPageService.shop(themeName, mp, shopId);
     }
 
     /**

@@ -22,7 +22,7 @@ public enum OlyCmsConfigPropetries implements PropertyEnum {
 
     // 商品状态
     TAO_FITTLE_DEFAULT("oly.cms.tao.defaultFettle", Integer.class, "0"),
-    // 淘客文章
+    // 淘客关联文章类型
     TAO_POST_TYPE("oly.cms.tao.postType", Byte.class, "0");
 
     private final String value;

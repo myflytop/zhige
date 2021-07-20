@@ -20,11 +20,47 @@
             timeToLiveSeconds="3600"
             overflowToDisk="false">
     </defaultCache>
-            <!-- 网站缓存 -->
-    <cache name="oly-web"
+ 
+    <cache name="menu-cache"
             maxEntriesLocalHeap="1000"
            eternal="true"
            overflowToDisk="true"
-           statistics="false"/>    
+           statistics="false"/>
+    <cache name="post-cache"
+            maxEntriesLocalHeap="1000"
+           eternal="true"
+           overflowToDisk="true"
+           statistics="false"/>
+    <cache name="links-cache"
+            maxEntriesLocalHeap="1000"
+           eternal="true"
+           overflowToDisk="true"
+           statistics="false"/>
+    <cache name="config-cache"
+            maxEntriesLocalHeap="1000"
+           eternal="true"
+           overflowToDisk="true"
+           statistics="false"/>
+     <cache name="tags-cache"
+            maxEntriesLocalHeap="1000"
+           eternal="true"
+           overflowToDisk="true"
+           statistics="false"/>
+    <cache name="cats-cache"
+            maxEntriesLocalHeap="1000"
+           eternal="true"
+           overflowToDisk="true"
+           statistics="false"/>
+    <cache name="shop-cache"
+            maxEntriesLocalHeap="1000"
+           eternal="true"
+           overflowToDisk="true"
+           statistics="false"/>
+    <cache name="page-cache"
+            maxEntriesLocalHeap="1000"
+           eternal="true"
+           overflowToDisk="true"
+           statistics="false"/>
+
 </ehcache>
 	

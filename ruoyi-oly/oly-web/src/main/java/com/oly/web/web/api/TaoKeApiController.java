@@ -62,22 +62,22 @@ public class TaoKeApiController extends CommonController {
         return AjaxResult.success(pageOne);
     }
 
-    @GetMapping("/list/tagId/{tagId}")
-    public AjaxResult listTaoByTagId(@PathVariable("tagId") Long tagId) {
+    @GetMapping("/list/tagId/{tagId}/{pageSize}")
+    public AjaxResult listTaoByTagId(@PathVariable("tagId") Long tagId, @PathVariable("pageSize") Integer pageSize) {
         List<TaokeModel> list = new ArrayList<>();
         startDefaultPage();
-        list = taokeService.listTaoKeByTagId(tagId);
+        list = taokeService.listTaoKeByTagId(tagId, 1, pageSize);
         // 封装分页
         PageData pageOne = PageData.getData(list);
 
         return AjaxResult.success(pageOne);
     }
 
-    @GetMapping("/list/catId/{catId}")
-    public AjaxResult listTaoByCatId(@PathVariable("tagId") Long catId) {
+    @GetMapping("/list/catId/{catId}/{pageSize}")
+    public AjaxResult listTaoByCatId(@PathVariable("tagId") Long catId, @PathVariable("pageSize") Integer pageSize) {
         List<TaokeModel> list = new ArrayList<>();
         startDefaultPage();
-        list = taokeService.listTaoKeByCatId(catId);
+        list = taokeService.listTaoKeByCatId(catId, 1, pageSize);
         // 封装分页
         PageData pageOne = PageData.getData(list);
 
@@ -93,5 +93,5 @@ public class TaoKeApiController extends CommonController {
     public AjaxResult getTaoByArticleId(@PathVariable("articleId") Long articleId) {
         return AjaxResult.success(taokeService.selectTaokeByArticleId(articleId));
     }
-    
+
 }

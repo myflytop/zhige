@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import com.github.pagehelper.PageHelper;
 import com.oly.common.model.properties.OlyWebConfigProetries;
 import com.oly.web.mapper.BlogSearchMapper;
@@ -17,7 +16,6 @@ import com.oly.web.model.po.BlogTag;
 import com.oly.web.service.IBlogSearchService;
 import com.oly.web.service.cache.BlogConfigCacheService;
 import com.ruoyi.common.utils.StringUtils;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +38,6 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
         if (StringUtils.isNotEmpty(themeName)) {
             setSupportType(bb, themeName);
         }
-
         return blogSearchMapper.listBlogArticlesBySearch(bb);
     }
 
@@ -82,7 +79,6 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
     }
 
     public List<BlogArticle> listBlogArticlesByCatId(Long catId, Integer size, String themeName) {
-
         BlogCat blogCat = blogSearchMapper.getBlogCatByCatId(catId);
         String supportType = getSupportType(themeName);
         if (blogCat != null && (StringUtils.isEmpty(supportType) || (StringUtils.isNotEmpty(supportType)

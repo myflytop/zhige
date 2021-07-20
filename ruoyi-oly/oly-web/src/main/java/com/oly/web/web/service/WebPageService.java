@@ -62,6 +62,24 @@ public class WebPageService extends CommonController {
     }
 
     /**
+     * 搜索页面
+     * 
+     * @param themeName
+     * @param mp
+     * @param parm
+     * @return
+     */
+    public String posts(String themeName, ModelMap mp, BlogArticleSearchParam parm) {
+        List<BlogArticle> list = new ArrayList<>();
+        startDefaultPage();
+        list = blogPostService.listBlogArticles(parm, themeName);
+        PageData pageOne = PageData.getData(list);
+        mp.put("posts", pageOne);
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/posts");
+    }
+
+    /**
      * 文章页
      * 
      * @param themeName
@@ -76,24 +94,6 @@ public class WebPageService extends CommonController {
     }
 
     /**
-     * 搜索页面
-     * 
-     * @param themeName
-     * @param mp
-     * @param parm
-     * @return
-     */
-    public String search(String themeName, ModelMap mp, BlogArticleSearchParam parm) {
-        List<BlogArticle> list = new ArrayList<>();
-        startDefaultPage();
-        list = blogPostService.listBlogArticles(parm, themeName);
-        PageData pageOne = PageData.getData(list);
-        mp.put("posts", pageOne);
-        setParams(mp);
-        return getPrefix(themeName, "/pages/web/search");
-    }
-
-    /**
      * 商品页
      * 
      * @param themeName
@@ -101,7 +101,7 @@ public class WebPageService extends CommonController {
      * @param taokeParm
      * @return
      */
-    public String shop(String themeName, ModelMap mp, TaokeParm taokeParm) {
+    public String shops(String themeName, ModelMap mp, TaokeParm taokeParm) {
         String pam = "?";
         if (taokeParm.getCatId() != null) {
             pam = pam + "catId=" + taokeParm.getCatId();
@@ -125,6 +125,12 @@ public class WebPageService extends CommonController {
         PageData pageOne = PageData.getData(list);
         mp.put("pages", pageOne);
         mp.put("pam", pam);
+        setParams(mp);
+        return getPrefix(themeName, "/pages/web/shops");
+    }
+
+    public String shop(String themeName, ModelMap mp, String shopId) {
+        mp.put("shopId", shopId);
         setParams(mp);
         return getPrefix(themeName, "/pages/web/shop");
     }
@@ -281,7 +287,7 @@ public class WebPageService extends CommonController {
      * @return
      */
     public String contact(String themeName, ModelMap mp) {
-        mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_CATEGORY));
+        mp.put("menu", getBlogMenu(themeName, OlyWebConfigProetries.PAGE_INTROUDUE));
         setParams(mp);
         return getPrefix(themeName, "/pages/web/contact");
     }

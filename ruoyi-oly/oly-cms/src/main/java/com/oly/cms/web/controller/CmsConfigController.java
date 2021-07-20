@@ -29,8 +29,6 @@ public class CmsConfigController extends CmsCommonController {
     private final String THEME_CONFIG_PREFIX = OlyConfigCommonEnum.OLY_THEME_PREFIX.getValue();
     // app参数设置
     private final String APP_CONFIG_PREFIX = OlyConfigCommonEnum.OLY_APP_PREFIX.getValue();
-    // 淘客参数设置模板
-    private final String TAO_KE_CONFIG_PREFIX = OlyConfigCommonEnum.OLY_TAO_PREFIX.getValue();
     // 评论参数设置模板
     private final String COMMENT_CONFIG_PREFIX = OlyConfigCommonEnum.OLY_COMMENT_PREIFX.getValue();
 
@@ -65,20 +63,6 @@ public class CmsConfigController extends CmsCommonController {
         webConfig.setConfigKey(WEB_CONFIG_PREFIX);
         mm.put("webConfig", sysConfigService.selectConfigValueMap(webConfig));
         return prefix + "/webConfig";
-    }
-
-    /**
-     * 淘客配置
-     * 
-     * @return
-     */
-    @RequiresPermissions("cms:config:view")
-    @GetMapping("/tao")
-    public String manage(ModelMap mm) {
-        SysConfig webConfig = new SysConfig();
-        webConfig.setConfigKey(TAO_KE_CONFIG_PREFIX);
-        mm.put("taokeConfig", sysConfigService.selectConfigValueMap(webConfig));
-        return prefix + "/taoConfig";
     }
 
 }

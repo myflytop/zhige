@@ -135,9 +135,6 @@
 											<a title="站点配置"
 												th:onclick="javascript:themeSetWebConfig([[${themeVal.themeName}]])"><i
 													class="fa fa-certificate" aria-hidden="true"></i></a>
-											<a title="淘客配置"
-												th:onclick="javascript:themeSetTaoConfig([[${themeVal.themeName}]])"><i
-													class="fa fa-asterisk" aria-hidden="true"></i></a>
 											<a title="主题配置"
 												th:onclick="javascript:themeSetttingConfig([[${themeVal.themeName}]])"><i
 													class="fa fa-cog" aria-hidden="true"></i></a>
@@ -210,11 +207,6 @@
 		function themeSetWebConfig(themeName) {
 
 			$.modal.openTab("网站配置_" + themeName, ctx + "cms/configBack/edit/" + themeName);
-		}
-
-		function themeSetTaoConfig(themeName) {
-
-			$.modal.openTab("淘客配置_" + themeName, ctx + "cms/configBack/editTao/" + themeName);
 		}
 
 		function themeSetttingConfig(themeName) {

@@ -18,7 +18,7 @@ public class ArticleTag {
     private BlogArticleCacheService blogPostService;
 
     /**
-     * 获取文章
+     * 获取文章Html
      * 
      * @param articleId
      * @return
@@ -27,22 +27,14 @@ public class ArticleTag {
         return blogPostService.getBlogArticleHtmlById(articleId);
     }
 
-    /* 首页缓存 */
-    public PageData indexPosts(String themeName, int pageSize) {
-        List<BlogArticle> list = blogPostService.listBlogArticlesOrder(pageSize, "create_time desc", themeName);
-        PageData pageOne = PageData.getData(list);
-        return pageOne;
-    }
-
     /**
-     * 文章类型
+     * 获取文章MarkDown
      * 
-     * @param pageSize    获取条数
-     * @param articleType 文章类型
+     * @param articleId
      * @return
      */
-    public List<BlogArticle> listBlogArticleByType(Byte articleType, int pageSize) {
-        return this.sortType(articleType, pageSize, "create_time desc");
+    public BlogArticle getBlogArticleMdById(long articleId) {
+        return blogPostService.getBlogArticleMdById(articleId);
     }
 
     /**
@@ -69,6 +61,24 @@ public class ArticleTag {
     public List<BlogArticle> listBlogArticlesByTagId(Long tagId, Integer size, String themeName) {
 
         return blogPostService.listBlogArticlesByTagId(tagId == null ? 0L : tagId, size, themeName);
+    }
+
+    /* 首页缓存 */
+    public PageData indexPosts(String themeName, int pageSize) {
+        List<BlogArticle> list = blogPostService.listBlogArticlesOrder(pageSize, "create_time desc", themeName);
+        PageData pageOne = PageData.getData(list);
+        return pageOne;
+    }
+
+    /**
+     * 文章类型
+     * 
+     * @param pageSize    获取条数
+     * @param articleType 文章类型
+     * @return
+     */
+    public List<BlogArticle> listBlogArticleByType(Byte articleType, int pageSize) {
+        return this.sortType(articleType, pageSize, "create_time desc");
     }
 
     /**

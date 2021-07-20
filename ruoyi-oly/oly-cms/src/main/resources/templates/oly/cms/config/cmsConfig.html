@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <th:block th:include="include :: header('网站设置')" />
+    <th:block th:include="include :: header('内容设置')" />
     <th:block th:include="include::bootstrap-select-css" />
 </head>
 
@@ -16,7 +16,7 @@
                 </li>
                 <li><a data-toggle="tab" href="#theme" aria-expanded="false">主题设置</a>
                 </li>
-                <li><a data-toggle="tab" href="#other" aria-expanded="false">其他设置</a>
+                <li><a data-toggle="tab" href="#shop" aria-expanded="false">商品设置</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -169,9 +169,9 @@
                     </div>
                 </div>
                 <!-- 商品管理-->
-                <div id="other" class="tab-pane">
+                <div id="shop" class="tab-pane">
                     <div class="panel-body">
-                        <form class="form-horizontal m" id="form-other">
+                        <form class="form-horizontal m" id="form-shop">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label is-">商品默认转态：</label>
                                 <div class="col-sm-8">
