@@ -30,7 +30,7 @@ public class WebPageController {
      * @return
      */
     @BlogLog(title = "主页请求")
-    @GetMapping(value = { "/", "/{themeName}/index" })
+    @GetMapping(value = { "/", "/{themeName}","/{themeName}/index" })
     public String index(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
 
         return webPageService.index(themeName, mp);

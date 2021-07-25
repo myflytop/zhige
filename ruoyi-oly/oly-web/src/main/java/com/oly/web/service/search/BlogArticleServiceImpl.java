@@ -81,8 +81,9 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
     public List<BlogArticle> listBlogArticlesByCatId(Long catId, Integer size, String themeName) {
         BlogCat blogCat = blogSearchMapper.getBlogCatByCatId(catId);
         String supportType = getSupportType(themeName);
-        if (blogCat != null && (StringUtils.isEmpty(supportType) || (StringUtils.isNotEmpty(supportType)
-                && ArrayUtils.contains(supportType.split(","), blogCat.getCatType())))) {
+        System.out.println(supportType.split(",")[0]);
+        if (blogCat != null && (StringUtils.isEmpty(supportType)
+                || ArrayUtils.contains(supportType.split(","), blogCat.getCatType().toString()))) {
             BlogArticleSearchParam blogArticleSearchParam = new BlogArticleSearchParam();
             blogArticleSearchParam.setCatId(catId);
             PageHelper.startPage(1, size);
@@ -95,8 +96,8 @@ public class BlogArticleServiceImpl implements IBlogSearchService {
     public List<BlogArticle> listBlogArticlesByTagId(Long tagId, Integer size, String themeName) {
         BlogTag blogTag = blogSearchMapper.getBlogTagByTagId(tagId);
         String supportType = getSupportType(themeName);
-        if (blogTag != null && (StringUtils.isEmpty(supportType) || (StringUtils.isNotEmpty(supportType)
-                && ArrayUtils.contains(supportType.split(","), blogTag.getTagType())))) {
+        if (blogTag != null && (StringUtils.isEmpty(supportType)
+                || ArrayUtils.contains(supportType.split(","), blogTag.getTagType().toString()))) {
             BlogArticleSearchParam blogArticleSearchParam = new BlogArticleSearchParam();
             blogArticleSearchParam.setTagId(tagId);
             PageHelper.startPage(1, size);
