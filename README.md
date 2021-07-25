@@ -28,7 +28,7 @@
 * 后台请求地址 /admin
 * 博客主题主页 /,/zweb/zgblog
 * 淘客主题主页 /zweb/zgtao
-* 文档主题主页 /zweb/zgcmd
+* 文档主题主页 /zweb/zgcms
 * qq群:893754716
 * [演示地址](https://www.pingpinduo.site)
 
