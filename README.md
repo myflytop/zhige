@@ -26,8 +26,9 @@
 目前简单演示,包含基本的websocket通讯演示
 
 * 后台请求地址 /admin
-* 主页 /blog,/index,/
-* 淘客页 /taoke
+* 博客主题主页 /,/zweb/zgblog
+* 淘客主题主页 /zweb/zgtao
+* 文档主题主页 /zweb/zgcmd
 * qq群:893754716
 * [演示地址](https://www.pingpinduo.site)
 
