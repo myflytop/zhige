@@ -23,13 +23,10 @@
     </tr>                                 
 </table>
 ## 演示地址
-目前简单演示,包含基本的websocket通讯演示
-
-* 后台请求地址 /admin
-* 博客主题主页 /,/zweb/zgblog
-* 淘客主题主页 /zweb/zgtao
-* 文档主题主页 /zweb/zgcms
+* [后台地址](https://www.pingpinduo.site/admin)
+* [默认主题](https://www.pingpinduo.site/zweb/zgblog)
+* [淘客主题](https://www.pingpinduo.site/zweb/zgtao)
+* [文档主题](https://www.pingpinduo.site/zweb/zgcms)
 * qq群:893754716
-* [演示地址](https://www.pingpinduo.site)
 
 
