@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.hand.mapper.HandRecordMapper">
+
+	<insert id="insertRecord" parameterType="com.oly.cms.hand.model.param.WebRecordParam">
+			insert into ${recordTable}
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="articleId != null ">article_id,</if>
+				<if test="userId != null ">user_id,</if>
+				<if test="ip != null and ip != ''">ip,</if>
+				<if test="userSystem != null and userSystem != ''">user_system,</if>
+				<if test="userBower != null and userBower != ''">user_bower,</if>
+				<if test="shareUrl != null and shareUrl != ''">share_url,</if>
+				<if test="score != null and score != ''">score,</if>
+				create_time
+			</trim>
+			<trim prefix="values (" suffix=")" suffixOverrides=",">
+				<if test="articleId != null ">#{articleId},</if>
+				<if test="userId != null ">#{userId},</if>
+				<if test="ip != null and ip != ''">#{ip},</if>
+				<if test="userSystem != null and userSystem != ''">#{userSystem},</if>
+				<if test="userBower != null and userBower != ''">#{userBower},</if>
+				<if test="shareUrl != null and shareUrl != ''">#{shareUrl},</if>
+				<if test="score != null and score != ''">#{score},</if>
+				sysdate()
+			</trim>
+	</insert>
+
+	<insert id="updateCmsArticleCount">
+		insert into cms_article_count(article_id,${countColumn}) values (#{articleId},1)
+		ON DUPLICATE KEY UPDATE
+		<choose>
+			<when test="countColumn=='article_score'">
+				${countColumn}=(select AVG(score) from cms_score_record where article_id=#{articleId})
+			</when>
+			<otherwise>
+				 ${countColumn}=${countColumn}+1
+			</otherwise>
+		</choose>
+	</insert>
+
+	<select id="countRecord" resultType="int" parameterType="com.oly.cms.hand.model.param.WebRecordParam">
+		select count(1) from ${recordTable} where user_id=#{userId} and article_id=#{articleId}
+	</select>
+
+</mapper> 

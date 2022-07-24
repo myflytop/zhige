@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header('添加类目')"></head>
+<th:block th:include="include :: select2-css" />
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-cat-add">
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">上级类目：</label>
+				<div class="col-sm-8">
+					<div class="input-group">
+						<input id="treeId" name="parentId" type="hidden" th:value="${parentId}" />
+						<input class="form-control" type="text" onclick="selectCatTree()"
+							id="treeName" readonly="true" th:value="${parentName}"> <span
+							class="input-group-addon"><i class="fa fa-search"></i></span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">类目节点：</label>
+					<div class="col-sm-8">
+						<div class="radio-box" th:each="dict : ${@dictTag.getType('cms_cat_parent')}">
+							<input type="radio" th:id="${dict.dictCode}" name="parent" th:value="${dict.dictValue}" th:checked="${dict.default}">
+							<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+						</div>
+					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">类目名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="catName" id="catName"	required minlength="2" maxlength="8">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">类目路径：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="catUrl" >
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">类目类型：</label>
+					<div class="col-sm-8">
+						<select name="catType" class="form-control" th:with="type=${@dictTag.getType('cms_support_type')}">
+							<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							</option>
+						</select>
+					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">类目排序：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="number" name="orderNum" num required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">类目状态：</label>
+				<div class="col-sm-8">
+					<div class="col-sm-8">
+						<div class="radio-box" th:each="dict : ${@dictTag.getType('cms_cat_visible')}">
+							<input type="radio" th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}" th:checked="${dict.default}">
+							<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">类目图标：</label>
+				<div class="col-sm-8">
+					<input id="icon" name="catIcon" class="form-control" type="text"
+						placeholder="选择图标">
+					<div class="ms-parent" style="width: 100%;">
+						<div class="icon-drop animated flipInX"
+							style="display: none; max-height: 200px; overflow-y: auto">
+							<div data-th-include="system/menu/icon"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark" class="form-control" ></textarea>
+                </div>
+            </div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">关键词：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="keywords">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">描述：</label>
+				<div class="col-sm-8">
+					<textarea name="description" class="form-control" ></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<th:block th:include="include :: select2-js" />
+	<script>
+        var prefix = ctx + "cms/cat";
+        
+        $("#form-cat-add").validate({
+        	rules:{
+        		parent:{
+        			required:true
+        		},
+                orderNum:{
+        			digits:true
+        		},
+				catType:{
+                 required:true
+				},
+				visible:{
+				  required:true
+				},
+				parentId:{
+				  digits:true
+				},
+        		catUrl:{
+        			remote: {
+                        url: prefix + "/checkCatUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                        	"catUrl" : function() {
+                                return $.common.trim($("input[name=catUrl]").val());
+                            }
+                        },
+                        dataFilter: function(data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+        		catName:{
+					required:true,
+					rangelength:[2,8],
+        			remote: {
+                        url: prefix + "/checkCatUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                        	"parentId": function() {
+		                		return $("input[name='parentId']").val();
+		                    },
+                        	"catName" : function() {
+                                return $.common.trim($("#catName").val());
+                            }
+                        },
+                        dataFilter: function(data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+        	},
+        	messages: {
+                "catName": {
+                    remote: "类目已存在"
+                },
+                "catUrl": {
+                    remote: "路径已存在"
+                }
+            },
+            focusCleanup: true
+        });
+        
+        function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-cat-add').serialize());
+	        }
+	    }
+
+        $(function() {
+        	$("input[name='catIcon']").focus(function() {
+                $(".icon-drop").show();
+            });
+        	$("#form-cat-add").click(function(event) {
+        	    var obj = event.srcElement || event.target;
+        	    if (!$(obj).is("input[name='catIcon']")) {
+        	    	$(".icon-drop").hide();
+        	    }
+        	});
+        	$(".icon-drop").find(".ico-list i").on("click", function() {
+        		$('#icon').val($(this).attr('class'));
+            });
+        	
+        });
+        /*分类管理-新增-选择分类树树*/
+        function selectCatTree() {
+        	var treeId = $("#treeId").val();
+        	var catId = treeId ;
+        	var url = prefix + "/selectCatTree?parent=0&catId=" + catId;
+			var options = {
+				title: '类目选择',
+				width: "380",
+				url: url,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+        //表单提交
+		function doSubmit(index, layero){
+			var  body = $.modal.getChildFrame(index),treeId=body.find('#treeId').val();
+   			$("#treeId").val(treeId);
+   			$("#treeName").val(body.find('#treeName').val());
+   			$.modal.close(index);
+		}
+    </script>
+</body>
+</html>

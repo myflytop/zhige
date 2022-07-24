@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.admin.mapper.CmsLinkMapper">
+    
+    <insert id="insertCmsLink" parameterType="com.oly.cms.common.domain.entity.CmsLink" useGeneratedKeys="true" keyProperty="linkId">
+        insert into cms_link
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="linkUrl != null  and linkUrl != ''">link_url,</if>
+            <if test="linkName != null  and linkName != ''">link_name,</if>
+            <if test="groupName != null  and groupName != ''">group_name,</if>
+            <if test="orderNum != null  ">order_num,</if>
+            <if test="linkSuggest != null  and linkSuggest != ''">link_suggest,</if>
+            <if test="linkFavicon != null  and linkFavicon != ''">link_favicon,</if>
+            <if test="visible != null ">visible,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null ">update_by,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="openType != null and openType!='' ">open_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="linkUrl != null  and linkUrl != ''">#{linkUrl},</if>
+            <if test="linkName != null  and linkName != ''">#{linkName},</if>
+            <if test="groupName != null  and groupName != ''">#{groupName},</if>
+            <if test="orderNum != null  ">#{orderNum},</if>
+            <if test="linkSuggest != null  and linkSuggest != ''">#{linkSuggest},</if>
+            <if test="linkFavicon != null  and linkFavicon != ''">#{linkFavicon},</if>
+            <if test="visible != null ">#{visible},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="openType != null and openType!='' ">#{openType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCmsLink" parameterType="com.oly.cms.common.domain.entity.CmsLink">
+        update cms_link
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="linkUrl != null  and linkUrl != ''">link_url = #{linkUrl},</if>
+            <if test="linkName != null  and linkName != ''">link_name = #{linkName},</if>
+            <if test="orderNum!=null">order_num=#{orderNum},</if>
+            <if test="groupName != null  and groupName != ''">group_name=#{groupName},</if>
+            <if test="linkSuggest != null  and linkSuggest != ''">link_suggest = #{linkSuggest},</if>
+            <if test="linkFavicon != null  and linkFavicon != ''">link_favicon = #{linkFavicon},</if>
+            <if test="visible != null ">visible = #{visible},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="openType != null and openType!='' ">open_type=#{openType},</if>
+
+        </trim>
+        where link_id = #{linkId}
+    </update>
+
+    <delete id="deleteCmsLinkById" parameterType="Long">
+        delete from cms_link where link_id = #{linkId}
+    </delete>
+
+    <delete id="deleteCmsLinkByIds" parameterType="string">
+        delete from cms_link where link_id in 
+        <foreach item="linkId" collection="array" open="(" separator="," close=")">
+            #{linkId}
+        </foreach>
+    </delete>
+
+    <select id="listLinkGroupNames" resultType="string">
+       select distinct group_name from cms_link
+    </select>
+    
+</mapper>

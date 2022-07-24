@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('系统设置')" />
+    <th:block th:include="include :: select2-css" />
+</head>
+
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <div class="tabs-container">
+            <ul class="nav nav-tabs" id="config-title">
+                <li class="active"><a data-toggle="tab" href="#sysCommon" aria-expanded="false">通用设置</a>
+                </li>
+                <li><a data-toggle="tab" href="#sysLogin" aria-expanded="false">登陆页设置</a>
+                </li>
+                <li><a data-toggle="tab" href="#sysIndex" aria-expanded="false">系统主题设置</a>
+                </li>
+                <li><a data-toggle="tab" href="#sysUser" aria-expanded="false">用户相关设置</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <!-- 通用设置 设置-->
+                <div id="sysCommon" class="tab-pane active" th:with="sysCommon=${@configTag.getConfigMapValue('sysCommon')}">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-sysCommon">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">标题：</label>
+                                <div class="col-sm-8">
+                                    <input name="sys.common.title"
+                                        th:value="${sysCommon['sys.common.title']}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">描述：</label>
+                                <div class="col-sm-8">
+                                    <input name="sys.common.description"
+                                        th:value="${sysCommon['sys.common.description']}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">LOGO：</label>
+                                <div class="col-sm-8">
+                                    <input name="sys.common.logo" th:value="${sysCommon['sys.common.logo']}"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">ICO：</label>
+                                <div class="col-sm-8">
+                                    <input name="sys.common.ico" th:value="${sysCommon['sys.common.ico']}"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">底部：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="sys.common.footer"
+                                    th:text="${sysCommon['sys.common.footer']}" class="form-control">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 登录 设置-->
+                <div id="sysLogin" class="tab-pane" th:with="sysLogin=${@configTag.getConfigMapValue('sysLogin')}">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-sysLogin">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">背景：</label>
+                                <div class="col-sm-8">
+                                    <input name="sys.login.back"
+                                        th:value="${sysLogin['sys.login.back']}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">介绍：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="sys.login.info"
+                                        th:text="${sysLogin['sys.login.info']}" class="form-control">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">公告开关：</label>
+                                <div class="col-sm-8">
+                                    <label class="toggle-switch switch-solid">
+                                        <input type="checkbox" id="sys.login.msg"  th:checked="${sysLogin['sys.login.msg'] == 'true' ? true : false}">
+                                        <input type="hidden" name="sys.login.msg"  th:value="${sysLogin['sys.login.msg'] == 'true' ? true : false}">
+                                        <span></span>
+                                    </label> 
+                                </div> 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 管理主题设置 -->
+                <div id="sysIndex" class="tab-pane" th:with="sysIndex=${@configTag.getConfigMapValue('sysIndex')}">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-sysIndex">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">皮肤样式：</label>
+                                <div class="col-sm-8">
+                                    <div class="radio-box" th:each="dict : ${@dictTag.getType('sys_index_skin_name')}">
+                                        <input type="radio" th:id="${dict.dictCode}" name="sys.index.skinName" th:value="${dict.dictValue}"
+                                        th:checked="${dict.dictValue  eq sysIndex['sys.index.skinName']}">
+                                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}" data-toggle="tooltip"
+                                            data-placement="bottom" th:title="${dict.remark}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">侧边主题：</label>
+                                <div class="col-sm-8">
+                                    <div class="radio-box" th:each="dict : ${@dictTag.getType('sys_index_side_theme')}">
+                                        <input type="radio" th:id="${dict.dictCode}" name="sys.index.sideTheme" th:value="${dict.dictValue}"
+                                            th:checked="${dict.dictValue eq sysIndex['sys.index.sideTheme']}" >
+                                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}" data-toggle="tooltip"
+                                            data-placement="bottom" th:title="${dict.remark}"></label>
+                                    </div>
+                               </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">导航风格：</label>
+                                <div class="col-sm-8">
+                                    <div class="radio-box" th:each="dict : ${@dictTag.getType('sys_index_menu_style')}">
+                                        <input type="radio" th:id="${dict.dictCode}" name="sys.index.menuStyle" th:value="${dict.dictValue}"
+                                            th:checked="${dict.dictValue  eq sysIndex['sys.index.menuStyle']}">
+                                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}" data-toggle="tooltip"
+                                            data-placement="bottom" th:title="${dict.remark}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">演示菜单：</label>
+                                <div class="col-sm-8">
+                                    <label class="toggle-switch switch-solid">
+                                        <input type="checkbox" id="sys.index.demoMenu"  th:checked="${sysIndex['sys.index.demoMenu'] == 'true' ? true : false}">
+                                        <input type="hidden" name="sys.index.demoMenu"  th:value="${sysIndex['sys.index.demoMenu'] == 'true' ? true : false}">
+                                        <span></span>
+                                    </label> 
+                                </div>
+                            </div>       
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">开启页脚：</label>
+                                <div class="col-sm-8">
+                                    <label class="toggle-switch switch-solid">
+                                        <input type="checkbox" id="sys.index.ignoreFooter"  th:checked="${sysIndex['sys.index.ignoreFooter'] == 'true' ? true : false}">
+                                        <input type="hidden" name="sys.index.ignoreFooter"  th:value="${sysIndex['sys.index.ignoreFooter'] == 'true' ? true : false}">
+                                        <span></span>
+                                    </label> 
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 用户 设置-->
+                <div id="sysUser" class="tab-pane" th:with="sysUser=${@configTag.getConfigMapValue('sysUser')}">
+                    <div class="panel-body">
+                        <form class="form-horizontal m" id="form-sysUser">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">用户注册：</label>
+                                <div class="col-sm-8">
+                                    <label class="toggle-switch switch-solid">
+                                        <input type="checkbox" id="sys.account.registerUser"  th:checked="${sysUser['sys.account.registerUser'] == 'true' ? true : false}">
+                                        <input type="hidden" name="sys.account.registerUser"  th:value="${sysUser['sys.account.registerUser'] == 'true' ? true : false}">
+                                        <span></span>
+                                    </label> 
+                                </div> 
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">默认部门：</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input name="sys.account.defaultDept"  type="hidden"  th:value="${sysUser['sys.account.defaultDept']}" id="treeId"/>
+                                        <input class="form-control" type="text" onclick="selectDeptTree()" id="treeName" th:value="${dept.deptName}" >
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">默认角色：</label>
+                                <div class="col-sm-8">
+                                    <label th:each="role:${roles}" class="check-box">
+                                        <input name="sys.account.defaultRoleIds" type="radio" th:value="${role.roleId}" th:text="${role.roleName}" th:checked="${role.roleId+''==sysUser['sys.account.defaultRoleIds'] ? true:false}" th:disabled="${role.status == '1'}">
+                                    </label> 
+                                </div> 
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">默认岗位：</label>
+                                <div class="col-sm-8">
+                                    <input type="hidden" name="sys.account.defaultPostIds"/>
+                                    <select id="post" class="form-control select2-multiple" >
+                                        <option th:each="post:${posts}" th:value="${post.postId}" th:text="${post.postName}" th:selected="${post.postId+''==sysUser['sys.account.defaultPostIds'] ? true:false}" th:disabled="${post.status == '1'}"></option>
+                                    </select>
+                                </div> 
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">初始密码：</label>
+                                <div class="col-sm-8">
+                                    <input name="sys.user.initPassword"
+                                        th:value="${sysUser['sys.user.initPassword']}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">密码更新：</label>
+                                <div class="col-sm-8">
+                                    <input name="sys.account.passwordValidateDays"
+                                        th:value="${sysUser['sys.account.passwordValidateDays']}" class="form-control" type="number">
+                                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 
+                                            密码更新周期（填写数字，数据初始化值为0不限制，若修改必须为大于0小于365的正整数），如果超过这个周期登录系统时，则在登录时就会提醒修改密码对话框   </span>
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">修改策略：</label>
+                                <div class="col-sm-8">
+                                    <input name="sys.account.initPasswordModify"
+                                        th:value="${sysUser['sys.account.initPasswordModify']}" class="form-control" type="number">
+                                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 
+                                            0：初始密码修改策略关闭，没有任何提示，1：提醒用户，如果未修改初始密码，则在登录时就会提醒修改密码对话框</span>
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">密码范围：</label>
+                                <div class="col-sm-8">
+                                    <input name="sys.account.chrtype"
+                                        th:value="${sysUser['sys.account.chrtype']}" class="form-control" type="number">
+                                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 
+                                            默认任意字符范围，0任意（密码可以输入任意字符），1数字（密码只能为0-9数字），2英文字母（密码只能为a-z和A-Z字母），3字母和数字（密码必须包含字母，数字）,4字母数字和特殊字符（目前支持的特殊字符包括：~!@#$%^&*()-=_+） </span>
+                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <button type="button" class="btn btn-w-m btn-primary center-block" id="submit-btn">修改</button>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: select2-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/config";
+        var myConfig = "sysCommon";
+        $('#config-title a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+            myConfig = $(this).attr('href').replace("#", "");
+        });
+         /* 用户管理-修改-选择部门树 */
+         function selectDeptTree() {
+        	var deptId = $.common.isEmpty($("#treeId").val()) ? "100" : $("#treeId").val();
+            var url = ctx + "system/dept/selectDeptTree/" + deptId;
+		    var options = {
+				title: '选择部门',
+				width: "380",
+				url: url,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+			var body = $.modal.getChildFrame(index);
+   			$("#treeId").val(body.find('#treeId').val());
+   			$("#treeName").val(body.find('#treeName').val());
+   			$.modal.close(index);
+		}
+
+        $(function() {
+            $('#post').select2({
+                placeholder: "请选择岗位",
+                allowClear: true
+            });
+        })
+        function setOpen() {
+            $("input[name='sys.index.ignoreFooter']").val($("input[id='sys.index.ignoreFooter']").is(':checked'));
+            $("input[name='sys.index.demoMenu']").val($("input[id='sys.index.demoMenu']").is(':checked'));
+            $("input[name='sys.login.msg']").val($("input[id='sys.login.msg']").is(':checked'));
+            $("input[name='sys.account.registerUser']").val($("input[id='sys.account.registerUser']").is(':checked'));
+            $("input[name='sys.account.defaultPostIds']").val($.form.selectSelects("post"));
+        }
+
+        function submitHandler() {
+            setOpen();
+            var data = $("#form-"+myConfig).serializeArray();
+            data.push({"name": "configGroup", "value": myConfig});
+            $.operate.saveModal(prefix + "/updateByGk",data);
+        }
+
+        $("#submit-btn").click(function () {
+            submitHandler();
+        })
+    </script>
+</body>
+
+</html>

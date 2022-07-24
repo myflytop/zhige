@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.general.mapper.UnionSearchMapper">
+        
+    <resultMap type="com.oly.cms.common.domain.entity.CmsUnion" id="CmsUnionResult">
+        <result property="shopId"    column="shop_id"    />
+        <result property="shopName"    column="shop_name"    />
+        <result property="shopImg"    column="shop_img"    />
+        <result property="shopIndex"    column="shop_index"    />
+        <result property="homeName"    column="home_name"    />
+        <result property="shopPrice"    column="shop_price"    />
+        <result property="shopSales"    column="shop_sales"    />
+        <result property="incomeRatio"    column="income_ratio"    />
+        <result property="commission"    column="commission"    />
+        <result property="wangName"    column="wang_name"    />
+        <result property="sortUrl"    column="sort_url"    />
+        <result property="taokeUrl"    column="taoke_url"    />
+        <result property="couponCount"    column="coupon_count"    />
+        <result property="couponNum"    column="coupon_num"    />
+        <result property="couponPrice"    column="coupon_price"    />
+        <result property="couponStartTime"    column="coupon_start_time"    />
+        <result property="couponEndTime"    column="coupon_end_time"    />
+        <result property="couponUrl"    column="coupon_url"    />
+        <result property="couponCode"    column="coupon_code"    />
+        <result property="couponSortUrl"    column="coupon_sort_url"    />
+        <result property="marketIs"    column="market_is"    />
+        <result property="groupNum"    column="group_num"    />
+        <result property="groupPrice"    column="group_price"    />
+        <result property="groupCommission"    column="group_commission"    />
+        <result property="groupStartTime"    column="group_start_time"    />
+        <result property="groupEndTime"    column="group_end_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="visible"    column="visible"    />
+        <result property="shopContent"    column="shop_content"    />
+        <result property="unionType"    column="union_type"    />
+        <result property="tags"    column="tags"    />
+        <result property="cats"    column="cats"    />
+    </resultMap>
+
+    <sql id="selectCmsUnionVo">
+        select shop_id, shop_name, shop_img, shop_index, home_name, shop_price, shop_sales, income_ratio, commission, wang_name, sort_url, taoke_url, coupon_count, coupon_num, coupon_price, coupon_start_time, coupon_end_time, coupon_url, coupon_code, coupon_sort_url, market_is, group_num, group_price, group_commission, group_start_time, group_end_time, create_time, update_time, remark, visible, shop_content, union_type,tags,cats from cms_union
+    </sql>
+
+    <select id="listCmsUnions" parameterType="com.oly.cms.common.domain.entity.CmsUnion" resultMap="CmsUnionResult">
+        <include refid="selectCmsUnionVo"/>
+        <where>  
+            <if test="shopName != null  and shopName != ''"> and shop_name like concat('%', #{shopName}, '%')</if>
+            <if test="homeName != null  and homeName != ''"> and home_name like concat('%', #{homeName}, '%')</if>
+            <if test="wangName != null  and wangName != ''"> and wang_name like concat('%', #{wangName}, '%')</if>
+            <if test="couponStartTime != null "> and coupon_start_time = #{couponStartTime}</if>
+            <if test="couponEndTime != null "> and coupon_end_time = #{couponEndTime}</if>
+            <if test="couponUrl != null  and couponUrl != ''"> and coupon_url = #{couponUrl}</if>
+            <if test="couponCode != null  and couponCode != ''"> and coupon_code = #{couponCode}</if>
+            <if test="couponSortUrl != null  and couponSortUrl != ''"> and coupon_sort_url = #{couponSortUrl}</if>
+            <if test="marketIs != null  and marketIs != ''"> and market_is = #{marketIs}</if>
+            <if test="groupNum != null "> and group_num = #{groupNum}</if>
+            <if test="groupPrice != null "> and group_price = #{groupPrice}</if>
+            <if test="groupCommission != null "> and group_commission = #{groupCommission}</if>
+            <if test="groupStartTime != null "> and group_start_time = #{groupStartTime}</if>
+            <if test="groupEndTime != null "> and group_end_time = #{groupEndTime}</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="unionType != null and  unionType != ''"> and union_type = #{unionType}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(handle_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(handle_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>
+            <if test="tags!=null and tags!=''">
+                and    FIND_IN_SET(#{tags},tags)
+            </if>
+            <if test="cats!=null and cats!=''">
+                and    FIND_IN_SET(#{cats},cats)
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectCmsUnionByShopId" parameterType="String" resultMap="CmsUnionResult">
+        <include refid="selectCmsUnionVo"/>
+        where shop_id = #{shopId}
+    </select>
+
+</mapper> 

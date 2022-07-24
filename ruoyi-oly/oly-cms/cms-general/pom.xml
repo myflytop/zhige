@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>oly-cms</artifactId>
+        <groupId>com.oly.cms</groupId>
+        <version>4.7.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.oly.cms.general</groupId>
+    <artifactId>cms-general</artifactId>
+    <packaging>jar</packaging>
+    <description>
+       通用服务模块
+    </description>
+
+    <dependencies>
+        <!-- SpringBoot Web容器 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- SpringBoot 拦截器 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <artifactId>cms-common</artifactId>
+            <groupId>com.oly.cms.common</groupId>
+        </dependency>
+        <dependency>
+            <artifactId>system-config</artifactId>
+            <groupId>com.ruoyi.system.config</groupId>
+        </dependency>
+    </dependencies>
+
+
+</project>

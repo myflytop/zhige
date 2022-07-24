@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.general.mapper.TagSearchMapper">
+    <resultMap id="CmsTagResult" type="com.oly.cms.common.domain.entity.CmsTag">
+        <result property="tagId" column="tag_id" />
+        <result property="tagName" column="tag_name" />
+        <result property="createBy" column="create_by" />
+        <result property="createTime" column="create_time" />
+        <result property="remark" column="remark" />
+        <result property="updateBy" column="update_by" />
+        <result property="updateTime" column="update_time" />
+        <result property="tagUrl" column="tag_url" />
+        <result property="visible" column="visible" />
+        <result property="perms" column="perms" />
+        <result property="tagIco" column="tag_ico" />
+        <result property="keywords" column="keywords" />
+        <result property="description" column="description" />
+        <result property="orderNum" column="order_num" />
+        <result property="tagType" column="tag_type" />
+        <result property="tagCount" column="tag_count" />
+        <collection property="tagPassCount" select="getTagCountByTagId" ofType="long" column="tag_id" />
+    </resultMap>
+    <sql id="selectCmsTag">
+    select tag_id, tag_name, create_by, create_time, remark, update_by, update_time, tag_url, visible, perms, tag_ico, keywords, tag_count,description, order_num, tag_type from cms_tag
+    </sql>
+
+    <!--获取标签列表-->
+    <select id="listCmsTags" parameterType="com.oly.cms.common.domain.entity.CmsTag" resultMap="CmsTagResult">
+        <include refid="selectCmsTag" />
+        <where>
+            <if test="tagName != null  and tagName != ''"> and tag_name like concat('%', #{tagName}, '%')</if>
+            <if test="tagId != null ">
+            AND tag_id  = #{tagId}
+            </if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="perms != null  and perms != ''"> and perms like concat('%', #{perms}, '%')</if>
+            <if test="tagType != null "> and tag_type = #{tagType}</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="createBy!=null and createBy != ''">
+            and create_by=#{createBy}
+            </if>
+            <if test="updateBy!=null and updateBy != ''">
+            and update_by=#{updateBy}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+            <if test="params.supportType != null and params.supportType != ''">
+                <!-- 支持主题 -->
+                and FIND_IN_SET(tag_type,#{params.supportType})
+            </if>
+        </where>
+    </select>
+
+    <!--获取一条标签通过ID-->
+    <select id="selectCmsTagById" resultMap="CmsTagResult" parameterType="long">
+        <include refid="selectCmsTag" />
+        where tag_id = #{tagId}
+    </select>
+
+    <!--通过标签固定链接获取标签-->
+    <select id="selectCmsTagByUrl" parameterType="string" resultMap="CmsTagResult">
+        <include refid="selectCmsTag" />
+        where tag_url=#{tagUrl} limit 1
+    </select>
+    
+    <!-- 通过文章Id获取标签列表 -->
+    <select id="listCmsTagByArticleId" parameterType="long" resultMap="CmsTagResult">
+        <include refid="selectCmsTag"/>
+         where tag_id in (select tag_id from cms_article_tag
+        where article_id=#{articleId}) and visible=1
+    </select>
+
+    <!--检查标签唯一-->
+    <select id="checkTagUnique" parameterType="com.oly.cms.common.domain.entity.CmsTag" resultMap="CmsTagResult">
+        <include refid="selectCmsTag"/>
+        <where>
+            <if test="tagName != null  and tagName != ''"> and tag_name =#{tagName}</if>
+            <if test="tagUrl != null  and tagUrl != ''"> and tag_url =#{tagUrl}</if>
+        </where> limit 1
+    </select>
+
+    <!--获取文章关联标签个数-->
+	<select id="getTagCountByTagId" resultType="long" parameterType="long">
+        select count(*) from cms_article_tag as b inner join cms_article as a on (a.article_id=b.article_id and tag_id=#{tagId} and  a.visible=3)
+    </select>
+
+</mapper> 

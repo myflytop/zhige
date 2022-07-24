@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<th:block th:include="include :: header('新增参数')" />
+</head>
+
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-config-add" name="form-config-add">
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">组别名称：</label>
+				<div class="col-sm-8">
+					<input type="text" id="configGroup" name="configGroup" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">参数名称：</label>
+				<div class="col-sm-8">
+					<input id="configName" name="configName" class="form-control" type="text" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">参数键名：</label>
+				<div class="col-sm-8">
+					<input id="configKey" name="configKey" class="form-control" type="text" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">值类型：</label>
+				<div class="col-sm-8">
+					<div class="radio-box" th:each="dict : ${@dictTag.getType('sys_config_value_type')}">
+						<input type="radio" th:id="${dict.dictCode}" name="configValueType" th:value="${dict.dictValue}"
+							th:checked="${dict.default}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}" data-toggle="tooltip"
+							data-placement="bottom" th:title="${dict.remark}"></label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">参数键值：</label>
+				<div class="col-sm-8">
+					<textarea id="configValue" name="configValue" class="form-control" required>
+
+					</textarea>
+					<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> <span
+							id="helpMe">只允许填数值</span></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">参数类型：</label>
+				<div class="col-sm-8">
+					<div class="radio-box" th:each="dict : ${@dictTag.getType('sys_config_type')}">
+						<input type="radio" th:id="${dict.dictCode}" name="configType" th:value="${dict.dictValue}"
+							th:checked="${dict.default}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<textarea maxlength="256" name="remark" class="form-control"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: bootstrap-typeahead-js" />
+	<script th:src="@{/ajax/libs/validate/validate-utils.js?v=1.19.3}"></script>
+	<script type="text/javascript" th:inline="javascript">
+		var prefix = ctx + "system/config";
+
+		$("#form-config-add").validate({
+			onkeyup: false,
+			rules: {
+				configKey: {
+					remote: {
+						url: prefix + "/checkConfigGkUnique",
+						type: "post",
+						dataType: "json",
+						data: {
+							"configKey": function () {
+								return $.common.trim($("#configKey").val());
+							},
+							"configGroup": function () {
+								return $.common.trim($("#configGroup").val());
+							}
+						},
+						dataFilter: function (data, type) {
+							return $.validate.unique(data);
+						}
+					}
+				},
+			},
+			messages: {
+				"configKey": {
+					remote: "同组下键值可能已经存在"
+				}
+			},
+			focusCleanup: true
+		});
+		var num = [[${ T(com.ruoyi.system.config.enums.ConfigValueTypeEnum).NUMBER.ordinal() }]];
+		var flo = [[${ T(com.ruoyi.system.config.enums.ConfigValueTypeEnum).FLOAT.ordinal() }]];
+		var bol = [[${ T(com.ruoyi.system.config.enums.ConfigValueTypeEnum).BOOLEAN.ordinal() }]];
+		var scuo = [[${@configTag.getConfigGroups()}]];
+		var myScore = new Array();
+		if (scuo != null)
+			for (j = 0, len = scuo.length; j < len; j++) {
+				if (scuo[j] != null) {
+					myScore.push(scuo[j])
+				}
+
+			}
+		$('#configGroup').typeahead({
+			source: myScore
+		});
+
+		$("input[name='configValueType']").on("ifChecked", function () {
+			chooseConfigValueType($(this).val());
+
+		});
+
+		$("#configValue").blur(function () {
+			let valueType = $("input[name='configValueType']:checked").val();
+			let ib = $(this).val().trim();
+			if (valueType == num) {
+				if (!verificat.intNumberVer(ib)) { 
+				$(this).focus()}
+			}
+			else if (valueType == flo) {
+				if (!verificat.doubleNumberVer(ib)) { 
+				$(this).focus() }
+			}
+			else if (valueType == bol) {
+				if (!'true' == bol || !'false' == bol) { 
+				$(this).focus() }
+
+			}
+			else {
+
+			}
+		});
+
+		function chooseConfigValueType(valueType) {
+			if (valueType == num) {
+				$("#helpMe").text("只允许填写数值");
+			}
+			else if (valueType == flo) {
+				$("#helpMe").text("只允许填写浮点");
+			}
+			else if (valueType == bol) {
+				$("#helpMe").text("只允许填写true或者false");
+			}
+
+			else {
+				$("#helpMe").text("可以任意类型");
+			}
+
+		}
+
+		function submitHandler() {
+			if ($.validate.form()) {
+				$.operate.save(prefix + "/add", $('#form-config-add').serialize());
+			}
+		}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('主题备份列表')" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success"  onclick="themeTab()"
+                    shiro:hasPermission="cms:link:add">
+                    <i class="fa fa-plus"></i> 备份
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal inmodal" id="backModel" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                    </button>
+                    <h4 class="modal-title">发送到邮箱</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-group">
+                        <label>Email</label>
+                        <input type="hidden" id="themeName">
+                        <input type="email" placeholder="请输入Email" id="toMail" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="sendMailBackTheme()" data-dismiss="modal" >发送</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-typeahead-js" />
+    <script th:inline="javascript">
+        var removeFlag = [[${@permission.hasPermi('cms:themeBack:delete') }]];
+        var sendFlag = [[${@permission.hasPermi('cms:themeBack:send') }]];
+        var downloadFlag = [[${@permission.hasPermi('cms:themeBack:download') }]];
+        var prefix = ctx + "cms/theme";
+        $(function () {
+            var options = {
+                url: prefix + "/themeBackList",
+                modalName: "备份列表",
+                pagination: false,
+                showSearch:false,
+				showRefresh:false,
+				showColumns:false,
+				showToggle:false,
+                pageSize: 100,
+                columns: [
+                    {
+                        field: 'fileName',
+                        title: '主题名'
+                    },
+                    {
+                        field: 'size',
+                        title: '大小',
+                        formatter: function (value, row, index) {
+                            return Math.round(value / 1024) + "KB";
+                        }
+                    },
+                    {
+                        field: 'updateTime',
+                        title: '备份时间'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-success btn-xs ' + sendFlag + '"  data-toggle="modal" data-target="#backModel" onclick="setThemeName(\'' + row.fileName + '\')"><i class="fa fa-envelope" ></i>发送到邮箱</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs ' + downloadFlag + '" onclick="downloadBackTheme(\'' + row.fileName + '\')" ><i class="fa fa-undo"></i>备份下载</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '"  onclick="removeBackTheme(\'' + row.fileName + '\')"><i class="fa fa-remove"></i>删除备份</a> ');
+                            return actions.join('');
+                        }
+                    }]
+            };
+            $.table.init(options);
+        });
+        function themeTab() {
+                var url = prefix;
+                $.modal.openTab("主题管理", url);
+            }
+        function removeBackTheme(themeName) {
+                var url = prefix;
+                $.modal.loading("删除中");
+                $.operate.save(prefix + "/removeBackTheme",{'themeName':themeName},function (result){
+                    if (result.code == web_status.SUCCESS) {
+						$.modal.alertSuccess(result.msg);
+					} else if (result.code == web_status.WARNING) {
+						$.modal.alertWarning(result.msg)
+					} else {
+						$.modal.alertError(result.msg);
+						
+					}
+					$.modal.closeLoading();
+                    location.reload();
+                });
+            }
+        function downloadBackTheme(themeName) {
+                var url = prefix;
+                $.modal.msg("下载中");
+                window.location.href =prefix + "/downloadBackTheme?themeName="+themeName;
+                
+            }
+
+        function  setThemeName(themeName){
+            $("#themeName").val(themeName);
+        }
+
+        function sendMailBackTheme() {
+                var url = prefix;
+                $.modal.msg("发送中...");
+                $.operate.post(prefix + "/sendMailBackTheme",{'themeName':$("#themeName").val(),'toMail':$("#toMail").val()},function (result){
+                    $.modal.msg(result.msg);
+					$.modal.closeLoading();
+                });
+            }
+    </script>
+</body>
+
+</html>

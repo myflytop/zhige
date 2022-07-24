@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统计</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+    <link href="../static/css/animate.min.css" th:href="@{/css/animate.min.css}" rel="stylesheet" />
+    <link href="../static/css/style.min.css" th:href="@{/css/style.min.css}" rel="stylesheet" />
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>内容预览</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 浏览数量
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${log}"></h1>
+                                            <small>新访客</small>
+                                            <div class="stat-percent font-bold text-navy"><i
+                                                    class="fa fa-plus"></i>&nbsp;<span th:text="${logNow}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 文章数量
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${article}">106,120</h1>
+                                            <small>新访客</small>
+                                            <div class="stat-percent font-bold text-navy"><i
+                                                    class="fa fa-plus"></i>&nbsp;<span th:text="${articleNow}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 标签数量
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${tag}">106,120</h1>
+                                            <small>标签数量</small>
+                                            <div class="stat-percent font-bold text-navy">分类数量：&nbsp;<span th:text="${category}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 评论数量
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${comment}">106,120</h1>
+                                            <small>总评论</small>
+                                            <div class="stat-percent font-bold text-navy"><i
+                                                    class="fa fa-plus"></i>&nbsp;<span th:text="${commentNow}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 反馈数量
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${contact}">106,120</h1>
+                                            <small>总反馈</small>
+                                            <div class="stat-percent font-bold text-navy"><i
+                                                    class="fa fa-plus"></i>&nbsp;<span th:text="${contactNow}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 联盟数量
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${union}">106,120</h1>
+                                            <small>总联盟</small>
+                                            <div class="stat-percent font-bold text-navy"><i
+                                                    class="fa fa-plus"></i>&nbsp;<span th:text="${unionNow}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>个人账户</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 我的文章
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${myArticle}">106,120</h1>
+                                            <small>总文章</small>
+                                            <div class="stat-percent font-bold text-navy"><i
+                                                class="fa fa-plus"></i>&nbsp;<span th:text="${myArticleCheck}"></span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 我的评论
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${myComment}">106,120</h1>
+                                            <small>总评论</small>
+                                            <div class="stat-percent font-bold text-navy"><i
+                                                    class="fa fa-plus"></i>&nbsp;<span th:text="${myCommentCheck}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 我的反馈
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${myContact}">106,120</h1>
+                                            <small>总反馈</small>
+                                            <div class="stat-percent font-bold text-navy"><i
+                                                    class="fa fa-plus"></i>&nbsp;<span th:text="${myContactCheck}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 最后登录
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${user.loginIp}">106,120</h1>
+                                            <small>登录IP</small>
+                                            <div class="stat-percent font-bold text-navy">登录时间&nbsp;<span th:text="${#dates.format(user.loginDate,'yyyy-MM-dd HH:mm')}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+
+</html>

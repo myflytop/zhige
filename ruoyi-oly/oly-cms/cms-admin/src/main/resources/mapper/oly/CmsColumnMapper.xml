@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.admin.mapper.CmsColumnMapper">
+
+    <insert id="insertCmsColumn" parameterType="com.oly.cms.common.domain.entity.CmsColumn" useGeneratedKeys="true" keyProperty="columnId">
+        insert into cms_column
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="columnName != null and columnName != ''">column_name,</if>
+            <if test="columnIcon != null and columnIcon != ''">column_icon,</if>
+            <if test="visible != null">visible,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="parent != null">parent,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="openType != null">open_type,</if>
+            <if test="perms != null and perms != ''">perms,</if>
+            <if test="columnUrl != null and columnUrl != ''">column_url,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="ancestors != null and ancestors != ''">ancestors,</if>
+            <if test="keywords != null and keywords !='' ">keywords,</if>
+            <if test="description != null and description !=''">description,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="columnLocate != null">column_locate,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="columnName != null and columnName != ''">#{columnName},</if>
+            <if test="columnIcon != null and columnIcon != ''">#{columnIcon},</if>
+            <if test="visible != null">#{visible},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="parent != null">#{parent},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="openType != null">#{openType},</if>
+            <if test="perms != null and perms != ''">#{perms},</if>
+            <if test="columnUrl != null and columnUrl != ''">#{columnUrl},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="ancestors != null and ancestors != ''">#{ancestors},</if>
+            <if test="keywords != null and keywords !='' ">#{keywords},</if>
+            <if test="description != null and description !=''">#{description},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="columnLocate != null">#{columnLocate},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateCmsColumn" parameterType="com.oly.cms.common.domain.entity.CmsColumn">
+        update cms_column
+        <set>
+            <if test="columnName != null and columnName != ''">
+                column_name = #{columnName},
+            </if>
+            <if test="columnIcon != null and columnIcon != ''">
+                column_icon = #{columnIcon},
+            </if>
+            <if test="ancestors != null and ancestors != ''">
+                ancestors = #{ancestors},
+            </if>
+            <if test="columnLocate != null">
+                column_locate = #{columnLocate},
+            </if>
+            <if test="visible != null">
+                visible = #{visible},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="parent != null">
+                parent = #{parent},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="openType != null">
+                open_type = #{openType},
+            </if>
+            <if test="perms != null and perms != ''">
+                perms = #{perms},
+            </if>
+            <if test="columnUrl != null and columnUrl != ''">
+                column_url = #{columnUrl},
+            </if>
+            <if test="updateBy != null and updateBy != '' ">
+                update_by = #{updateBy},
+            </if>
+            <if test="keywords != null and keywords!='' "> keywords=#{keywords},
+            </if>
+            <if test="description != null and description!='' "> description=#{description},
+            </if>
+            update_time = sysdate()
+        </set>
+        where column_id = #{columnId}
+    </update>
+
+    <delete id="deleteCmsColumnById" parameterType="java.lang.Long">
+		delete from
+		cms_column where column_id = #{columnId}
+    </delete>
+
+    <update id="updateColumnVisible">
+		update cms_column set visible=#{visible} where column_id=#{columnId} or
+		find_in_set(#{columnId},ancestors)
+    </update>
+
+    <select id="listColumnIdsById" resultType="long" parameterType="long">
+        select column_id from cms_column where parent_id=#{columnId} and parent="1"
+    </select>
+
+    <update id="updateAncestors">
+        update cms_column set ancestors=#{ancestors} where parent_id=#{parentId}
+   </update>
+
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.admin.mapper.CmsTagMapper">
+    
+    <!--单条插入 返回主键-->
+    <insert id="insertCmsTag" parameterType="com.oly.cms.common.domain.entity.CmsTag" useGeneratedKeys="true" keyProperty="tagId">
+        insert into cms_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tagName != null and tagName != ''">tag_name,</if>
+            <if test="createBy != null and createBy!='' ">create_by,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="tagUrl != null and tagUrl !=''">tag_url,</if>
+            <if test="visible != null">visible,</if>
+            <if test="perms != null and perms != ''">perms,</if>
+            <if test="tagIco != null and tagIco != ''">tag_ico,</if>
+            <if test="keywords != null and keywords!='' ">keywords,</if>
+            <if test="description != null and description!='' ">description,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="tagType != null">tag_type,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tagName != null and tagName != ''">#{tagName},</if>
+            <if test="createBy != null and createBy!='' ">#{createBy},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="tagUrl != null and tagUrl !=''">#{tagUrl},</if>
+            <if test="visible != null">#{visible},</if>
+            <if test="perms != null and perms != ''">#{perms},</if>
+            <if test="tagIco != null and tagIco != ''">#{tagIco},</if>
+            <if test="keywords != null and keywords!='' ">#{keywords},</if>
+            <if test="description != null and description!='' ">#{description},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="tagType != null">#{tagType},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <!--批量插入 批量返回主键-->
+    <insert id="insertCmsTags" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="tagId">
+        insert into cms_tag 
+        <trim prefix="(" suffix=")values" suffixOverrides=",">
+            <if test="tagName != null and tagName != ''">tag_name,</if>
+            <if test="createBy != null and createBy!='' ">create_by,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="tagUrl != null and tagUrl !=''">tag_url,</if>
+            <if test="visible != null">visible,</if>
+            <if test="perms != null and perms != ''">perms,</if>
+            <if test="tagIco != null and tagIco != ''">tag_ico,</if>
+            <if test="keywords != null and keywords!='' ">keywords,</if>
+            <if test="description != null and description!='' ">description,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="tagType != null">tag_type,</if>
+            create_time
+        </trim>
+        <foreach collection="cmsTags" item="cmsTag" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="tagName != null and tagName != ''">#{tagName},</if>
+                <if test="createBy != null and createBy!='' ">#{createBy},</if>
+                <if test="remark != null and remark != ''">#{remark},</if>
+                <if test="tagUrl != null and tagUrl !=''">#{tagUrl},</if>
+                <if test="visible != null">#{visible},</if>
+                <if test="perms != null and perms != ''">#{perms},</if>
+                <if test="tagIco != null and tagIco != ''">#{tagIco},</if>
+                <if test="keywords != null and keywords!='' ">#{keywords},</if>
+                <if test="description != null and description!='' ">#{description},</if>
+                <if test="orderNum != null">#{orderNum},</if>
+                <if test="tagType != null">#{tagType},</if>
+                sysdate()
+            </trim>
+        </foreach>
+    </insert>
+
+    <!--更新-->
+    <update id="updateCmsTagById" parameterType="com.oly.cms.common.domain.entity.CmsTag">
+        update cms_tag
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tagName != null and tagName != ''">
+            tag_name = #{tagName},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="tagUrl != null and tagUrl !=''">tag_url = #{tagUrl},</if>
+            <if test="visible != null">visible = #{visible},</if>
+            <if test="perms != null and perms != ''">perms = #{perms},</if>
+            <if test="tagIco != null and tagIco != ''">tag_ico = #{tagIco},</if>
+            <if test="keywords != null and keywords!='' ">keywords = #{keywords},</if>
+            <if test="description != null and description!='' ">description = #{description},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="tagType != null">tag_type = #{tagType},</if>
+            update_time =sysdate()
+        </trim>
+        where tag_id = #{tagId}
+    </update>
+
+    <!--删除单条-->
+    <delete id="deleteCmsTagById" parameterType="java.lang.Long">
+		delete from cms_tag
+		where tag_id = #{tagId,jdbcType=INTEGER} and tag_id not in (select tag_id from cms_article_tag)
+    </delete>
+
+    <!-- 批量修改标签状态 -->
+    <update id="updateTagVisible">
+        update cms_tag set visible=#{visible} where tag_id in (
+        <foreach collection="tagIds" separator="," item="tagId">
+            #{tagId}
+        </foreach>
+        )
+    </update>
+    
+</mapper>

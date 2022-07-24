@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+       <artifactId>oly-cms</artifactId>
+       <groupId>com.oly.cms</groupId>
+        <version>4.7.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cms-web</artifactId> 
+    <groupId>com.oly.cms.web</groupId>
+    <packaging>jar</packaging>
+    <description>
+       内容模块
+    </description>
+    
+    <dependencies>  
+        <dependency>
+                <groupId>com.oly.cms.general</groupId>
+                <artifactId>cms-general</artifactId>
+        </dependency>
+
+        <dependency>
+              <groupId>com.oly.cms.hander</groupId>  
+              <artifactId>cms-hander</artifactId>  
+        </dependency>
+
+    </dependencies>
+  
+
+</project>

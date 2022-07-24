@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('文章收藏量')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <label>记录ID：</label>
+                            <input type="number" class="form-control" name="recordId" />
+                        </li>
+                        <li>
+                            <label>文章ID：</label>
+                            <input type="number" class="form-control" name="articleId" />
+                        </li>
+                        <li>
+                            <label>用户ID：</label>
+                            <input type="number" class="form-control" name="userId"/>
+                        </li>
+                        <li>
+                            <label>IP：</label>
+                            <input type="text" class="form-control" name="ip"/>
+                        </li>
+                        <li>
+                            <label>状态：</label>
+                            <input type="text" class="form-control" name="visible"/>
+                        </li>
+                        <li>
+                            <label>系统:</label>
+                            <input type="text" class="form-control" name="userSystem"/>
+                        </li>
+                        <li>
+                            <label>浏览器：</label>
+                            <input type="text" class="form-control" name="userBower"/>
+                        </li>
+                        <li class="select-time"><label>创建时间： </label> <input type="text" class="time-input"
+                            id="startTime" placeholder="开始时间" name="params[beginTime]" /> <span>-</span> <input
+                            type="text" class="time-input" id="endTime" placeholder="结束时间"
+                            name="params[endTime]" /></li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+   
+    var removeFlag = [[${@permission.hasPermi('system:record:remove')}]];
+    var prefix = ctx + "cms/articleCount";
+
+    $(function() {
+        var options = {
+            url: prefix + "/collectRecord",
+            modalName: "收藏记录",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field : 'recordId',
+                    title : '主键',
+                    visible: false
+                },
+                {
+                    field : 'articleId',
+                    title : '文章Id'
+                },
+                {
+                    field: 'articleTitle',
+                    title: '文章标题',
+                    formatter:function(value, row, index) {
+                        if(value.length>12){
+                            return '<a href="#" title="'+value+'">'+value.substring(0,12)+'..</a>';
+                        }
+                        else
+                        {
+                            return '<a href="#" title="'+value+'">'+value+'</a>';
+                        }
+                    }
+                },
+                {
+                    field : 'userId',
+                    title : '用户Id'
+                },
+               
+                {
+                    field : 'ip',
+                    title : 'IP'
+                },
+                {
+                    field : 'userSystem',
+                    title : '系统'
+                },
+                {
+                    field : 'userBower',
+                    title : '浏览器'
+                },
+                {
+                    field : 'visible',
+                    title : '状态'
+                },
+                {
+                    field : 'score',
+                    title : '评分'
+                }]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

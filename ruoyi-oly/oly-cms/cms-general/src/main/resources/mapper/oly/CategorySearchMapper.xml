@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.general.mapper.CategorySearchMapper">
+
+	<resultMap id="CmsCatResult" type="com.oly.cms.common.domain.entity.CmsCat">
+		<result property="catId" column="cat_id" />
+		<result property="catName" column="cat_name" />
+		<result property="catIcon" column="cat_icon" />
+		<result property="visible" column="visible" />
+		<result property="parentId" column="parent_id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="remark" column="remark" />
+		<result property="updateBy" column="update_by" />
+		<result property="createBy" column="create_by" />
+		<result property="catUrl" column="cat_url" />
+		<result property="parent" column="parent" />
+		<result property="ancestors" column="ancestors" />
+		<result property="perms" column="perms" />
+		<result property="keywords" column="keywords" />
+		<result property="description" column="description" />
+		<result property="orderNum" column="order_num" />
+		<result property="catType" column="cat_type" />
+		<result property="catCount" column="cat_count" />
+		<collection property="catPassCount" select="getCatCountByCatId" ofType="long" column="cat_id" />
+	</resultMap>
+
+	<sql id="selectCmsCat">
+	select	cat_id, cat_name, cat_icon, visible, parent_id, create_time, update_time, remark, update_by, create_by, cat_url, parent, ancestors, perms, keywords, description, order_num,cat_count, cat_type from cms_cat
+	</sql>
+
+	<select id="listCmsCats" resultMap="CmsCatResult" parameterType="com.oly.cms.common.domain.entity.CmsCat">
+		<include refid="selectCmsCat" />
+		<where>
+			<if test="catName != null and catName != ''">
+				AND cat_name like concat('%', #{catName}, '%')
+		</if>
+		<if test="catId != null ">
+				and (cat_id=#{catId} or
+                FIND_IN_SET(#{catId},ancestors))
+		</if>
+			<if test="visible != null">
+				AND visible = #{visible}
+		</if>
+			<if test="catType != null">
+				AND cat_type=#{catType}
+		</if>
+		<if test="parent != null">
+				AND parent = #{parent}
+		</if>
+		<if test="parentId != null">
+			    AND parent_id = #{parentId}
+	    </if>
+		<if test="createBy!=null">
+				and create_by=#{createBy}
+		</if>
+		<if test="updateBy!=null">
+				and update_by=#{updateBy}
+		</if>
+		<if test="params.beginTime != null and params.beginTime != ''">
+				<!-- 开始时间检索 -->
+				and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+		</if>
+		<if test="params.endTime != null and params.endTime != ''">
+				<!-- 结束时间检索 -->
+				and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+		</if>
+		<if test="params.supportType != null and params.supportType != ''">
+				<!-- 支持主题 -->
+				and FIND_IN_SET(cat_type,#{params.supportType})
+		</if>
+		</where>
+		order by parent_id, order_num
+	</select>
+
+	<!--通过ID获取类别-->
+	<select id="selectCmsCatById" resultMap="CmsCatResult" parameterType="java.lang.Long">
+		<include refid="selectCmsCat" />
+		where cat_id = #{catId}
+	</select>
+
+	<!--通过固定链接获取类别-->
+	<select id="selectCmsCatByUrl" parameterType="string" resultMap="CmsCatResult">
+		<include refid="selectCmsCat" />
+		where cat_url=#{catUrl}  limit 1
+	</select>
+
+	<!-- 如果路径不为空，路径不允许重复，同级目录下分类名不能重复 -->
+	<select id="checkCatUnique" resultMap="CmsCatResult" parameterType="com.oly.cms.common.domain.entity.CmsCat">
+		<include refid="selectCmsCat" />
+		<where>
+			<if test="catName != null and catName != ''">
+		AND cat_name= #{catName}
+	   </if>
+			<if test="catUrl != null and catUrl != ''">
+		AND cat_url= #{catUrl}
+	   </if>
+			<if test="parentId != null">
+		AND parent_id = #{parentId}
+	   </if>
+		</where>
+		limit 1
+	</select>
+
+	<select id="listCmsCatByArticleId" parameterType="java.lang.Long" resultMap="CmsCatResult">
+		<include refid="selectCmsCat" /> where cat_id in (select
+		cat_id from cms_article_cat
+		where article_id=#{articleId}) and visible=1
+	</select>
+
+	<!--获取文章关联分类个数-->
+	<select id="getCatCountByCatId" resultType="long" parameterType="long">
+        select count(*) from cms_article_cat as b inner join cms_article as a on (a.article_id=b.article_id and cat_id=#{catId} and  a.visible=3)
+    </select>
+
+</mapper> 

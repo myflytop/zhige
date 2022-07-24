@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('新增反馈|建议')" />
+    <th:block th:include="include :: select2-css" />
+    <th:block th:include="include :: summernote-css" />
+</head>
+
+<body class="white-bg">
+    <div class="wrapper wrapper-content ibox-content">
+        <form class="form-horizontal m" id="form-contact-add">
+            <input name="visible" class="form-control" type="hidden" value="0" >
+            <div class="form-group">
+                <label class="col-sm-3 control-label">主题：</label>
+                <div class="col-sm-8">
+                    <input name="subject" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">内容：</label>
+                <div class="col-sm-8">
+                    <textarea id="contentBox" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">邮件：</label>
+                <div class="col-sm-8">
+                    <input name="email" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">联系方式：</label>
+                <div class="col-sm-8">
+                    <input name="touch" class="form-control" type="text">
+                </div>
+            </div>  
+            <div class="form-group">
+                <label class="col-sm-3 control-label">类型：</label>
+                <div class="col-sm-8">
+                    <select name="contactType" class="form-control" th:with="type=${@dictTag.getType('cms_contact_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-primary valid" onclick="submitHandler()"><i class="fa fa-check"></i>保
+                    存</button>&nbsp;
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: select2-js" />
+    <th:block th:include="include :: summernote-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "cms/contact"
+        $("#form-contact-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            var data = $('#form-contact-add').serializeArray();
+            data.push({ "name": "content", "value":$("#contentBox").summernote('code')});
+            if ($.validate.form()) {
+                $.operate.saveTab(prefix + "/add", data);
+            }
+        }
+
+        $("#contentBox").summernote({
+            lang: 'zh-CN', // default: 'en-US'  
+            focus: true,
+            callbacks: {
+                onImageUpload: function (files) {
+                    // upload image to server and create imgNode...
+                    sendFile(files[0]);
+                }
+            }
+        });
+       
+
+        //编辑器
+        function sendFile(files) {
+            var data = new FormData();
+            data.append("file", files);
+            $.ajax({
+                data: data,
+                type: "POST",
+                url: ctx + "oly/oss/upload",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    //data为图片请求地址
+                    let url = res.data.domain + res.data.fk;
+                    $("#contentBox").summernote('insertImage', url, res.data.fileName);
+                },
+                error: function () {
+                    layer.alert('上传失败!');
+                    return;
+                }
+
+            });
+        }
+    </script>
+</body>
+
+</html>

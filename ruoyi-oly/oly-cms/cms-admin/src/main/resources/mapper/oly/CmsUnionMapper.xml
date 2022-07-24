@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.admin.mapper.CmsUnionMapper">
+     
+    <insert id="insertCmsUnion" parameterType="com.oly.cms.common.domain.entity.CmsUnion">
+        insert into cms_union
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shopId != null">shop_id,</if>
+            <if test="shopName != null">shop_name,</if>
+            <if test="shopImg != null">shop_img,</if>
+            <if test="shopIndex != null">shop_index,</if>
+            <if test="homeName != null">home_name,</if>
+            <if test="shopPrice != null">shop_price,</if>
+            <if test="shopSales != null">shop_sales,</if>
+            <if test="incomeRatio != null">income_ratio,</if>
+            <if test="commission != null">commission,</if>
+            <if test="wangName != null">wang_name,</if>
+            <if test="sortUrl != null">sort_url,</if>
+            <if test="taokeUrl != null">taoke_url,</if>
+            <if test="couponCount != null">coupon_count,</if>
+            <if test="couponNum != null">coupon_num,</if>
+            <if test="couponPrice != null">coupon_price,</if>
+            <if test="couponStartTime != null">coupon_start_time,</if>
+            <if test="couponEndTime != null">coupon_end_time,</if>
+            <if test="couponUrl != null">coupon_url,</if>
+            <if test="couponCode != null">coupon_code,</if>
+            <if test="couponSortUrl != null">coupon_sort_url,</if>
+            <if test="marketIs != null">market_is,</if>
+            <if test="groupNum != null">group_num,</if>
+            <if test="groupPrice != null">group_price,</if>
+            <if test="groupCommission != null">group_commission,</if>
+            <if test="groupStartTime != null">group_start_time,</if>
+            <if test="groupEndTime != null">group_end_time,</if>
+             create_time,
+            <if test="createBy != null">create_by,</if>
+            <if test="remark != null">remark,</if>
+            <if test="visible != null">visible,</if>
+            <if test="shopContent != null">shop_content,</if>
+            <if test="unionType != null and unionType != ''">union_type,</if>
+            <if test="tags != null and tags != ''">tags,</if>
+            <if test="cats != null and cats != ''">cats,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shopId != null">#{shopId},</if>
+            <if test="shopName != null">#{shopName},</if>
+            <if test="shopImg != null">#{shopImg},</if>
+            <if test="shopIndex != null">#{shopIndex},</if>
+            <if test="homeName != null">#{homeName},</if>
+            <if test="shopPrice != null">#{shopPrice},</if>
+            <if test="shopSales != null">#{shopSales},</if>
+            <if test="incomeRatio != null">#{incomeRatio},</if>
+            <if test="commission != null">#{commission},</if>
+            <if test="wangName != null">#{wangName},</if>
+            <if test="sortUrl != null">#{sortUrl},</if>
+            <if test="taokeUrl != null">#{taokeUrl},</if>
+            <if test="couponCount != null">#{couponCount},</if>
+            <if test="couponNum != null">#{couponNum},</if>
+            <if test="couponPrice != null">#{couponPrice},</if>
+            <if test="couponStartTime != null">#{couponStartTime},</if>
+            <if test="couponEndTime != null">#{couponEndTime},</if>
+            <if test="couponUrl != null">#{couponUrl},</if>
+            <if test="couponCode != null">#{couponCode},</if>
+            <if test="couponSortUrl != null">#{couponSortUrl},</if>
+            <if test="marketIs != null">#{marketIs},</if>
+            <if test="groupNum != null">#{groupNum},</if>
+            <if test="groupPrice != null">#{groupPrice},</if>
+            <if test="groupCommission != null">#{groupCommission},</if>
+            <if test="groupStartTime != null">#{groupStartTime},</if>
+            <if test="groupEndTime != null">#{groupEndTime},</if>
+            sysdate(),
+            <if test="createBy != null">#{createBy},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="visible != null">#{visible},</if>
+            <if test="shopContent != null">#{shopContent},</if>
+            <if test="unionType != null and unionType !=''">#{unionType},</if>
+            <if test="tags != null and tags != ''">#{tags},</if>
+            <if test="cats != null and cats != ''">#{cats},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCmsUnion" parameterType="com.oly.cms.common.domain.entity.CmsUnion">
+        update cms_union
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopName != null">shop_name = #{shopName},</if>
+            <if test="shopImg != null">shop_img = #{shopImg},</if>
+            <if test="shopIndex != null">shop_index = #{shopIndex},</if>
+            <if test="homeName != null">home_name = #{homeName},</if>
+            <if test="shopPrice != null">shop_price = #{shopPrice},</if>
+            <if test="shopSales != null">shop_sales = #{shopSales},</if>
+            <if test="incomeRatio != null">income_ratio = #{incomeRatio},</if>
+            <if test="commission != null">commission = #{commission},</if>
+            <if test="wangName != null">wang_name = #{wangName},</if>
+            <if test="sortUrl != null">sort_url = #{sortUrl},</if>
+            <if test="taokeUrl != null">taoke_url = #{taokeUrl},</if>
+            <if test="couponCount != null">coupon_count = #{couponCount},</if>
+            <if test="couponNum != null">coupon_num = #{couponNum},</if>
+            <if test="couponPrice != null">coupon_price = #{couponPrice},</if>
+            <if test="couponStartTime != null">coupon_start_time = #{couponStartTime},</if>
+            <if test="couponEndTime != null">coupon_end_time = #{couponEndTime},</if>
+            <if test="couponUrl != null">coupon_url = #{couponUrl},</if>
+            <if test="couponCode != null">coupon_code = #{couponCode},</if>
+            <if test="couponSortUrl != null">coupon_sort_url = #{couponSortUrl},</if>
+            <if test="marketIs != null">market_is = #{marketIs},</if>
+            <if test="groupNum != null">group_num = #{groupNum},</if>
+            <if test="groupPrice != null">group_price = #{groupPrice},</if>
+            <if test="groupCommission != null">group_commission = #{groupCommission},</if>
+            <if test="groupStartTime != null">group_start_time = #{groupStartTime},</if>
+            <if test="groupEndTime != null">group_end_time = #{groupEndTime},</if>
+            update_time = sysdate(),
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="visible != null">visible = #{visible},</if>
+            <if test="shopContent != null">shop_content = #{shopContent},</if>
+            <if test="unionType != null and unionType !=''">union_type = #{unionType},</if>
+            <if test="tags != null and tags != ''">tags=#{tags},</if>
+            <if test="cats != null and cats != ''">cats=#{cats},</if>
+        </trim>
+        where shop_id = #{shopId}
+    </update>
+
+    <delete id="deleteCmsUnionByShopId" parameterType="String">
+        delete from cms_union where shop_id = #{shopId}
+    </delete>
+
+    <delete id="deleteCmsUnionByShopIds" parameterType="String">
+        delete from cms_union where shop_id in 
+        <foreach item="shopId" collection="array" open="(" separator="," close=")">
+            #{shopId}
+        </foreach>
+    </delete>
+    
+    <update id="updateCmsUnionVisible">
+        update cms_union set visible=#{visible} where shop_id in (
+            <foreach collection="ids" separator="," item="shopId">
+                #{shopId}
+            </foreach>
+            )
+    </update>
+
+</mapper>

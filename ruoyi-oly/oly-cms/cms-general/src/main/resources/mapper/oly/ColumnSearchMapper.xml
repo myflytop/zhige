@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.general.mapper.ColumnSearchMapper">
+    <resultMap type="com.oly.cms.common.domain.entity.CmsColumn" id="CmsColumnResult">
+        <id column="column_id" property="columnId" />
+        <result column="column_name" property="columnName"/>
+        <result column="column_icon" property="columnIcon" />
+        <result column="visible" property="visible" />
+        <result property="columnLocate" column="column_locate" />
+        <result column="order_num" property="orderNum" />
+        <result column="parent_id" property="parentId"/>
+        <result column="parent" property="parent" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="remark" property="remark" />
+        <result column="open_type" property="openType" />
+        <result column="perms" property="perms" />
+        <result column="column_url" property="columnUrl" />
+        <result column="ancestors" property="ancestors" />
+        <result column="update_by" property="updateBy" />
+        <result column="create_by" property="createBy" />
+        <result column="keywords" property="keywords" />
+        <result column="description" property="description" />
+    </resultMap>
+
+    <sql id="selectCmsColumn">
+	  select	column_id,ancestors, column_name, column_locate,column_icon, visible,order_num, parent_id,parent, create_time,update_time, remark,
+		open_type, perms, column_url, update_by, create_by,keywords,description from cms_column
+    </sql>
+
+    <select id="listCmsColumns" parameterType="com.oly.cms.common.domain.entity.CmsColumn" resultMap="CmsColumnResult">
+        <include refid="selectCmsColumn"/>
+        <where>
+            <if test="columnName != null and columnName != ''">
+                AND column_name like concat('%', #{columnName}, '%')
+            </if>
+            <if test="visible != null">
+                AND visible = #{visible}
+            </if>
+            <if test="parentId != null">
+                AND parent_id = #{parentId}
+            </if>
+            <if test="columnId!=null"> and (column_id=#{columnId} or
+                FIND_IN_SET(#{columnId},ancestors))
+            </if>
+            <if test="columnLocate != null">
+               AND column_locate = #{columnLocate}
+            </if>
+            <if test="parent != null">
+                AND parent = #{parent}
+            </if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="params.beginTime != null and params.beginTime != ''">                <!-- 开始时间检索 -->
+				and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">                <!-- 结束时间检索 -->
+				and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+        order by parent_id, order_num
+    </select>
+
+    <!--获取一条类目所有信息 -->
+    <select id="selectCmsColumnById" parameterType="long" resultMap="CmsColumnResult">
+        <include refid="selectCmsColumn"/>
+        where column_id=#{columnId}
+    </select>
+
+    <!-- 栏目名唯一验证,同级别下目录不允许重复 -->
+    <select id="checkColumnNameUnique" parameterType="com.oly.cms.common.domain.entity.CmsColumn" resultMap="CmsColumnResult">
+        <include refid="selectCmsColumn"/>
+        <where>
+            <if test="columnName != null and columnName != ''">
+              and  column_name = #{columnName}
+        </if>
+            <if test="parentId != null">
+             and   parent_id = #{parentId}
+        </if>
+        </where>
+        limit 1
+    </select>
+
+</mapper> 

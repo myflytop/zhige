@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+       <artifactId>oly-cms</artifactId>
+       <groupId>com.oly.cms</groupId>
+        <version>4.7.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cms-admin</artifactId> 
+    <groupId>com.oly.cms.admin</groupId>
+    <packaging>jar</packaging>
+    <description>
+       内容管理模块
+    </description>
+
+  <dependencies>
+    
+         <!-- 邮件模块 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-mail</artifactId>
+        </dependency>
+
+        <dependency>
+                <groupId>com.oly.cms.web</groupId>
+                <artifactId>cms-web</artifactId>
+        </dependency>
+
+        <dependency>
+                <artifactId>comment-admin</artifactId> 
+                <groupId>com.oly.cms.comment.admin</groupId>
+        </dependency>
+               
+        </dependencies>
+
+</project>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('查看反馈')" />
+    <th:block th:include="include :: select2-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content ibox-content">
+        <form class="form-horizontal m" id="form-contact-edit" th:object="${cmsContact}">
+            <input name="contactId" th:field="*{contactId}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">类型：</label>
+                <div class="col-sm-8">
+                    <select name="contactType" class="form-control disabled" disabled th:with="type=${@dictTag.getType('cms_contact_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{contactType}"></option>>
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label disabled">状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dictTag.getType('cms_contact_visible')}">
+                        <input type="radio" disabled th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}"
+                            th:checked="${dict.default}" th:field="*{visible}">
+                        <label class="disabled" th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">主题：</label>
+                <div class="col-sm-8">
+                    <input name="subject" disabled th:field="*{subject}" class="form-control disabled" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">内容：</label>
+                <div class="col-sm-8">
+                    <div  th:utext="${cmsContact.content}"> </div>     
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">邮件：</label>
+                <div class="col-sm-8">
+                    <input name="email" th:field="*{email}" readonly class="form-control disabled" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">联系方式：</label>
+                <div class="col-sm-8">
+                    <input name="touch" th:field="*{touch}" readonly class="form-control disabled" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">结果：</label>
+                <div class="col-sm-8">
+                    <div th:utext="${cmsContact.handleResult}"> </div>
+                </div>
+            </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: select2-js" />
+</body>
+
+</html>

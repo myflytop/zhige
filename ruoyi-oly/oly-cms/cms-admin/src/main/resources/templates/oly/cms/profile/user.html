@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+
+<head>
+	<th:block th:include="include :: header('文章列表')" />
+	<th:block th:include="include :: layout-latest-css" />
+	<th:block th:include="include :: ztree-css" />
+	<th:block th:include="include :: select2-css" />
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content" th:with="user=${@userTag.getLoginUser()},userInfo=${@userTag.getLoginUserInfo()}">
+        <div class="row animated fadeInRight">
+            <div class="col-sm-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>个人资料</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="ibox-content no-padding border-left-right text-center">
+                                <img alt="image" class="img-responsive img-circle m-t-xs img-responsive" style="margin: 0 auto;" th:src="(${#strings.isEmpty(user.avatar)}) ? @{/img/profile.jpg} : @{${user.avatar}}" th:onerror="this.src='img/profile.jpg'">
+                                <br />
+                                <span class="m-t-xs font-bold" th:text="${#strings.defaultString(user.userName, '-')}" >营销总监</span>
+                            </div>    
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="ibox-content profile-content">
+                                <h4><strong th:text="${#strings.defaultString(user.userName, '-')}">Beaut-zihan</strong></h4>
+                                <p><i class="fa fa-map-marker"></i><span th:text="${userInfo.local}">上海市闵行区绿地科技岛广场A座2606室</span> </p>
+                                <h5> 关于我 </h5>
+                                <p th:text="${userInfo.introduce}">
+                                    会点前端技术，div+css啊，jQuery之类的，不是很精；热爱生活，热爱互联网，热爱新技术；有一个小的团队，在不断的寻求新的突破。
+                                </p>
+                                <div class="row m-t-lg">
+                                    <div class="col-sm-4">
+                                        <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
+                                        <h5><strong>169</strong>收藏</h5>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="line">5,3,9,6,5,9,7,3,5,2</span>
+                                        <h5><strong>28</strong>评论</h5>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
+                                        <h5><strong>240</strong>点赞</h5>
+                                    </div>
+                                </div>
+                                <div class="user-button">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="addArticle()"><i class="fa fa-envelope"></i>添加文章</button>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button type="button" class="btn btn-default btn-sm btn-block" onclick="addConact()" ><i class="fa fa-coffee"></i>添加反馈</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>最新动态</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tabs-container">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab-comment" aria-expanded="true">我的评论</a>
+                                </li>
+                                <li ><a data-toggle="tab" href="#tab-article" aria-expanded="false">我的文章</a>
+                                </li>
+                                <li ><a data-toggle="tab" href="#tab-article-hand" aria-expanded="false">文章操作</a>
+                                </li>
+                                <li ><a data-toggle="tab" href="#tab-score" aria-expanded="false">我的评分</a>
+                                </li>
+                                <li ><a data-toggle="tab" href="#tab-contact" aria-expanded="false">我的反馈</a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-comment" class="tab-pane active">
+                                    <div class="panel-body">
+                                        <div class="row">   
+                                            <div class="col-sm-12 select-table table-striped">
+                                                <table id="bootstrap-comment"></table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab-article" class="tab-pane">
+                                    <div class="panel-body">
+                                        <div class="row">   
+                                            <div class="col-sm-12 select-table table-striped">
+                                                <table id="bootstrap-article"></table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab-article-hand" class="tab-pane">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12 search-collapse">
+                                                <form id="hand-form">
+                                                    <div class="select-list">
+                                                        <ul>
+                                                            <li>
+                                                                操作名：<input type="text" name="handleName"/>
+                                                            </li>
+                                                            <li>
+                                                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search('hand-form', 'bootstrap-article-hand')"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </form>
+                                            </div>  
+                                            <div class="col-sm-12 select-table table-striped">
+                                                <table id="bootstrap-article-hand"></table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab-score" class="tab-pane">
+                                    <div class="panel-body">
+                                        <table id="bootstrap-score"></table>
+                                    </div>
+                                </div>
+                                <div id="tab-contact" class="tab-pane">
+                                    <div class="panel-body">
+                                        <table id="bootstrap-contact"></table>
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>个人资料</h5>
+                    </div>
+                    <div>
+                        <div class="ibox-content no-padding border-left-right">
+                            <img alt="image" class="img-responsive" src="img/profile_big.jpg">
+                        </div>
+                        <div class="ibox-content profile-content">
+                            <h4><strong>Beaut-zihan</strong></h4>
+                            <p><i class="fa fa-map-marker"></i> 上海市闵行区绿地科技岛广场A座2606室</p>
+                            <h5>
+                                    关于我
+                                </h5>
+                            <p>
+                                会点前端技术，div+css啊，jQuery之类的，不是很精；热爱生活，热爱互联网，热爱新技术；有一个小的团队，在不断的寻求新的突破。
+                            </p>
+                            <div class="row m-t-lg">
+                                <div class="col-sm-4">
+                                    <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
+                                    <h5><strong>169</strong> 文章</h5>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span class="line">5,3,9,6,5,9,7,3,5,2</span>
+                                    <h5><strong>28</strong> 关注</h5>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
+                                    <h5><strong>240</strong> 关注者</h5>
+                                </div>
+                            </div>
+                            <div class="user-button">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-envelope"></i> 发送消息</button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-default btn-sm btn-block"><i class="fa fa-coffee"></i> 赞助</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+        var prefix = ctx + "cms/api";
+        var articleTypes = [[${@dictTag.getType('cms_article_type') }]],
+        articleTops = [[${@dictTag.getType('cms_article_top') }]], 
+        articleVisibles = [[${@dictTag.getType('cms_article_visible')}]],
+        vi=[[${@dictTag.getType('cms_contact_visible')}]],
+        vt=[[${@dictTag.getType('cms_contact_type')}]];
+        var cvi =[[${@dictTag.getType('cms_comment_visible')}]];
+       $(function() {
+            var commentOptions = {
+                url: prefix +"/listComment",
+				showSearch:false,
+				showRefresh:false,
+				showColumns:false,
+				showToggle:false,
+                id:"bootstrap-comment",
+                modalName: "评论",
+                columns: [{
+                        checkbox: true
+                },
+                    {
+                        field : 'commentId',
+                        title : '评论id',
+                        align: 'left'
+                    },
+                {
+                    field : 'articleId',
+                    title : '文章id',
+                    align: 'left'
+                },
+                {
+                    field : 'fromBy',
+                    title : '发布人',
+                    align: 'left'
+                },
+                {
+                    field : 'replyBy',
+                    title : '回复的人',
+                    align: 'left'
+                },
+                {
+                    field : 'content',
+                    title : '内容',
+                    align: 'left'
+                },
+                {
+                    field : 'visible',
+                    title : '状态',
+                    align: 'left',
+                    formatter: function (value, row, index) {
+                        switch (value) {
+                            case 0:
+                              value="CHECK";  
+                                break;
+                                case 1:
+                              value="CLOSE"; 
+                                break; 
+                                case 2:
+                               value="PASS"; 
+                                break;       
+                        } 
+                        return $.table.selectDictLabel(cvi, value);
+                    }
+                    
+                },
+                {
+                    field : 'ip',
+                    title : 'ip',
+                    align: 'left'
+                },
+                {
+                    field : 'userSystem',
+                    title : '系统',
+                    align: 'left'
+                },
+                {
+                    field : 'userBower',
+                    title : '浏览器',
+                    align: 'left'
+                },
+                {
+                    field : 'nastyCount',
+                    title : '讨厌统计',
+                    align: 'left'
+                },
+                {
+                    field : 'likeCount',
+                    title : '喜欢统计',
+                    align: 'left'
+                },
+
+                {
+                    title: '操作',
+                    align: 'left',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                       
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(commentOptions);
+            var articleOptions = {
+				url: prefix + "/listArticle",
+				showSearch:false,
+				showRefresh:false,
+				showColumns:false,
+				showToggle:false,
+                id:"bootstrap-article",
+				modalName: "文章",
+				columns: [
+				{
+					field: 'articleId',
+					title: '文章id'
+				},
+				{
+					field: 'articleTitle',
+					title: '文章标题',
+					formatter: function (value, row, index) {
+						if (value.length > 12) {
+							return '<a href="#" title="' + value + '">' + value.substring(0, 12) + '..</a>';
+						}
+						else {
+							return '<a href="#" title="' + value + '">' + value + '</a>';
+						}
+					}
+				},
+				{
+					field: 'articleTop',
+					title: '顶置级别',
+					formatter: function (value, row, index) {
+						return $.table.selectDictLabel(articleTops, value);
+					}
+				},
+				{
+
+					field: 'visible',
+					title: '状态',
+					align: 'center',
+					formatter: function (value, row, index) {
+						return $.table.selectDictLabel(articleVisibles, value);
+					}
+				},
+				{
+					field: 'keywords',
+					title: '关键词',
+					align: "left",
+					visible: false
+				},
+				{
+					field: 'description',
+					title: '描述',
+					align: "left",
+					visible: false
+				},
+				{
+					field: 'articleType',
+					title: '文章类型',
+					formatter: function (value, item, index) {
+
+						return $.table.selectDictLabel(articleTypes, value);
+
+					}
+				},
+				{
+					field: 'createBy',
+					title: '创建人Id'
+				},
+				{
+					field: 'createTime',
+					title: '创建时间',
+					sortable: true
+				}]
+			};
+			$.table.init(articleOptions);
+            var handOptions = {
+            url: prefix + "/listArticleHand",
+            showSearch:false,
+			showRefresh:false,
+			showColumns:false,
+			showToggle:false,
+            id:"bootstrap-article-hand",
+            modalName: "操作",
+            columns: [
+                {
+                    field : 'articleId',
+                    title : '文章ID'
+                },
+                {
+                    field: 'articleTitle',
+                    title: '文章标题',
+                    formatter:function(value, row, index) {
+                        if(value.length>12){
+                            return '<a href="#" title="'+value+'">'+value.substring(0,12)+'..</a>';
+                        }
+                        else
+                        {
+                            return '<a href="#" title="'+value+'">'+value+'</a>';
+                        }
+                    }
+                },
+                {
+                    field : 'userId',
+                    title : '用户ID'
+                },
+                {
+                    field : 'userSystem',
+                    title : '系统'
+                },
+                {
+                    field : 'userBower',
+                    title : '浏览器'
+                }]
+        };
+            $.table.init(handOptions);
+            var scoreOptions = {
+                url: prefix + "/listScore",
+                showSearch:false,
+				showRefresh:false,
+				showColumns:false,
+				showToggle:false,
+                id:"bootstrap-score",
+                modalName: "评分",
+                columns: [
+                {
+                    field : 'articleId',
+                    title : '文章ID'
+                },
+                {
+                    field: 'articleTitle',
+                    title: '文章标题',
+                    formatter:function(value, row, index) {
+                        if(value.length>12){
+                            return '<a href="#" title="'+value+'">'+value.substring(0,12)+'..</a>';
+                        }
+                        else
+                        {
+                            return '<a href="#" title="'+value+'">'+value+'</a>';
+                        }
+                    }
+                },
+                {
+                    field : 'userId',
+                    title : '用户ID'
+                },
+                {
+                    field : 'userSystem',
+                    title : '系统'
+                },
+                {
+                    field : 'userBower',
+                    title : '浏览器'
+                },
+                {
+                    field : 'score',
+                    title : '评分'
+                }]
+       };
+            $.table.init(scoreOptions);
+            var contactOptions = {
+                url: prefix + "/listContact",
+                showSearch:false,
+				showRefresh:false,
+				showColumns:false,
+				showToggle:false,
+                id:"bootstrap-contact",
+                modalName: "反馈",
+                columns: [
+                {
+                    field: 'contactId',
+                    title: '反馈ID',
+                    visible: false
+                },
+                {
+                    field: 'subject',
+                    title: '主题',
+                    visible:true
+                },
+                {
+                    field: 'content',
+                    title: '内容',
+                    visible:false
+                },
+                {
+                    field: 'handler',
+                    title: '处理人',
+                    visible:false
+                },
+                {
+                    field: 'email',
+                    title: '邮件'
+                },
+                {
+                    field: '联系方式',
+                    title: 'touch'
+                },
+                {
+                    field: 'visible',
+                    title: '状态',
+                    formatter: function(value, row, index) {
+						return $.table.selectDictLabel(vi, value);
+					}
+                },
+                {
+                    field: 'contactType',
+                    title: '类型',
+                    formatter: function(value, row, index) {
+						return $.table.selectDictLabel(vt, value);
+					}
+                },
+                {
+                    field: 'handleResult',
+                    title: '结果',
+                    visible:false
+                },
+                {
+                    field: 'handleTime',
+                    title: '处理时间',
+                    visible:false
+                },
+                {
+                    field: 'remark',
+                    title: '备注',
+                    visible:false
+                }]
+            };
+            $.table.init(contactOptions);
+        });
+
+    function  addArticle(){
+		
+			layer.msg("编辑器选择", {
+				time: 4000,
+				btn: ['markdown', 'froala'],
+				yes: function (index) {
+					$.modal.openTab('添加文章',  ctx+ "cms/article/add/1");
+					layer.close(index);
+				},
+				btn2: function (index) {
+					$.modal.openTab('添加文章',  ctx+ "cms/article/add/0");
+					layer.close(index);
+				}
+			})
+
+    }
+
+    function  addConact(){
+        $.modal.openTab('添加反馈',ctx+'cms/contact/add');       
+    }
+       
+    </script>
+	
+</body>
+
+</html>

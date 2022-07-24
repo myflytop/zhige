@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.admin.mapper.CmsReportMapper">
+
+    <select id="countCmsArticle" parameterType="com.oly.cms.admin.model.vo.ArticleVo" resultType="int">
+        select count(*) from cms_article
+        <where>
+            <if test="articleId!=null">
+            and article_id=#{articleId}
+        </if>
+            <if test="articleTitle!=null and articleTitle != ''">
+            and article_title like concat('%', #{articleTitle}, '%')
+        </if>
+            <if test="createBy!=null and createBy != ''">
+            and create_by=#{createBy}
+        </if>
+            <if test="updateBy!=null and updateBy != ''">
+            and update_by=#{updateBy}
+        </if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(create_time,'%y-%m-%d %H:%i:%s') &gt;= date_format(#{params.beginTime},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+            <if test="articleType!=null">
+            and article_type=#{articleType}
+        </if>
+            <if test="articleTop!=null">
+            and article_top=#{articleTop}
+        </if>
+            <if test="visible!=null">
+            and visible=#{visible}
+        </if>
+            <if test="articleBuild!=null">
+            and article_build=#{articleBuild}
+        </if>
+            <if test="catId!=null">
+            and article_id in(select article_id from cms_article_cat where cat_id=#{catId} or cat_id in (select
+            cat_id from cms_cat WHERE FIND_IN_SET(#{catId},ancestors)))
+        </if>
+            <if test="tagId!=null">
+            and article_id in(select article_id from cms_article_tag where tag_id=#{tagId})        
+        </if>
+            <if test="params.supportTheme != null and params.supportTheme != ''">
+                <!-- 支持主题 -->
+                and article_id in(select article_id from cms_article_theme where theme_name=#{params.supportTheme})
+            </if>
+        </where>
+    </select>
+
+    <select id="countCmsLogRecord" parameterType="com.oly.cms.admin.model.po.record.CmsLogRecord" resultType="int">
+        select count(*)  from cms_log_record
+        <where>
+            <if test="title != null  and title != ''"> and title LIKE CONCAT('%',#{title},'%')</if>
+            <if test="businessType != null "> and business_type = #{businessType}</if>
+            <if test="method != null  and method != ''"> and method = #{method}</if>
+            <if test="requestMethod != null  and requestMethod != ''"> and request_method = #{requestMethod}</if>
+            <if test="operatorType != null "> and operator_type = #{operatorType}</if>
+            <if test="operUrl != null  and operUrl != ''"> and oper_url = #{operUrl}</if>
+            <if test="operIp != null  and operIp != ''"> and oper_ip = #{operIp}</if>
+            <if test="operLocation != null  and operLocation != ''"> and oper_location = #{operLocation}</if>
+            <if test="operParam != null  and operParam != ''"> and oper_param = #{operParam}</if>
+            <if test="jsonResult != null  and jsonResult != ''"> and json_result = #{jsonResult}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="errorMsg != null  and errorMsg != ''"> and error_msg = #{errorMsg}</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(oper_time,'%y-%m-%d %H:%i:%s') &gt;= date_format(#{params.beginTime},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(oper_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+            <if test="operBower != null  and operBower != ''"> and oper_bower = #{operBower}</if>
+            <if test="operSystem != null  and operSystem != ''"> and oper_system = #{operSystem}</if>
+        </where>
+    </select>
+
+    <select id="countCmsCat" parameterType="com.oly.cms.common.domain.entity.CmsCat" resultType="int">
+        select count(*)  from cms_cat
+        <where>
+            <if test="catName != null and catName != ''">
+				AND cat_name like concat('%', #{catName}, '%')
+		</if>
+            <if test="catId != null ">
+				AND cat_id  = #{catId}
+		</if>
+            <if test="visible != null">
+				AND visible = #{visible}
+		</if>
+            <if test="catType != null">
+				AND cat_type=#{catType}
+		</if>
+            <if test="parent != null">
+				AND parent = #{parent}
+		</if>
+            <if test="createBy!=null">
+				and create_by=#{createBy}
+		</if>
+            <if test="updateBy!=null">
+				and update_by=#{updateBy}
+		</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(create_time,'%y-%m-%d %H:%i:%s') &gt;= date_format(#{params.beginTime},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+            <if test="params.supportType != null and params.supportType != ''">
+                <!-- 支持主题 -->
+                and FIND_IN_SET(cat_type,#{params.supportType})
+            </if>
+        </where>
+    </select>
+
+    <select id="countCmsTag" parameterType="com.oly.cms.common.domain.entity.CmsTag" resultType="int">
+        select count(*)  from cms_tag
+        <where>
+            <if test="tagName != null  and tagName != ''"> and tag_name like concat('%', #{tagName}, '%')</if>
+            <if test="tagId != null ">
+				AND tag_id  = #{tagId}
+            </if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="perms != null  and perms != ''"> and perms like concat('%', #{perms}, '%')</if>
+            <if test="tagType != null "> and tag_type = #{tagType}</if>
+            <if test="createBy!=null and createBy != ''">
+                and create_by=#{createBy}
+            </if>
+            <if test="updateBy!=null and updateBy != ''">
+                and update_by=#{updateBy}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(create_time,'%y-%m-%d %H:%i:%s') &gt;= date_format(#{params.beginTime},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+            <if test="params.supportType != null and params.supportType != ''">
+                <!-- 支持主题 -->
+                and FIND_IN_SET(tag_type,#{params.supportType})
+            </if>
+        </where>
+    </select>
+
+    <select id="countCmsComment" parameterType="com.oly.cms.comment.model.CmsComment" resultType="int">
+        select count(*)  from cms_comment
+        <where>
+            <if test="typeId != null "> and type_id = #{typeId}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="fromBy != null"> and from_by = #{fromBy}</if>
+            <if test="replyBy != null"> and reply_by = #{replyBy}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="commentType != null "> and comment_type = #{commentType}</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="ip != null  and ip != ''"> and ip = #{ip}</if>
+            <if test="userSystem != null  and userSystem != ''"> and user_system = #{userSystem}</if>
+            <if test="userBower != null  and userBower != ''"> and user_bower = #{userBower}</if>
+            <if test="nastyCount != null "> and nasty_count = #{nastyCount}</if>
+            <if test="likeCount != null "> and like_count = #{likeCount}</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(create_time,'%y-%m-%d %H:%i:%s') &gt;= date_format(#{params.beginTime},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="countCmsContact" parameterType="com.oly.cms.common.domain.entity.CmsContact" resultType="int">
+        select count(*)  from cms_contact
+        <where>
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="handler != null  and  handler !=''"> and handler = #{handler}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="touch != null  and touch != ''"> and touch = #{touch}</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="contactType != null "> and contact_type = #{contactType}</if>
+            <if test="handleResult != null  and handleResult != ''"> and handle_result = #{handleResult}</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(handle_time,'%y-%m-%d %H:%i:%s') &gt;= date_format(#{params.beginTime},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(handle_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="countCmsUnion" parameterType="com.oly.cms.common.domain.entity.CmsUnion" resultType="int">
+        select count(*) from cms_union
+        <where>
+            <if test="shopName != null  and shopName != ''"> and shop_name like concat('%', #{shopName}, '%')</if>
+            <if test="homeName != null  and homeName != ''"> and home_name like concat('%', #{homeName}, '%')</if>
+            <if test="shopSales != null "> and shop_sales = #{shopSales}</if>
+            <if test="wangName != null  and wangName != ''"> and wang_name like concat('%', #{wangName}, '%')</if>
+            <if test="couponNum != null "> and coupon_num = #{couponNum}</if>
+            <if test="marketIs != null  and marketIs != ''"> and market_is = #{marketIs}</if>
+            <if test="groupNum != null "> and group_num = #{groupNum}</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="unionType != null and  unionType != ''"> and union_type = #{unionType}</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(create_time,'%y-%m-%d %H:%i:%s') &gt;= date_format(#{params.beginTime},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+</mapper>

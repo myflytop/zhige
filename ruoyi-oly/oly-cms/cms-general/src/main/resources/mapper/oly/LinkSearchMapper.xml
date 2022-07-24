@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.general.mapper.LinkSearchMapper">
+
+    <resultMap type="com.oly.cms.common.domain.entity.CmsLink" id="CmsLinkResult">
+        <result property="linkId"    column="link_id"    />
+        <result property="linkUrl"    column="link_url"    />
+        <result property="linkName"    column="link_name"    />
+        <result property="linkSuggest"    column="link_suggest"    />
+        <result property="linkFavicon"    column="link_favicon"    />
+        <result property="visible"    column="visible"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createBy"    column="create_by"    />
+        <result column="order_num" property="orderNum"  />
+        <result column="group_name" property="groupName"  />
+        <result column="open_type" property="openType"/>
+    </resultMap>
+
+    <sql id="selectCmsLink">
+        select link_id,open_type,order_num,group_name, link_url, link_name, link_suggest, link_favicon, visible, remark, create_time, update_time, update_by, create_by from cms_link
+    </sql>
+    
+    <select id="listCmsLinks" parameterType="com.oly.cms.common.domain.entity.CmsLink" resultMap="CmsLinkResult">
+        <include refid="selectCmsLink"/>
+        <where>
+            <if test="groupName != null  and groupName != ''"> and group_name = #{groupName}</if>
+            <if test="linkName != null  and linkName != ''"> and link_name like concat('%', #{linkName}, '%')</if>
+            <if test="visible != null "> and visible = #{visible}</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>
+        </where>
+    </select>
+    
+    <select id="selectCmsLinkById" parameterType="long" resultMap="CmsLinkResult">
+        <include refid="selectCmsLink"/>
+        where link_id = #{linkId}
+    </select>
+    
+</mapper> 

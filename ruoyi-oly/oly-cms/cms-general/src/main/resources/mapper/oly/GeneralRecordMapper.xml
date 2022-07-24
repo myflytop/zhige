@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.general.mapper.GeneralRecordMapper">
+    <insert id="insertCmsLogRecord" parameterType="com.oly.cms.general.model.po.WebLogRecord">
+        insert into cms_log_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logId != null ">log_id,</if>
+            <if test="title != null  and title != ''">title,</if>
+            <if test="businessType != null ">business_type,</if>
+            <if test="method != null  and method != ''">method,</if>
+            <if test="requestMethod != null  and requestMethod != ''">request_method,</if>
+            <if test="operatorType != null ">operator_type,</if>
+            <if test="operUrl != null  and operUrl != ''">oper_url,</if>
+            <if test="operIp != null  and operIp != ''">oper_ip,</if>
+            <if test="operLocation != null  and operLocation != ''">oper_location,</if>
+            <if test="operParam != null  and operParam != ''">oper_param,</if>
+            <if test="jsonResult != null  and jsonResult != ''">json_result,</if>
+            <if test="status != null ">status,</if>
+            <if test="errorMsg != null  and errorMsg != ''">error_msg,</if>
+            oper_time,
+            <if test="operBower != null  and operBower != ''">oper_bower,</if>
+            <if test="operSystem != null  and operSystem != ''">oper_system,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logId != null ">#{logId},</if>
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="businessType != null ">#{businessType},</if>
+            <if test="method != null  and method != ''">#{method},</if>
+            <if test="requestMethod != null  and requestMethod != ''">#{requestMethod},</if>
+            <if test="operatorType != null ">#{operatorType},</if>
+            <if test="operUrl != null  and operUrl != ''">#{operUrl},</if>
+            <if test="operIp != null  and operIp != ''">#{operIp},</if>
+            <if test="operLocation != null  and operLocation != ''">#{operLocation},</if>
+            <if test="operParam != null  and operParam != ''">#{operParam},</if>
+            <if test="jsonResult != null  and jsonResult != ''">#{jsonResult},</if>
+            <if test="status != null ">#{status},</if>
+            <if test="errorMsg != null  and errorMsg != ''">#{errorMsg},</if>
+            sysdate(),
+            <if test="operBower != null  and operBower != ''">#{operBower},</if>
+            <if test="operSystem != null  and operSystem != ''">#{operSystem},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertCmsLookRecord" parameterType="com.oly.cms.general.model.record.CmsLookRecord">
+        insert into cms_look_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null ">article_id,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="ip != null and ip != ''">ip,</if>
+            <if test="userSystem != null and userSystem != ''">user_system,</if>
+            <if test="userBower != null and userBower != ''">user_bower,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null ">#{articleId},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="ip != null and ip != ''">#{ip},</if>
+            <if test="userSystem != null and userSystem != ''">#{userSystem},</if>
+            <if test="userBower != null and userBower != ''">#{userBower},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <insert id="updateCmsArticleCountLook">
+		insert into cms_article_count(article_id,article_look) values (#{articleId},1)
+		ON DUPLICATE KEY UPDATE  article_look=article_look+1
+	</insert>
+</mapper>

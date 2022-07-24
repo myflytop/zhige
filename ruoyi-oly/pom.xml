@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ruoyi</artifactId>
+        <groupId>com.ruoyi</groupId>
+        <version>4.7.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <artifactId>ruoyi-oly</artifactId>
+    <groupId>com.oly</groupId>
+    <description>
+        Oly聚合模块
+    </description>
+    <properties>
+        <ruoyi.version>4.7.3</ruoyi.version>
+    </properties>
+     <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <artifactId>comment-api</artifactId>
+                <groupId>com.oly.cms.comment</groupId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <modules>
+        <module>oly-cms</module>
+        <module>oly-common</module>
+    </modules>
+
+</project>

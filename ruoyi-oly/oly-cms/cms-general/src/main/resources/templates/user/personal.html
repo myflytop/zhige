@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:with="blogConfig=${@configTag.getWebConfigByGroup('bobey')}">
+
+<head>
+	<th:block th:include="zgblog/blog_include :: blogHeader(title=${blogConfig['oly.web.title']},
+keywords=${blogConfig['oly.web.keywords']},
+description='用户个人中心',
+blogConfig=${blogConfig})" />
+</head>
+
+<body>
+	<th:block th:include="zgblog/blog_include::menu(menus=${@menuTag.getMenuTreeById(76)},blogConfig=${blogConfig})" />
+	<!-- 主体部分 -->
+	<section class="bobey-main-box">
+		<div class="layui-row" style="background-color: white;height: 80vh">
+			<div class="layui-col-12">
+				<div class="layui-card">
+					<div class="layui-card-header">个人中心</div>
+					<div class="layui-card-body">
+						<div class="layui-row">
+							<div class="layui-col-6">
+								<div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash" overflow="">
+									<ul class="layui-tab-title">
+										<!-- <li lay-id="22" class="layui-this">操作记录</li> -->
+										<li lay-id="33" class="layui-this">修改资料</li>
+										<span class="layui-unselect layui-tab-bar" lay-stope="tabmore"><i
+												lay-stope="tabmore" class="layui-icon"></i></span>
+									</ul>
+									<div class="layui-tab-content">
+										<!-- <div class="layui-tab-item layui-show">
+											<div class="layui-table-box">
+												<div class="layui-table-header">
+
+												</div>
+												<div class="layui-table-body layui-table-main">
+
+												</div>
+											</div>
+										</div> -->
+
+										<div class="layui-tab-item layui-show">
+											<div class="layui-form" th:object="${user}">
+												<div class="layui-form-item">
+													<label class="layui-form-label">昵称</label>
+													<div class="layui-input-inline">
+														<input type="text" name="userName" maxlength="30"
+															th:field="*{userName}" required autocomplete="off"
+															placeholder="请输入昵称" class="layui-input">
+													</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">性别</label>
+													<div class="layui-input-block">
+														<input type="radio" name="sex" value="0" th:field="*{sex}"
+															title="男">
+														<div class="layui-unselect layui-form-radio"><i
+																class="layui-anim layui-icon"></i>
+															<div>男</div>
+														</div>
+														<input type="radio" name="sex" value="1" th:field="*{sex}"
+															title="女">
+														<div class="layui-unselect layui-form-radio ">
+															<i class="layui-anim layui-icon"></i>
+															<div>女</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="layui-form-item">
+													<label class="layui-form-label">邮箱</label>
+													<div class="layui-input-inline">
+														<input type="text" name="email" th:field="*{email}"
+															lay-verify="email" autocomplete="off" class="layui-input">
+													</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">手机</label>
+													<div class="layui-input-inline">
+														<input type="text" name="phonenumber" maxlength="11"
+															th:field="*{phonenumber}" lay-verify="phone"
+															autocomplete="off" class="layui-input">
+													</div>
+												</div>
+
+												<div class="layui-form-item">
+													<label class="layui-form-label">头像</label>
+													<div class="layui-input-inline" id="imgUp">
+														<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}"
+															style="width: 100px;height: 100px;" />
+													</div>
+												</div>
+												<div class="layui-form-item">
+													<div class="layui-input-block">
+														<button class="layui-btn" lay-submit=""
+															lay-filter="userForm">确认修改</button>
+													</div>
+												</div>
+
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+	<!-- 底部导航 -->
+	<th:block th:include="zgblog/blog_include::bottom" />
+	<th:block th:include="zgblog/blog_include::footer_js" />
+
+	<script>
+
+		layui.use(['form', 'layedit', 'laydate', 'upload'], function () {
+			var form = layui.form,
+				upload = this.upload
+				, layer = layui.layer
+				, layedit = layui.layedit
+				, laydate = layui.laydate;
+			var $ = layui.jquery;
+
+			//设定文件大小限制
+			upload.render({
+				elem: '#imgUp'
+				, acceptMime: 'image/*'
+				, accept: 'images'
+				, url: ctx + "system/user/profile/updateAvatar" //改成您自己的上传接口
+				, size: 6000 //限制文件大小，单位 KB
+				, field: "avatarfile"
+				, done: function (res) {
+					if (res.code === 0) {
+						layer.msg("头像已修改");
+						$("#imgUp>img").attr('src', res.data);
+					}
+					else {
+						layer.msg("头像修改失败");
+
+					}
+				}
+			});
+			//监听提交
+			form.on('submit(userForm)', function (data) {
+				console.log(data.field);
+				$.post(ctx + "system/user/profile/update", data.field, function (res) {
+					layer.msg(res.msg);
+				});
+				return false;
+			});
+
+		});
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ruoyi</artifactId>
+        <groupId>com.ruoyi</groupId>
+        <version>4.7.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <artifactId>ruoyi-system</artifactId>
+    <groupId>com.ruoyi.system</groupId>
+
+    <description>
+        system系统聚合模块
+    </description>
+
+    <properties>
+        <ruoyi.version>4.7.3</ruoyi.version>
+    </properties>
+    
+    <!-- 公用 -->
+    <dependencies>
+         <!-- 数据操作mybatis-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-mybatis</artifactId>
+        </dependency>
+    </dependencies>
+
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.ruoyi.system.core</groupId>
+                <artifactId>system-core</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ruoyi.system.config</groupId>
+                <artifactId>system-config</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ruoyi.system.dict</groupId>
+                <artifactId>system-dict</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>system-core</module>
+        <module>system-config</module>
+        <module>system-dict</module>
+    </modules>
+
+</project>

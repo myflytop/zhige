@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<th:block th:include="include :: header('用户个人信息')" />
+	<th:block th:include="include :: oly_tagsinput_css" />
+	<style type="text/css">
+		.user-info-head {
+			position: relative;
+			display: inline-block;
+		}
+
+		.user-info-head:hover:after {
+			content: '\f030';
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			color: #eee;
+			background: rgba(0, 0, 0, 0.5);
+			font-family: FontAwesome;
+			font-size: 24px;
+			font-style: normal;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			cursor: pointer;
+			line-height: 110px;
+			border-radius: 50%;
+		}
+	</style>
+</head>
+
+<body class="gray-bg"
+	style="font: 14px Helvetica Neue, Helvetica, PingFang SC, 微软雅黑, Tahoma, Arial, sans-serif !important;">
+	<input id="userId" name="userId" type="hidden" th:value="${user.userId}" />
+	<section class="section-content">
+		<div class="row">
+			<div class="col-sm-3 pr5">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title ibox-title-gray dashboard-header gray-bg">
+						<h5>基本信息</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="text-center">
+							<p class="user-info-head" onclick="avatar()"><img class="img-circle img-lg"
+									th:src="(${#strings.isEmpty(user.avatar)}) ? @{/img/profile.jpg} : @{${user.avatar}}"
+									th:onerror="'this.src=\'' + @{'/img/profile.jpg'} + '\''"></p>
+							<p><a href="javascript:avatar()">修改头像</a></p>
+						</div>
+						<ul class="list-group list-group-striped">
+							<li class="list-group-item"><i class="fa fa-user"></i>
+								<b class="font-noraml">登录名称：</b>
+								<p class="pull-right">[[${user.loginName}]]</p>
+							</li>
+							<li class="list-group-item"><i class="fa fa-phone"></i>
+								<b class="font-noraml">手机号码：</b>
+								<p class="pull-right">[[${user.phonenumber}]]</p>
+							</li>
+							<li class="list-group-item" th:if="${user.dept?.deptName != null}"><i
+									class="fa fa-group"></i>
+								<b class="font-noraml">所属部门：</b>
+								<p class="pull-right"
+									style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;width:120px;">
+									[[${user.dept?.deptName}]] / [[${#strings.defaultString(postGroup,'无岗位')}]]</p>
+							</li>
+							<li class="list-group-item"><i class="fa fa-envelope-o"></i>
+								<b class="font-noraml">邮箱地址：</b>
+								<p class="pull-right" th:title="${user.email}">[[${#strings.abbreviate(user.email,
+									16)}]]</p>
+							</li>
+							<li class="list-group-item"><i class="fa fa-calendar"></i>
+								<b class="font-noraml">创建时间：</b>
+								<p class="pull-right">[[${#dates.format(user.createTime, 'yyyy-MM-dd')}]]</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-9 about">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title ibox-title-gray dashboard-header">
+						<h5>资料修改</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="nav-tabs-custom">
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#user_base" data-toggle="tab" aria-expanded="true">基本资料</a>
+								</li>
+								<li><a href="#user_info" data-toggle="tab" aria-expanded="false">详细资料</a></li>
+								<li><a href="#modify_password" data-toggle="tab" aria-expanded="false">修改密码</a></li>
+							</ul>
+							<div class="tab-content">
+								<!--用户基本信息-->
+								<div class="tab-pane active" id="user_base" th:object="${user}">
+									<form class="form-horizontal" id="form-user-base-edit">
+										<!--隐藏ID-->
+										<input name="id" id="id" type="hidden">
+										<div class="form-group">
+											<label class="col-sm-2 control-label is-required">用户名称：</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" name="userName" minlength="2"
+													maxlength="8" th:field="*{userName}" placeholder="请输入用户名称" required>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label is-required">手机号码：</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" name="phonenumber"
+													maxlength="11" th:field="*{phonenumber}" placeholder="请输入手机号码"
+													required>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label is-required">邮箱：</label>
+											<div class="col-sm-10">
+												<input type="text" maxlength="50" class="form-control" name="email"
+													th:field="*{email}" placeholder="请输入邮箱" required>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label is-required">性别：</label>
+											<div class="col-sm-10">
+												<select name="sex" class="form-control m-b"
+													th:with="type=${@dictTag.getType('sys_user_sex')}">
+													<option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+														th:value="${dict.dictValue}" th:field="*{sex}"></option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<button type="button" class="btn btn-sm btn-primary"
+													onclick="submitUserBase()"><i class="fa fa-check"></i>保
+													存</button>&nbsp;
+												<button type="button" class="btn btn-sm btn-danger"
+													onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+											</div>
+										</div>
+									</form>
+								</div>
+
+								<!--用户详细信息-->
+								<div class="tab-pane" id="user_info" th:object="${userInfo}">
+									<form class="form-horizontal" id="form-user-info-edit">
+										<!--隐藏ID-->
+										<input name="id" id="id" type="hidden">
+										<div class="form-group">
+											<label class="col-sm-3 control-label ">生日：</label>
+											<div class="col-sm-8">
+												<div class="input-group date">
+													<input name="birthday"
+														th:value="${#dates.format(userInfo.birthday, 'yyyy-MM-dd')}"
+														class="form-control" placeholder="yyyy-MM-dd" type="text">
+													<span class="input-group-addon"><i
+															class="fa fa-calendar"></i></span>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">标签：</label>
+											<div class="col-sm-8">
+												<input class="form-control" th:field="*{tags}" type="text"
+													name="tags" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">爱好：</label>
+											<div class="col-sm-8">
+												<input name="hobby" th:field="*{hobby}" class="form-control"
+													type="text">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label ">社交：</label>
+											<div class="col-sm-8">
+												<button type="button" class="btn" data-toggle="modal"
+													data-target="#myContact"><i class="fa fa-plus"></i></button>
+												<div class="col-xs-12 select-table table-striped">
+													<table id="bootstrap-contact"></table>
+												</div>
+												<input name="contact" th:field="*{contact}" type="hidden">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label ">联系：</label>
+											<div class="col-sm-8">
+												<input name="touch" th:field="*{touch}" class="form-control"
+													type="hidden">
+												<button type="button" class="btn" data-toggle="modal"
+													data-target="#myTouch"><i class="fa fa-plus"></i></button>
+												<div class="col-xs-12 select-table table-striped">
+														<table id="bootstrap-touch"></table>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label ">位置：</label>
+											<div class="col-sm-8">
+												<textarea name="local" maxlength="256" class="form-control"
+													rows="3">[[*{local}]]</textarea>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">介绍：</label>
+											<div class="col-sm-8">
+												<textarea name="introduce" maxlength="256" class="form-control"
+													rows="3">[[*{introduce}]]</textarea>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label ">教育：</label>
+											<div class="col-sm-8">
+												<textarea name="teach" class="form-control">[[*{teach}]]</textarea>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label ">更多展示：</label>
+											<div class="col-sm-8">
+												<textarea name="shows" class="form-control">[[*{shows}]]</textarea>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<button type="button" class="btn btn-sm btn-primary"
+													onclick="submitUserInfo()"><i class="fa fa-check"></i>保
+													存</button>&nbsp;
+												<button type="button" class="btn btn-sm btn-danger"
+													onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+											</div>
+										</div>
+									</form>
+								</div>
+
+								<!--修改密码-->
+								<div class="tab-pane" id="modify_password">
+									<form class="form-horizontal" id="form-user-resetPwd">
+										<div class="form-group">
+											<label class="col-sm-2 control-label">旧密码：</label>
+											<div class="col-sm-10">
+												<input type="password" class="form-control" name="oldPassword"
+													placeholder="请输入旧密码">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">新密码：</label>
+											<div class="col-sm-10">
+												<input type="password" class="form-control" name="newPassword"
+													id="newPassword" placeholder="请输入新密码">
+												<th:block
+													th:with="chrtype=${@configTag.getKey('sysUser','sys.account.chrtype')}">
+													<th:block th:if="${chrtype != '0'}">
+														<span class="help-block m-b-none">
+															<th:block th:if="${chrtype == '1'}"><i
+																	class="fa fa-info-circle" style="color: red;"></i>
+																密码只能为0-9数字 </th:block>
+															<th:block th:if="${chrtype == '2'}"><i
+																	class="fa fa-info-circle" style="color: red;"></i>
+																密码只能为a-z和A-Z字母</th:block>
+															<th:block th:if="${chrtype == '3'}"><i
+																	class="fa fa-info-circle" style="color: red;"></i>
+																密码必须包含（字母，数字）</th:block>
+															<th:block th:if="${chrtype == '4'}"><i
+																	class="fa fa-info-circle" style="color: red;"></i>
+																密码必须包含（字母，数字，特殊字符!@#$%^&*()-=_+）</th:block>
+														</span>
+													</th:block>
+												</th:block>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">确认密码：</label>
+											<div class="col-sm-10">
+												<input type="password" class="form-control" name="confirmPassword"
+													placeholder="请确认密码">
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<button type="button" class="btn btn-sm btn-primary"
+													onclick="submitChangPassword()"><i class="fa fa-check"></i>保
+													存</button>&nbsp;
+												<button type="button" class="btn btn-sm btn-danger"
+													onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="modal inmodal" id="myContact" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content animated bounceInRight">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span
+							aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+					</button>
+					<h4 class="modal-title">添加社交账号</h4>
+
+				</div>
+				<div class="modal-body">
+					<p>添加你的社交主页地址形豆瓣、简书、Github、码云</p>
+					<p>码云:https://gitee.com/Getawy/zhige</p>
+
+					<div class="form-group">
+						<label>社交平台:</label>
+						<input type="text" minlength="2" maxlength="8" name="contactName" placeholder="请输入您的社交平台"
+							class="form-control">
+					</div>
+					<div class="form-group">
+						<label>社交地址:</label>
+						<input type="text" name="contactUrl" placeholder="请输入您的社交地址" class="form-control">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="addContact() ">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal inmodal" id="myTouch" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content animated bounceInRight">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span
+							aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+					</button>
+					<h4 class="modal-title">添加联系方式</h4>
+
+				</div>
+				<div class="modal-body">
+					<p>添加你的联系方式如电话、微信、抖音</p>
+					<p>电话:17678999448</p>
+					<div class="form-group">
+						<label>联系方式:</label>
+						<input type="text" minlength="2" maxlength="8" name="touchName" placeholder="请输入您的联系方式"
+							class="form-control">
+					</div>
+					<div class="form-group">
+						<label>联系账号:</label>
+						<input type="text" name="touchId" placeholder="请输入您的联系账号" class="form-control">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="addTouch() ">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: oly_tagsinput_js" />
+	<script th:inline="JavaScript">
+
+
+		//标签
+		$("input[name='tags']").tagsinput({
+			maxTags: 10,
+			maxChars: 8
+		});
+
+		//爱好
+		$("input[name='hobby']").tagsinput({
+			maxTags: 10,
+			maxChars: 8
+		});
+
+		
+
+		function addContact() {
+			let cname = $("input[name='contactName']").val();
+			let curl = $("input[name='contactUrl']").val();
+			$("#bootstrap-contact").bootstrapTable('insertRow', {
+        		index: 0, // 你想插入到哪，0表示第一行
+                row: {
+				'contactUrl': curl,
+				'contactName': cname
+                }
+        	})
+			$("input[name='contactName']").val('');
+			$("input[name='contactUrl']").val('');
+			$("#myContact").modal('hide');
+		}
+		$(function() {
+            var options = {
+            	id: "bootstrap-contact",
+				pagination:false,
+				showSearch:false,
+				showRefresh:false,
+				showColumns:false,
+				showToggle:false,
+				uniqueId: "contactUrl",
+		        modalName: "社交",
+                columns: [
+				{
+					field : 'contactName', 
+					title : '平台名称'
+				},
+				{
+					field : 'contactUrl', 
+					title : '平台地址'
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+                        actions.push('<a class="btn btn-danger btn-xs"  onclick="removeContact(\'' + row.contactUrl + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+			try {
+			let cData=$.parseJSON([[${userInfo.contact}]]);
+			cData.forEach(element => {
+				$("#bootstrap-contact").bootstrapTable('insertRow', {
+        		index: 0, // 你想插入到哪，0表示第一行
+                row: element
+        	})
+			});	
+			} catch (error) {
+				
+			}
+		   
+        });
+
+		  /* 删除指定表格行 */
+		  function removeContact(contactUrl){
+        	$("#bootstrap-contact").bootstrapTable('remove', {
+        	    field: "contactUrl",
+        	    values: contactUrl
+        	})
+        }
+        
+		function addTouch() {
+			const cname = $("input[name='touchName']").val();
+			const cId = $("input[name='touchId']").val();
+			$("#bootstrap-touch").bootstrapTable('insertRow', {
+        		index: 0, // 你想插入到哪，0表示第一行
+                row: {
+				'touchId': cId,
+				'touchName': cname
+                }
+        	})
+			$("input[name='touchName']").val('');
+			$("input[name='touchId']").val('');
+			$("#myTouch").modal('hide');
+		}
+		$(function() {
+            var options = {
+            	id: "bootstrap-touch",
+				pagination:false,
+				showSearch:false,
+				showRefresh:false,
+				showColumns:false,
+				showToggle:false,
+				uniqueId: "touchId",
+		        modalName: "联系",
+                columns: [
+				{
+					field : 'touchName', 
+					title : '联系名称'
+				},
+				{
+					field : 'touchId', 
+					title : '联系账号'
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+                        actions.push('<a class="btn btn-danger btn-xs"  onclick="removeTouch(\'' + row.touchId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+			try {
+			let tData=$.parseJSON([[${userInfo.touch}]]);
+			tData.forEach(element => {
+				$("#bootstrap-touch").bootstrapTable('insertRow', {
+        		index: 0, // 你想插入到哪，0表示第一行
+                row: element
+        	})
+			});	
+			} catch (error) {
+				
+			}
+		   
+        });
+
+		  /* 删除指定表格行 */
+		  function removeTouch(touchId){
+        	$("#bootstrap-touch").bootstrapTable('remove', {
+        	    field: "touchId",
+        	    values: touchId
+        	})
+        }
+
+		/*用户管理-头像*/
+		function avatar() {
+			var url = ctx + 'system/user/profile/avatar';
+			top.layer.open({
+				type: 2,
+				area: [$(window).width() + 'px', $(window).height() + 'px'],
+				fix: false,
+				//不固定
+				maxmin: true,
+				shade: 0.3,
+				title: "修改头像",
+				content: url,
+				btn: ['确定', '关闭'],
+				// 弹层外区域关闭
+				shadeClose: true,
+				yes: function (index, layero) {
+					var iframeWin = layero.find('iframe')[0];
+					iframeWin.contentWindow.submitHandler(index, layero);
+				},
+				cancel: function (index) {
+					return true;
+				}
+			});
+		}
+
+		/*用户基本信息-修改*/
+		$("#form-user-base-edit").validate({
+			onkeyup: false,
+			rules: {
+				userName: {
+					required: true,
+				},
+				email: {
+					required: true,
+					email: true,
+					remote: {
+						url: ctx + "system/user/checkEmailUnique",
+						type: "post",
+						dataType: "json",
+						data: {
+							"userId": function () {
+								return $("#userId").val();
+							},
+							"email": function () {
+								return $.common.trim($("#email").val());
+							}
+						},
+						dataFilter: function (data, type) {
+							return $.validate.unique(data);
+						}
+					}
+				},
+				phonenumber: {
+					required: true,
+					isPhone: true,
+					remote: {
+						url: ctx + "system/user/checkPhoneUnique",
+						type: "post",
+						dataType: "json",
+						data: {
+							"userId": function () {
+								return $("#userId").val();
+							},
+							"phonenumber": function () {
+								return $.common.trim($("#phonenumber").val());
+							}
+						},
+						dataFilter: function (data, type) {
+							return $.validate.unique(data);
+						}
+					}
+				},
+			},
+			messages: {
+				"userName": {
+					required: "请输入用户名称",
+				},
+				"email": {
+					required: "请输入邮箱",
+					remote: "Email已经存在"
+				},
+				"phonenumber": {
+					required: "请输入手机号码",
+					remote: "手机号码已经存在"
+				}
+			},
+			focusCleanup: true
+		});
+
+		function submitUserBase() {
+			if ($.validate.form()) {
+				$.operate.saveModal(ctx + "system/user/profile/update", $('#form-user-base-edit').serialize());
+			}
+		}
+
+		/*用户详细信息-修改*/
+		$("#form-user-info-edit").validate({
+			onkeyup: false,
+			focusCleanup: true
+		});
+
+		function submitUserInfo() {
+			$("input[name='contact']").val(JSON.stringify($("#bootstrap-contact").bootstrapTable('getData')));
+			$("input[name='touch']").val(JSON.stringify($("#bootstrap-touch").bootstrapTable('getData')));
+			if ($.validate.form()) {
+				$.operate.saveModal(ctx + "system/user/profile/updateUserInfo", $('#form-user-info-edit').serialize());
+			}
+		}
+
+
+		/*用户管理-修改密码*/
+		$("#form-user-resetPwd").validate({
+			onkeyup: false,
+			rules: {
+				oldPassword: {
+					required: true,
+					remote: {
+						url: ctx + "system/user/profile/checkPassword",
+						type: "get",
+						dataType: "json",
+						data: {
+							password: function () {
+								return $("input[name='oldPassword']").val();
+							}
+						}
+					}
+				},
+				newPassword: {
+					required: true,
+					minlength: 6,
+					maxlength: 20
+				},
+				confirmPassword: {
+					required: true,
+					equalTo: "#newPassword"
+				}
+			},
+			messages: {
+				oldPassword: {
+					required: "请输入原密码",
+					remote: "原密码错误"
+				},
+				newPassword: {
+					required: "请输入新密码",
+					minlength: "密码不能小于6个字符",
+					maxlength: "密码不能大于20个字符"
+				},
+				confirmPassword: {
+					required: "请再次输入新密码",
+					equalTo: "两次密码输入不一致"
+				}
+
+			},
+			focusCleanup: true
+		});
+
+		function submitChangPassword() {
+		var chrtype = [[${#strings.defaultString(@configTag.getKey('sysUser', 'sys.account.chrtype'), 0)}]];
+		var password = $("#newPassword").val();
+		if ($.validate.form("form-user-resetPwd") && checkpwd(chrtype, password)) {
+			$.operate.saveModal(ctx + "system/user/profile/resetPwd", $('#form-user-resetPwd').serialize());
+		}
+	    }
+	</script>
+</body>
+
+</html>

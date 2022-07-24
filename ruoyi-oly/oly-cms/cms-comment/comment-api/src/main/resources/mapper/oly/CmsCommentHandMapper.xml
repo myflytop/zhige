@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.comment.mapper.CmsCommentHandMapper">
+
+    <resultMap type="com.oly.cms.comment.model.CmsCommentHand" id="CmsCommentHandResult">
+        <result property="handId" column="hand_id" />
+        <result property="typeId" column="type_id" />
+        <result property="commentId" column="comment_id" />
+        <result property="userId" column="user_id" />
+        <result property="visible" column="visible" />
+        <result property="ip" column="ip" />
+        <result property="userSystem" column="user_system" />
+        <result property="userBower" column="user_bower" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <sql id="selectCmsCommentHandVo">
+        select hand_id,type_id,comment_id, user_id, visible, ip, user_system, user_bower, create_time, update_time from cms_comment_hand
+    </sql>
+
+    <select id="listCmsCommentHand" parameterType="com.oly.cms.comment.model.CmsCommentHand" resultMap="CmsCommentHandResult">
+        <include refid="selectCmsCommentHandVo"/>
+        <where>
+            <if test="commentId != null">and comment_id=#{commentId}</if>
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="typeId != null">and type_id = #{typeId}</if>
+            <if test="visible != null">and visible = #{visible}</if>
+        </where>
+    </select>
+
+    <select id="selectCmsCommentHand" parameterType="com.oly.cms.comment.model.CmsCommentHand" resultMap="CmsCommentHandResult">
+        <include refid="selectCmsCommentHandVo"/>
+        <where>
+            <if test="commentId != null">and comment_id=#{commentId}</if>
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="typeId != null">and type_id = #{typeId}</if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="selectCmsCommentHandByHandId" parameterType="Long" resultMap="CmsCommentHandResult">
+        <include refid="selectCmsCommentHandVo"/>
+        where hand_id = #{handId}
+    </select>
+
+    <insert id="insertCmsCommentHand" parameterType="com.oly.cms.comment.model.CmsCommentHand" useGeneratedKeys="true" keyProperty="commentId">
+        insert into cms_comment_hand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">comment_id,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="visible != null">visible,</if>
+            <if test="ip != null  and ip != ''">ip,</if>
+            <if test="userSystem != null  and userSystem != ''">user_system,</if>
+            <if test="userBower != null  and userBower != ''">user_bower,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">#{commentId},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="visible != null">#{visible},</if>
+            <if test="ip != null  and ip != ''">#{ip},</if>
+            <if test="userSystem != null  and userSystem != ''">#{userSystem},</if>
+            <if test="userBower != null  and userBower != ''"> #{userBower},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateCmsCommentHand" parameterType="com.oly.cms.comment.model.CmsCommentHand">
+        update cms_comment_hand
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="visible != null">visible = #{visible},</if>
+            <if test="ip != null  and ip != ''"> ip = #{ip},</if>
+            <if test="userSystem != null  and userSystem != ''"> user_system = #{userSystem},</if>
+            <if test="userBower != null  and userBower != ''"> user_bower = #{userBower},</if>
+            update_time = sysdate()
+        </trim>
+        where hand_id = #{handId}
+    </update>
+
+    <delete id="deleteCmsCommentHandByCommentId" parameterType="Long">
+        delete from cms_comment_hand where hand_id = #{handId}
+    </delete>
+
+    <delete id="deleteCmsCommentHandByCommentIds" parameterType="String">
+        delete from cms_comment_hand where hand_id in 
+        <foreach item="commentId" collection="array" open="(" separator="," close=")">
+            #{handId}
+        </foreach>
+    </delete>
+
+    <update id="updateCmsCommentCountPlus">
+        update cms_comment set ${field}=${field}+1 where comment_id =#{commentId}   
+    </update>
+
+    <update id="updateCmsCommentCountMinus">
+        update cms_comment set ${field}=${field}-1 where comment_id =#{commentId}   
+    </update>
+</mapper>

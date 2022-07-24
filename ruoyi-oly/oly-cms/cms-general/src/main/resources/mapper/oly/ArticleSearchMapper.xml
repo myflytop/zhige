@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.general.mapper.ArticleSearchMapper">
+
+	<resultMap type="com.oly.cms.common.domain.entity.CmsArticleCount" id="CountResult">
+		<result property="articleId" column="article_id" />
+		<result property="articleLook" column="article_look" />
+		<result property="articleLike" column="article_like" />
+		<result property="articleNasty" column="article_nasty" />
+		<result property="articleDiscuss" column="article_discuss" />
+		<result property="articleScore" column="article_score" />
+		<result property="articleShare" column="article_share" />
+		<result property="articleCollect" column="article_collect" />
+	</resultMap>
+
+
+	<resultMap id="ArticleResult" type="com.oly.cms.general.model.po.WebArticle">
+		<id column="article_id" property="articleId" />
+		<result column="article_title" property="articleTitle" />
+		<result column="create_by" property="createBy" />
+		<result column="create_time" property="createTime" />
+		<result column="article_type" property="articleType" />
+		<result column="article_build" property="articleBuild" />
+		<result column="article_top" property="articleTop" />
+		<result column="article_img" property="articleImg" />
+		<result column="article_summary" property="articleSummary" />
+		<result column="article_url" property="articleUrl" />
+		<result column="reprint_url" property="reprintUrl" />
+		<result column="visible" property="visible" />
+		<result column="allow_comment" property="allowComment" />
+		<result column="article_content" property="articleContent" jdbcType="LONGVARCHAR" />
+		<result column="article_md" property="articleMd" jdbcType="LONGVARCHAR" />
+		<result column="article_toc" property="articleToc" jdbcType="LONGVARCHAR" />
+		<result column="keywords" property="keywords" />
+		<result column="description" property="description" />
+		<collection property="cmsCats" javaType="ArrayList" select="com.oly.cms.general.mapper.CategorySearchMapper.listCmsCatByArticleId" column="article_id" ofType="com.oly.cms.common.domain.entity.CmsCat" />
+		<collection property="cmsTags" javaType="ArrayList" select="com.oly.cms.general.mapper.TagSearchMapper.listCmsTagByArticleId" column="article_id" ofType="com.oly.cms.common.domain.entity.CmsTag" />
+		<collection property="cmsArticleCount" javaType="com.oly.cms.common.domain.entity.CmsArticleCount" select="getPostCountByArticleId" column="article_id" ofType="com.oly.cms.common.domain.entity.CmsArticleCount" />
+	</resultMap>
+
+	<resultMap type="com.oly.cms.common.domain.entity.CmsUnion" id="UnionResult">
+        <result property="shopId"    column="shop_id"    />
+        <result property="shopName"    column="shop_name"    />
+        <result property="shopImg"    column="shop_img"    />
+        <result property="shopIndex"    column="shop_index"    />
+        <result property="homeName"    column="home_name"    />
+        <result property="shopPrice"    column="shop_price"    />
+        <result property="shopSales"    column="shop_sales"    />
+        <result property="incomeRatio"    column="income_ratio"    />
+        <result property="commission"    column="commission"    />
+        <result property="wangName"    column="wang_name"    />
+        <result property="sortUrl"    column="sort_url"    />
+        <result property="taokeUrl"    column="taoke_url"    />
+        <result property="couponCount"    column="coupon_count"    />
+        <result property="couponNum"    column="coupon_num"    />
+        <result property="couponPrice"    column="coupon_price"    />
+        <result property="couponStartTime"    column="coupon_start_time"    />
+        <result property="couponEndTime"    column="coupon_end_time"    />
+        <result property="couponUrl"    column="coupon_url"    />
+        <result property="couponCode"    column="coupon_code"    />
+        <result property="couponSortUrl"    column="coupon_sort_url"    />
+        <result property="marketIs"    column="market_is"    />
+        <result property="groupNum"    column="group_num"    />
+        <result property="groupPrice"    column="group_price"    />
+        <result property="groupCommission"    column="group_commission"    />
+        <result property="groupStartTime"    column="group_start_time"    />
+        <result property="groupEndTime"    column="group_end_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="visible"    column="visible"    />
+        <result property="shopContent"    column="shop_content"    />
+        <result property="unionType"    column="union_type"    />
+    </resultMap>
+
+
+
+	<!--文章统计相关-->
+	<sql id="web_count_sql">
+      article_id, article_look, article_like, article_nasty, article_discuss, article_score, article_share, article_collect
+    </sql>
+
+
+	<!--首页展示所需-->
+	<sql id="article_sql">
+    aticle_top, article_img, article_summaryr,article_id, article_title, create_by, create_time,article_type,article_url
+    </sql>
+
+	<!-- 获取文章——MD -->
+	<sql id="article_md">
+	select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
+		article_top,article_img,article_summary,allow_comment,article_build,article_md,article_toc from cms_article
+	</sql>
+	<!-- 获取文章——html -->
+	<sql id="article_html">
+	select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
+		article_top,article_img,article_summary,allow_comment,article_build,article_content,article_toc from cms_article
+	</sql>
+
+
+	<!--获取用户行为统计-->
+	<select id="getPostCountByArticleId" parameterType="long" resultMap="CountResult">
+		select
+		<include refid="web_count_sql" />
+		from cms_article_count where article_id=#{article_id}
+	</select>
+
+	<!--获取文章通过id Html-->
+	<select id="getWebArticleHtmlByArticleId" resultMap="ArticleResult" parameterType="long">
+		<include refid="article_html" />
+		where article_id=#{articleId} and visible=3
+	</select>
+
+	<!--获取文章通过id Md-->
+	<select id="getWebArticleMdByArticleId" resultMap="ArticleResult" parameterType="long">
+		<include refid="article_md" />
+		where article_id=#{articleId} and visible=3
+	</select>
+
+	<!--获取文章通过固定链接-->
+	<select id="getWebArticleHtmlByArticleUrl" resultMap="ArticleResult" parameterType="string">
+		<include refid="article_html" />
+		where article_url=#{articleurl} and visible=3 limit 1
+	</select>
+
+	<!--获取文章通过固定链接-->
+	<select id="getWebArticleMdByArticleUrl" resultMap="ArticleResult" parameterType="string">
+		<include refid="article_md" />
+		where article_url=#{articleurl} and visible=3 limit 1
+	</select>
+
+	<select id="allowComment" resultType="boolean">
+       	select allow_comment from cms_article
+		where article_id=#{postId} and visible=3
+    </select>
+
+	<!--获取文章列表 -->
+	<select id="listWebArticlesBySearch" resultMap="ArticleResult" parameterType="com.oly.cms.general.model.param.WebArticleSearchParam">
+		select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
+		article_top,article_img,article_summary,allow_comment,article_build from cms_article
+		<where>
+			<if test="tagId != null">
+	    and	article_id in (select article_id from cms_article_tag where tag_id=#{tagId})
+		</if>
+			<if test="catId != null">
+		 and article_id in (select article_id from cms_article_cat where cat_id=#{catId})
+		</if>
+			<if test="articleTitle!=null and articleTitle != ''">
+			and article_title like concat('%', #{articleTitle}, '%')
+		</if>
+			<if test="createBy!=null">
+			and create_by=#{createBy}
+		</if>
+			<if test="articleType!=null">
+			and article_type=#{articleType}
+		</if>
+			<if test="articleTop!=null">
+			and article_top=#{articleTop}
+		</if>
+		
+			<if test="articleBuild!=null">
+			and article_build=#{articleBuild}
+		</if>
+			<if test="themeName != null and themeName != ''">
+				<!-- 支持主题 -->
+				and article_id in(select article_id from cms_article_theme where theme_name=#{themeName})
+			</if>
+		and visible=3
+		</where>
+		GROUP BY article_id
+	</select>
+
+	
+	<!-- 获取热门标签 -->
+	<select id="listArticleIdsByCatId" resultType="long" parameterType="long">
+		select article_id from cms_article_cat where cat_id=#{catId}
+	</select>
+
+	<!-- 获取热门标签 -->
+	<select id="listArticleIdsByTagId" resultType="long" parameterType="long">
+		select article_id from cms_article_tag where tag_id=#{tagId}
+	</select>
+
+
+
+</mapper> 

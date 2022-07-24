@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.core.mapper.SysUserInfoMapper">
+    
+    <resultMap type="SysUserInfo" id="SysUserInfoResult">
+        <result property="userId"    column="user_id"    />
+        <result property="tags"    column="tags"    />
+        <result property="hobby"    column="hobby"    />
+        <result property="local"    column="local"    />
+        <result property="introduce"    column="introduce"    />
+        <result property="teach"    column="teach"    />
+        <result property="contact"    column="contact"    />
+        <result property="touch"    column="touch"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="shows"    column="shows"    />
+    </resultMap>
+
+    <sql id="selectSysUserInfoVo">
+        select user_id, tags, hobby, local, introduce, teach, contact, touch, birthday, shows from sys_user_info
+    </sql>
+
+    <select id="selectSysUserInfoList" parameterType="SysUserInfo" resultMap="SysUserInfoResult">
+        <include refid="selectSysUserInfoVo"/>
+        <where>  
+            <if test="tags != null  and tags != ''"> and tags = #{tags}</if>
+            <if test="hobby != null  and hobby != ''"> and hobby = #{hobby}</if>
+            <if test="local != null  and local != ''"> and local = #{local}</if>
+            <if test="introduce != null  and introduce != ''"> and introduce = #{introduce}</if>
+            <if test="teach != null  and teach != ''"> and teach = #{teach}</if>
+            <if test="contact != null  and contact != ''"> and contact = #{contact}</if>
+            <if test="touch != null  and touch != ''"> and touch = #{touch}</if>
+            <if test="birthday != null "> and birthday = #{birthday}</if>
+            <if test="shows != null  and shows != ''"> and shows = #{shows}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysUserInfoByUserId" parameterType="Long" resultMap="SysUserInfoResult">
+        <include refid="selectSysUserInfoVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertSysUserInfo" parameterType="SysUserInfo">
+        insert into sys_user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="tags != null and tags != ''">tags,</if>
+            <if test="hobby != null and hobby != ''">hobby,</if>
+            <if test="local != null and local != ''">local,</if>
+            <if test="introduce != null and introduce != ''">introduce,</if>
+            <if test="teach != null and teach != ''">teach,</if>
+            <if test="contact != null and contact != ''">contact,</if>
+            <if test="touch != null and touch != ''">touch,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="shows != null and shows != ''">shows,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="tags != null and tags != ''">#{tags},</if>
+            <if test="hobby != null and hobby != ''">#{hobby},</if>
+            <if test="local != null and local != ''">#{local},</if>
+            <if test="introduce != null and introduce != ''">#{introduce},</if>
+            <if test="teach != null and teach != ''">#{teach},</if>
+            <if test="contact != null and contact != ''">#{contact},</if>
+            <if test="touch != null and touch != ''">#{touch},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="shows != null and shows != ''">#{shows},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysUserInfo" parameterType="SysUserInfo">
+        update sys_user_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tags != null and tags != ''">tags = #{tags},</if>
+            <if test="hobby != null and hobby != ''">hobby = #{hobby},</if>
+            <if test="local != null and local != ''">local = #{local},</if>
+            <if test="introduce != null and introduce != ''">introduce = #{introduce},</if>
+            <if test="teach != null and teach != ''">teach = #{teach},</if>
+            <if test="contact != null and contact != ''">contact = #{contact},</if>
+            <if test="touch != null and touch != ''">touch = #{touch},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="shows != null and shows != ''">shows = #{shows},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteSysUserInfoByUserId" parameterType="Long">
+        delete from sys_user_info where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteSysUserInfoByUserIds" parameterType="Long">
+        delete from sys_user_info where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+</mapper>

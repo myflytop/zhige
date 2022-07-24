@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+	<th:block th:include="include :: header('主题编辑')" />
+	<th:block th:include="include :: layout-latest-css" />
+	<th:block th:include="include :: codemirror-css" />
+	<th:block th:include="include :: ztree-css" />
+</head>
+
+<body class="gray-bg">
+	<div class="ui-layout-west">
+		<div class="box box-main">
+			<div class="box-header">
+				<div class="box-title">
+					<i class="fa icon-grid"></i> 主题树
+				</div>
+				<div class="box-tools pull-right">
+					<a type="button" class="btn btn-box-tool" href="#" onclick="dept()" title="树管理"><i
+							class="fa fa-edit"></i></a>
+					<button type="button" class="btn btn-box-tool" id="btnExpand" title="展开" style="display:none;"><i
+							class="fa fa-chevron-up"></i></button>
+					<button type="button" class="btn btn-box-tool" id="btnCollapse" title="折叠"><i
+							class="fa fa-chevron-down"></i></button>
+					<button type="button" class="btn btn-box-tool" id="btnRefresh" title="刷新树"><i
+							class="fa fa-refresh"></i></button>
+				</div>
+			</div>
+			<div class="ui-layout-content">
+				<div id="tree" class="ztree"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="ui-layout-center">
+		<div class="container-div">
+			<div class="row">
+				<div class="col-sm-12">
+					<div id="editContent">
+						<div class="btn-group" style="position: absolute; z-index: 1000;top:5px;left: 20px;">
+							<a class="btn btn-white btn-bitbucket" href="javascript:autoFormatSelection()"
+								style="background-color: #3535356b;">
+								<i class="fa fa-align-justify" style="color: white"></i>
+							</a>
+							<a class="btn btn-white btn-bitbucket" id="fullScreen" style="background-color: #3535356b;">
+								<i class="fa fa-arrows-alt" style="color: white"></i>
+							</a>
+							<a class="btn btn-white btn-bitbucket" id="save" style="background-color: #3535356b;">
+								<i class="fa fa-floppy-o" style="color: white"></i>
+							</a>
+						</div>
+						<textarea id="temCode">
+                      </textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: layout-latest-js" />
+	<th:block th:include="include :: ztree-js" />
+	<th:block th:include="include :: codemirror-js" />
+	<th:block th:include="include :: fullscreen-js" />
+	<script th:inline="javascript">
+		var editFlag = [[${@permission.hasPermi('oly:theme:edit') }]];
+		var removeFlag = [[${@permission.hasPermi('oly:theme:remove') }]];
+		var prefix = ctx + "cms/theme";
+		//设置允许iframe全屏
+		for (i = 0; i < window.top.document.getElementsByTagName("iframe").length; i++) {
+			window.top.document.getElementsByTagName("iframe")[i].setAttribute("allowfullscreen", true);
+		}
+		var mixedMode = {
+			name: "htmlmixed",
+			scriptTypes: [{
+				matches: /\/x-handlebars-template|\/x-mustache/i,
+				mode: null
+			},
+			{
+				matches: /(text|application)\/(x-)?vb(a|script)/i,
+				mode: "vbscript"
+			}]
+		};
+
+		//编辑的文件路径
+		var editPath;
+		//高亮折叠编辑器插件
+		var editor = CodeMirror.fromTextArea(document.getElementById("temCode"), {
+			mode: mixedMode,
+			selectionPointer: true,
+			theme: "erlang-dark",
+			lineNumbers: true,	//显示行号
+			lineWrapping: true, //代码折叠
+			foldGutter: true,
+			gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+			matchBrackets: true,  //括号匹配
+			lineWiseCopyCut: true,
+			extraKeys: { "Ctrl-Space": "autocomplete" }
+		});
+		//设置高亮编辑器高
+		editor.setSize(null, "100vh");
+		//编辑器全屏事件
+		var screenStatus = false;
+		//全屏事件
+		$("#fullScreen").click(function (e) {
+			if (!screenStatus) {
+				$("#editContent").fullScreen(true);
+			}
+			else {
+				$("#editContent").fullScreen(false);
+			}
+			screenStatus = !screenStatus;
+			e.preventDefault();
+		});
+		//获取选择范围
+		function getSelectedRange() {
+			return { from: editor.getCursor(true), to: editor.getCursor(false) };
+		}
+		//格式化
+		function autoFormatSelection() {
+			var range = getSelectedRange();
+			editor.autoFormatRange(range.from, range.to);
+		}
+		//注释
+		function commentSelection(isComment) {
+			var range = getSelectedRange();
+			editor.commentRange(isComment, range.from, range.to);
+		}
+		$(function () {
+			var panehHidden = false;
+			if ($(this).width() < 769) {
+				panehHidden = true;
+			}
+			$('body').layout({ initClosed: panehHidden, west__size: 185 });
+			queryDeptTree();
+		});
+
+		function queryDeptTree() {
+			var url = prefix + "/treeData";
+			var options = {
+				url: url,
+				expandLevel: 0,
+				onClick: zOnClick
+			};
+			$.tree.init(options);
+
+			function zOnClick(event, treeId, treeNode) {
+				if (!treeNode.parent) {
+					$.get(prefix + "/themeContent", { path: treeNode.id }, function (result) {
+						editor.setValue(result.msg)
+						editPath = treeNode.id;
+					});
+				}
+			}
+		}
+
+		$('#btnExpand').click(function () {
+			$._tree.expandAll(true);
+			$(this).hide();
+			$('#btnCollapse').show();
+		});
+
+		$('#btnCollapse').click(function () {
+			$._tree.expandAll(false);
+			$(this).hide();
+			$('#btnExpand').show();
+		});
+
+		$('#btnRefresh').click(function () {
+			queryDeptTree();
+		});
+		/*保存*/
+		$("#save").click(function () {
+			$.operate.saveTab(prefix + "/themeContentSave", {
+				"path": editPath,
+				content: editor.getValue()
+			});
+		})
+	</script>
+</body>
+
+</html>

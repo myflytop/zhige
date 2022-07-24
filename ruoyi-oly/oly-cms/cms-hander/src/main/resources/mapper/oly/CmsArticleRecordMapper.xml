@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.hand.mapper.CmsArticleRecordMapper">
+
+    <resultMap type="com.oly.cms.common.domain.entity.CmsArticleCount" id="CmsArticleRecordResult">
+        <result property="articleId" column="article_id" />
+        <result column="article_title" property="articleTitle" />
+        <result property="articleLook" column="article_look" />
+        <result property="articleLike" column="article_like" />
+        <result property="articleNasty" column="article_nasty" />
+        <result property="articleDiscuss" column="article_discuss" />
+        <result property="articleScore" column="article_score" />
+        <result property="articleShare" column="article_share" />
+        <result property="articleCollect" column="article_collect" />
+    </resultMap>
+
+    <resultMap id="CmsRecordResult" type="com.oly.cms.common.domain.BaseRecordModel">
+        <id column="record_id" property="recordId" />
+
+        <result column="article_id" property="articleId" />
+
+        <result column="user_id" property="userId" />
+
+        <result column="create_time" property="createTime" />
+
+        <result column="update_time" property="updateTime" />
+
+        <result column="ip" property="ip" />
+
+        <result column="user_system" property="userSystem" />
+
+        <result column="user_bower" property="userBower" />
+
+        <result column="article_title" property="articleTitle" />
+
+        <result column="visible" property="visible" />
+    </resultMap>
+
+    <resultMap id="ScoreRecordResult" type="com.oly.cms.hand.model.record.CmsScoreRecord" extends="CmsRecordResult">
+        <result column="score" property="score" />
+    </resultMap>
+
+    <resultMap id="ShareRecordResult" type="com.oly.cms.hand.model.record.CmsShareRecord" extends="CmsRecordResult">
+        <result property="shareUrl" column="share_url" />
+    </resultMap>
+
+
+    <sql id="selectCmsArticleCountVo">
+        select b.article_id,article_title ,article_look, article_like, article_nasty, article_discuss, article_score, article_share, article_collect from cms_article_count as a left join cms_article as  b
+    </sql>
+
+    <sql id="base_record_sql"> a.article_id,article_title, a.user_id, record_id,a.create_time,a.update_time, ip, user_system, user_bower,a.visible </sql>
+   
+    <select id="selectCmsArticleCountList" parameterType="com.oly.cms.common.domain.entity.CmsArticleCount" resultMap="CmsArticleRecordResult">
+        <include refid="selectCmsArticleCountVo" />
+        on a.article_id =b.article_id
+        <where>
+            <if test="articleId!=null">and a.article_id=#{articleId}</if>
+        </where>
+    </select>
+
+    <select id="listCollectRecord" resultMap="CmsRecordResult" parameterType="com.oly.cms.hand.model.record.CmsCollectRecord">
+        select
+        <include refid="base_record_sql" /> from cms_collect_record as a left join cms_article as b on a.article_id=b.article_id
+        <where>
+            <if test="recordId!=null">and a.record_id=#{recordId}</if>
+            <if test="articleId!=null">and a.article_id=#{articleId}</if>
+            <if test="userId != null "> and a.user_id = #{userId}</if>
+            <if test="ip != null  and ip != ''"> and a.ip = #{ip}</if>
+            <if test="visible != null "> and a.visible = #{visible}</if>
+            <if test="userSystem != null  and userSystem != ''"> and a.user_system like concat('%', #{userSystem}, '%')</if>
+            <if test="userBower != null  and userBower != ''"> and a.user_bower like concat('%', #{userBower}, '%')</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="listLikeRecord" resultMap="CmsRecordResult" parameterType="com.oly.cms.hand.model.record.CmsLikeRecord">
+        select
+        <include refid="base_record_sql" />from cms_like_record as a left join cms_article as b on a.article_id=b.article_id
+        <where>
+            <if test="recordId!=null">and a.record_id=#{recordId}</if>
+            <if test="articleId!=null">and a.article_id=#{articleId}</if>
+            <if test="userId != null "> and a.user_id = #{userId}</if>
+            <if test="ip != null  and ip != ''"> and a.ip = #{ip}</if>
+            <if test="visible != null "> and a.visible = #{visible}</if>
+            <if test="userSystem != null  and userSystem != ''"> and a.user_system like concat('%', #{userSystem}, '%')</if>
+            <if test="userBower != null  and userBower != ''"> and a.user_bower like concat('%', #{userBower}, '%')</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+    <select id="listLookRecord" resultMap="CmsRecordResult" parameterType="com.oly.cms.general.model.record.CmsLookRecord">
+        select
+        <include refid="base_record_sql" />from cms_look_record as a left join cms_article as b on a.article_id=b.article_id
+        <where>
+            <if test="recordId!=null">and a.record_id=#{recordId}</if>
+            <if test="articleId!=null">and a.article_id=#{articleId}</if>
+            <if test="userId != null "> and a.user_id = #{userId}</if>
+            <if test="ip != null  and ip != ''"> and a.ip = #{ip}</if>
+            <if test="visible != null "> and a.visible = #{visible}</if>
+            <if test="userSystem != null  and userSystem != ''"> and a.user_system like concat('%', #{userSystem}, '%')</if>
+            <if test="userBower != null  and userBower != ''"> and a.user_bower like concat('%', #{userBower}, '%')</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+    <select id="listNastyRecord" resultMap="CmsRecordResult" parameterType="com.oly.cms.hand.model.record.CmsNastyRecord">
+        select
+        <include refid="base_record_sql" /> from cms_nasty_record as  a left join cms_article as b on a.article_id=b.article_id
+        <where>
+            <if test="recordId!=null">and a.record_id=#{recordId}</if>
+            <if test="articleId!=null">and a.article_id=#{articleId}</if>
+            <if test="userId != null "> and a.user_id = #{userId}</if>
+            <if test="ip != null  and ip != ''"> and a.ip = #{ip}</if>
+            <if test="visible != null "> and a.visible = #{visible}</if>
+            <if test="userSystem != null  and userSystem != ''"> and a.user_system like concat('%', #{userSystem}, '%')</if>
+            <if test="userBower != null  and userBower != ''"> and a.user_bower like concat('%', #{userBower}, '%')</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+    <select id="listScoreRecord" resultMap="ScoreRecordResult" parameterType="com.oly.cms.hand.model.record.CmsScoreRecord">
+        select
+        <include refid="base_record_sql" />,score from cms_score_record as  a left join cms_article as b on a.article_id=b.article_id
+        <where>
+            <if test="recordId!=null">and a.record_id=#{recordId}</if>
+            <if test="articleId!=null">and a.article_id=#{articleId}</if>
+            <if test="userId != null "> and a.user_id = #{userId}</if>
+            <if test="ip != null  and ip != ''"> and a.ip = #{ip}</if>
+            <if test="visible != null "> and a.visible = #{visible}</if>
+            <if test="userSystem != null  and userSystem != ''"> and a.user_system like concat('%', #{userSystem}, '%')</if>
+            <if test="userBower != null  and userBower != ''"> and a.user_bower like concat('%', #{userBower}, '%')</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+
+    </select>
+    <select id="listShareRecord" resultMap="ShareRecordResult" parameterType="com.oly.cms.hand.model.record.CmsShareRecord">
+        select
+        <include refid="base_record_sql" />,share_url from cms_share_record as  a left join cms_article as b on a.article_id=b.article_id
+        <where>
+            <if test="recordId!=null">and a.record_id=#{recordId}</if>
+            <if test="articleId!=null">and a.article_id=#{articleId}</if>
+            <if test="userId != null "> and a.user_id = #{userId}</if>
+            <if test="ip != null  and ip != ''"> and a.ip = #{ip}</if>
+            <if test="visible != null "> and a.visible = #{visible}</if>
+            <if test="userSystem != null  and userSystem != ''"> and a.user_system like concat('%', #{userSystem}, '%')</if>
+            <if test="userBower != null  and userBower != ''"> and a.user_bower like concat('%', #{userBower}, '%')</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                <!-- 开始时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                <!-- 结束时间检索 -->
+                and date_format(a.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+
+    </select>
+
+</mapper>

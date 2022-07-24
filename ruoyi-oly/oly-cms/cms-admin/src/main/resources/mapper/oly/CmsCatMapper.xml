@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oly.cms.admin.mapper.CmsCatMapper">
+	
+	<insert id="insertCmsCat" parameterType="com.oly.cms.common.domain.entity.CmsCat" useGeneratedKeys="true" keyProperty="catId">
+		insert into cms_cat
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="catName != null and catName != ''">cat_name,</if>
+			<if test="catIcon != null and catIcon != ''">cat_icon,</if>
+			<if test="visible != null">visible,</if>
+			<if test="parentId != null">parent_id,</if>
+			<if test="remark != null and remark != ''">remark,</if>
+			<if test="createBy != null and createBy != ''">create_by,</if>
+			<if test="catUrl != null and catUrl != ''">cat_url,</if>
+			<if test="parent != null">parent,</if>
+			<if test="ancestors != null and ancestors != ''">ancestors,</if>
+			<if test="perms != null">perms,</if>
+			<if test="keywords != null and keywords!='' ">keywords,</if>
+			<if test="description != null and description!='' ">description,</if>
+			<if test="orderNum != null">order_num,</if>
+			<if test="catCount != null">cat_count,</if>
+			<if test="catType != null">cat_type,</if>
+			create_time
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="catName != null and catName != ''">#{catName},</if>
+			<if test="catIcon != null and catIcon != ''">#{catIcon},</if>
+			<if test="visible != null">#{visible},</if>
+			<if test="parentId != null">#{parentId},</if>
+			<if test="remark != null and remark != ''">#{remark},</if>
+			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			<if test="catUrl != null and catUrl != ''">#{catUrl},</if>
+			<if test="parent != null">#{parent},</if>
+			<if test="ancestors != null and ancestors != ''">#{ancestors},</if>
+			<if test="perms != null">#{perms},</if>
+			<if test="keywords != null and keywords!='' ">#{keywords},</if>
+			<if test="description != null and description!='' ">#{description},</if>
+			<if test="orderNum != null">#{orderNum},</if>
+			<if test="catCount != null">#{catCount},</if>
+			<if test="catType != null">#{catType},</if>
+			sysdate()
+		</trim>
+	</insert>
+
+	<update id="updateCmsCat" parameterType="com.oly.cms.common.domain.entity.CmsCat">
+		update cms_cat
+		<set>
+			<if test="catName != null and catName != ''">
+				cat_name = #{catName},
+		</if>
+			<if test="perms != null and perms != ''">
+				perms = #{perms},
+		</if>
+			<if test="catIcon != null and catIcon != ''">
+				cat_icon = #{catIcon},
+		</if>
+			<if test="visible != null">
+				visible = #{visible},
+		</if>
+			<if test="orderNum != null">
+				order_num = #{orderNum},
+		</if>
+			<if test="parentId != null">
+				parent_id = #{parentId},
+		</if>
+			<if test="remark != null and remark != ''">
+				remark = #{remark},
+		</if>
+			<if test="ancestors != null and ancestors != ''">
+				ancestors = #{ancestors},
+		</if>
+			<if test="updateBy != null and updateBy != ''">
+				update_by = #{updateBy},
+		</if>
+			<if test="catUrl != null and catUrl != ''">
+				cat_url = #{catUrl},
+		</if>
+			<if test="parent != null">
+				parent = #{parent},
+		</if>
+			<if test="catType !=null"> cat_type=#{catType},
+		</if>
+			<if test="keywords != null and keywords!='' ">keywords=#{keywords},</if>
+			<if test="description != null and description!='' ">description=#{description},</if>
+			update_time = sysdate()
+		</set>
+		where cat_id = #{catId}
+	</update>
+
+	<!-- 批量更新状态 子类状态和父类一起更新 -->
+	<update id="updateTagVisible">
+		update cms_cat set visible=#{visible} where cat_id=#{catId} or
+		find_in_set(#{catId},ancestors)
+    </update>
+
+
+	<delete id="deleteCmsCatById" parameterType="java.lang.Long">
+		delete from cms_cat
+		where cat_id = #{catId}  and cat_id not in (select cat_id from cms_article_cat)
+    </delete>
+
+	
+
+	
+
+	<select id="countArticleByCatId" parameterType="long" resultType="int">
+		select count(1) from cms_article_cat
+		where cat_id=#{catId}
+</select>
+
+	<insert id="insertCmsArticleCats">
+		<if test="cats.length>0">
+			insert into cms_article_cat(article_id,cat_id)
+			values
+			<foreach collection="cats" separator="," item="catId">
+				(#{articleId},#{catId})</foreach>
+		</if>
+	</insert>
+
+	<select id="listCatIdsById" resultType="long" parameterType="long">
+        select cat_id from cms_cat where parent_id=#{catId} and parent="1"
+</select>
+
+	<update id="updateAncestors">
+        update cms_cat set ancestors=#{ancestors} where parent_id=#{parentId}
+</update>
+
+</mapper>

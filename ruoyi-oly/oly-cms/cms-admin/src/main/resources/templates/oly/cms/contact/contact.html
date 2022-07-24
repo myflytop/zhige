@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('反馈|建议')" />
+    <th:block th:include="include :: select2-css" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                               <p> 主题：</p>
+                                <input type="text" class="form-control" name="subject" />
+                            </li>
+                            <li>
+                                <p>  发布人：</p>
+                                <input type="text" class="form-control" name="createBy" />
+                            </li>
+                            <li>
+                                <p> 处理人：</p>
+                                <input type="text" class="form-control" name="handler" />
+                            </li>
+                            <li>
+                                <p>  邮件：</p>
+                                <input type="text" class="form-control" name="email" />
+                            </li>
+                            <li>
+                                <p> 状态：</p>
+                                <select name="visible" class="form-control" th:with="type=${@dictTag.getType('cms_contact_visible')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p> 类型：</p>
+                                <select name="contactType" class="form-control" th:with="type=${@dictTag.getType('cms_contact_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li class="select-time">
+                                <label>处理时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间"
+                                    name="params[beginHandleTime]" />
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间"
+                                    name="params[endHandleTime]" />
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="cms:contact:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="cms:contact:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: select2-js" />
+    <script th:inline="javascript">
+        //处理权限
+        var editFlag = [[${@permission.hasPermi('cms:contact:edit')}]];
+        //查看权限
+        var viewFlag = [[${@permission.hasPermi('cms:contact:view')}]];
+        var loginUser=[[${@userTag.getLoginUser().userId}]];
+        var vi=[[${@dictTag.getType('cms_contact_visible')}]],vt=[[${@dictTag.getType('cms_contact_type')}]];
+        var prefix = ctx + "cms/contact";
+        $(function () {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                detailUrl: prefix + "/detail/{id}",
+                sortName: "createTime",
+				sortOrder: "desc",
+                modalName: "反馈",
+                columns: [
+                {
+                    field: 'contactId',
+                    title: '反馈ID',
+                    visible: false
+                },
+                {
+                    field: 'subject',
+                    title: '主题',
+                    visible:true
+                },
+                {
+                    field: 'content',
+                    title: '内容',
+                    visible:false
+                },
+                {
+                    field: 'handler',
+                    title: '处理人',
+                    visible:false
+                },
+                {
+                    field: 'email',
+                    title: '邮件'
+                },
+                {
+                    field: '联系方式',
+                    title: 'touch'
+                },
+                {
+                    field: 'visible',
+                    title: '状态',
+                    formatter: function(value, row, index) {
+						return $.table.selectDictLabel(vi, value);
+					}
+                },
+                {
+                    field: 'contactType',
+                    title: '类型',
+                    formatter: function(value, row, index) {
+						return $.table.selectDictLabel(vt, value);
+					}
+                },
+                {
+                    field: 'handleResult',
+                    title: '结果',
+                    visible:false
+                },
+                {
+                    field: 'handleTime',
+                    title: '处理时间',
+                    visible:false
+                },
+                {
+                    field: 'remark',
+                    title: '备注',
+                    visible:false
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        if(row.visible==0){
+                            actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.contactId + '\')"><i class="fa fa-edit"></i>处理</a>');
+                        }
+                        else{
+                            actions.push('<a class="btn btn-success btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.detailTab(\'' + row.contactId + '\')"><i class="fa fa-edit"></i>查看</a>');
+                        }
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+       <artifactId>oly-cms</artifactId>
+       <groupId>com.oly.cms</groupId>
+        <version>4.7.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cms-common</artifactId> 
+    <groupId>com.oly.cms.common</groupId>
+    <packaging>jar</packaging>
+    <description>
+       内容通用模块
+    </description>
+
+  <dependencies>
+    <dependency>
+        <groupId>com.ruoyi</groupId>
+        <artifactId>ruoyi-common</artifactId>
+    </dependency>
+
+        <dependency>
+           <groupId>com.github.dfabulich</groupId>
+           <artifactId>sitemapgen4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

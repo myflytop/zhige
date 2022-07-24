@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>oly-comment</artifactId>
+    <groupId>com.oly.cms.comment</groupId>
+    <version>4.7.3</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>comment-api</artifactId>
+  <groupId>com.oly.cms.comment</groupId>
+  <packaging>jar</packaging>
+  <description>
+       评论展示模块
+    </description>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>com.oly.cms.common</groupId>
+      <artifactId>cms-common</artifactId>
+    </dependency>
+    <!-- 邮件模块 -->
+    <dependency>
+      <groupId>com.ruoyi</groupId>
+      <artifactId>ruoyi-mail</artifactId>
+    </dependency>
+
+    <!-- 解析客户端操作系统、浏览器等 -->
+    <dependency>
+      <groupId>eu.bitwalker</groupId>
+      <artifactId>UserAgentUtils</artifactId>
+    </dependency>
+
+  </dependencies>
+
+</project>

@@ -1,0 +1,9 @@
+
+
+spring:
+    # 不使用自动配置
+    excludes:
+      - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
+    config:
+      activate: 
+        on-profile: prodFlyway
