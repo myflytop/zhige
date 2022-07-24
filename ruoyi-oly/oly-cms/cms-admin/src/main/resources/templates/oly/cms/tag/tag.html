@@ -118,6 +118,17 @@
 
 				},
 				{
+					field: 'tagIcon',
+					title: '图标',
+					formatter: function (value, row, index) {
+						if ($.common.isEmpty(value)) {
+							return '<span class="card-view-value undefined">-</span>';
+						}
+						else
+						return $.table.imageView(value);
+					}
+				},
+				{
 					field: 'orderNum',
 					title: '排序',
 

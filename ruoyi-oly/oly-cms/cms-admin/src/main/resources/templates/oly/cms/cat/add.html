@@ -67,14 +67,8 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">类目图标：</label>
 				<div class="col-sm-8">
-					<input id="icon" name="catIcon" class="form-control" type="text"
-						placeholder="选择图标">
-					<div class="ms-parent" style="width: 100%;">
-						<div class="icon-drop animated flipInX"
-							style="display: none; max-height: 200px; overflow-y: auto">
-							<div data-th-include="system/menu/icon"></div>
-						</div>
-					</div>
+					<input  name="catIcon" class="form-control" type="text"
+						placeholder="类目图标">
 				</div>
 			</div>
 			<div class="form-group">
@@ -172,21 +166,6 @@
 	        }
 	    }
 
-        $(function() {
-        	$("input[name='catIcon']").focus(function() {
-                $(".icon-drop").show();
-            });
-        	$("#form-cat-add").click(function(event) {
-        	    var obj = event.srcElement || event.target;
-        	    if (!$(obj).is("input[name='catIcon']")) {
-        	    	$(".icon-drop").hide();
-        	    }
-        	});
-        	$(".icon-drop").find(".ico-list i").on("click", function() {
-        		$('#icon').val($(this).attr('class'));
-            });
-        	
-        });
         /*分类管理-新增-选择分类树树*/
         function selectCatTree() {
         	var treeId = $("#treeId").val();

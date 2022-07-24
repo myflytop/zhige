@@ -18,18 +18,22 @@
 				<form id="cat-form">
 					<div class="select-list">
 						<ul>
-							<li><p>类目名称：</p> <input class="form-control"  type="text" name="catName" />
+							<li>
+								<p>类目名称：</p> <input class="form-control" type="text" name="catName" />
 							</li>
-							<li><p>类目ID：</p> <input class="form-control"  type="text" name="catId" />
+							<li>
+								<p>类目ID：</p> <input class="form-control" type="text" name="catId" />
 							</li>
-							<li>类目状态：<select class="form-control" name="visible" th:with="type=${@dictTag.getType('cms_cat_visible')}">
+							<li>类目状态：<select class="form-control" name="visible"
+									th:with="type=${@dictTag.getType('cms_cat_visible')}">
 									<option value="">所有</option>
 									<option th:each="dict : ${type}" th:value="${dict.dictValue}"
 										th:text="${dict.dictLabel}">显示</option>
 
 								</select>
 							</li>
-							<li>类目类型：<select class="form-control" name="catType" th:with="type=${@dictTag.getType('cms_support_type')}">
+							<li>类目类型：<select class="form-control" name="catType"
+									th:with="type=${@dictTag.getType('cms_support_type')}">
 									<option value="">所有</option>
 									<option th:each="dict : ${type}" th:value="${dict.dictValue}"
 										th:text="${dict.dictLabel}"></option>
@@ -43,9 +47,9 @@
 								</select>
 							</li>
 							<li class="select-time"><label>创建时间： </label> <input type="text" class="time-input"
-								id="startTime" placeholder="开始时间" name="params[beginTime]" /> <span>-</span> <input
-								type="text" class="time-input" id="endTime" placeholder="结束时间"
-								name="params[endTime]" /></li>
+									id="startTime" placeholder="开始时间" name="params[beginTime]" /> <span>-</span> <input
+									type="text" class="time-input" id="endTime" placeholder="结束时间"
+									name="params[endTime]" /></li>
 							<li><a class="btn btn-primary btn-rounded btn-sm" onclick="$.treeTable.search()"><i
 										class="fa fa-search"></i>&nbsp;搜索</a>
 								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
@@ -112,15 +116,19 @@
 					title: '类目Id'
 				},
 				{
-					title: '类目名称',
-					field: 'catName',
+					field: 'catIcon',
+					title: '图标',
 					formatter: function (value, row, index) {
-						if ($.common.isEmpty(row.catIcon)) {
-							return row.catName;
-						} else {
-							return '<i class="' + row.catIcon + '"></i> <span class="nav-label">' + row.catName + '</span>';
+						if ($.common.isEmpty(value)) {
+							return '<span class="card-view-value undefined">-</span>';
 						}
+						else
+						return $.table.imageView(value);
 					}
+				},
+				{
+					title: '类目名称',
+					field: 'catName'
 				},
 				{
 					field: 'parent',
