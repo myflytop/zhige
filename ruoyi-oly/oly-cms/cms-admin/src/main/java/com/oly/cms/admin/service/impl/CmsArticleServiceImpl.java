@@ -13,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oly.cms.admin.mapper.CmsArticleLiquidMapper;
 import com.oly.cms.admin.mapper.CmsArticleMapper;
-import com.oly.cms.admin.mapper.CmsCatMapper;
-import com.oly.cms.admin.mapper.CmsTagMapper;
 import com.oly.cms.admin.mapper.CmsThemeMapper;
 import com.oly.cms.common.domain.entity.CmsArticle;
 import com.oly.cms.common.domain.entity.CmsCat;
@@ -43,8 +41,6 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 	private CmsArticleMapper articleMapper;
 	@Autowired
 	private TagSearchMapper tagSearchMapper;
-	@Autowired
-	private CmsCatMapper catMapper;
 	@Autowired
 	private CategorySearchMapper categorySearchMapper;
 	@Autowired
