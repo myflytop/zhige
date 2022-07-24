@@ -55,7 +55,7 @@ public class TagApiController extends BaseController {
    * 通过类型获取标签列表 获取所有满足条件的标签
    * 
    * @param type
-   * @param themeName 主题名
+   * @param themeName
    * @return
    */
   @GetMapping({ "/list/type/{type}", "/list/type/{type}/themeName/{themeName}" })
