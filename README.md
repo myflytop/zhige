@@ -13,6 +13,7 @@
 * 反馈: 支持不同类型反馈,方便搜集用户在使用中存在的问题。
 * 标签：使用Thymeleaf模板,可直接调用service,简化主题开发
 ***
+
 ## 目录说明
 ```
 RuoYi
@@ -53,6 +54,7 @@ RuoYi
 ### 配置
   1. 默认方式
  本程序所有操作,在用户工作目录的/.zgcms下。包括日志记录,主题文件,本地文件储存,备份文件等等...默认配置如下：
+
 ```
 ruoyi:
   # 名称
@@ -72,6 +74,7 @@ ruoyi:
 ```
 2. 指定目录
 - 不指定任意目录，依旧在用户工作目录下
+
 ```
 ruoyi:
   # 名称
@@ -89,7 +92,9 @@ ruoyi:
   # 获取ip地址开关
   addressEnabled: false
 ```
+
 - 指定任意目录,须将 appointProfile: false改为appointProfile: true。另外windows须指定盘符如C:/.ruoyi,linux 直接配置如/.ruoyi,需确保用户拥有对应的目录操作权限.
+
 ```
 # windows
 ruoyi:
@@ -127,6 +132,7 @@ ruoyi:
   # 获取ip地址开关
   addressEnabled: false
 ```
+
 - 启动文件位于ruoyi-admin下的RuoYiApplication.java下
 - 后台地址：/admin
 

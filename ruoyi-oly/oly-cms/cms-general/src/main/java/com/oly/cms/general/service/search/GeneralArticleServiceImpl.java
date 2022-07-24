@@ -200,6 +200,7 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
         if (StringUtils.isEmpty(themeName)) {
             return;
         }
+        // 如果获取类型为空,支持所有类型
         String supportType = configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
         if (StringUtils.isNotEmpty(supportType)) {
             bb.setThemeName(themeName);

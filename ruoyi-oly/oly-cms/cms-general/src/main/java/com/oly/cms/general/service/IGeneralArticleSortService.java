@@ -2,7 +2,7 @@ package com.oly.cms.general.service;
 
 import java.util.List;
 
-import com.oly.cms.common.domain.entity.CmsArticleCount;
+import com.oly.cms.general.model.vo.WebArticleCountVo;
 
 public interface IGeneralArticleSortService {
 
@@ -15,7 +15,7 @@ public interface IGeneralArticleSortService {
      * @param themeName
      * @return
      */
-    List<CmsArticleCount> listArticlesCountSort(int num, int size, String order, String themeName);
+    List<WebArticleCountVo> listArticlesCountSort(int num, int size, String order, String themeName);
 
     /**
      * 获取文章相关记录
@@ -23,5 +23,5 @@ public interface IGeneralArticleSortService {
      * @param themeName
      * @return
      */
-    List<CmsArticleCount> listArticlesCountSort(String themeName);
+    List<WebArticleCountVo> listArticlesCountSort(String themeName);
 }

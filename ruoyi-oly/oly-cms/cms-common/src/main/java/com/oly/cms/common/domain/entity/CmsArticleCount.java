@@ -1,9 +1,17 @@
 package com.oly.cms.common.domain.entity;
 
+import java.io.Serializable;
+
 import com.ruoyi.common.annotation.Excel;
 
-public class CmsArticleCount extends CmsArticle {
+public class CmsArticleCount implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /** 文章id */
+    private Long articleId;
+
+    /** 文章标题 非映射字段 */
+    private String articleTitle;
 
     /** 浏览数 */
     @Excel(name = "浏览数")
@@ -32,6 +40,14 @@ public class CmsArticleCount extends CmsArticle {
     /** 收藏数 */
     @Excel(name = "收藏数")
     private Long articleCollect;
+
+    public Long getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Long articleId) {
+        this.articleId = articleId;
+    }
 
     public void setArticleLook(Long articleLook) {
         this.articleLook = articleLook;
@@ -88,4 +104,13 @@ public class CmsArticleCount extends CmsArticle {
     public Long getArticleCollect() {
         return articleCollect;
     }
+
+    public String getArticleTitle() {
+        return articleTitle;
+    }
+
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle = articleTitle;
+    }
+
 }

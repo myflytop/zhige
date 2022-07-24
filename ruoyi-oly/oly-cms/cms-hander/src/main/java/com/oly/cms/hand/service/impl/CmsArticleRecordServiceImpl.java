@@ -18,7 +18,7 @@ import com.oly.cms.hand.service.ICmsArticleRecordService;
 /**
  * 文章统计Service业务层处理
  * 
- * @author ruoyi
+ * @author zg
  * @date 2020-04-06
  */
 @Service

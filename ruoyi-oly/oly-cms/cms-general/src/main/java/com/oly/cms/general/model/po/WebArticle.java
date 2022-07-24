@@ -1,12 +1,14 @@
 package com.oly.cms.general.model.po;
 
 import java.util.List;
+
+import com.oly.cms.common.domain.entity.CmsArticle;
 import com.oly.cms.common.domain.entity.CmsArticleCount;
 import com.oly.cms.common.domain.entity.CmsCat;
 import com.oly.cms.common.domain.entity.CmsTag;
 
 /** 所有文章字段 */
-public class WebArticle extends CmsArticleCount {
+public class WebArticle extends CmsArticle {
 
     private static final long serialVersionUID = 653673311404721257L;
 
