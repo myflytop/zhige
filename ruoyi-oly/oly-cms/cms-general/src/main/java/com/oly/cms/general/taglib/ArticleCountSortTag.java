@@ -17,32 +17,32 @@ public class ArticleCountSortTag {
     @Autowired
     private GeneralWebArticleCountVoCacheService webArticleSortService;
 
-    public List<WebArticleCountVo> listWebArticleCountVoOrderByLook(int pageNum, int pageSize, String themeName) {
+    public List<WebArticleCountVo> listCmsArticleCountOrderByLook(int pageNum, int pageSize, String themeName) {
 
         return webArticleSortService.listWebArticleCountVoOrderByLook(pageNum, pageSize, themeName);
     }
 
-    public List<WebArticleCountVo> listWebArticleCountVoOrderByLike(int pageNum, int pageSize, String themeName) {
+    public List<WebArticleCountVo> listCmsArticleCountOrderByLike(int pageNum, int pageSize, String themeName) {
 
         return webArticleSortService.listWebArticleCountVoOrderByLike(pageNum, pageSize, themeName);
     }
 
-    public List<WebArticleCountVo> listWebArticleCountVoOrderByScore(int pageNum, int pageSize, String themeName) {
+    public List<WebArticleCountVo> listCmsArticleCountOrderByScore(int pageNum, int pageSize, String themeName) {
 
         return webArticleSortService.listWebArticleCountVoOrderByScore(pageNum, pageSize, themeName);
     }
 
-    public List<WebArticleCountVo> listWebArticleCountVoOrderByCollect(int pageNum, int pageSize, String themeName) {
+    public List<WebArticleCountVo> listCmsArticleCountOrderByCollect(int pageNum, int pageSize, String themeName) {
 
         return webArticleSortService.listWebArticleCountVoOrderByCollect(pageNum, pageSize, themeName);
     }
 
-    public List<WebArticleCountVo> listWebArticleCountVoOrderByShare(int pageNum, int pageSize, String themeName) {
+    public List<WebArticleCountVo> listCmsArticleCountOrderByShare(int pageNum, int pageSize, String themeName) {
 
         return webArticleSortService.listWebArticleCountVoOrderByShare(pageNum, pageSize, themeName);
     }
 
-    public List<WebArticleCountVo> listWebArticleCountVoOrderByNasty(int pageNum, int pageSize, String themeName) {
+    public List<WebArticleCountVo> listCmsArticleCountOrderByNasty(int pageNum, int pageSize, String themeName) {
 
         return webArticleSortService.listWebArticleCountVoOrderByNasty(pageNum, pageSize, themeName);
     }
