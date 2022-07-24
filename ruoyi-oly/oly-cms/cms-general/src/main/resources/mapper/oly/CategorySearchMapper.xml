@@ -45,6 +45,7 @@
 			<if test="catType != null">
 				AND cat_type=#{catType}
 		</if>
+		<if test="orderNum != null "> and order_num = #{orderNum}</if>
 		<if test="parent != null">
 				AND parent = #{parent}
 		</if>
