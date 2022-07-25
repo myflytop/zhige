@@ -35,7 +35,7 @@ public enum OlyWebConfigProperties implements PropertyEnum {
     DESCRIPTION("oly.web.description", String.class, "3"),
 
     // 默认排序
-    ARTICLE_OEDRE_BY("oly.web.articleOrder", String.class, "2"),
+    ARTICLE_ORDER_BY("oly.web.articleOrder", String.class, "2"),
     // 默认排序
     ARTICLE_ORDER("oly.web.articleOrderBy", String.class, "2"),
     // 默认请求条数
@@ -67,12 +67,12 @@ public enum OlyWebConfigProperties implements PropertyEnum {
 
     PAGE_LINKS("oly.web.pageLinks", Long.class, "0"),
 
-    PAGE_INTROUDUE("oly.web.pageIntrouduce", Long.class, "0"),
+    PAGE_INTRODUCE("oly.web.pageIntroduce", Long.class, "0"),
 
     // 淘客搜索页面
     PAGE_TAO_SHOP("oly.web.tao.shop", Long.class, "0"),
 
-    APP_IOS_EXAMAIN("oly.web.app.iosExamine", Boolean.class, "true"),
+    APP_IOS_EXAMINE("oly.web.app.iosExamine", Boolean.class, "true"),
 
     APP_NAME("oly.web.app.appName", String.class, ""),
 

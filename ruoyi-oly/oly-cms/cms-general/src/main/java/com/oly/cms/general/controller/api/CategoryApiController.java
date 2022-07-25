@@ -1,8 +1,5 @@
 package com.oly.cms.general.controller.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.oly.cms.common.domain.entity.CmsCat;
 import com.oly.cms.common.model.support.PageData;
 import com.oly.cms.general.taglib.CategoryTag;
@@ -65,13 +62,10 @@ public class CategoryApiController extends BaseController {
     return AjaxResult.success(categoryService.getCatTreeById(catId, themeName));
   }
 
-  @GetMapping({ "/list", "/list/{themeName}" })
+  @GetMapping({ "/list", "/list/themeName/{themeName}" })
   public AjaxResult listCats(CmsCat cmsCat, @PathVariable(value = "themeName", required = false) String themeName) {
     cmsCat.setSearchValue(themeName);
-    List<CmsCat> list = new ArrayList<>();
-    startDefaultPage();
-    list = categoryService.listCmsCats(cmsCat);
-    PageData pageOne = PageData.getData(list);
+    PageData pageOne = PageData.getData(categoryService.listCmsCats(cmsCat));
     return AjaxResult.success(pageOne);
   }
 

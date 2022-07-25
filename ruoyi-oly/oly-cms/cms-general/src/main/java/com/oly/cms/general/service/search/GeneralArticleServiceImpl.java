@@ -46,6 +46,7 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
      * @return
      */
     public List<WebArticle> listWebArticles(WebArticleSearchParam bb) {
+
         return webSearchMapper.listWebArticlesBySearch(bb);
     }
 

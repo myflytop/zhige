@@ -47,7 +47,6 @@ public class WebPageService extends CommonController {
      */
     public String index(String themeName, ModelMap mp) {
         mp.put("menu", getCmsColumn(themeName, OlyWebConfigProperties.PAGE_INDEX));
-
         return getPrefix(themeName, "/pages/web/index", mp);
     }
 
@@ -61,6 +60,7 @@ public class WebPageService extends CommonController {
      */
     public String posts(String themeName, ModelMap mp, WebArticleSearchParam parm) {
         mp.put("menu", getCmsColumn(themeName, OlyWebConfigProperties.PAGE_POSTS));
+        parm.setThemeName(themeName);
         List<WebArticle> list = new ArrayList<>();
         startDefaultPage();
         list = webPostService.listWebArticles(parm);
@@ -91,7 +91,7 @@ public class WebPageService extends CommonController {
      * @return
      */
     public String tags(String themeName, CmsTag tag, ModelMap mp) {
-        tag.setSearchValue(themeName);
+        tag.setSearchValue(getThemeName(themeName));
         mp.put("menu", getCmsColumn(themeName, OlyWebConfigProperties.PAGE_TAG));
         mp.put("tags", cmsTagService.listCmsTags(tag));
         return getPrefix(themeName, "/pages/web/tags", mp);
@@ -135,7 +135,7 @@ public class WebPageService extends CommonController {
      * @return
      */
     public String cats(String themeName, CmsCat cat, ModelMap mp) {
-        cat.setSearchValue(themeName);
+        cat.setSearchValue(getThemeName(themeName));
         mp.put("menu", getCmsColumn(themeName, OlyWebConfigProperties.PAGE_CATEGORY));
         mp.put("cats", cmsCatService.listCmsCats(cat));
         return getPrefix(themeName, "/pages/web/categories", mp);
@@ -229,7 +229,7 @@ public class WebPageService extends CommonController {
      * @return
      */
     public String contact(String themeName, ModelMap mp) {
-        mp.put("menu", getCmsColumn(themeName, OlyWebConfigProperties.PAGE_INTROUDUE));
+        mp.put("menu", getCmsColumn(themeName, OlyWebConfigProperties.PAGE_INTRODUCE));
         return getPrefix(themeName, "/pages/web/contact", mp);
     }
 
