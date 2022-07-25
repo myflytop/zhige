@@ -60,7 +60,7 @@ public class WebPageService extends CommonController {
      */
     public String posts(String themeName, ModelMap mp, WebArticleSearchParam parm) {
         mp.put("menu", getCmsColumn(themeName, OlyWebConfigProperties.PAGE_POSTS));
-        parm.setThemeName(themeName);
+        parm.setThemeName(getThemeName(themeName));
         List<WebArticle> list = new ArrayList<>();
         startDefaultPage();
         list = webPostService.listWebArticles(parm);

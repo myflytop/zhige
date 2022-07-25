@@ -43,7 +43,7 @@ public class WebPageController {
      */
     @WebLog(title = "获取文章")
     @GetMapping(value = { "/post/{postId}", "/{themeName}/post/{postId}" })
-    public String post(@PathVariable(name = "postId", required = false) Long postId,
+    public String post(@PathVariable(name = "postId") Long postId,
             @PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
         return webPageService.post(themeName, postId, mp);
     }
@@ -60,7 +60,6 @@ public class WebPageController {
     @GetMapping(value = { "/post", "/{themeName}/post" })
     public String posts(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp,
             WebArticleSearchParam parm) {
-        parm.setThemeName(themeName);
         return webPageService.posts(themeName, mp, parm);
     }
 

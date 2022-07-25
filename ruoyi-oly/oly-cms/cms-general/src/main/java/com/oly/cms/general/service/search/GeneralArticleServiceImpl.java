@@ -18,6 +18,7 @@ import com.oly.cms.general.model.PageArticleTimeLine;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.po.WebArticle;
 import com.oly.cms.general.service.IGeneralSearchService;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.config.service.ISysConfigService;
 
@@ -64,7 +65,7 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
                 }
                 break;
             case ID:
-                long id = Long.parseLong(key);
+                long id = Convert.toLong(key, -1L);
                 switch (editType) {
                     case RICH:
                         article = this.getWebArticleHtmlById(id);
