@@ -5,9 +5,7 @@ import java.util.List;
 import com.oly.cms.common.domain.entity.CmsCat;
 import com.oly.cms.common.domain.entity.CmsColumn;
 import com.oly.cms.common.domain.entity.CmsTag;
-import com.oly.cms.admin.service.impl.CmsCatServiceImpl;
 import com.oly.cms.admin.service.impl.CmsColumnServiceImpl;
-import com.oly.cms.admin.service.impl.CmsTagServiceImpl;
 import com.oly.cms.admin.web.CmsCommonController;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.constant.UserConstants;
@@ -42,10 +40,6 @@ public class CmsColumnController extends CmsCommonController {
 	@Autowired
 	private CmsColumnServiceImpl columnService;
 	private String prefix = acceptPrefix + "column";
-	@Autowired
-	private CmsTagServiceImpl tagService;
-	@Autowired
-	private CmsCatServiceImpl catService;
 
 	/**
 	 * 栏目管理首页
@@ -73,12 +67,12 @@ public class CmsColumnController extends CmsCommonController {
 
 	/**
 	 * @param parentId
-	 * @param mmap
+	 * @param map
 	 * @return
 	 */
 	@GetMapping("add/{parentId}")
 	@RequiresPermissions("cms:column:add")
-	public String add(@PathVariable("parentId") Long parentId, ModelMap mmap) {
+	public String add(@PathVariable("parentId") Long parentId, ModelMap map) {
 		CmsColumn parentColumn = columnService.selectCmsColumnById(parentId);
 		if (parentColumn == null) {
 			parentColumn = new CmsColumn();
@@ -89,10 +83,8 @@ public class CmsColumnController extends CmsCommonController {
 		cat.setVisible(CommonVisibleEnums.SHOW.ordinal());
 		CmsTag tag = new CmsTag();
 		tag.setVisible(CommonVisibleEnums.SHOW.ordinal());
-		mmap.put("cats", catService.listCmsCatByCat(cat));
-		mmap.put("tags", tagService.listCmsTagByTag(tag));
-		mmap.put("parentId", parentColumn.getColumnId());
-		mmap.put("parentName", parentColumn.getColumnName());
+		map.put("parentId", parentColumn.getColumnId());
+		map.put("parentName", parentColumn.getColumnName());
 		return prefix + "/add";
 	}
 
@@ -120,12 +112,12 @@ public class CmsColumnController extends CmsCommonController {
 
 	/**
 	 * @param columnId
-	 * @param mmap
+	 * @param map
 	 * @return
 	 */
 	@GetMapping("/edit/{columnId}")
 	@RequiresPermissions("cms:column:edit")
-	public String editView(@PathVariable("columnId") Long columnId, ModelMap mmap) {
+	public String editView(@PathVariable("columnId") Long columnId, ModelMap map) {
 		CmsColumn cmsColumn = columnService.selectCmsColumnById(columnId);
 		CmsColumn parentColumn = columnService.selectCmsColumnById(cmsColumn.getParentId());
 		if (parentColumn == null) {
@@ -137,10 +129,9 @@ public class CmsColumnController extends CmsCommonController {
 		cat.setVisible(CommonVisibleEnums.SHOW.ordinal());
 		CmsTag tag = new CmsTag();
 		tag.setVisible(CommonVisibleEnums.SHOW.ordinal());
-		mmap.put("cats", catService.listCmsCatByCat(cat));
-		mmap.put("tags", tagService.listCmsTagByTag(tag));
-		mmap.put("cmsColumn", cmsColumn);
-		mmap.put("parentName", parentColumn.getColumnName());
+		;
+		map.put("cmsColumn", cmsColumn);
+		map.put("parentName", parentColumn.getColumnName());
 		return prefix + "/edit";
 	}
 

@@ -35,7 +35,7 @@
 			<if test="catName != null and catName != ''">
 				AND cat_name like concat('%', #{catName}, '%')
 		</if>
-		<if test="catId != null ">
+			<if test="catId != null ">
 				and (cat_id=#{catId} or
                 FIND_IN_SET(#{catId},ancestors))
 		</if>
@@ -45,31 +45,31 @@
 			<if test="catType != null">
 				AND cat_type=#{catType}
 		</if>
-		<if test="orderNum != null "> and order_num = #{orderNum}</if>
-		<if test="parent != null">
+			<if test="orderNum != null "> and order_num = #{orderNum}</if>
+			<if test="parent != null">
 				AND parent = #{parent}
 		</if>
-		<if test="parentId != null">
+			<if test="parentId != null">
 			    AND parent_id = #{parentId}
 	    </if>
-		<if test="createBy!=null">
+			<if test="createBy!=null">
 				and create_by=#{createBy}
 		</if>
-		<if test="updateBy!=null">
+			<if test="updateBy!=null">
 				and update_by=#{updateBy}
 		</if>
-		<if test="params.beginTime != null and params.beginTime != ''">
+			<if test="params.beginTime != null and params.beginTime != ''">
 				<!-- 开始时间检索 -->
 				and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
-		</if>
-		<if test="params.endTime != null and params.endTime != ''">
+			</if>
+			<if test="params.endTime != null and params.endTime != ''">
 				<!-- 结束时间检索 -->
 				and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
-		</if>
-		<if test="params.supportType != null and params.supportType != ''">
+			</if>
+			<if test="params.supportType != null and params.supportType != ''">
 				<!-- 支持主题 -->
 				and FIND_IN_SET(cat_type,#{params.supportType})
-		</if>
+			</if>
 		</where>
 		order by parent_id, order_num
 	</select>
@@ -104,7 +104,8 @@
 	</select>
 
 	<select id="listCmsCatByArticleId" parameterType="java.lang.Long" resultMap="CmsCatResult">
-		<include refid="selectCmsCat" /> where cat_id in (select
+		<include refid="selectCmsCat" />
+		where cat_id in (select
 		cat_id from cms_article_cat
 		where article_id=#{articleId}) and visible=1
 	</select>

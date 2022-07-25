@@ -79,22 +79,22 @@
     <update id="updateCmsArticleById" parameterType="com.oly.cms.common.domain.entity.CmsArticle">
         update cms_article
         <trim prefix="SET" suffixOverrides=",">
-            <if test="articleTitle != null and articleTitle != ''">article_title = #{articleTitle},</if>
-            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="articleType != null">article_type = #{articleType},</if>
-            <if test="articleContent != null and articleContent != ''">article_content = #{articleContent},</if>
             <if test="articleBuild != null">article_build = #{articleBuild},</if>
             <if test="articleTop != null">article_top = #{articleTop},</if>
-            <if test="articleImg != null and articleImg != ''">article_img = #{articleImg},</if>
-            <if test="articleSummary != null and articleSummary != ''">article_summary = #{articleSummary},</if>
             <if test="visible != null">visible = #{visible},</if>
             <if test="allowComment != null">allow_comment = #{allowComment},</if>
+            <if test="articleTitle != null and articleTitle != ''">article_title = #{articleTitle},</if>
+            <if test="articleImg != null and articleImg != ''">article_img = #{articleImg},</if>
+            <if test="articleSummary != null and articleSummary != ''">article_summary = #{articleSummary},</if>
+            <if test="articleContent != null and articleContent != ''">article_content = #{articleContent},</if>
             <if test="reprintUrl != null and reprintUrl != ''">reprint_url = #{reprintUrl},</if>
             <if test="articleUrl != null and articleUrl != ''">article_url = #{articleUrl},</if>
             <if test="keywords != null and keywords !='' ">keywords = #{keywords},</if>
             <if test="description != null and description !=''">description = #{description},</if>
             <if test="articleToc != null and articleToc != ''">article_toc = #{articleToc},</if>
             <if test="articleMd != null and articleMd != ''">article_md = #{articleMd},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             update_time = sysdate()
         </trim>
         where article_id = #{articleId}
@@ -131,7 +131,6 @@
         </foreach>
         )
     </update>
-
 
     <!--获取文章-->
     <select id="selectCmsArticleById" parameterType="long" resultMap="BaseResultMap">

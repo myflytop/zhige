@@ -56,21 +56,6 @@
 				<div class="col-sm-8">
 					<input id="url" placeholder="选择地址" name="columnUrl" th:field="*{columnUrl}"
 						class="form-control" type="text">
-					<div class="ms-parent" style="width: 100%;">
-						<div class="url-drop animated flipInX"
-							 style="display: none; max-height: 200px; overflow-y: auto">
-							<div>
-								<h5>分类</h5>
-								<ul style="padding: 0">
-									<li th:each="cat:${cats}" class="btn btn-primary " th:text="${cat.catName}" th:title="${'/cat/'+cat.catId}" style="margin: 2px"></li>
-								</ul>
-								<h5>标签</h5>
-								<ul style="padding: 0">
-									<li th:each="tag:${tags}" class="btn btn-primary " th:text="${tag.tagName}" th:title="${'/tag/'+tag.tagId}" style="margin: 2px"></li>
-								</ul>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 			<div class="form-group">
@@ -107,14 +92,8 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">栏目图标：</label>
 				<div class="col-sm-8">
-					<input id="icon" name="columnIcon" class="form-control"
-						th:field="*{columnIcon}" type="text" placeholder="选择图标">
-					<div class="ms-parent" style="width: 100%;">
-						<div class="icon-drop animated flipInX"
-							style="display: none; max-height: 200px; overflow-y: auto">
-							<div data-th-include="system/menu/icon"></div>
-						</div>
-					</div>
+					<input  name="columnIcon" class="form-control"
+						th:field="*{columnIcon}" type="text" placeholder="栏目图标">
 				</div>
 			</div>
 			<div class="form-group">
@@ -196,52 +175,6 @@
 	            $.operate.save(prefix + "/edit", $('#form-column-edit').serialize());
 	        }
 	    }
-
-        $(function() {
-        	function isPa(isParent){
-				if (isParent == 0) {
-					$("#url").parents(".form-group").hide();
-					$("#op").parents(".form-group").hide();
-				} else if (isParent == 1) {
-					$("#url").parents(".form-group").show();
-					$("#op").parents(".form-group").show();
-				}
-			}
-        	$("input[name='columnIcon']").focus(function() {
-                $(".icon-drop").show();
-            });
-        	$("#form-column-edit").click(function(event) {
-        	    var obj = event.srcElement || event.target;
-        	    if (!$(obj).is("input[name='columnIcon']")) {
-        	    	$(".icon-drop").hide();
-        	    }
-        	});
-        	$(".icon-drop").find(".ico-list i").on("click", function() {
-        		$('#icon').val($(this).attr('class'));
-            });
-
-
-               $("input[name='columnUrl']").focus(function() {
-                $(".url-drop").show();
-            });
-        	$("#form-column-edit").click(function(event) {
-        	    var obj = event.srcElement || event.target;
-        	    if (!$(obj).is("input[name='columnUrl']")) {
-        	    	$(".url-drop").hide();
-        	    }
-        	});
-        	$(".url-drop").find("li").on("click", function() {
-        		$('#url').val($(this).attr('title'));
-            });
-
-
-        	$('input[name="parent"]').on('ifChecked', function(event){    		
-        		var isParent = $(event.target).val();
-        	isPa(isParent);
-        	});
-        	isPa($('input[name="parent"]:checked').val());
-
-		});
 
             /*栏目管理-新增-选择菜单树*/
 			function selectColumnTree() {
