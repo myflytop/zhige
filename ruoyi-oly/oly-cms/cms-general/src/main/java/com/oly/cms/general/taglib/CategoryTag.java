@@ -50,6 +50,17 @@ public class CategoryTag {
     }
 
     /**
+     * 分类树
+     * 
+     * @param catId
+     * @param themeName
+     * @return
+     */
+    public CmsCat getCatTreeById(long catId) {
+        return catCacheService.selectCmsCatsTrees(null, null, null, catId, null, null);
+    }
+
+    /**
      * 通过分类id获取分类列表 包含自己及后代节点
      * 
      * @param catId
