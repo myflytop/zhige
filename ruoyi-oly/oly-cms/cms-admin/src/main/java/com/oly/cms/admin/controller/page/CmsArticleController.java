@@ -115,18 +115,21 @@ public class CmsArticleController extends CmsCommonController {
 	/**
 	 * 添加文章 视图
 	 * 
-	 * @param mmap
+	 * @param map
 	 * @return
 	 */
 	@GetMapping("/add/{build}")
 	@RequiresPermissions("cms:article:add")
-	public String add(ModelMap mmap, @PathVariable("build") Integer build) {
-		mmap.put("catId", 0L);
-		mmap.put("catName", "根类目");
+	public String add(ModelMap map, @PathVariable("build") Integer build) {
+		map.put("catId", 0L);
+		map.put("catName", "根类目");
 		if (build == 1) {
 			return prefix + "/editor/add_markdown";
+		} else if (build == 2) {
+			return prefix + "/editor/add_tinymce";
+		} else {
+			return prefix + "/editor/add_froala";
 		}
-		return prefix + "/editor/add_froala";
 	}
 
 	/**
@@ -153,20 +156,24 @@ public class CmsArticleController extends CmsCommonController {
 	 * 修改文章 视图
 	 * 
 	 * @param articleId
-	 * @param mmap
+	 * @param map
 	 * @return
 	 */
 	@RequiresPermissions("cms:article:edit")
 	@GetMapping("/edit/{articleId}")
-	public String editArticleView(@PathVariable("articleId") Long articleId, ModelMap mmap) {
+	public String editArticleView(@PathVariable("articleId") Long articleId, ModelMap map) {
 		CmsArticle article = articleService.selectCmsArticleById(articleId);
-		mmap.put("article", article);
-		mmap.put("cats", cmsCatService.listCmsCatByArticleId(articleId));
-		mmap.put("tags", cmsTagService.listCmsTagByArticleId(articleId));
+		map.put("article", article);
+		map.put("cats", cmsCatService.listCmsCatByArticleId(articleId));
+		map.put("tags", cmsTagService.listCmsTagByArticleId(articleId));
 		if (article.getArticleBuild() == 1) {
 			return prefix + "/editor/edit_markdown";
+		} else if (article.getArticleBuild() == 2) {
+			return prefix + "/editor/edit_tinymce";
+		} else {
+			return prefix + "/editor/edit_froala";
 		}
-		return prefix + "/editor/edit_froala";
+
 	}
 
 	/**

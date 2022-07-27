@@ -3,6 +3,7 @@ package com.ruoyi.oss.controller;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class OlyOssAdminController extends BaseController {
     @Autowired
     private ISysConfigService configService;
 
-    private final String preifx = "oly/oss";
+    private final String prefix = "oly/oss";
 
     /**
      * 文件管理首页
@@ -57,7 +58,7 @@ public class OlyOssAdminController extends BaseController {
     @GetMapping
     @RequiresPermissions("oly:oss:view")
     public String index() {
-        return preifx + "/oss";
+        return prefix + "/oss";
     }
 
     /**
@@ -68,7 +69,7 @@ public class OlyOssAdminController extends BaseController {
     @RequiresPermissions("oly:oss:view")
     @GetMapping("/alert")
     public String ossAlert() {
-        return preifx + "/alert";
+        return prefix + "/alert";
     }
 
     /**
@@ -83,7 +84,7 @@ public class OlyOssAdminController extends BaseController {
         Map<String, String> configMap = configService
                 .selectConfigMapValueByGroupName(OssConfigProperties.OSS_CONFIG_GROUP.getValue());
         mmp.put("ossConfig", configMap);
-        return preifx + "/config";
+        return prefix + "/config";
     }
 
     /**
@@ -133,11 +134,11 @@ public class OlyOssAdminController extends BaseController {
     @PostMapping("/uploads")
     @ResponseBody
     public OssResult uploadFiles(List<MultipartFile> files) throws Exception {
-        List<OlyOss> datas = new ArrayList<OlyOss>();
+        List<OlyOss> dates = new ArrayList<OlyOss>();
         for (MultipartFile file : files) {
-            datas.add(uploadFile(file).getData());
+            dates.add(uploadFile(file).getData());
         }
-        return OssResult.listOk("批量上传成功", datas);
+        return OssResult.listOk("批量上传成功", dates);
     }
 
     /**
@@ -164,6 +165,21 @@ public class OlyOssAdminController extends BaseController {
         }
         tableDataInfo.setRows(olyOsses);
         return tableDataInfo;
+    }
+
+    @RequiresPermissions("oly:oss:upload")
+    @Log(title = OperateTitle.SYS_OSS, businessType = BusinessType.INSERT)
+    @PostMapping("/upload/{code}/{url}/{msg}")
+    @ResponseBody
+    public Map<String, Object> uploadResult(MultipartFile file, @PathVariable("code") String code,
+            @PathVariable("url") String url, @PathVariable("msg") String msg)
+            throws FileSizeLimitExceededException, InvalidExtensionException, IOException {
+        OssResult ossResult = uploadFile(file);
+        Map<String, Object> mm = new HashMap<>();
+        mm.put(code, ossResult.getCode());
+        mm.put(url, ossResult.getData().getDomain() + ossResult.getData().getFk());
+        mm.put(msg, ossResult.getMsg());
+        return mm;
     }
 
     /**
