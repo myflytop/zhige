@@ -465,7 +465,7 @@
 						//保存文章
 						$("#saveArticle").click(function () {
 							let data = $('#form-article-add').serializeArray();
-							data.push({ "name": "articleImg", "value": getImgSrc($(".opshow")).toString() });
+							data.push({ "name": "articleImg", "value": getImgSrc($(".opshow")).join(",")});
 							data.push({ "name": "articleContent", "value": editorData });
 							data.push({ "name": "articleBuild", "value": 0 });
 							data.push({ "name": "articleSummary", "value": $("#articleSummary").val() });
@@ -482,11 +482,11 @@
 		});
 		//截取图片
 		function getImgSrc(dom) {
-			var srcs = [];
+			var sacs = [];
 			$.each(dom, function (i, val) {
-				srcs.push($(this).attr("src"))
+				sacs.push($(this).attr("src"))
 			});
-			return srcs;
+			return sacs;
 		}
 		//获取上传的图片
 		function chooseImg(str) {

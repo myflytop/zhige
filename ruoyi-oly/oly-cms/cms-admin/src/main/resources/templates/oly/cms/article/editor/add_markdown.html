@@ -510,7 +510,7 @@
 						//保存文章
 						$("#saveArticle").click(function () {				
 							let data = $('#form-article-add').serializeArray();
-							data.push({ "name": "articleImg", "value": getImgSrc($(".opshow")).toString() });
+							data.push({ "name": "articleImg", "value": getImgSrc($(".opshow")).join(",") });
 							data.push({ "name": "articleMd", "value": editMark });
 							data.push({ "name": "articleContent", "value": editorData });
 							data.push({ "name": "articleToc", "value": $("#custom-toc-container").html() });

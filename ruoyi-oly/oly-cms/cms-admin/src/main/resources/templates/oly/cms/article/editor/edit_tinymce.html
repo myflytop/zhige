@@ -312,7 +312,7 @@
 						//初始化提交
 						$("#saveArticle").click(function () {
 							let data = $('#form-article-edit').serializeArray();
-							data.push({ "name": "articleImg", "value": getImgSrc($(".opshow")).toString() });
+							data.push({ "name": "articleImg", "value": getImgSrc($(".opshow")).join(",") });
 							data.push({ "name": "articleContent", "value": editorData });
 							data.push({ "name": "articleBuild", "value": 2 });
 							data.push({ "name": "articleSummary", "value": $("#articleSummary").val() });
