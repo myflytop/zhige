@@ -110,7 +110,7 @@ public class WebPageService extends CommonController {
         PageData pageOne = null;
         if (tag != null) {
             String[] types = StringUtils.split(getSupportType(themeName, OlyWebConfigProperties.ARTICLE_TYPES), ",");
-            if (StringUtils.isEmpty(types) || ArrayUtils.contains(types, tag.getTagType())) {
+            if (StringUtils.isEmpty(types) || ArrayUtils.contains(types, tag.getTagType().toString())) {
                 WebArticleSearchParam bl = new WebArticleSearchParam();
                 bl.setTagId(tagId);
                 bl.setThemeName(themeName);
@@ -154,7 +154,7 @@ public class WebPageService extends CommonController {
         PageData pageOne = null;
         if (cat != null) {
             String[] types = StringUtils.split(getSupportType(themeName, OlyWebConfigProperties.ARTICLE_TYPES), ",");
-            if (StringUtils.isEmpty(types) || ArrayUtils.contains(types, cat.getCatType())) {
+            if (StringUtils.isEmpty(types) || ArrayUtils.contains(types, cat.getCatType().toString())) {
                 WebArticleSearchParam bl = new WebArticleSearchParam();
                 bl.setCatId(catId);
                 bl.setThemeName(themeName);
