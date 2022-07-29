@@ -48,10 +48,10 @@
 			<if test="catName != null and catName != ''">
 				cat_name = #{catName},
 		</if>
-			<if test="perms != null and perms != ''">
+			<if test="perms != null">
 				perms = #{perms},
 		</if>
-			<if test="catIcon != null and catIcon != ''">
+			<if test="catIcon != null">
 				cat_icon = #{catIcon},
 		</if>
 			<if test="visible != null">
@@ -63,16 +63,16 @@
 			<if test="parentId != null">
 				parent_id = #{parentId},
 		</if>
-			<if test="remark != null and remark != ''">
+			<if test="remark != null">
 				remark = #{remark},
 		</if>
-			<if test="ancestors != null and ancestors != ''">
+			<if test="ancestors != null">
 				ancestors = #{ancestors},
 		</if>
 			<if test="updateBy != null and updateBy != ''">
 				update_by = #{updateBy},
 		</if>
-			<if test="catUrl != null and catUrl != ''">
+			<if test="catUrl != null">
 				cat_url = #{catUrl},
 		</if>
 			<if test="parent != null">
@@ -80,8 +80,8 @@
 		</if>
 			<if test="catType !=null"> cat_type=#{catType},
 		</if>
-			<if test="keywords != null and keywords!='' ">keywords=#{keywords},</if>
-			<if test="description != null and description!='' ">description=#{description},</if>
+			<if test="keywords != null">keywords=#{keywords},</if>
+			<if test="description != null">description=#{description},</if>
 			update_time = sysdate()
 		</set>
 		where cat_id = #{catId}
