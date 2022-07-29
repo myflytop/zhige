@@ -48,10 +48,10 @@
             <if test="columnName != null and columnName != ''">
                 column_name = #{columnName},
             </if>
-            <if test="columnIcon != null and columnIcon != ''">
+            <if test="columnIcon != null">
                 column_icon = #{columnIcon},
             </if>
-            <if test="ancestors != null and ancestors != ''">
+            <if test="ancestors != null">
                 ancestors = #{ancestors},
             </if>
             <if test="columnLocate != null">
@@ -69,24 +69,24 @@
             <if test="parent != null">
                 parent = #{parent},
             </if>
-            <if test="remark != null and remark != ''">
+            <if test="remark != null">
                 remark = #{remark},
             </if>
             <if test="openType != null">
                 open_type = #{openType},
             </if>
-            <if test="perms != null and perms != ''">
+            <if test="perms != null">
                 perms = #{perms},
             </if>
-            <if test="columnUrl != null and columnUrl != ''">
+            <if test="columnUrl != null">
                 column_url = #{columnUrl},
             </if>
             <if test="updateBy != null and updateBy != '' ">
                 update_by = #{updateBy},
             </if>
-            <if test="keywords != null and keywords!='' "> keywords=#{keywords},
+            <if test="keywords != null"> keywords=#{keywords},
             </if>
-            <if test="description != null and description!='' "> description=#{description},
+            <if test="description != null"> description=#{description},
             </if>
             update_time = sysdate()
         </set>
