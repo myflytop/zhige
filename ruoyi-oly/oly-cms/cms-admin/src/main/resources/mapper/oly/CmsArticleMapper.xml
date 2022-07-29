@@ -85,15 +85,15 @@
             <if test="visible != null">visible = #{visible},</if>
             <if test="allowComment != null">allow_comment = #{allowComment},</if>
             <if test="articleTitle != null and articleTitle != ''">article_title = #{articleTitle},</if>
-            <if test="articleImg != null and articleImg != ''">article_img = #{articleImg},</if>
-            <if test="articleSummary != null and articleSummary != ''">article_summary = #{articleSummary},</if>
+            <if test="articleImg != null">article_img = #{articleImg},</if>
+            <if test="articleSummary != null">article_summary = #{articleSummary},</if>
             <if test="articleContent != null and articleContent != ''">article_content = #{articleContent},</if>
-            <if test="reprintUrl != null and reprintUrl != ''">reprint_url = #{reprintUrl},</if>
-            <if test="articleUrl != null and articleUrl != ''">article_url = #{articleUrl},</if>
-            <if test="keywords != null and keywords !='' ">keywords = #{keywords},</if>
-            <if test="description != null and description !=''">description = #{description},</if>
-            <if test="articleToc != null and articleToc != ''">article_toc = #{articleToc},</if>
-            <if test="articleMd != null and articleMd != ''">article_md = #{articleMd},</if>
+            <if test="reprintUrl != null">reprint_url = #{reprintUrl},</if>
+            <if test="articleUrl != null">article_url = #{articleUrl},</if>
+            <if test="keywords != null">keywords = #{keywords},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="articleToc != null">article_toc = #{articleToc},</if>
+            <if test="articleMd != null">article_md = #{articleMd},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             update_time = sysdate()
         </trim>
