@@ -31,7 +31,7 @@ public enum OlyWebConfigProperties implements PropertyEnum {
     COPYRIGHT("oly.web.copyright", String.class, "3"),
     // 主页
     kEYWORDS("oly.web.keywords", String.class, "3"),
-    // LOGO
+    // 描述
     DESCRIPTION("oly.web.description", String.class, "3"),
 
     // 默认排序
@@ -69,8 +69,7 @@ public enum OlyWebConfigProperties implements PropertyEnum {
 
     PAGE_INTRODUCE("oly.web.pageIntroduce", Long.class, "0"),
 
-    // 淘客搜索页面
-    PAGE_TAO_SHOP("oly.web.tao.shop", Long.class, "0"),
+    PAGE_UNION("oly.web.pageUnion", Long.class, "0"),
 
     APP_IOS_EXAMINE("oly.web.app.iosExamine", Boolean.class, "true"),
 

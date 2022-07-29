@@ -234,6 +234,18 @@ public class WebPageService extends CommonController {
     }
 
     /**
+     * 联盟页面
+     * 
+     * @param themeName
+     * @param mp
+     * @return
+     */
+    public String union(String themeName, ModelMap mp) {
+        mp.put("menu", getCmsColumn(themeName, OlyWebConfigProperties.PAGE_UNION));
+        return getPrefix(themeName, "/pages/web/union", mp);
+    }
+
+    /**
      * 自定义页面
      * 
      * @param themeName
@@ -277,4 +289,5 @@ public class WebPageService extends CommonController {
             }
         }
     }
+
 }

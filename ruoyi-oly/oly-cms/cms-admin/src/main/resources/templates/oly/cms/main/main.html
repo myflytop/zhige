@@ -195,6 +195,49 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>内容操作记录</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 文章记录
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${myArticle}">106,120</h1>
+                                            <small>总文章</small>
+                                            <div class="stat-percent font-bold text-navy"><i
+                                                class="fa fa-plus"></i>&nbsp;<span th:text="${myArticleCheck}"></span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-info-circle"></i> 评论记录
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ibox-content">
+                                            <h1 class="no-margins" th:text="${myArticle}">106,120</h1>
+                                            <small>总文章</small>
+                                            <div class="stat-percent font-bold text-navy"><i
+                                                class="fa fa-plus"></i>&nbsp;<span th:text="${myArticleCheck}"></span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>            
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script th:src="@{/js/jquery.min.js}"></script>

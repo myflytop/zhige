@@ -169,7 +169,7 @@ public class WebPageController {
     }
 
     /**
-     * 反馈建议联系
+     * 反馈建议
      * 
      * @param mp
      * @return
@@ -178,6 +178,18 @@ public class WebPageController {
     @GetMapping(value = { "/contact", "/{themeName}/contact" })
     public String contact(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
         return webPageService.contact(themeName, mp);
+    }
+
+    /**
+     * 反馈建议
+     * 
+     * @param mp
+     * @return
+     */
+    @WebLog(title = "联盟页")
+    @GetMapping(value = { "/union", "/{themeName}/union" })
+    public String Union(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
+        return webPageService.union(themeName, mp);
     }
 
     /**
