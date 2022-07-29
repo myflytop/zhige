@@ -48,13 +48,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="linkSuggest != null  and linkSuggest != ''">link_suggest = #{linkSuggest},</if>
             <if test="linkFavicon != null  and linkFavicon != ''">link_favicon = #{linkFavicon},</if>
             <if test="visible != null ">visible = #{visible},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="remark != null">remark = #{remark},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
             <if test="updateBy != null ">update_by = #{updateBy},</if>
             <if test="createBy != null ">create_by = #{createBy},</if>
-            <if test="openType != null and openType!='' ">open_type=#{openType},</if>
-
+            <if test="openType != null">open_type=#{openType},</if>
         </trim>
         where link_id = #{linkId}
     </update>
