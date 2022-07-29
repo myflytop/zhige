@@ -78,14 +78,14 @@
         <trim prefix="SET" suffixOverrides=",">
             <if test="tagName != null and tagName != ''">
             tag_name = #{tagName},</if>
-            <if test="remark != null and remark != ''">remark = #{remark},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="tagUrl != null and tagUrl !=''">tag_url = #{tagUrl},</if>
             <if test="visible != null">visible = #{visible},</if>
-            <if test="perms != null and perms != ''">perms = #{perms},</if>
-            <if test="tagIco != null and tagIco != ''">tag_ico = #{tagIco},</if>
-            <if test="keywords != null and keywords!='' ">keywords = #{keywords},</if>
-            <if test="description != null and description!='' ">description = #{description},</if>
+            <if test="perms != null">perms = #{perms},</if>
+            <if test="tagIco != null">tag_ico = #{tagIco},</if>
+            <if test="keywords != null">keywords = #{keywords},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="remark != null">remark = #{remark},</if>
             <if test="orderNum != null">order_num = #{orderNum},</if>
             <if test="tagType != null">tag_type = #{tagType},</if>
             update_time =sysdate()
