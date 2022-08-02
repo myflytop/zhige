@@ -42,6 +42,8 @@ public enum OlyCmsConfigProperties implements PropertyEnum {
     UNION_VISIBLE_DEFAULT("oly.cms.union.defaultVisible", Integer.class, "0"),
     // 联盟关联分类标签类型
     UNION_TYPE("oly.cms.union.type", Integer.class, "0"),
+    // 联盟关联分类ID
+    UNION_CAT_ID("oly.cms.union.catId", Integer.class, "0"),
     // 联盟关联分类数量
     UNION_CAT_SIZE("oly.cms.union.catSize", Integer.class, "1"),
     // 联盟关联标签数量

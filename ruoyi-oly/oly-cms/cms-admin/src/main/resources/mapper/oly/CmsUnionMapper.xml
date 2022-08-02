@@ -114,8 +114,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="visible != null">visible = #{visible},</if>
             <if test="shopContent != null">shop_content = #{shopContent},</if>
             <if test="unionType != null and unionType !=''">union_type = #{unionType},</if>
-            <if test="tags != null and tags != ''">tags=#{tags},</if>
-            <if test="cats != null and cats != ''">cats=#{cats},</if>
+            <if test="tags != null">tags=#{tags},</if>
+            <if test="cats != null">cats=#{cats},</if>
         </trim>
         where shop_id = #{shopId}
     </update>

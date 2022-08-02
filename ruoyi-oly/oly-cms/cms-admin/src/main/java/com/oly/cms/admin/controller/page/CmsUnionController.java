@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,7 +58,10 @@ public class CmsUnionController extends CmsCommonController {
     @RequiresPermissions("cms:union:view")
     @GetMapping()
     public String union(ModelMap map) {
+        String types = sysConfigService.selectConfigDefauleValue(OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
+                OlyCmsConfigProperties.UNION_TYPE);
         CmsTag cmsTag = new CmsTag();
+        cmsTag.setTagType(Convert.toInt(types, null));
         map.put("tags", tagService.listCmsTagByTag(cmsTag));
         return prefix + "/union";
     }
@@ -208,25 +212,39 @@ public class CmsUnionController extends CmsCommonController {
     }
 
     /**
-     * @param shopId
-     * @param visible
+     * @param cmsUnions
      * @return
      */
     @RequiresPermissions("cms:union:edit")
     @Log(title = OperateTitle.CMS_UNION, businessType = BusinessType.UPDATE)
     @PostMapping("/updateTags")
     @ResponseBody
-    public AjaxResult updateTags(String shopId, String tags) {
-        if (StringUtils.isNotEmpty(tags)
-                && Convert.toStrArray(tags).length > Convert.toInt(sysConfigService.selectConfigDefauleValue(
-                        OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
-                        OlyCmsConfigProperties.UNION_TAG_SIZE))) {
-            return AjaxResult.error("关联标签超过上限!");
+    public AjaxResult updateTags(@RequestBody List<CmsUnion> cmsUnions) {
+        int re = 0;
+        for (CmsUnion union : cmsUnions) {
+            union.setCreateBy(ShiroUtils.getUserIdStr());
+            cmsUnionService.updateCmsUnion(union);
+            re += 1;
         }
-        CmsUnion union = new CmsUnion();
-        union.setShopId(shopId);
-        union.setTags(tags);
-        union.setCreateBy(ShiroUtils.getUserIdStr());
-        return toAjax(cmsUnionService.updateCmsUnion(union));
+        return toAjax(re);
     }
+
+    /**
+     * @param cmsUnions
+     * @return
+     */
+    @RequiresPermissions("cms:union:edit")
+    @Log(title = OperateTitle.CMS_UNION, businessType = BusinessType.UPDATE)
+    @PostMapping("/updateCats")
+    @ResponseBody
+    public AjaxResult updateCats(@RequestBody List<CmsUnion> cmsUnions) {
+        int re = 0;
+        for (CmsUnion union : cmsUnions) {
+            union.setCreateBy(ShiroUtils.getUserIdStr());
+            cmsUnionService.updateCmsUnion(union);
+            re += 1;
+        }
+        return toAjax(re);
+    }
+
 }

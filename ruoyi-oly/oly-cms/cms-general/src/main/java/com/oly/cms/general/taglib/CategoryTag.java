@@ -33,6 +33,11 @@ public class CategoryTag {
         return catCacheService.listCmsCats(orderNum, catType, parentId, catId, parent, themeName);
     }
 
+    public List<CmsCat> listCmsCats(Integer catType, Long catId, Integer parent, String themeName) {
+
+        return catCacheService.listCmsCats(null, catType, null, catId, parent, themeName);
+    }
+
     public CmsCat getCatsTree(Long orderNum, Integer catType, Long parentId, Long catId, Integer parent,
             String themeName) {
         return catCacheService.selectCmsCatsTrees(orderNum, catType, parentId, catId, parent, themeName);

@@ -80,7 +80,7 @@
                     </ul>
                 </div>
                 <div class="btn-group" shiro:hasPermission="cms:union:edit">
-                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">关联标签<span
+                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle multiple disabled">关联标签<span
                             class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" id="conTag">
@@ -88,6 +88,8 @@
                                 th:text="${tag.tagName}"></a></li>
                     </ul>
                 </div>
+                <a class="btn btn-success multiple disabled" shiro:hasPermission="cms:union:edit" onclick="editCat()"> 关联分类
+                </a>
                 <a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="cms:union:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
@@ -120,6 +122,7 @@
         var fi = [[${@dictTag.getType('cms_union_visible') }]];
         var ut = [[${@dictTag.getType('cms_union_type') }]];
         let catMaxNum = [[${@configTag.getKey('cmsConfig', 'oly.cms.union.catSize') }]];
+        let tagMaxNum = [[${@configTag.getKey('cmsConfig', 'oly.cms.union.tagSize') }]];
         var prefix = ctx + "cms/union";
         $(function () {
             var options = {
@@ -420,19 +423,71 @@
         /*淘客下拉框点击事件*/
         $('#conTag>li').click(function (e) {
             //获取选中行数据
-            var pam = {}, chooseData = $("#bootstrap-table").bootstrapTable('getSelections');
-            if (chooseData.length == 1) {
-                 pam.shopId=chooseData[0].shopId;
-                 pam.tags=setTags(chooseData[0].tags,$(this).attr("data-id"));
-                $.modal.confirm("确认要批量修改联盟关联标签吗？", function () {
-                    $.operate.post(prefix + "/updateTags", pam);
-                })
+            let cmsUnions = [], chooseData = $("#bootstrap-table").bootstrapTable('getSelections'), chooseTagId = $(this).attr("data-id");
+            if (chooseData.length > 0) {
+                chooseData.forEach(e => {
+                    let pum = {};
+                    pum.shopId = e.shopId;
+                    pum.tags = setTags(e.tags, chooseTagId, tagMaxNum);
+                    cmsUnions.push(pum);
+                });
+                $.modal.confirm("确认要修改联盟关联标签吗?数量超出将自动忽略!重复将自动删除", function () {
+                    $.ajax({
+                        type: "post",
+                        url: prefix + "/updateTags",
+                        contentType: 'application/json; charset=UTF-8',
+                        data: JSON.stringify(cmsUnions),
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            $.operate.ajaxSuccess(data);
+                        }
+                    });
+                });
             }
             else {
                 $.modal.alert("请选择一项");
             }
         });
 
+        function editCat() {    
+            var url = ctx + "cms/cat/selectCatTree?catId="+[[${@configTag.getKey('cmsConfig', 'oly.cms.union.catId')}]]+"&visible=1&catType=" + [[${@configTag.getKey('cmsConfig', 'oly.cms.union.type')}]];
+        var optionsCat = {
+            title: '分类选择',
+            width: "380",
+            url: url,
+            callBack: function (index, layero) {
+                //获取选中行数据
+                let cmsUnions = [], chooseData = $("#bootstrap-table").bootstrapTable('getSelections'),catId= $.modal.getChildFrame(index).find('#treeId').val();
+                if (chooseData.length > 0) {
+                    chooseData.forEach(e => {
+                        let pum = {};
+                        pum.shopId = e.shopId;
+                        pum.cats = setTags(e.cats, catId, catMaxNum);
+                        cmsUnions.push(pum);
+                    });
+                    $.modal.confirm("确认要修改联盟关联分类吗?数量超出将自动忽略!重复将自动删除", function () {
+                        $.ajax({
+                            type: "post",
+                            url: prefix + "/updateCats",
+                            contentType: 'application/json; charset=UTF-8',
+                            data: JSON.stringify(cmsUnions),
+                            dataType: "json",
+                            async: false,
+                            success: function (data) {
+                                $.operate.ajaxSuccess(data);
+                                $.modal.close(index);
+                            }
+                        });
+                    });
+                }
+                else {
+                    $.modal.alert("请选择一项");
+                }
+            }
+        };
+        $.modal.openOptions(optionsCat);
+        }
 
         (function ($) {
             $.extend({
@@ -510,32 +565,32 @@
         /*栏目管理-新增-选择菜单树*/
         $(document).on('click', '#cats', function () {
             let ui = $(this);
-            var url = ctx + "cms/cat/selectCatTree?catId=0&visible=1";
-            var options = {
-                title: '分类选择',
-                width: "380",
-                url: url,
-                callBack: function (index, layero) {
-                    var body = $.modal.getChildFrame(index);
-                    let oldValue = $(ui).val();
-                    let cc = body.find('#treeId').val();
-                    $(ui).val(setTags(oldValue,cc));
-                    $.modal.close(index);
-                }
-            };
-            $.modal.openOptions(options);
+            var url = ctx + "cms/cat/selectCatTree?catId=0&visible=1&catType=" + [[${@configTag.getKey('cmsConfig', 'oly.cms.union.type')}]];
+        var options = {
+            title: '分类选择',
+            width: "380",
+            url: url,
+            callBack: function (index, layero) {
+                var body = $.modal.getChildFrame(index);
+                let oldValue = $(ui).val();
+                let cc = body.find('#treeId').val();
+                $(ui).val(setTags(oldValue, cc, catMaxNum));
+                $.modal.close(index);
+            }
+        };
+        $.modal.openOptions(options);
         });
 
-        function setTags(oldValue, cc) {
+        function setTags(oldValue, cc, maxNum) {
             let oldArray = [];
-            if (oldValue == ''||oldValue == null) {
+            if (oldValue == '' || oldValue == null) {
                 oldValue = cc;
             }
             else {
                 oldArray = oldValue.split(',');
                 if (oldArray.indexOf(cc) == -1) {
-                    if (oldArray.length > catMaxNum || oldArray.length == (catMaxNum + 1)) {
-                        $.modal.alertError("超出允许关联数量:"+catMaxNum);
+                    if (oldArray.length > maxNum - 1) {
+                        console.log("超出允许关联数量:" + maxNum);
                     }
                     else {
                         oldValue = oldValue + ',' + cc;
@@ -543,6 +598,7 @@
                 }
                 else {
                     oldArray = oldArray.filter(item => item != cc);
+
                     oldValue = oldArray.join(',');
                 }
             }

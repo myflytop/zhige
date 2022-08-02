@@ -1,8 +1,10 @@
 package com.oly.cms.common.model.enums;
 
 public enum UnionSortEnums {
-    CREATE_TIME("create_time "),
-    SHOP_PRICE("shop_price ");
+    DEFAULT("create_time "),
+    SHOP_PRICE("shop_price "),
+    SHOP_SALES("shop_sales "),
+    COUPON_PRICE("coupon_price ");
 
     private String value;
 

@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.oly.cms.common.model.enums.OrderEnums;
+import com.oly.cms.common.model.enums.UnionSortEnums;
 import com.oly.cms.general.taglib.UnionTag;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -42,6 +45,12 @@ public class UnionApiController extends BaseController {
             @RequestParam(required = false) String tag, @RequestParam(required = false) String unionType, int pageNum,
             int pageSize) {
         return AjaxResult.success(unionTag.listCmsUnions(cat, tag, unionType, pageNum, pageSize));
+    }
+
+    @GetMapping("/listUnion")
+    public AjaxResult listCmsUnions(String unionType, String cat, UnionSortEnums sort, OrderEnums order,
+            int pageNum, int pageSize) {
+        return AjaxResult.success(unionTag.listCmsUnions(unionType, cat, sort, order, pageNum, pageSize));
     }
 
 }

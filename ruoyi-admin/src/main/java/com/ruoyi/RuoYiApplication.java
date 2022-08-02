@@ -22,7 +22,6 @@ import cn.hutool.core.util.BooleanUtil;
 @EnableCaching
 public class RuoYiApplication {
     static {
-        // jar所在的目录下application.yml路径
         File ymlFile = Paths.get(RuoYiConfig.getUserWork(), "config", "application.yml").toFile();
         String workPath;
         boolean appointProfile;
@@ -38,7 +37,6 @@ public class RuoYiApplication {
         if (!appointProfile) {
             workPath = Paths.get(RuoYiConfig.getUserWork(), workPath).toString();
         }
-        // System.setProperty("spring.devtools.restart.enabled", "false");
         // 日志路径
         System.setProperty("log_path", Paths.get(workPath, OlyStageRoot.LOGS_DIR.getValue()).toString());
         // 临时目录

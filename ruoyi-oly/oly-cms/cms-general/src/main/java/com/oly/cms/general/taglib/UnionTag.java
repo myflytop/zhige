@@ -21,21 +21,28 @@ public class UnionTag {
 
     public List<CmsUnion> listCmsUnions(String cat, String tag, String unionType, int pageNum, int pageSize) {
         return unionCacheService.listCmsUnions(cat, tag, unionType, pageNum, pageSize,
-                UnionSortEnums.CREATE_TIME.getOrder(OrderEnums.DESC));
+                UnionSortEnums.SHOP_PRICE.getOrder(OrderEnums.DESC));
     }
 
     public List<CmsUnion> listCmsUnionsByCat(String cat, int pageNum, int pageSize) {
         return unionCacheService.listCmsUnions(cat, null, null, pageNum, pageSize,
-                UnionSortEnums.CREATE_TIME.getOrder(OrderEnums.DESC));
+                UnionSortEnums.SHOP_PRICE.getOrder(OrderEnums.DESC));
     }
 
     public List<CmsUnion> listCmsUnionsByTag(String tag, int pageNum, int pageSize) {
         return unionCacheService.listCmsUnions(null, tag, null, pageNum, pageSize,
-                UnionSortEnums.CREATE_TIME.getOrder(OrderEnums.DESC));
+                UnionSortEnums.SHOP_PRICE.getOrder(OrderEnums.DESC));
     }
 
     public List<CmsUnion> listCmsUnionsByType(String unionType, int pageNum, int pageSize) {
         return unionCacheService.listCmsUnions(null, null, unionType, pageNum, pageSize,
-                UnionSortEnums.CREATE_TIME.getOrder(OrderEnums.DESC));
+                UnionSortEnums.SHOP_PRICE.getOrder(OrderEnums.DESC));
+    }
+
+    public List<CmsUnion> listCmsUnions(String unionType, String cat, UnionSortEnums unionSortEnums,
+            OrderEnums orderEnums,
+            int pageNum, int pageSize) {
+        return unionCacheService.listCmsUnions(cat, null, unionType, pageNum, pageSize,
+                unionSortEnums.getOrder(orderEnums));
     }
 }
