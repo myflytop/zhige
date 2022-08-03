@@ -62,7 +62,7 @@ public class WebPageService extends CommonController {
         mp.put("menu", getCmsColumn(themeName, OlyWebConfigProperties.PAGE_POSTS));
         parm.setThemeName(getThemeName(themeName));
         List<WebArticle> list = new ArrayList<>();
-        startDefaultPage();
+        startPage();
         list = webPostService.listWebArticles(parm);
         PageData pageOne = PageData.getData(list);
         mp.put("posts", pageOne);
@@ -115,7 +115,7 @@ public class WebPageService extends CommonController {
                 bl.setTagId(tagId);
                 bl.setThemeName(themeName);
                 List<WebArticle> list = new ArrayList<>();
-                startDefaultPage();
+                startPage();
                 list = webPostService.listWebArticles(bl);
                 pageOne = PageData.getData(list);
             }
@@ -159,7 +159,7 @@ public class WebPageService extends CommonController {
                 bl.setCatId(catId);
                 bl.setThemeName(themeName);
                 List<WebArticle> list = new ArrayList<>();
-                startDefaultPage();
+                startPage();
                 list = webPostService.listWebArticles(bl);
                 pageOne = PageData.getData(list);
             }
@@ -167,7 +167,6 @@ public class WebPageService extends CommonController {
         // 当前查询的分类
         mp.put("cat", cat);
         mp.put("posts", pageOne);
-
         return getPrefix(themeName, "/pages/web/category", mp);
     }
 

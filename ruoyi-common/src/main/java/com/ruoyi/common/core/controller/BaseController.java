@@ -55,26 +55,6 @@ public class BaseController {
     }
 
     /**
-     * 设置请求分页数据
-     */
-    protected void startDefaultPage() {
-        PageDomain pageDomain = TableSupport.buildPageRequest();
-        Integer pageNum = pageDomain.getPageNum();
-        Integer pageSize = pageDomain.getPageSize();
-        if (pageSize == null) {
-            pageSize = 20;
-        }
-        if (StringUtils.isNotNull(pageNum)) {
-            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
-
-            PageHelper.startPage(pageNum, pageSize, orderBy);
-        } else {
-            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
-            PageHelper.startPage(1, pageSize, orderBy);
-        }
-    }
-
-    /**
      * 设置请求排序数据
      */
     protected void startOrderBy() {

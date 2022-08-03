@@ -27,7 +27,7 @@ public class ArticleCountSortApiController extends BaseController {
     @GetMapping({ "/list", "/list/{themeName}" })
     public AjaxResult list(@PathVariable(value = "themeName", required = false) String themeName) {
         List<WebArticleCountVo> list = new ArrayList<>();
-        startDefaultPage();
+        startPage();
         list = articleCountService.listWebArticleCountVo(themeName);
         PageData pageOne = PageData.getData(list);
         return AjaxResult.success(pageOne);

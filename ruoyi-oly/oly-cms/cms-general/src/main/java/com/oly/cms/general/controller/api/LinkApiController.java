@@ -33,7 +33,7 @@ public class LinkApiController extends BaseController {
   @GetMapping("/list")
   public AjaxResult list(CmsLink cmsLink) {
     List<CmsLink> list = new ArrayList<>();
-    startDefaultPage();
+    startPage();
     list = linkService.listCmsLinks(cmsLink);
     PageData pageOne = PageData.getData(list);
     return AjaxResult.success(pageOne);

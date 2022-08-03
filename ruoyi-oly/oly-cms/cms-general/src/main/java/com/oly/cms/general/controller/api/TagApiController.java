@@ -33,7 +33,7 @@ public class TagApiController extends BaseController {
   @GetMapping({ "/list", "/list/{themeName}" })
   public AjaxResult listTags(CmsTag tag, @PathVariable(value = "themeName", required = false) String themeName) {
     List<CmsTag> list = new ArrayList<>();
-    startDefaultPage();
+    startPage();
     tag.setSearchValue(themeName);
     list = tagService.listCmsTags(tag);
     PageData pageOne = PageData.getData(list);

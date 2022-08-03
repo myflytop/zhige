@@ -45,4 +45,11 @@ public class UnionTag {
         return unionCacheService.listCmsUnions(cat, null, unionType, pageNum, pageSize,
                 unionSortEnums.getOrder(orderEnums));
     }
+
+    public List<CmsUnion> listCmsUnionsByTag(String unionType, String tagId, UnionSortEnums unionSortEnums,
+            OrderEnums orderEnums,
+            int pageNum, int pageSize) {
+        return unionCacheService.listCmsUnions(null, tagId, unionType, pageNum, pageSize,
+                unionSortEnums.getOrder(orderEnums));
+    }
 }
