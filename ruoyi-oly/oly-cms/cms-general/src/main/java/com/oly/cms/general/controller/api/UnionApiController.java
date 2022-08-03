@@ -48,9 +48,9 @@ public class UnionApiController extends BaseController {
     }
 
     @GetMapping("/listUnion")
-    public AjaxResult listCmsUnions(String unionType, String cat, UnionSortEnums sort, OrderEnums order,
+    public AjaxResult listCmsUnions(String unionType, String cat, String tag, UnionSortEnums sort, OrderEnums order,
             int pageNum, int pageSize) {
-        return AjaxResult.success(unionTag.listCmsUnions(unionType, cat, sort, order, pageNum, pageSize));
+        return AjaxResult.success(unionTag.listCmsUnions(unionType, cat, tag, sort, order, pageNum, pageSize));
     }
 
 }

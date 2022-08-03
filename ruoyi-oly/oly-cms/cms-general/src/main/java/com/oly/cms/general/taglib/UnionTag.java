@@ -39,10 +39,10 @@ public class UnionTag {
                 UnionSortEnums.SHOP_PRICE.getOrder(OrderEnums.DESC));
     }
 
-    public List<CmsUnion> listCmsUnions(String unionType, String cat, UnionSortEnums unionSortEnums,
+    public List<CmsUnion> listCmsUnions(String unionType, String cat, String tag, UnionSortEnums unionSortEnums,
             OrderEnums orderEnums,
             int pageNum, int pageSize) {
-        return unionCacheService.listCmsUnions(cat, null, unionType, pageNum, pageSize,
+        return unionCacheService.listCmsUnions(cat, tag, unionType, pageNum, pageSize,
                 unionSortEnums.getOrder(orderEnums));
     }
 
