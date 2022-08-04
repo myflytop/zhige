@@ -118,6 +118,8 @@ public class WebPageService extends CommonController {
                 startPage();
                 list = webPostService.listWebArticles(bl);
                 pageOne = PageData.getData(list);
+            } else {
+                tag = null;
             }
         }
         // 当前查询的标签
@@ -162,6 +164,8 @@ public class WebPageService extends CommonController {
                 startPage();
                 list = webPostService.listWebArticles(bl);
                 pageOne = PageData.getData(list);
+            } else {
+                cat = null;
             }
         }
         // 当前查询的分类
