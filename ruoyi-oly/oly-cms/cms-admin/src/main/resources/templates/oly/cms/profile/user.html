@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="ibox-content no-padding border-left-right text-center">
-                                <img alt="image" class="img-responsive img-circle m-t-xs img-responsive" style="margin: 0 auto;" th:src="(${#strings.isEmpty(user.avatar)}) ? @{/img/profile.jpg} : @{${user.avatar}}" th:onerror="this.src='img/profile.jpg'">
+                                <img alt="image" class="img-responsive img-circle m-t-xs img-responsive" style="margin: 0 auto;padding-left: 5px;" th:src="(${#strings.isEmpty(user.avatar)}) ? @{/img/profile.jpg} : @{${user.avatar}}" th:onerror="this.src='img/profile.jpg'">
                                 <br />
                                 <span class="m-t-xs font-bold" th:text="${#strings.defaultString(user.userName, '-')}" >营销总监</span>
                             </div>    
@@ -33,20 +33,6 @@
                                 <p th:text="${userInfo.introduce}">
                                     会点前端技术，div+css啊，jQuery之类的，不是很精；热爱生活，热爱互联网，热爱新技术；有一个小的团队，在不断的寻求新的突破。
                                 </p>
-                                <div class="row m-t-lg">
-                                    <div class="col-sm-4">
-                                        <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
-                                        <h5><strong>169</strong>收藏</h5>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <span class="line">5,3,9,6,5,9,7,3,5,2</span>
-                                        <h5><strong>28</strong>评论</h5>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
-                                        <h5><strong>240</strong>点赞</h5>
-                                    </div>
-                                </div>
                                 <div class="user-button">
                                     <div class="row">
                                         <div class="col-sm-6">
@@ -133,52 +119,6 @@
                                         <table id="bootstrap-contact"></table>
                                     </div>
                                 </div>  
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>个人资料</h5>
-                    </div>
-                    <div>
-                        <div class="ibox-content no-padding border-left-right">
-                            <img alt="image" class="img-responsive" src="img/profile_big.jpg">
-                        </div>
-                        <div class="ibox-content profile-content">
-                            <h4><strong>Beaut-zihan</strong></h4>
-                            <p><i class="fa fa-map-marker"></i> 上海市闵行区绿地科技岛广场A座2606室</p>
-                            <h5>
-                                    关于我
-                                </h5>
-                            <p>
-                                会点前端技术，div+css啊，jQuery之类的，不是很精；热爱生活，热爱互联网，热爱新技术；有一个小的团队，在不断的寻求新的突破。
-                            </p>
-                            <div class="row m-t-lg">
-                                <div class="col-sm-4">
-                                    <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
-                                    <h5><strong>169</strong> 文章</h5>
-                                </div>
-                                <div class="col-sm-4">
-                                    <span class="line">5,3,9,6,5,9,7,3,5,2</span>
-                                    <h5><strong>28</strong> 关注</h5>
-                                </div>
-                                <div class="col-sm-4">
-                                    <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
-                                    <h5><strong>240</strong> 关注者</h5>
-                                </div>
-                            </div>
-                            <div class="user-button">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <button type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-envelope"></i> 发送消息</button>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <button type="button" class="btn btn-default btn-sm btn-block"><i class="fa fa-coffee"></i> 赞助</button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
