@@ -27,6 +27,7 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.enums.OlyStageRoot;
 import com.ruoyi.common.enums.OperateTitle;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.mail.domain.OlyMail;
 import com.ruoyi.mail.service.impl.OlyMailServiceImpl;
 import com.ruoyi.oss.domain.OlyOss;
@@ -339,14 +340,14 @@ public class CmsThemeController extends CmsCommonController {
 		if (!"html|js|css|txt|json".contains(FilenameUtils.getExtension(path))) {
 			return AjaxResult.error("不支持文件类型！");
 		}
-		final File themesPath = Paths.get(OlyStageRoot.THEME_DIR.getRoot(path)).toFile();
-		if (!themesPath.exists()) {
+		final File file = Paths.get(OlyStageRoot.THEME_DIR.getRoot(path)).toFile();
+		if (!file.exists()) {
 			return AjaxResult.error("文件不存在");
 		}
-		if (themesPath.isDirectory()) {
+		if (file.isDirectory()) {
 			return AjaxResult.error("所选文件为文件夹！");
 		}
-		return AjaxResult.success(readFileContent(themesPath));
+		return AjaxResult.success(FileUtils.readFileContent(file));
 	}
 
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.UPDATE)
@@ -393,32 +394,6 @@ public class CmsThemeController extends CmsCommonController {
 				themeList.add(themeTreeNode);
 			}
 		}
-	}
-
-	// 读取主题配置
-	private String readFileContent(File file) {
-		BufferedReader reader = null;
-		try {
-			StringBuffer sbf = new StringBuffer();
-			reader = new BufferedReader(new FileReader(file, Charset.forName("utf-8")));
-			String tempStr;
-			while ((tempStr = reader.readLine()) != null) {
-				sbf.append(tempStr).append("\n");
-			}
-			reader.close();
-			return sbf.toString();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-		}
-		return null;
 	}
 
 	/**

@@ -1,9 +1,11 @@
 package com.ruoyi.common.utils.file;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -228,5 +230,35 @@ public class FileUtils {
         int lastWindowsPos = fileName.lastIndexOf('\\');
         int index = Math.max(lastUnixPos, lastWindowsPos);
         return fileName.substring(index + 1);
+    }
+
+    /**
+     * 读取文件内容
+     * 
+     * @param file
+     * @return
+     */
+    public static String readFileContent(File file) {
+        BufferedReader reader = null;
+        try {
+            StringBuffer sbf = new StringBuffer();
+            reader = new BufferedReader(new FileReader(file));
+            String tempStr;
+            while ((tempStr = reader.readLine()) != null) {
+                sbf.append(tempStr).append("\n");
+            }
+            reader.close();
+            return sbf.toString();
+        } catch (IOException e) {
+            return e.getMessage();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                    return e1.getMessage();
+                }
+            }
+        }
     }
 }

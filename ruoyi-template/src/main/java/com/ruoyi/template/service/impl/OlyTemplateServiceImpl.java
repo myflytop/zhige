@@ -23,6 +23,7 @@ import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.enums.OlyStageRoot;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.template.domain.OlyTemplate;
 import com.ruoyi.template.mapper.OlyTemplateMapper;
 import com.ruoyi.template.service.IOlyTemplateService;
@@ -239,7 +240,6 @@ public class OlyTemplateServiceImpl implements IOlyTemplateService {
         } catch (Exception e) {
             throw new ServiceException("模板解析异常");
         }
-
     }
 
     @Override
@@ -249,19 +249,6 @@ public class OlyTemplateServiceImpl implements IOlyTemplateService {
         if (!inFile.exists()) {
             new ServiceException("文件不存在");
         }
-        StringBuffer re = new StringBuffer();
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(inFile));
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                re.append(line);
-
-            }
-            br.close();
-        } catch (IOException e) {
-            new ServiceException("读取模板异常:" + e);
-        }
-        return re.toString();
+        return FileUtils.readFileContent(inFile);
     }
 }
