@@ -306,6 +306,7 @@
 							data.push({ "name": "articleContent", "value": editorData });
 							data.push({ "name": "articleBuild", "value": 0 });
 							data.push({ "name": "articleSummary", "value": $("#articleSummary").val() });
+							console.log(data);
 							$.operate.saveTab(prefix + "/edit", data);
 							layer.closeAll();
 						});

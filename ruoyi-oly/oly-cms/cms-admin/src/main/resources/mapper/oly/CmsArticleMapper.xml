@@ -20,7 +20,6 @@
         <result property="articleUrl" column="article_url" />
         <result property="keywords" column="keywords" />
         <result property="description" column="description" />
-        <result property="articleToc" column="article_toc" />
         <result property="articleMd" column="article_md" />
     </resultMap>
 
@@ -29,7 +28,7 @@
     </sql>
 
     <sql id="selectCmsArticleVoAll">
-        select article_id, article_title, create_by, create_time, update_by, update_time, article_type, CAST(article_content AS CHAR) AS article_content, article_build, article_top, article_img, article_summary, visible, allow_comment, reprint_url, article_url, keywords, description,CAST(article_toc AS CHAR) AS article_toc,CAST(article_md AS CHAR) as article_md from cms_article
+        select article_id, article_title, create_by, create_time, update_by, update_time, article_type, CAST(article_content AS CHAR) AS article_content, article_build, article_top, article_img, article_summary, visible, allow_comment, reprint_url, article_url, keywords, description,CAST(article_md AS CHAR) as article_md from cms_article
     </sql>
 
     <!--插入文章-->
@@ -50,7 +49,6 @@
             <if test="articleUrl != null and articleUrl != ''">article_url,</if>
             <if test="keywords != null and keywords !='' ">keywords,</if>
             <if test="description != null and description !=''">description,</if>
-            <if test="articleToc != null and articleToc != ''">article_toc,</if>
             <if test="articleMd != null and articleMd != ''">article_md,</if>
             create_time
         </trim>
@@ -69,7 +67,6 @@
             <if test="articleUrl != null and articleUrl != ''">#{articleUrl},</if>
             <if test="keywords != null and keywords !='' ">#{keywords},</if>
             <if test="description != null and description !=''">#{description},</if>
-            <if test="articleToc != null and articleToc != ''">#{articleToc},</if>
             <if test="articleMd != null and articleMd != ''">#{articleMd},</if>
             sysdate()
         </trim>
@@ -92,7 +89,6 @@
             <if test="articleUrl != null">article_url = #{articleUrl},</if>
             <if test="keywords != null">keywords = #{keywords},</if>
             <if test="description != null">description = #{description},</if>
-            <if test="articleToc != null">article_toc = #{articleToc},</if>
             <if test="articleMd != null">article_md = #{articleMd},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             update_time = sysdate()

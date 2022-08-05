@@ -30,7 +30,6 @@
 		<result column="allow_comment" property="allowComment" />
 		<result column="article_content" property="articleContent" jdbcType="LONGVARCHAR" />
 		<result column="article_md" property="articleMd" jdbcType="LONGVARCHAR" />
-		<result column="article_toc" property="articleToc" jdbcType="LONGVARCHAR" />
 		<result column="keywords" property="keywords" />
 		<result column="description" property="description" />
 		<collection property="cmsCats" javaType="ArrayList" select="com.oly.cms.general.mapper.CategorySearchMapper.listCmsCatByArticleId" column="article_id" ofType="com.oly.cms.common.domain.entity.CmsCat" />
@@ -91,12 +90,12 @@
 	<!-- 获取文章——MD -->
 	<sql id="article_md">
 	select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
-		article_top,article_img,article_summary,allow_comment,article_build,article_md,article_toc from cms_article
+		article_top,article_img,article_summary,allow_comment,article_build,article_mdfrom cms_article
 	</sql>
 	<!-- 获取文章——html -->
 	<sql id="article_html">
 	select article_id, article_title, create_by, create_time,article_type,article_url,reprint_url,
-		article_top,article_img,article_summary,allow_comment,article_build,article_content,article_toc from cms_article
+		article_top,article_img,article_summary,allow_comment,article_build,article_content from cms_article
 	</sql>
 
 

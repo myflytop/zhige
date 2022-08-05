@@ -85,7 +85,6 @@
 					<div class="col-sm-12">
 						<textarea id="editor" th:utext="*{articleContent}">
 
-
 						</textarea>
 					</div>
 				</div>
@@ -316,6 +315,7 @@
 							data.push({ "name": "articleContent", "value": editorData });
 							data.push({ "name": "articleBuild", "value": 2 });
 							data.push({ "name": "articleSummary", "value": $("#articleSummary").val() });
+							console.log(data);
 							$.operate.saveTab(prefix + "/edit", data);
 							layer.closeAll();
 						});
@@ -359,8 +359,6 @@
 			html = html.replace(/ /ig, '');//去掉
 			return html;
 		}
-
-
 
 		//保存文章
 		$("#form-article-edit").validate({

@@ -82,26 +82,6 @@
 				<!-- 内容 -->
 				<div class="form-group">
 					<div class="col-sm-12">
-						<div class="ibox-content" style="padding: 0;">
-							<div class="panel-body" style="padding: 0;">
-								<div class="panel-group" id="accordion">
-									<div class="panel panel-default" style="width: 100%;padding: 0;">
-										<div class="panel-heading">
-											<h5 class="panel-title">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-													aria-expanded="false" class="collapsed">预览目录</a>
-											</h5>
-										</div>
-										<div id="collapseOne" class="panel-collapse collapse" aria-expanded="false"
-											style="height: 0px;">
-											<div class="panel-body" id="custom-toc-container">
-
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 						<div id="editor">
 						</div>
 					</div>
@@ -469,6 +449,7 @@
 							data.push({ "name": "articleContent", "value": editorData });
 							data.push({ "name": "articleBuild", "value": 0 });
 							data.push({ "name": "articleSummary", "value": $("#articleSummary").val() });
+							console.log(data);
 							$.operate.saveTab(prefix + "/add", data);
 							layer.closeAll();
 						});

@@ -46,9 +46,6 @@ public class CmsArticle extends SeoBaseModel {
     /** 文章链接别名 */
     private String articleUrl;
 
-    /** 文章目录 */
-    private String articleToc;
-
     /** md源码 */
     private String articleMd;
 
@@ -153,14 +150,6 @@ public class CmsArticle extends SeoBaseModel {
         return articleUrl;
     }
 
-    public void setArticleToc(String articleToc) {
-        this.articleToc = articleToc;
-    }
-
-    public String getArticleToc() {
-        return articleToc;
-    }
-
     public void setArticleMd(String articleMd) {
         this.articleMd = articleMd;
     }
@@ -180,7 +169,6 @@ public class CmsArticle extends SeoBaseModel {
                 .append("articleSummary", getArticleSummary()).append("visible", getVisible())
                 .append("allowComment", getAllowComment()).append("reprintUrl", getReprintUrl())
                 .append("articleUrl", getArticleUrl()).append("keywords", getKeywords())
-                .append("description", getDescription()).append("articleToc", getArticleToc())
-                .append("articleMd", getArticleMd()).toString();
+                .append("description", getDescription()).append("articleMd", getArticleMd()).toString();
     }
 }

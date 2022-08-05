@@ -83,26 +83,6 @@
 				<!-- 内容 -->
 				<div class="form-group">
 					<div class="col-sm-12">
-						<div class="ibox-content" style="padding: 0;">
-							<div class="panel-body" style="padding: 0;">
-								<div class="panel-group" id="accordion">
-									<div class="panel panel-default" style="width: 100%;padding: 0;">
-										<div class="panel-heading">
-											<h5 class="panel-title">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-													aria-expanded="false" class="collapsed">预览目录</a>
-											</h5>
-										</div>
-										<div id="collapseOne" class="panel-collapse collapse" aria-expanded="false"
-											style="height: 0px;">
-											<div class="panel-body" id="custom-toc-container">
-
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 						<div id="editor" style="z-index: 100000;">
 							<textarea style="display:none;" th:text="*{articleMd}"></textarea>
 						</div>
@@ -291,7 +271,9 @@
 			//previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
 			emoji: true,
 			taskList: true,
-			tocm: true,         // Using [TOCM]
+			tocm: true,         // 生成TOCM]
+			toc: true,           // 生成[TOC]
+			tocTitle: "目录",     //生成面包有效
 			tex: true,                   // 开启科学公式TeX语言支持，默认关闭
 			flowChart: true,             // 开启流程图支持，默认关闭
 			sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
@@ -304,7 +286,7 @@
 			imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
 			imageUploadURL: prefix + '/articleImgByMarkdown',
 			onload: function () {
-				console.log('onload', this);
+			
 				//this.fullscreen();
 				//this.unwatch();
 				//this.watch().fullscreen();
@@ -315,19 +297,14 @@
 				//this.resize("100%", 640);
 			}
 		});
-		$("#collapseOne").on('show.bs.collapse', function () {
-			editor.config({
-				tocContainer: "#custom-toc-container",
-				tocDropdown: false
-			});
-		});
+
 		$("#editOk").click(function () {
 			if ($("input[name='cats']").val() === '') {
 				layer.msg('请选择一个分类', { icon: 6 })
 			}
 			else if ($.validate.form("form-article-edit")) {
 				//获取编辑内容
-				let editorData = editor.getHTML();
+				let editorData = editor.getPreviewedHTML();
 				let editMark = editor.getMarkdown();
 				layer.open({
 					title: "确认信息",
@@ -364,11 +341,11 @@
 						});
 						//初始化提交
 						$("#saveArticle").click(function () {
+							$("#editor").remove();	
 							let data = $('#form-article-edit').serializeArray();
 							data.push({ "name": "articleImg", "value": getImgSrc($(".opshow")).join(",") });
 							data.push({ "name": "articleMd", "value": editMark });
 							data.push({ "name": "articleContent", "value": editorData });
-							data.push({ "name": "articleToc", "value": $("#custom-toc-container").html() });
 							data.push({ "name": "articleBuild", "value": 1 });
 							data.push({ "name": "articleSummary", "value": $("#articleSummary").val() });
 							console.log(data);
