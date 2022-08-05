@@ -83,9 +83,9 @@
 				<!-- 内容 -->
 				<div class="form-group">
 					<div class="col-sm-12">
-						<textarea id="editor" th:utext="*{articleContent}">
+						<div id="editor" th:utext="*{articleContent}">
 
-						</textarea>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -255,11 +255,11 @@
 		maxKeyword = [[${@configTag.getKey('cmsConfig','oly.cms.articleKeyword.maxNum') }]];
 
 		tinymce.init({
-			selector: 'textarea#editor',
+			selector: 'div#editor',
 			language: 'zh-Hans',
 			height: 800,
-			plugins: 'preview powerpaste casechange importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media  template codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount a11ychecker editimage help formatpainter permanentpen pageembed charmap mentions quickbars  emoticons advtable export',
-			toolbar: 'undo redo tableofcontents | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl |',
+			plugins: 'preview powerpaste casechange importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media   codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount a11ychecker editimage help formatpainter permanentpen pageembed charmap mentions quickbars  emoticons advtable export',
+			toolbar: 'undo redo tableofcontents | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed  link anchor codesample | a11ycheck ltr rtl |',
 			images_file_types: 'jpg, jpeg, gif,png",bmp,webp',
 			content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
 			tableofcontents_class: 'markdown-toc',
@@ -269,7 +269,7 @@
 			images_upload_url: ctx + "oly/oss/upload/code/location/msg",
 			images_upload_credentials: true
 		});
-
+    
 		$("#editOk").click(function () {
 			if ($("input[name='cats']").val() === '') {
 				layer.msg('请选择一个分类', { icon: 6 })
