@@ -139,7 +139,7 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
     public List<WebArticle> listWebArticlesByCatId(long catId, int num, int size) {
         WebArticleSearchParam webArticleSearchParam = new WebArticleSearchParam();
         webArticleSearchParam.setCatId(catId);
-        PageHelper.startPage(num, size);
+        PageHelper.startPage(num, size, "article_top,create_time desc");
         return this.listWebArticles(webArticleSearchParam);
     }
 

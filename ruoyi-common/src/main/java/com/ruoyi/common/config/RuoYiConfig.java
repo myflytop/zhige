@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @author ruoyi
  */
 @Component
-@ConfigurationProperties(prefix = "ruoyi")
+@ConfigurationProperties(prefix = "zg")
 public class RuoYiConfig {
     /** 项目名称 */
     private static String name;
@@ -54,7 +54,6 @@ public class RuoYiConfig {
     public void setCopyrightYear(String copyrightYear) {
         RuoYiConfig.copyrightYear = copyrightYear;
     }
-
 
     public static boolean isAppointProfile() {
 

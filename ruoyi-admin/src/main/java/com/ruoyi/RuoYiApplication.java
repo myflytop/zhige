@@ -49,10 +49,22 @@ public class RuoYiApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RuoYiApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  止戈启动成功   ლ(´ڡ`ლ)ﾞ  \n" + " .-------.       ____     __        \n"
-                + " |  _ _   \\      \\   \\   /  /    \n" + " | ( ' )  |       \\  _. /  '       \n"
-                + " |(_ o _) /        _( )_ .'         \n" + " | (_,_).' __  ___(_ o _)'          \n"
-                + " |  |\\ \\  |  ||   |(_,_)'         \n" + " |  | \\ `'   /|   `-'  /           \n"
-                + " |  |  \\    /  \\      /           \n" + " ''-'   `'-'    `-..-'              ");
+        System.out.println(
+                "ZZZZZZZZZZZZZZZZZZZ        GGGGGGGGGGGGG\n"
+                        + "Z:::::::::::::::::Z     GGG::::::::::::G\n"
+                        + "Z:::::::::::::::::Z   GG:::::::::::::::G\n"
+                        + "Z:::ZZZZZZZZ:::::Z   G:::::GGGGGGGG::::G\n"
+                        + "ZZZZZ     Z:::::Z   G:::::G       GGGGGG\n"
+                        + "        Z:::::Z    G:::::G              \n"
+                        + "   止  Z:::::Z     G:::::G      戈       \n"
+                        + "      Z:::::Z      G:::::G    GGGGGGGGGG\n"
+                        + "     Z:::::Z       G:::::G    G::::::::G\n"
+                        + "    Z:::::Z        G:::::G    GGGGG::::G\n"
+                        + "Z:::::Z        Z:::::::::G        G::::G\n"
+                        + "ZZZ:::::Z     ZZZZZ G:::::G       G::::G\n"
+                        + "Z::::::ZZZZZZZZ:::Z  G:::::GGGGGGGG::::G\n"
+                        + "Z:::::::::::::::::Z   GG:::::::::::::::G\n"
+                        + "Z:::::::::::::::::Z     GGG::::::GGG:::G\n"
+                        + "ZZZZZZZZZZZZZZZ  启动成功 GGGGGG    GGGG");
     }
 }
