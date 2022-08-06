@@ -1,9 +1,8 @@
 package com.ruoyi.template.service;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.template.domain.OlyTemplate;
 import com.ruoyi.common.core.domain.Ztree;
@@ -78,9 +77,7 @@ public interface IOlyTemplateService {
      */
     public List<Ztree> selectOlyTemplateTree(int olType);
 
-    public void getTemplateContent(String tUrl, HttpServletResponse response);
-
-    public String getContentByTemplateUrl(String tUrl);
+    public String getContentByTemplateUrl(Path path);
 
     /**
      * 

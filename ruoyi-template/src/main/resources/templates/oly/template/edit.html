@@ -297,7 +297,7 @@
         if (($("input[name='templateType']:checked").val() == 1 || $("input[name='templateType']:checked").val() == 2) && $("input[name='templateUrl']").val().length > 2) {
 
             $.get(prefix + "/getContent", { 'templateUrl': $("input[name='templateUrl']").val() }, function (res) {
-                setHtml(res);
+                setHtml(res.msg);
             });
         }
         /*模板模型-新增-选择父树*/

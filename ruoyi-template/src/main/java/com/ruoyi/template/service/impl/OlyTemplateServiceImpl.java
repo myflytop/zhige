@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -160,71 +161,6 @@ public class OlyTemplateServiceImpl implements IOlyTemplateService {
     }
 
     @Override
-    public void getTemplateContent(String tUrl, HttpServletResponse response) {
-        File inFile = Paths.get(OlyStageRoot.TEMPLATE_DIR.getRoot(tUrl)).toFile();
-        // 判断文件是否存在
-        if (!inFile.exists()) {
-            PrintWriter writer = null;
-            try {
-                response.setContentType("text/html;charset=UTF-8");
-                writer = response.getWriter();
-                writer.write(
-                        "<!doctype html><title>404 Not Found</title><h1 style=\"text-align: center\">404 Not Found</h1><hr/><p style=\"text-align: center\">Easy File Server</p>");
-                writer.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return;
-        }
-        // 获取文件类型
-        String contentType = null;
-        try {
-            // Path path = Paths.get(inFile.getName());
-            // contentType = Files.probeContentType(path);
-            contentType = new Tika().detect(inFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (contentType != null) {
-            response.setContentType(contentType);
-        } else {
-            response.setContentType("application/force-download");
-            String newName;
-            try {
-                newName = URLEncoder.encode(inFile.getName(), "utf-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                newName = inFile.getName();
-            }
-            response.setHeader("Content-Disposition", "attachment;fileName=" + newName);
-        }
-        // 输出文件流
-        OutputStream os = null;
-        FileInputStream is = null;
-        try {
-            is = new FileInputStream(inFile);
-            os = response.getOutputStream();
-            byte[] bytes = new byte[1024];
-            int len;
-            while ((len = is.read(bytes)) != -1) {
-                os.write(bytes, 0, len);
-            }
-            os.flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-                os.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
     public int countTemplate(Long templateId) {
 
         return olyTemplateMapper.countTemplate(templateId);
@@ -243,12 +179,8 @@ public class OlyTemplateServiceImpl implements IOlyTemplateService {
     }
 
     @Override
-    public String getContentByTemplateUrl(String tUrl) {
-        File inFile = Paths.get(OlyStageRoot.TEMPLATE_DIR.getRoot(tUrl)).toFile();
-        // 判断文件是否存在
-        if (!inFile.exists()) {
-            new ServiceException("文件不存在");
-        }
-        return FileUtils.readFileContent(inFile);
+    public String getContentByTemplateUrl(Path path) {
+
+        return FileUtils.readFileContent(path);
     }
 }

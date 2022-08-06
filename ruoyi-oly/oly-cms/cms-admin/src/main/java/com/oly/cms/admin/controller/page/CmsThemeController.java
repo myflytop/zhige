@@ -1,11 +1,8 @@
 package com.oly.cms.admin.controller.page;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +10,19 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.oly.cms.admin.model.support.ThemeTreeNode;
 import com.oly.cms.admin.service.impl.CmsArticleServiceImpl;
@@ -33,19 +43,6 @@ import com.ruoyi.mail.service.impl.OlyMailServiceImpl;
 import com.ruoyi.oss.domain.OlyOss;
 import com.ruoyi.system.config.service.impl.SysConfigServiceImpl;
 import com.ruoyi.template.utils.TemplatesUtil;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/cms/theme")
@@ -340,14 +337,16 @@ public class CmsThemeController extends CmsCommonController {
 		if (!"html|js|css|txt|json".contains(FilenameUtils.getExtension(path))) {
 			return AjaxResult.error("不支持文件类型！");
 		}
-		final File file = Paths.get(OlyStageRoot.THEME_DIR.getRoot(path)).toFile();
+		Path p = Paths.get(OlyStageRoot.THEME_DIR.getRoot(path));
+		final File file = p.toFile();
 		if (!file.exists()) {
 			return AjaxResult.error("文件不存在");
 		}
 		if (file.isDirectory()) {
 			return AjaxResult.error("所选文件为文件夹！");
 		}
-		return AjaxResult.success(FileUtils.readFileContent(file));
+
+		return AjaxResult.success(FileUtils.readFileContent(p));
 	}
 
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.UPDATE)

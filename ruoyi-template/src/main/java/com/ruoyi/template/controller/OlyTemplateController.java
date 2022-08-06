@@ -2,6 +2,7 @@ package com.ruoyi.template.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
@@ -273,8 +274,18 @@ public class OlyTemplateController extends BaseController {
     }
 
     @GetMapping("/getContent")
-    public void download(String templateUrl, HttpServletResponse response) {
-        olyTemplateService.getTemplateContent(templateUrl, response);
+    @RequiresPermissions("cms:template:view")
+    @ResponseBody
+    public AjaxResult download(String templateUrl) {
+        Path p = Paths.get(OlyStageRoot.THEME_DIR.getRoot(templateUrl));
+        final File file = p.toFile();
+        if (!file.exists()) {
+            return AjaxResult.error("文件不存在");
+        }
+        if (file.isDirectory()) {
+            return AjaxResult.error("所选文件为文件夹！");
+        }
+        return AjaxResult.success(olyTemplateService.getContentByTemplateUrl(p));
     }
 
     /**

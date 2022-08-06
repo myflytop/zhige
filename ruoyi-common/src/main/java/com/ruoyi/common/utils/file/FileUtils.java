@@ -10,12 +10,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import com.ruoyi.common.config.RuoYiConfig;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.uuid.IdUtils;
@@ -235,30 +240,16 @@ public class FileUtils {
     /**
      * 读取文件内容
      * 
-     * @param file
+     * @param path
      * @return
      */
-    public static String readFileContent(File file) {
-        BufferedReader reader = null;
+    public static String readFileContent(Path path) {
+
         try {
-            StringBuffer sbf = new StringBuffer();
-            reader = new BufferedReader(new FileReader(file));
-            String tempStr;
-            while ((tempStr = reader.readLine()) != null) {
-                sbf.append(tempStr).append("\n");
-            }
-            reader.close();
-            return sbf.toString();
+            return Files.readString(path);
         } catch (IOException e) {
-            return e.getMessage();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e1) {
-                    return e1.getMessage();
-                }
-            }
+            throw new ServiceException("读取模板内容失败 " + path);
         }
+
     }
 }

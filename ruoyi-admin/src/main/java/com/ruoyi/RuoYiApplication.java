@@ -26,13 +26,13 @@ public class RuoYiApplication {
         String workPath;
         boolean appointProfile;
         if (ymlFile.exists() && ymlFile.isFile()) {
-            workPath = YamlUtil.yamlPropertiesByFile("ruoyi.profile", ymlFile).toString();
+            workPath = YamlUtil.yamlPropertiesByFile("zg.profile", ymlFile).toString();
             appointProfile = BooleanUtil
-                    .toBoolean(YamlUtil.yamlPropertiesByFile("ruoyi.appointProfile", ymlFile).toString());
+                    .toBoolean(YamlUtil.yamlPropertiesByFile("zg.appointProfile", ymlFile).toString());
         } else {
-            workPath = YamlUtil.yamlPropertiesByResources("ruoyi.profile", "application.yml").toString();
+            workPath = YamlUtil.yamlPropertiesByResources("zg.profile", "application.yml").toString();
             appointProfile = BooleanUtil.toBoolean(
-                    YamlUtil.yamlPropertiesByResources("ruoyi.appointProfile", "application.yml").toString());
+                    YamlUtil.yamlPropertiesByResources("zg.appointProfile", "application.yml").toString());
         }
         if (!appointProfile) {
             workPath = Paths.get(RuoYiConfig.getUserWork(), workPath).toString();
