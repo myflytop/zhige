@@ -5,20 +5,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
+
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
@@ -244,12 +243,27 @@ public class FileUtils {
      * @return
      */
     public static String readFileContent(Path path) {
-
+        BufferedReader reader = null;
         try {
-            return Files.readString(path);
+            StringBuffer sbf = new StringBuffer();
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile()), "utf-8"));
+            String tempStr;
+            while ((tempStr = reader.readLine()) != null) {
+                sbf.append(tempStr).append("\n");
+            }
+            reader.close();
+            return sbf.toString();
         } catch (IOException e) {
-            throw new ServiceException("读取模板内容失败 " + path);
+            throw new ServiceException("读取模板内容失败 " + e.getMessage());
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                    throw new ServiceException("读取模板内容失败 " + e1.getMessage());
+                }
+            }
         }
-
     }
+
 }
