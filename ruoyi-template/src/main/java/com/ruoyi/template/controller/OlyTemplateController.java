@@ -277,7 +277,7 @@ public class OlyTemplateController extends BaseController {
     @RequiresPermissions("cms:template:view")
     @ResponseBody
     public AjaxResult download(String templateUrl) {
-        Path p = Paths.get(OlyStageRoot.THEME_DIR.getRoot(templateUrl));
+        Path p = Paths.get(OlyStageRoot.TEMPLATE_DIR.getRoot(templateUrl));
         final File file = p.toFile();
         if (!file.exists()) {
             return AjaxResult.error("文件不存在");

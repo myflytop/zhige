@@ -5,43 +5,15 @@
     <th:block th:include="include :: header('新增模板')" />
     <th:block th:include="include :: oly_froala_css" />
     <th:block th:include="include :: oly_jsoneditor_css" />
-    <th:block th:include="include :: codemirror-css" />
+    <th:block th:include="include :: oly_markdown_css" />
     <th:block th:include="include :: bootstrap-fileinput-css" />
-    <style>
-        .myEdit>div,
-        .tr {
+</head>
+<style>
+     .fr-box,#foHtmlContent,#coHtmlContent {
             display: none;
         }
-
-        .CodeMirror {
-            border-radius: 10px !important;
-        }
-
-        .CodeMirror-line {
-            padding-left: 25px !important;
-        }
-    </style>
-</head>
-
+</style>
 <body class="white-bg" th:object="${olyTemplate}">
-    <div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span
-                            aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title">模板预览</h4>
-                </div>
-                <div class="modal-body" id="htmlView">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-template-edit" enctype="multipart/form-data">
             <input name="templateId" th:field="*{templateId}" type="hidden">
@@ -88,17 +60,15 @@
 
             <div class="form-group tHtml tr">
                 <label class="col-sm-3 control-label">模板内容：</label>
-                <div class="col-sm-8 myEdit">
+                <div class="col-sm-8">
                     <textarea id="foHtmlContent">
 
 
                     </textarea>
 
-                    <textarea id="coHtmlContent">
-
-
-                    </textarea>
-
+                    <div id="coHtmlContent">
+                        <textarea style="display:none;"></textarea>
+                    </div>
                 </div>
             </div>
 
@@ -157,14 +127,34 @@
             </div>
         </form>
     </div>
+
+    <div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">模板预览</h4>
+                </div>
+                <div class="modal-body" id="htmlView">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: oly_froala_js" />
     <th:block th:include="include :: oly_jsoneditor_js" />
-    <th:block th:include="include :: codemirror-js" />
+    <th:block th:include="include :: oly_markdown_js" />
     <th:block th:include="include :: bootstrap-fileinput-js" />
     <script th:inline="javascript">
         var prefix = ctx + "oly/template";
         var supportSuffix = "pdf,excel,jpg";
+        $(document).ready(function () {
         $("#form-template-edit").validate({
             onkeyup: false,
             rules: {
@@ -193,14 +183,6 @@
             focusCleanup: true
         });
 
-        function submitHandler() {
-            if ($.validate.form()) {
-                var data = $('#form-template-edit').serializeArray();
-                data.push({ "name": "templateHtml", "value": getHtml() });
-                data.push({ "name": "templateParam", "value": JSON.stringify(jaonEditor.get(), null, 2) });
-                $.operate.saveTab(prefix + "/edit", data);
-            }
-        }
         $("input[name='templateType']").on('ifChecked', function (event) {
             changeBox();
         });
@@ -216,28 +198,21 @@
 
         });
 
-        //高亮折叠编辑器插件
-        var coEditor = CodeMirror.fromTextArea(document.getElementById("coHtmlContent"), {
-            mode: {
-                name: "htmlmixed",
-                scriptTypes: [{
-                    matches: /\/x-handlebars-template|\/x-mustache/i,
-                    mode: null
-                },
-                {
-                    matches: /(text|application)\/(x-)?vb(a|script)/i,
-                    mode: "vbscript"
-                }]
-            },
-            selectionPointer: true,
-            theme: "erlang-dark",
-            lineNumbers: true,	//显示行号
-            lineWrapping: true, //代码折叠
-            foldGutter: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-            matchBrackets: true,  //括号匹配
-            lineWiseCopyCut: true,
-            extraKeys: { "Ctrl-Space": "autocomplete" }
+        var coEditor = editormd("coHtmlContent", {
+            width: "100%",
+            height: 720,
+            watch: false,
+            toolbar: false,
+            codeFold: true,
+            searchReplace: true,
+            placeholder: "Enjoy coding!",
+            value: '',
+            theme: "dark",
+            mode: "text/html",
+            path: '/ajax/libs/oly_markdown/lib/',
+            onload : function() {
+            getCode()
+          }
         });
 
         /*olyTemplateType
@@ -245,10 +220,10 @@
        1：自定义html 多数据
        2：以上需要上传 不支持修改*/
         function changeBox() {
-            let tType = $("input[name='templateType']:checked").val();
-            $(".tr").show();
-            $(".myEdit>div").hide();
+            let tType = $("input[name='templateType']:checked").val()
             $("#viewBtn").hide();
+            $(".fr-box").hide();
+            $("#coHtmlContent").hide();
             if (tType == 0) {
                 $(".tr").hide();
             }
@@ -256,13 +231,13 @@
                 $(".tHtml").show();
                 $(".tUp").hide();
                 $(".tData").hide();
-                $(".myEdit>.fr-box").show();
+                $(".fr-box").show();
             }
             else if (tType == 2) {
                 $(".tHtml").show();
                 $(".tData").show();
                 $(".tUp").hide();
-                $(".myEdit>.CodeMirror").show();
+                $("#coHtmlContent").show();
                 $("#viewBtn").show();
 
             }
@@ -274,7 +249,7 @@
         }
         setTimeout(() => {
             changeBox();
-        }, 100);
+        }, 1000);
 
         function getHtml() {
             if ($("input[name='templateType']:checked").val() == 1) {
@@ -293,13 +268,14 @@
             }
 
         }
-
+       function getCode(){
         if (($("input[name='templateType']:checked").val() == 1 || $("input[name='templateType']:checked").val() == 2) && $("input[name='templateUrl']").val().length > 2) {
-
             $.get(prefix + "/getContent", { 'templateUrl': $("input[name='templateUrl']").val() }, function (res) {
                 setHtml(res.msg);
             });
         }
+       }
+     
         /*模板模型-新增-选择父树*/
         function selectTemplateTree() {
             var options = {
@@ -324,7 +300,7 @@
             }
         }
 
-        const json = JSON.parse([[${olyTemplate.templateParam }]]);
+        const json = JSON.parse([[${ olyTemplate.templateParam }]]);
         const options = {
             mode: 'tree',
             modes: ['code', 'form', 'text', 'tree', 'view', 'preview'], // allowed modes
@@ -373,7 +349,16 @@
 
             })
         }
-        $(document).ready(function () {
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                var data = $('#form-template-edit').serializeArray();    
+                data.push({ "name": "templateHtml", "value": getHtml() });
+                data.push({ "name": "templateParam", "value": JSON.stringify(jaonEditor.get(), null, 2) });
+                $.operate.saveTab(prefix + "/edit", data);
+            }
+        }
+       
             $("input[name='file']").fileinput({
                 rtl: true,
                 showPreview: false, //是否显示预览

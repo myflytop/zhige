@@ -101,7 +101,7 @@
 				function zOnClick(event, treeId, treeNode) {
 					if (!treeNode.parent) {
 						$.get(prefix + "/themeContent", { path: treeNode.id }, function (result) {
-							codeEditor.setValue(result.msg)
+							codeEditor.setValue(result.msg);
 							editPath = treeNode.id;
 						});
 					}

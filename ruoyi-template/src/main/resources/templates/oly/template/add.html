@@ -5,20 +5,11 @@
     <th:block th:include="include :: header('新增模板')" />
     <th:block th:include="include :: oly_froala_css" />
     <th:block th:include="include :: oly_jsoneditor_css" />
-    <th:block th:include="include :: codemirror-css" />
+    <th:block th:include="include :: oly_markdown_css" />
     <th:block th:include="include :: bootstrap-fileinput-css" />
     <style>
-        .myEdit>div,
-        .tr {
+      .fr-box,#foHtmlContent,#coHtmlContent {
             display: none;
-        }
-
-        .CodeMirror {
-            border-radius: 10px !important;
-        }
-
-        .CodeMirror-line {
-            padding-left: 25px !important;
         }
     </style>
 </head>
@@ -89,17 +80,15 @@
 
             <div class="form-group tHtml tr">
                 <label class="col-sm-3 control-label">模板内容：</label>
-                <div class="col-sm-8 myEdit">
-                    <textarea id="foHtmlContent">
-
-
-                    </textarea>
-
-                    <textarea id="coHtmlContent">
-
-
-                    </textarea>
-
+                <div class="col-sm-8">     
+                        <textarea id="foHtmlContent">
+    
+    
+                        </textarea>
+    
+                        <div id="coHtmlContent">
+                            <textarea style="display:none;"></textarea>
+                        </div>
                 </div>
             </div>
 
@@ -160,11 +149,11 @@
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: oly_froala_js" />
     <th:block th:include="include :: oly_jsoneditor_js" />
-    <th:block th:include="include :: codemirror-js" />
+    <th:block th:include="include :: oly_markdown_js" />
     <th:block th:include="include :: bootstrap-fileinput-js" />
     <script th:inline="javascript">
         var prefix = ctx + "oly/template";
-        var supportSuffix = "pdf,excel,jpg" 
+        var supportSuffix = "pdf,excel,jpg"
         $("#form-template-add").validate({
             onkeyup: false,
             rules: {
@@ -173,7 +162,7 @@
                 },
                 templateName: {
                     required: true,
-                    rangelength:[2,16],
+                    rangelength: [2, 16],
                 },
                 orderNum: {
                     digits: true
@@ -205,53 +194,39 @@
             changeBox();
         });
 
-
-        /* 初始化富文本编辑器 */
-        var foEditor = new FroalaEditor("#foHtmlContent", {
+          /* 初始化富文本编辑器 */
+          var foEditor = new FroalaEditor("#foHtmlContent", {
             // Set the language code.
             language: 'zh_cn',
             imageUploadURL: ctx + "cms/article/articleImgByFroala" //上传到本地服务器,返回{'link',url}
         }, function () {
-            if ($("input[name='templateType']:checked").val() == 1 && $("input[name='templateUrl']").val().length > 10) {
-                $.get(prefix + "/getContent", { 'templateUrl': $("input[name='templateUrl']").val() }, function (res) {
-                    editor.html.set(res);
-                });
-            }
+
         });
 
-        //高亮折叠编辑器插件
-        var coEditor = CodeMirror.fromTextArea(document.getElementById("coHtmlContent"), {
-            mode: {
-                name: "htmlmixed",
-                scriptTypes: [{
-                    matches: /\/x-handlebars-template|\/x-mustache/i,
-                    mode: null
-                },
-                {
-                    matches: /(text|application)\/(x-)?vb(a|script)/i,
-                    mode: "vbscript"
-                }]
-            },
-            selectionPointer: true,
-            theme: "erlang-dark",
-            lineNumbers: true,	//显示行号
-            lineWrapping: true, //代码折叠
-            foldGutter: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-            matchBrackets: true,  //括号匹配
-            lineWiseCopyCut: true,
-            extraKeys: { "Ctrl-Space": "autocomplete" }
+        var coEditor = editormd("coHtmlContent", {
+            width: "100%",
+            height: 720,
+            watch: false,
+            toolbar: false,
+            codeFold: true,
+            searchReplace: true,
+            placeholder: "Enjoy coding!",
+            value: '',
+            theme: "dark",
+            mode: "text/html",
+            path: '/ajax/libs/oly_markdown/lib/'
         });
+
 
         /*olyTemplateType
        0：为目录  目录 目录名 备注 用途
        1：自定义html 多数据
        2：以上需要上传 不支持修改*/
-        function changeBox() {
-            let tType = $("input[name='templateType']:checked").val();
-            $(".tr").show();
-            $(".myEdit>div").hide();
+       function changeBox() {
+            let tType = $("input[name='templateType']:checked").val()
             $("#viewBtn").hide();
+            $(".fr-box").hide();
+            $("#coHtmlContent").hide();
             if (tType == 0) {
                 $(".tr").hide();
             }
@@ -259,13 +234,13 @@
                 $(".tHtml").show();
                 $(".tUp").hide();
                 $(".tData").hide();
-                $(".myEdit>.fr-box").show();
+                $(".fr-box").show();
             }
             else if (tType == 2) {
                 $(".tHtml").show();
                 $(".tData").show();
                 $(".tUp").hide();
-                $(".myEdit>.CodeMirror").show();
+                $("#coHtmlContent").show();
                 $("#viewBtn").show();
 
             }
@@ -277,7 +252,7 @@
         }
         setTimeout(() => {
             changeBox();
-        }, 100);
+        }, 1000);
 
 
         function getHtml() {
@@ -308,7 +283,7 @@
 
         const json =
         {
-          
+
         };
 
         const options = {
