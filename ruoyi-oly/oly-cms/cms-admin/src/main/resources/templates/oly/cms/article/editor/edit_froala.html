@@ -77,7 +77,7 @@
 				<!-- 关键词 -->
 				<div class="form-group">
 					<div class="col-sm-12 keyinput">
-						<input class="form-control" type="text" name="keywords" id="articleKey" placeholder="关键词" />
+						<input class="form-control" type="text" name="keywords" th:field="*{keywords}" id="articleKey" placeholder="关键词" />
 					</div>
 				</div>
 				<!-- 内容 -->
@@ -246,7 +246,7 @@
 		var baseCat = ctx + "cms/cat";
 		var articleSummary = [[*{ articleSummary }]];
 		//初始化参数
-		var tags = [[${ tags }]], cats = [[${ cats }]], keywords = [[*{ keywords }]],
+		var tags = [[${ tags }]], cats = [[${ cats }]],
 			maxTag = [[${@configTag.getKey('cmsConfig','oly.cms.articleTag.maxNum') }]],
 		maxCat = [[${@configTag.getKey('cmsConfig','oly.cms.articleCat.maxNum') }]],
 		maxPhoto = [[${@configTag.getKey('cmsConfig','oly.cms.articleImg.maxNum') }]],
@@ -578,10 +578,7 @@
 			maxTags: maxKeyword,
 			maxChars: 8
 		});
-		//添加关键词
-		$('#articleKey').tagsinput(
-			"add", keywords
-		);
+	
 		//选择标签
 		$("#chooseTag").change(function () {
 			var k = $(this).val();
