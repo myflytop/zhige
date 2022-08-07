@@ -186,8 +186,8 @@
         <div class="form-group">
 				<label class="col-sm-3 control-label">是否覆盖：</label>
 				<div class="col-sm-8">
-					<label class="radio-box" title="覆盖上传"> <input  name="covery" type="radio" value="true"  />覆盖</label> 
-					<label class="radio-box" title="不覆盖上传"> <input  name="covery" type="radio" value="false" checked /> 不覆盖 </label> 
+					<label class="radio-box" title="覆盖上传"> <input  name="cover" type="radio" value="true"  />覆盖</label> 
+					<label class="radio-box" title="不覆盖上传"> <input  name="cover" type="radio" value="false" checked /> 不覆盖 </label> 
 				</div>
         <font color="red" class="pull-left mt10">
 			提示：仅允许导入“.zip”,“.gz”或“.rar”格式文件！
@@ -346,8 +346,8 @@
 					$.modal.disable();
 					var formData = new FormData();
 					formData.append("themeFile", file);
-					formData.append("covery", $(
-						"input[name='covery']:checked").val());
+					formData.append("cover", $(
+						"input[name='cover']:checked").val());
 					$.ajax({
 						url: prefix + "/uploadTheme",
 						data: formData,

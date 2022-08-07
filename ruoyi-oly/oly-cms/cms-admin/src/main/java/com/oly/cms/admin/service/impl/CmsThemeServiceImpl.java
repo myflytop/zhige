@@ -80,21 +80,21 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	}
 
 	@Override
-	public int uploadTheme(MultipartFile file, boolean covery) throws Throwable, IOException {
-		String flodName = FilenameUtils.getBaseName(file.getOriginalFilename());
-		if (SysConfigGroups.getValues().contains(flodName)) {
+	public int uploadTheme(MultipartFile file, boolean cover) throws Throwable, IOException {
+		String floadName = FilenameUtils.getBaseName(file.getOriginalFilename());
+		if (SysConfigGroups.getValues().contains(floadName)) {
 			throw new ServiceException("主题名不被系统允许!");
 		}
 		String fileName = FilenameUtils.getName(file.getOriginalFilename());
 		// 主题文件
 		File themeFile = Paths.get(OlyStageRoot.THEME_DIR.getRoot(fileName)).toFile();
 		// 主题文件夹
-		File themeFlod = Paths.get(OlyStageRoot.THEME_DIR.getRoot(flodName)).toFile();
+		File themeFload = Paths.get(OlyStageRoot.THEME_DIR.getRoot(floadName)).toFile();
 		// 主题信息是否同步数据库
-		boolean iSync = (themeMapper.countThemeByName(flodName) == 0);
+		boolean iSync = (themeMapper.countThemeByName(floadName) == 0);
 		// 文件夹存在
-		if (themeFlod.exists() && themeFlod.isDirectory()) {
-			if (covery) {
+		if (themeFload.exists() && themeFload.isDirectory()) {
+			if (cover) {
 				ossHander.ossAppointUpload(file, OlyStageRoot.THEME_DIR, fileName);
 				log.info("主题已覆盖");
 			} else {
@@ -108,7 +108,7 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 		ZipUtil.unzip(themeFile.getAbsolutePath(), themeFile.getParent(), CharsetUtil.systemCharset());
 		// 删除压缩文件
 		FileUtil.del(themeFile);
-		return this.syncThemeInfo(flodName, iSync);
+		return this.syncThemeInfo(floadName, iSync);
 	}
 
 	/**

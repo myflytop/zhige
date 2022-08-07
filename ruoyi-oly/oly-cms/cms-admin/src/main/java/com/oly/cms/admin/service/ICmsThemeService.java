@@ -36,13 +36,13 @@ public interface ICmsThemeService {
 
     /**
      * 
-     * @param file   文件
-     * @param covery 覆盖上传
+     * @param file  文件
+     * @param cover 覆盖上传
      * @return
      * @throws IOException
      * @throws Throwable
      */
-    int uploadTheme(MultipartFile file, boolean covery) throws Throwable, IOException;
+    int uploadTheme(MultipartFile file, boolean cover) throws Throwable, IOException;
 
     /**
      * 启用设置主题
