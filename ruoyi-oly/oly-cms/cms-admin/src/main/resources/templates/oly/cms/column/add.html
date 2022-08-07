@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head th:include="include :: header('新增栏目')"></head>
+<th:block th:include="include :: oly_tagsinput_css" />
 <body class="white-bg">
 	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
 		<form class="form-horizontal m" id="form-column-add">
@@ -102,7 +103,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">关键词：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="keywords" >
+					<input class="form-control" type="text" placeholder="关键词" name="keywords" >
 				</div>
 			</div>
 			<div class="form-group">
@@ -114,8 +115,14 @@
 		</form>
 	</div>
 	<div th:include="include::footer"></div>
+	<th:block th:include="include :: oly_tagsinput_js" />
 	<script>
         var prefix = ctx + "cms/column";
+		  //关键词
+		  $("input[name='keywords']").tagsinput({
+			maxTags: 4,
+			maxChars: 8
+		});
         $("#form-column-add").validate({
         	rules:{
         		openType:{
