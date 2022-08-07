@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.oly.cms.common.model.enums.ArticleEditTypeEnums;
 import com.oly.cms.common.model.enums.ArticleKeyTypeEnums;
+import com.oly.cms.common.model.enums.OrderEnums;
 import com.oly.cms.common.model.support.PageData;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.po.WebArticle;
@@ -70,7 +71,7 @@ public class ArticleTag {
      */
     public List<WebArticle> listWebArticlesByCatId(long catId, int num, int size, String themeName) {
 
-        return webPostService.listWebArticlesByCatId(catId, num, size, themeName);
+        return webPostService.listWebArticlesByCatId(catId, themeName, num, size, OrderEnums.DESC);
     }
 
     /**
@@ -83,7 +84,37 @@ public class ArticleTag {
      */
     public List<WebArticle> listWebArticlesByCatId(long catId, int num, int size) {
 
-        return webPostService.listWebArticlesByCatId(catId, num, size);
+        return webPostService.listWebArticlesByCatId(catId, "", num, size, OrderEnums.DESC);
+    }
+
+    /**
+     * 依据分类 严格模式
+     * 
+     * @param catId
+     * @param themeName
+     * @param num
+     * @param size
+     * @param order
+     * @return
+     */
+    public List<WebArticle> listWebArticlesOrderByCatId(long catId, String themeName, int num, int size,
+            OrderEnums order) {
+
+        return webPostService.listWebArticlesByCatId(catId, themeName, num, size, order);
+    }
+
+    /**
+     * 依据分类
+     * 
+     * @param catId
+     * @param num
+     * @param size
+     * @param order
+     * @return
+     */
+    public List<WebArticle> listWebArticlesOrderByCatId(long catId, int num, int size, OrderEnums order) {
+
+        return webPostService.listWebArticlesByCatId(catId, "", num, size, order);
     }
 
     /**
@@ -97,7 +128,7 @@ public class ArticleTag {
      */
     public List<WebArticle> listWebArticlesByTagId(long tagId, int num, int size, String themeName) {
 
-        return webPostService.listWebArticlesByTagId(tagId, num, size, themeName);
+        return webPostService.listWebArticlesByTagId(tagId, themeName, num, size, OrderEnums.DESC);
     }
 
     /**
@@ -110,7 +141,37 @@ public class ArticleTag {
      */
     public List<WebArticle> listWebArticlesByTagId(long tagId, int num, int size) {
 
-        return webPostService.listWebArticlesByTagId(tagId, num, size);
+        return webPostService.listWebArticlesByTagId(tagId, "", num, size, OrderEnums.DESC);
+    }
+
+    /**
+     * 依据标签 严格模式
+     * 
+     * @param tagId
+     * @param themeName
+     * @param num
+     * @param size
+     * @param order
+     * @return
+     */
+    public List<WebArticle> listWebArticlesOrderByTagId(long tagId, String themeName, int num, int size,
+            OrderEnums order) {
+
+        return webPostService.listWebArticlesByTagId(tagId, themeName, num, size, order);
+    }
+
+    /**
+     * 依据标签
+     * 
+     * @param tagId
+     * @param num
+     * @param size
+     * @param order
+     * @return
+     */
+    public List<WebArticle> listWebArticlesOrderByTagId(long tagId, int num, int size, OrderEnums order) {
+
+        return webPostService.listWebArticlesByTagId(tagId, "", num, size, order);
     }
 
     /**

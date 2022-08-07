@@ -5,6 +5,7 @@ import java.util.List;
 import com.oly.cms.common.constant.CacheConstant;
 import com.oly.cms.common.model.enums.ArticleEditTypeEnums;
 import com.oly.cms.common.model.enums.ArticleKeyTypeEnums;
+import com.oly.cms.common.model.enums.OrderEnums;
 import com.oly.cms.general.model.PageArticleTimeLine;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.po.WebArticle;
@@ -36,31 +37,22 @@ public class GeneralArticleCacheService {
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<WebArticle> listWebArticlesByCatId(long catId, int pageNum, int pageSize, String themeName) {
+    public List<WebArticle> listWebArticlesByCatId(long catId, String themeName, int pageNum, int pageSize,
+            OrderEnums order) {
 
-        return articleServiceImpl.listWebArticlesByCatId(catId, pageNum, pageSize, themeName);
+        return articleServiceImpl.listWebArticlesByCatId(catId, themeName, pageNum, pageSize, order);
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<WebArticle> listWebArticlesByCatId(long catId, int pageNum, int pageSize) {
-
-        return articleServiceImpl.listWebArticlesByCatId(catId, pageNum, pageSize);
+    public List<WebArticle> listWebArticlesByTagId(long tagId, String themeName, int pageNum, int pageSize,
+            OrderEnums order) {
+        return articleServiceImpl.listWebArticlesByTagId(tagId, themeName, pageNum, pageSize, order);
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<WebArticle> listWebArticlesByTagId(long tagId, int pageNum, int pageSize, String themeName) {
-        return articleServiceImpl.listWebArticlesByTagId(tagId, pageNum, pageSize, themeName);
-    }
+    public List<WebArticle> listWebArticlesOrder(int pageNum, int pageSize, String orderString, String themeName) {
 
-    @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<WebArticle> listWebArticlesByTagId(long tagId, int pageNum, int pageSize) {
-        return articleServiceImpl.listWebArticlesByTagId(tagId, pageNum, pageSize);
-    }
-
-    @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<WebArticle> listWebArticlesOrder(int pageNum, int pageSize, String ordeString, String themeName) {
-
-        return articleServiceImpl.listWebArticlesOrder(pageNum, pageSize, ordeString, themeName);
+        return articleServiceImpl.listWebArticlesOrder(pageNum, pageSize, orderString, themeName);
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")

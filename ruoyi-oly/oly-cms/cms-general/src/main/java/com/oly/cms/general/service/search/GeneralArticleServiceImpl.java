@@ -10,6 +10,7 @@ import com.oly.cms.common.domain.entity.CmsCat;
 import com.oly.cms.common.domain.entity.CmsTag;
 import com.oly.cms.common.model.enums.ArticleEditTypeEnums;
 import com.oly.cms.common.model.enums.ArticleKeyTypeEnums;
+import com.oly.cms.common.model.enums.OrderEnums;
 import com.oly.cms.common.model.properties.OlyWebConfigProperties;
 import com.oly.cms.general.mapper.CategorySearchMapper;
 import com.oly.cms.general.mapper.ArticleSearchMapper;
@@ -121,48 +122,43 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
         return this.listWebArticles(ba);
     }
 
-    public List<WebArticle> listWebArticlesByCatId(long catId, int num, int size, String themeName) {
+    public List<WebArticle> listWebArticlesByCatId(long catId, String themeName, int num, int size, OrderEnums order) {
         CmsCat cmsCat = categorySearchMapper.selectCmsCatById(catId);
         String supportType = getSupportType(themeName);
-        if (cmsCat != null && (StringUtils.isEmpty(supportType)
-                || ArrayUtils.contains(supportType.split(","), cmsCat.getCatType().toString()))) {
-            WebArticleSearchParam webArticleSearchParam = new WebArticleSearchParam();
-            webArticleSearchParam.setCatId(catId);
-            webArticleSearchParam.setThemeName(themeName);
-            PageHelper.startPage(num, size);
-            return this.listWebArticles(webArticleSearchParam);
+        if (cmsCat != null) {
+            if (StringUtils.isEmpty(supportType)
+                    || ArrayUtils.contains(supportType.split(","), cmsCat.getCatType().toString())) {
+                WebArticleSearchParam webArticleSearchParam = new WebArticleSearchParam();
+                webArticleSearchParam.setCatId(catId);
+                webArticleSearchParam.setThemeName(themeName);
+                PageHelper.startPage(num, size, "article_top desc,create_time " + order.name());
+                return this.listWebArticles(webArticleSearchParam);
+            } else {
+                return null;
+            }
+
         } else {
             return null;
         }
     }
 
-    public List<WebArticle> listWebArticlesByCatId(long catId, int num, int size) {
-        WebArticleSearchParam webArticleSearchParam = new WebArticleSearchParam();
-        webArticleSearchParam.setCatId(catId);
-        PageHelper.startPage(num, size, "article_top,create_time desc");
-        return this.listWebArticles(webArticleSearchParam);
-    }
-
-    public List<WebArticle> listWebArticlesByTagId(long tagId, int num, int size, String themeName) {
+    public List<WebArticle> listWebArticlesByTagId(long tagId, String themeName, int num, int size, OrderEnums order) {
         CmsTag cmsTag = tagSearchMapper.selectCmsTagById(tagId);
         String supportType = getSupportType(themeName);
-        if (cmsTag != null && (StringUtils.isEmpty(supportType)
-                || ArrayUtils.contains(supportType.split(","), cmsTag.getTagType().toString()))) {
-            WebArticleSearchParam webArticleSearchParam = new WebArticleSearchParam();
-            webArticleSearchParam.setTagId(tagId);
-            webArticleSearchParam.setThemeName(themeName);
-            PageHelper.startPage(num, size);
-            return this.listWebArticles(webArticleSearchParam);
+        if (cmsTag != null) {
+            if (StringUtils.isEmpty(supportType)
+                    || ArrayUtils.contains(supportType.split(","), cmsTag.getTagType().toString())) {
+                WebArticleSearchParam webArticleSearchParam = new WebArticleSearchParam();
+                webArticleSearchParam.setTagId(tagId);
+                webArticleSearchParam.setThemeName(themeName);
+                PageHelper.startPage(num, size, "article_top desc,create_time " + order.name());
+                return this.listWebArticles(webArticleSearchParam);
+            } else {
+                return null;
+            }
         } else {
             return null;
         }
-    }
-
-    public List<WebArticle> listWebArticlesByTagId(long tagId, int num, int size) {
-        WebArticleSearchParam webArticleSearchParam = new WebArticleSearchParam();
-        webArticleSearchParam.setTagId(tagId);
-        PageHelper.startPage(num, size);
-        return this.listWebArticles(webArticleSearchParam);
     }
 
     public List<WebArticle> listWebArticlesByType(int type, int num, int size, String orderString) {

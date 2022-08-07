@@ -294,6 +294,7 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 				}
 			}
 		}
+		app.publishEvent(new CacheWebRefreshAllEvent(this, CacheConstant.POST_CACHE_KEY_PREFIX));
 		return count;
 	}
 

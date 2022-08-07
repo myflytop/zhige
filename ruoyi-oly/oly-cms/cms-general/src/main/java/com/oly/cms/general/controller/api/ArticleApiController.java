@@ -3,6 +3,7 @@ package com.oly.cms.general.controller.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.oly.cms.common.model.enums.OrderEnums;
 import com.oly.cms.common.model.support.PageData;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.po.WebArticle;
@@ -83,12 +84,41 @@ public class ArticleApiController extends BaseController {
    * @param tagId
    * @param num
    * @param size
+   * @param themeName
+   * @param order
+   * @return
+   */
+  @GetMapping("/list/tag/{tagId}{themeName}/{num}/{size}/order/{order}")
+  public AjaxResult listArticleByTagId(@PathVariable("tagId") long tagId, @PathVariable("num") Integer num,
+      @PathVariable("size") Integer size, @PathVariable("themeName") String themeName,
+      @PathVariable("order") OrderEnums order) {
+    return AjaxResult.success(articleService.listWebArticlesOrderByTagId(tagId, themeName, num, size, order));
+  }
+
+  /**
+   * 
+   * @param tagId
+   * @param num
+   * @param size
    * @return
    */
   @GetMapping("/list/tag/{tagId}/{num}/{size}")
   public AjaxResult listArticleByTagId(@PathVariable("tagId") long tagId, @PathVariable("num") int num,
       @PathVariable("size") int size) {
     return AjaxResult.success(articleService.listWebArticlesByTagId(tagId, num, size));
+  }
+
+  /**
+   * @param tagId
+   * @param num
+   * @param size
+   * @param order
+   * @return
+   */
+  @GetMapping("/list/tag/{tagId}/{num}/{size}/order/{order}")
+  public AjaxResult listArticleByTagId(@PathVariable("tagId") long tagId, @PathVariable("num") int num,
+      @PathVariable("size") int size, @PathVariable("order") OrderEnums order) {
+    return AjaxResult.success(articleService.listWebArticlesOrderByTagId(tagId, num, size, order));
   }
 
   /**
@@ -99,10 +129,26 @@ public class ArticleApiController extends BaseController {
    * @param themeName
    * @return
    */
-  @GetMapping("/list/cat/{catId}/{num}/{size}/{themeName}")
+  @GetMapping("/list/cat/{catId}/{themeName}/{num}/{size}")
   public AjaxResult listArticleByCatId(@PathVariable("catId") long catId, @PathVariable("num") Integer num,
       @PathVariable("size") Integer size, @PathVariable("themeName") String themeName) {
     return AjaxResult.success(articleService.listWebArticlesByCatId(catId, num, size, themeName));
+  }
+
+  /**
+   * 
+   * @param catId
+   * @param num
+   * @param size
+   * @param themeName
+   * @param order
+   * @return
+   */
+  @GetMapping("/list/cat/{catId}/{themeName}/{num}/{size}/order/{order}")
+  public AjaxResult listArticleByCatId(@PathVariable("catId") long catId, @PathVariable("num") Integer num,
+      @PathVariable("size") Integer size, @PathVariable("themeName") String themeName,
+      @PathVariable("order") OrderEnums order) {
+    return AjaxResult.success(articleService.listWebArticlesOrderByCatId(catId, themeName, num, size, order));
   }
 
   /**
@@ -116,6 +162,20 @@ public class ArticleApiController extends BaseController {
   public AjaxResult listArticleByCatId(@PathVariable("catId") long catId, @PathVariable("num") Integer num,
       @PathVariable("size") Integer size) {
     return AjaxResult.success(articleService.listWebArticlesByCatId(catId, num, size));
+  }
+
+  /**
+   * 
+   * @param catId
+   * @param num
+   * @param size
+   * @param order
+   * @return
+   */
+  @GetMapping("/list/cat/{catId}/{num}/{size}/order/{order}")
+  public AjaxResult listArticleByCatId(@PathVariable("catId") long catId, @PathVariable("num") Integer num,
+      @PathVariable("size") Integer size, @PathVariable("order") OrderEnums order) {
+    return AjaxResult.success(articleService.listWebArticlesOrderByCatId(catId, num, size, order));
   }
 
   /**
