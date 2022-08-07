@@ -13,7 +13,6 @@ import com.oly.cms.admin.service.impl.CmsCatServiceImpl;
 import com.oly.cms.admin.service.impl.CmsTagServiceImpl;
 import com.oly.cms.admin.service.impl.CmsThemeServiceImpl;
 import com.oly.cms.admin.web.CmsCommonController;
-import com.oly.cms.common.model.properties.OlyWebConfigProperties;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -24,7 +23,6 @@ import com.ruoyi.common.enums.OperateTitle;
 import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
 import com.ruoyi.common.exception.file.InvalidExtensionException;
 import com.ruoyi.common.utils.ShiroUtils;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.MimeExtxensionEnum;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.oss.domain.OlyOss;
@@ -86,14 +84,6 @@ public class CmsArticleController extends CmsCommonController {
 	@PostMapping("/list")
 	@ResponseBody
 	public TableDataInfo list(ArticleVo artVo) {
-		String configGroup = artVo.getParams().get("supportTheme").toString();
-		if (StringUtils.isNotEmpty(configGroup)) {
-			artVo.getParams().put("supportTheme", StringUtils.isEmpty(
-					configService.selectConfigDefauleValue(configGroup.toString(),
-							OlyWebConfigProperties.ARTICLE_TYPES))
-									? ""
-									: configGroup);
-		}
 		startPage();
 		List<CmsArticle> list = articleService.listCmsArticle(artVo);
 		return getDataTable(list);
