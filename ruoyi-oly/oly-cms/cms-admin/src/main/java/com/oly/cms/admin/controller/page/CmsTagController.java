@@ -63,6 +63,8 @@ public class CmsTagController extends CmsCommonController {
    /**
     * 标签关联文章页面
     * 
+    * @param tagId
+    * @param mp
     * @return
     */
    @RequiresPermissions("cms:article:view")
@@ -73,10 +75,16 @@ public class CmsTagController extends CmsCommonController {
       return prefix + "/relation";
    }
 
+   /**
+    * 标签列表
+    * 
+    * @param cmsTag
+    * @return
+    */
    @RequiresPermissions("cms:tag:list")
    @PostMapping("/list")
    @ResponseBody
-   public TableDataInfo page(final CmsTag cmsTag) {
+   public TableDataInfo page(CmsTag cmsTag) {
       String configGroup = cmsTag.getParams().get("supportType").toString();
       if (StringUtils.isNotEmpty(configGroup)) {
          cmsTag.getParams().put("supportType",
