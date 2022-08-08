@@ -36,7 +36,7 @@ public class ArticleApiController extends BaseController {
   public AjaxResult listArticleByArticleParam(WebArticleSearchParam parm, String themeName) {
     List<WebArticle> list = new ArrayList<>();
     startPage();
-    list = articleService.listWebArticles(parm, themeName);
+    list = articleService.listWebArticles(parm);
     PageData pageOne = PageData.getData(list);
     return AjaxResult.success(pageOne);
   }

@@ -71,7 +71,7 @@ public class ArticleTag {
      */
     public List<WebArticle> listWebArticlesByCatId(long catId, int num, int size, String themeName) {
 
-        return webPostService.listWebArticlesByCatId(catId, themeName, num, size, OrderEnums.DESC);
+        return webPostService.listWebArticlesOrder(num, size, null, catId, null, themeName, OrderEnums.DESC);
     }
 
     /**
@@ -84,7 +84,7 @@ public class ArticleTag {
      */
     public List<WebArticle> listWebArticlesByCatId(long catId, int num, int size) {
 
-        return webPostService.listWebArticlesByCatId(catId, "", num, size, OrderEnums.DESC);
+        return webPostService.listWebArticlesOrder(num, size, null, catId, null, null, OrderEnums.DESC);
     }
 
     /**
@@ -100,7 +100,7 @@ public class ArticleTag {
     public List<WebArticle> listWebArticlesOrderByCatId(long catId, String themeName, int num, int size,
             OrderEnums order) {
 
-        return webPostService.listWebArticlesByCatId(catId, themeName, num, size, order);
+        return webPostService.listWebArticlesOrder(num, size, null, catId, null, themeName, order);
     }
 
     /**
@@ -114,7 +114,7 @@ public class ArticleTag {
      */
     public List<WebArticle> listWebArticlesOrderByCatId(long catId, int num, int size, OrderEnums order) {
 
-        return webPostService.listWebArticlesByCatId(catId, "", num, size, order);
+        return webPostService.listWebArticlesOrder(num, size, null, catId, null, null, order);
     }
 
     /**
@@ -128,7 +128,7 @@ public class ArticleTag {
      */
     public List<WebArticle> listWebArticlesByTagId(long tagId, int num, int size, String themeName) {
 
-        return webPostService.listWebArticlesByTagId(tagId, themeName, num, size, OrderEnums.DESC);
+        return webPostService.listWebArticlesOrder(num, size, null, null, tagId, themeName, OrderEnums.DESC);
     }
 
     /**
@@ -141,7 +141,7 @@ public class ArticleTag {
      */
     public List<WebArticle> listWebArticlesByTagId(long tagId, int num, int size) {
 
-        return webPostService.listWebArticlesByTagId(tagId, "", num, size, OrderEnums.DESC);
+        return webPostService.listWebArticlesOrder(num, size, null, null, tagId, null, OrderEnums.DESC);
     }
 
     /**
@@ -157,7 +157,7 @@ public class ArticleTag {
     public List<WebArticle> listWebArticlesOrderByTagId(long tagId, String themeName, int num, int size,
             OrderEnums order) {
 
-        return webPostService.listWebArticlesByTagId(tagId, themeName, num, size, order);
+        return webPostService.listWebArticlesOrder(num, size, null, null, tagId, themeName, order);
     }
 
     /**
@@ -171,7 +171,7 @@ public class ArticleTag {
      */
     public List<WebArticle> listWebArticlesOrderByTagId(long tagId, int num, int size, OrderEnums order) {
 
-        return webPostService.listWebArticlesByTagId(tagId, "", num, size, order);
+        return webPostService.listWebArticlesOrder(num, size, null, null, tagId, null, order);
     }
 
     /**
@@ -183,7 +183,19 @@ public class ArticleTag {
      * @return
      */
     public List<WebArticle> listWebArticleByType(int articleType, int pageNum, int pageSize) {
-        return webPostService.listWebArticlesByType(articleType, pageNum, pageSize, "create_time desc");
+        return webPostService.listWebArticlesOrder(pageNum, pageSize, articleType, null, null, null, OrderEnums.DESC);
+    }
+
+    /**
+     * 
+     * @param articleType
+     * @param pageNum
+     * @param pageSize
+     * @param order
+     * @return
+     */
+    public List<WebArticle> listWebArticleByType(int articleType, int pageNum, int pageSize, OrderEnums order) {
+        return webPostService.listWebArticlesOrder(pageNum, pageSize, articleType, null, null, null, order);
     }
 
     /**
@@ -195,17 +207,10 @@ public class ArticleTag {
      * @return
      */
     public PageData pagePosts(String themeName, int pageNum, int pageSize) {
-        List<WebArticle> list = webPostService.listWebArticlesOrder(pageNum, pageSize, "create_time desc", themeName);
+        List<WebArticle> list = webPostService.listWebArticlesOrder(pageNum, pageSize, null, null, null, null,
+                OrderEnums.DESC);
         PageData pageOne = PageData.getData(list);
         return pageOne;
-    }
-
-    public List<WebArticle> listWebArticleOrderByTime(int pageNum, int pageSize, String themeName) {
-        return this.sort(pageNum, pageSize, "create_time desc", themeName);
-    }
-
-    public List<WebArticle> listWebArticleOrderByTop(int pageNum, int pageSize, String themeName) {
-        return this.sort(pageNum, pageSize, "article_top desc", themeName);
     }
 
     /**
@@ -218,18 +223,13 @@ public class ArticleTag {
         return webPostService.checkArticleSupportComment(articleId);
     }
 
-    private List<WebArticle> sort(int pageNum, int pageSize, String orderString, String themeName) {
-
-        return webPostService.listWebArticlesOrder(pageNum, pageSize, orderString, themeName);
-    }
-
     /**
      * 综合查询
      * 
      * @param bb
      * @return
      */
-    public List<WebArticle> listWebArticles(WebArticleSearchParam bb, String themeName) {
+    public List<WebArticle> listWebArticles(WebArticleSearchParam bb) {
 
         return webPostService.listWebArticles(bb);
     }

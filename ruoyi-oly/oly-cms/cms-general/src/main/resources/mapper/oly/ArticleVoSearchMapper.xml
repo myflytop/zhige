@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oly.cms.general.mapper.WebArticleCountVoSearchMapper">
-	<resultMap id="WebArticleCountVoResult" type="com.oly.cms.general.model.vo.WebArticleCountVo">
+<mapper namespace="com.oly.cms.general.mapper.ArticleVoSearchMapper">
+	<resultMap id="WebArticleVoResult" type="com.oly.cms.general.model.vo.WebArticleVo">
 		<id column="article_id" property="articleId" />
 		<result column="article_title" property="articleTitle" />
-		<result column="create_time" property="createTime"  />
+		<result column="create_time" property="createTime" />
 		<result column="article_top" property="articleTop" />
 		<result column="article_img" property="articleImg" />
 		<result column="article_url" property="articleUrl" />
@@ -23,17 +23,39 @@
 		 article_look, article_like, article_nasty, article_discuss, article_score, article_share, article_collect
 	</sql>
 
-	<select id="listArticlesCountSort" resultMap="WebArticleCountVoResult" parameterType="string">
-		select <include refid="article_count_sort_sql" />
+	<select id="listWebArticleVo" resultMap="WebArticleVoResult" parameterType="com.oly.cms.general.model.param.WebArticleSearchParam">
+		select
+		<include refid="article_count_sort_sql" />
 		from cms_article a left join cms_article_count b on a.article_id=b.article_id
 		<where>
-			<!-- 支持主题 -->
+			<if test="tagId != null">
+	    and	a.article_id in (select article_id from cms_article_tag where tag_id=#{tagId})
+		</if>
+			<if test="catId != null">
+		 and a.article_id in (select article_id from cms_article_cat where cat_id=#{catId})
+		</if>
+			<if test="articleTitle!=null and articleTitle != ''">
+			and article_title like concat('%', #{articleTitle}, '%')
+		</if>
+			<if test="createBy!=null">
+			and create_by=#{createBy}
+		</if>
+			<if test="articleType!=null">
+			and article_type=#{articleType}
+		</if>
+			<if test="articleTop!=null">
+			and article_top=#{articleTop}
+		</if>
+			<if test="articleBuild!=null">
+			and article_build=#{articleBuild}
+		</if>
 			<if test="themeName != null and themeName != ''">
 				<!-- 支持主题 -->
 				and a.article_id in(select article_id from cms_article_theme where theme_name=#{themeName})
 			</if>
-			and a.visible=3
+			and visible=3
 		</where>
+		GROUP BY a.article_id
 	</select>
 
 </mapper> 

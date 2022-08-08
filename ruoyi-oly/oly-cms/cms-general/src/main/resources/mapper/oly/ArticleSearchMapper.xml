@@ -37,45 +37,6 @@
 		<collection property="cmsArticleCount" javaType="com.oly.cms.common.domain.entity.CmsArticleCount" select="getPostCountByArticleId" column="article_id" ofType="com.oly.cms.common.domain.entity.CmsArticleCount" />
 	</resultMap>
 
-	<resultMap type="com.oly.cms.common.domain.entity.CmsUnion" id="UnionResult">
-        <result property="shopId"    column="shop_id"    />
-        <result property="shopName"    column="shop_name"    />
-        <result property="shopImg"    column="shop_img"    />
-        <result property="shopIndex"    column="shop_index"    />
-        <result property="homeName"    column="home_name"    />
-        <result property="shopPrice"    column="shop_price"    />
-        <result property="shopSales"    column="shop_sales"    />
-        <result property="incomeRatio"    column="income_ratio"    />
-        <result property="commission"    column="commission"    />
-        <result property="wangName"    column="wang_name"    />
-        <result property="sortUrl"    column="sort_url"    />
-        <result property="taokeUrl"    column="taoke_url"    />
-        <result property="couponCount"    column="coupon_count"    />
-        <result property="couponNum"    column="coupon_num"    />
-        <result property="couponPrice"    column="coupon_price"    />
-        <result property="couponStartTime"    column="coupon_start_time"    />
-        <result property="couponEndTime"    column="coupon_end_time"    />
-        <result property="couponUrl"    column="coupon_url"    />
-        <result property="couponCode"    column="coupon_code"    />
-        <result property="couponSortUrl"    column="coupon_sort_url"    />
-        <result property="marketIs"    column="market_is"    />
-        <result property="groupNum"    column="group_num"    />
-        <result property="groupPrice"    column="group_price"    />
-        <result property="groupCommission"    column="group_commission"    />
-        <result property="groupStartTime"    column="group_start_time"    />
-        <result property="groupEndTime"    column="group_end_time"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="remark"    column="remark"    />
-        <result property="visible"    column="visible"    />
-        <result property="shopContent"    column="shop_content"    />
-        <result property="unionType"    column="union_type"    />
-    </resultMap>
-
-
-
 	<!--文章统计相关-->
 	<sql id="web_count_sql">
       article_id, article_look, article_like, article_nasty, article_discuss, article_score, article_share, article_collect

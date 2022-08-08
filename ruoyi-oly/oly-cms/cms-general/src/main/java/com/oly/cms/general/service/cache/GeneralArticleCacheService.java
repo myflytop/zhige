@@ -31,39 +31,15 @@ public class GeneralArticleCacheService {
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")
-    public WebArticle getWebArticleMdByUrl(String articleUrl) {
-
-        return articleServiceImpl.getWebArticleMdByUrl(articleUrl);
-    }
-
-    @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<WebArticle> listWebArticlesByCatId(long catId, String themeName, int pageNum, int pageSize,
+    public List<WebArticle> listWebArticlesOrder(int num, int size, Integer articleType, Long catId, Long tagId,
+            String themeName,
             OrderEnums order) {
-
-        return articleServiceImpl.listWebArticlesByCatId(catId, themeName, pageNum, pageSize, order);
-    }
-
-    @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<WebArticle> listWebArticlesByTagId(long tagId, String themeName, int pageNum, int pageSize,
-            OrderEnums order) {
-        return articleServiceImpl.listWebArticlesByTagId(tagId, themeName, pageNum, pageSize, order);
-    }
-
-    @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<WebArticle> listWebArticlesOrder(int pageNum, int pageSize, String orderString, String themeName) {
-
-        return articleServiceImpl.listWebArticlesOrder(pageNum, pageSize, orderString, themeName);
+        return articleServiceImpl.listWebArticlesOrder(num, size, articleType, catId, tagId, themeName, order);
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")
     public PageArticleTimeLine groupByTime(int pageNum, int pageSize, String themeName) {
         return articleServiceImpl.groupByTime(pageNum, pageSize, themeName);
-    }
-
-    @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<WebArticle> listWebArticlesByType(int type, int pageNum, int pageSize, String ordeString) {
-
-        return articleServiceImpl.listWebArticlesByType(type, pageNum, pageSize, ordeString);
     }
 
     /**

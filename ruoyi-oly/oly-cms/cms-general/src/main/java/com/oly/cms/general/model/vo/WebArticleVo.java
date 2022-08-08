@@ -5,7 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.oly.cms.common.domain.entity.CmsArticleCount;
 
-public class WebArticleCountVo extends CmsArticleCount {
+public class WebArticleVo extends CmsArticleCount {
 
     private static final long serialVersionUID = 653673311404721257L;
 

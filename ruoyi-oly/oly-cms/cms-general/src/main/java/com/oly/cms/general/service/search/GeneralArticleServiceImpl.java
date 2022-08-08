@@ -5,41 +5,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.github.pagehelper.PageHelper;
-import com.oly.cms.common.domain.entity.CmsCat;
-import com.oly.cms.common.domain.entity.CmsTag;
 import com.oly.cms.common.model.enums.ArticleEditTypeEnums;
 import com.oly.cms.common.model.enums.ArticleKeyTypeEnums;
 import com.oly.cms.common.model.enums.OrderEnums;
-import com.oly.cms.common.model.properties.OlyWebConfigProperties;
-import com.oly.cms.general.mapper.CategorySearchMapper;
 import com.oly.cms.general.mapper.ArticleSearchMapper;
-import com.oly.cms.general.mapper.TagSearchMapper;
 import com.oly.cms.general.model.PageArticleTimeLine;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.po.WebArticle;
 import com.oly.cms.general.service.IGeneralSearchService;
 import com.ruoyi.common.core.text.Convert;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.system.config.service.ISysConfigService;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class GeneralArticleServiceImpl implements IGeneralSearchService {
     @Autowired
     private ArticleSearchMapper webSearchMapper;
-
-    @Autowired
-    private ISysConfigService configService;
-
-    @Autowired
-    private CategorySearchMapper categorySearchMapper;
-
-    @Autowired
-    private TagSearchMapper tagSearchMapper;
 
     /**
      * 综合查询
@@ -113,64 +97,24 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
         return webSearchMapper.getWebArticleMdByArticleUrl(articleUrl);
     }
 
-    public List<WebArticle> listWebArticlesOrder(int num, int size, String order, String themeName) {
-        WebArticleSearchParam ba = new WebArticleSearchParam();
-        if (StringUtils.isNotEmpty(themeName)) {
-            setThemeName(ba, themeName);
-        }
+    public List<WebArticle> listWebArticlesOrder(int num, int size, WebArticleSearchParam ba, String order) {
         PageHelper.startPage(num, size, order);
         return this.listWebArticles(ba);
     }
 
-    public List<WebArticle> listWebArticlesByCatId(long catId, String themeName, int num, int size, OrderEnums order) {
-        CmsCat cmsCat = categorySearchMapper.selectCmsCatById(catId);
-        String supportType = getSupportType(themeName);
-        if (cmsCat != null) {
-            if (StringUtils.isEmpty(supportType)
-                    || ArrayUtils.contains(supportType.split(","), cmsCat.getCatType().toString())) {
-                WebArticleSearchParam webArticleSearchParam = new WebArticleSearchParam();
-                webArticleSearchParam.setCatId(catId);
-                webArticleSearchParam.setThemeName(themeName);
-                PageHelper.startPage(num, size, "article_top desc,create_time " + order.name());
-                return this.listWebArticles(webArticleSearchParam);
-            } else {
-                return null;
-            }
-
-        } else {
-            return null;
-        }
-    }
-
-    public List<WebArticle> listWebArticlesByTagId(long tagId, String themeName, int num, int size, OrderEnums order) {
-        CmsTag cmsTag = tagSearchMapper.selectCmsTagById(tagId);
-        String supportType = getSupportType(themeName);
-        if (cmsTag != null) {
-            if (StringUtils.isEmpty(supportType)
-                    || ArrayUtils.contains(supportType.split(","), cmsTag.getTagType().toString())) {
-                WebArticleSearchParam webArticleSearchParam = new WebArticleSearchParam();
-                webArticleSearchParam.setTagId(tagId);
-                webArticleSearchParam.setThemeName(themeName);
-                PageHelper.startPage(num, size, "article_top desc,create_time " + order.name());
-                return this.listWebArticles(webArticleSearchParam);
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-
-    public List<WebArticle> listWebArticlesByType(int type, int num, int size, String orderString) {
+    public List<WebArticle> listWebArticlesOrder(int num, int size, Integer articleType, Long catId, Long tagId,
+            String themeName,
+            OrderEnums order) {
         WebArticleSearchParam bb = new WebArticleSearchParam();
-        bb.setArticleType(type);
-        PageHelper.startPage(num, size, orderString);
-        return this.listWebArticles(bb);
+        bb.setThemeName(themeName);
+        bb.setArticleType(articleType);
+        bb.setCatId(catId);
+        bb.setTagId(tagId);
+        return this.listWebArticlesOrder(num, size, bb, "article_top desc,create_time " + order.name());
     }
 
-    public PageArticleTimeLine groupByTime(int pageNum, int pageSize, WebArticleSearchParam bb, String themeName) {
+    public PageArticleTimeLine groupByTime(int pageNum, int pageSize, WebArticleSearchParam bb) {
         PageHelper.startPage(pageNum, pageSize, "create_time desc");
-        setThemeName(bb, themeName);
         List<WebArticle> list = this.listWebArticles(bb);
         // 按照时间分组
         Map<String, List<WebArticle>> map = list.stream()
@@ -180,29 +124,12 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
 
     public PageArticleTimeLine groupByTime(int pageNum, int pageSize, String themeName) {
         WebArticleSearchParam bb = new WebArticleSearchParam();
-        return this.groupByTime(pageNum, pageSize, bb, themeName);
+        bb.setThemeName(themeName);
+        return this.groupByTime(pageNum, pageSize, bb);
     }
 
     public boolean allowComment(long postId) {
         return webSearchMapper.allowComment(postId);
-    }
-
-    private String getSupportType(String themeName) {
-        if (StringUtils.isEmpty(themeName)) {
-            return null;
-        }
-        return configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
-    }
-
-    private void setThemeName(WebArticleSearchParam bb, String themeName) {
-        if (StringUtils.isEmpty(themeName)) {
-            return;
-        }
-        // 如果获取类型为空,支持所有类型
-        String supportType = configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
-        if (StringUtils.isNotEmpty(supportType)) {
-            bb.setThemeName(themeName);
-        }
     }
 
     private String neData(Date date) {

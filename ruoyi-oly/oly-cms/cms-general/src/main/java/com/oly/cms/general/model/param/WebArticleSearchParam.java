@@ -21,7 +21,6 @@ public class WebArticleSearchParam implements Serializable {
     private Long tagId;
     /* 顶置类型 */
     private Integer articleTop;
-
     /* 主题名 */
     private String themeName;
 
