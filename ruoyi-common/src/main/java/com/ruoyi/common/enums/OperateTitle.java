@@ -10,7 +10,7 @@ public enum OperateTitle {
     SYS_ROLE("角色管理"), SYS_USER("用户管理"), SYS_UNLOCK("账户解锁"), SYS_CACHE("缓存管理"), SYS_USER_ONLING("在线用户"),
     SYS_MAIL("邮件管理"), SYS_OSS("文件管理"), SYS_TEMPLATE("模板管理"), WEB_RECORD("链接管理"), CMS_MENU("栏目管理"), CMS_TAG("标签管理"),
     CMS_CATEGORY("分类管理"), CMS_POST("文章管理"), CMS_LINK("链接管理"), CMS_CONTACT("反馈管理"), CMS_THEME("主题管理"),
-    CMS_SITE_MAP("SITEMAP"), CMS_UNION("联盟推广"), CMS_CONFIG("内容配置");
+    CMS_SITE_MAP("SITEMAP"), CMS_UNION("联盟推广"), CMS_COMMENT("评论管理"), CMS_CONFIG("内容配置");
 
     private String title;
 
