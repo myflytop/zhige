@@ -100,18 +100,7 @@ public class CmsCommentHandServiceImpl implements ICmsCommentHandService {
      */
     @Override
     public int deleteCmsCommentHandByHandIds(String handIds) {
-        return cmsCommentHandMapper.deleteCmsCommentHandByHandIds(Convert.toStrArray(handIds));
-    }
-
-    /**
-     * 删除评论记录信息
-     * 
-     * @param commentId 评论记录主键
-     * @return 结果
-     */
-    @Override
-    public int deleteCmsCommentHandByHandId(Long commentId) {
-        return cmsCommentHandMapper.deleteCmsCommentHandByHandId(commentId);
+        return cmsCommentHandMapper.deleteCmsCommentHandByHandIds(Convert.toLongArray(handIds));
     }
 
     /**

@@ -54,20 +54,12 @@ public interface CmsCommentHandMapper {
     int updateCmsCommentHand(CmsCommentHand cmsCommentHand);
 
     /**
-     * 删除评论记录
-     * 
-     * @param handId 评论记录主键
-     * @return 结果
-     */
-    int deleteCmsCommentHandByHandId(Long handId);
-
-    /**
      * 批量删除评论记录
      * 
-     * @param commentIds 需要删除的数据主键集合
+     * @param handIds 需要删除的数据主键集合
      * @return 结果
      */
-    int deleteCmsCommentHandByHandIds(String[] handIds);
+    int deleteCmsCommentHandByHandIds(Long[] handIds);
 
     /**
      * 删除评论记录

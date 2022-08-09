@@ -82,11 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where hand_id = #{handId}
     </update>
 
-    <delete id="deleteCmsCommentHandByHandId" parameterType="Long">
-        delete from cms_comment_hand where hand_id = #{handId}
-    </delete>
-
-    <delete id="deleteCmsCommentHandByHandIds" parameterType="String">
+    <delete id="deleteCmsCommentHandByHandIds" parameterType="long">
         delete from cms_comment_hand where hand_id in 
         <foreach item="handId" collection="array" open="(" separator="," close=")">
             #{handId}

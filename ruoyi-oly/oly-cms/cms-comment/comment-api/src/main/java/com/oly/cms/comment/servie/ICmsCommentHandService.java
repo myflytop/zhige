@@ -58,12 +58,4 @@ public interface ICmsCommentHandService {
      * @return 结果
      */
     int deleteCmsCommentHandByHandIds(String handIds);
-
-    /**
-     * 删除评论记录信息
-     * 
-     * @param handId 评论记录主键
-     * @return 结果
-     */
-    int deleteCmsCommentHandByHandId(Long handId);
 }
