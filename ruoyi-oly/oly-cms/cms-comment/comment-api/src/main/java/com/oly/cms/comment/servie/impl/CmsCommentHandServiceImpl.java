@@ -95,12 +95,12 @@ public class CmsCommentHandServiceImpl implements ICmsCommentHandService {
     /**
      * 批量删除评论记录
      * 
-     * @param commentIds 需要删除的评论记录主键
+     * @param handIds 需要删除的评论记录主键
      * @return 结果
      */
     @Override
-    public int deleteCmsCommentHandByCommentIds(String commentIds) {
-        return cmsCommentHandMapper.deleteCmsCommentHandByCommentIds(Convert.toStrArray(commentIds));
+    public int deleteCmsCommentHandByHandIds(String handIds) {
+        return cmsCommentHandMapper.deleteCmsCommentHandByHandIds(Convert.toStrArray(handIds));
     }
 
     /**
@@ -110,8 +110,8 @@ public class CmsCommentHandServiceImpl implements ICmsCommentHandService {
      * @return 结果
      */
     @Override
-    public int deleteCmsCommentHandByCommentId(Long commentId) {
-        return cmsCommentHandMapper.deleteCmsCommentHandByCommentId(commentId);
+    public int deleteCmsCommentHandByHandId(Long commentId) {
+        return cmsCommentHandMapper.deleteCmsCommentHandByHandId(commentId);
     }
 
     /**

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oly.cms.admin.mapper.CmsArticleLiquidMapper">
 
 
@@ -17,13 +17,13 @@
 
     <!--删除文章评论关联-->
     <delete id="deleteCmsCommentByIds">
-        delete from cms_comment where article_id in
+        delete from cms_comment where type_id in
         <foreach close=")" separator="," open="(" collection="array" item="articleId">#{articleId}</foreach>
     </delete>
 
     <!--删除文章评论相关联-->
     <delete id="deleteCmsCommentRecordByIds">
-        delete from cms_comment_record where article_id in
+        delete from cms_comment_hand where type_id in
         <foreach close=")" separator="," open="(" collection="array" item="articleId">#{articleId}</foreach>
     </delete>
 
@@ -145,11 +145,9 @@
         </foreach>
     </select>
 
-    <select id="countArticleTag" parameterType="long"
-            resultType="int"> select count(*) from cms_article_tag where article_id=#{articleId}</select>
+    <select id="countArticleTag" parameterType="long" resultType="int"> select count(*) from cms_article_tag where article_id=#{articleId}</select>
 
-    <select id="countArticleCat" parameterType="long"
-            resultType="int"> select count(*) from cms_article_cat where article_id=#{articleId}</select>
+    <select id="countArticleCat" parameterType="long" resultType="int"> select count(*) from cms_article_cat where article_id=#{articleId}</select>
 
     <update id="updateCmsTagCountByIds">
         <foreach collection="array" separator=";" item="tagId">
@@ -176,5 +174,4 @@
         <foreach close=")" separator="," open="(" collection="array" item="articleId">#{articleId}</foreach>
         group by tag_id
     </select>
-
 </mapper>

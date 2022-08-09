@@ -56,10 +56,10 @@ public interface CmsCommentHandMapper {
     /**
      * 删除评论记录
      * 
-     * @param commentId 评论记录主键
+     * @param handId 评论记录主键
      * @return 结果
      */
-    int deleteCmsCommentHandByCommentId(Long commentId);
+    int deleteCmsCommentHandByHandId(Long handId);
 
     /**
      * 批量删除评论记录
@@ -67,7 +67,7 @@ public interface CmsCommentHandMapper {
      * @param commentIds 需要删除的数据主键集合
      * @return 结果
      */
-    int deleteCmsCommentHandByCommentIds(String[] commentIds);
+    int deleteCmsCommentHandByHandIds(String[] handIds);
 
     int updateCmsCommentCountPlus(@Param("commentId") Long commentId, @Param("field") String field);
 
