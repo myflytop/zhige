@@ -27,17 +27,44 @@ public class CategoryTag {
         return catCacheService.getCmsCatByCatId(catId);
     }
 
+    /**
+     * 
+     * @param orderNum  排序
+     * @param catType   类型
+     * @param parentId  父ID
+     * @param catId     节点ID
+     * @param parent    节点类型
+     * @param themeName 主题名字
+     * @return
+     */
     public List<CmsCat> listCmsCats(Long orderNum, Integer catType, Long parentId, Long catId, Integer parent,
             String themeName) {
-
         return catCacheService.listCmsCats(orderNum, catType, parentId, catId, parent, themeName);
     }
 
+    /**
+     * 
+     * @param catType   标签类型
+     * @param catId     标签Id
+     * @param parent    节点类型
+     * @param themeName 主题名字
+     * @return
+     */
     public List<CmsCat> listCmsCats(Integer catType, Long catId, Integer parent, String themeName) {
 
         return catCacheService.listCmsCats(null, catType, null, catId, parent, themeName);
     }
 
+    /**
+     * 
+     * @param orderNum
+     * @param catType
+     * @param parentId
+     * @param catId
+     * @param parent
+     * @param themeName
+     * @return
+     */
     public CmsCat getCatsTree(Long orderNum, Integer catType, Long parentId, Long catId, Integer parent,
             String themeName) {
         return catCacheService.selectCmsCatsTrees(orderNum, catType, parentId, catId, parent, themeName);
