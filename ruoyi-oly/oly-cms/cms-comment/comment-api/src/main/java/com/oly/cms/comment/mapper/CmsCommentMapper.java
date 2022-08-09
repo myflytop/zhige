@@ -62,12 +62,4 @@ public interface CmsCommentMapper {
    */
   int deleteCmsCommentByCommentId(Long commentId);
 
-  /**
-   * 批量删除评论
-   * 
-   * @param commentIds 需要删除的数据主键集合
-   * @return 结果
-   */
-  int deleteCmsCommentByCommentIds(Long[] commentIds);
-
 }

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
 <head>
     <th:block th:include="include :: header('评论列表')" />
     <th:block th:include="include :: select2-css" />
 </head>
+
 <body class="gray-bg">
-     <div class="container-div">
+    <div class="container-div">
         <div class="row">
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
@@ -13,7 +15,7 @@
                         <ul>
                             <li>
                                 <p>内容：</p>
-                                <input type="text" placeholder="评论内容" name="content" class="form-control"/>
+                                <input type="text" placeholder="评论内容" name="content" class="form-control" />
                             </li>
                             <li>
                                 <p>发布人：</p>
@@ -25,11 +27,11 @@
                             </li>
                             <li>
                                 <p>评论类型：</p>
-                                <select name="commentType" class="form-control" th:with="type=${@dictTag.getType('cms_comment_visible')}" >
+                                <select name="commentType" class="form-control">
                                     <option value="">所有</option>
-                                    <option  value="0">文章</option>
-                                    <option  value="1">站点</option>
-                                    <option  value="2">链接</option>
+                                    <option value="0">文章</option>
+                                    <option value="1">站点</option>
+                                    <option value="2">链接</option>
                                 </select>
                             </li>
                             <li>
@@ -38,31 +40,36 @@
                             </li>
                             <li>
                                 <p>状态：</p>
-                                <select name="visible" class="form-control" th:with="type=${@dictTag.getType('cms_comment_visible')}" >
+                                <select name="visible" class="form-control"
+                                    th:with="type=${@dictTag.getType('cms_comment_visible')}">
                                     <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}">
                                 </select>
                             </li>
                             <li>
-                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
                         </ul>
                     </div>
                 </form>
             </div>
             <div class="btn-group-sm" id="toolbar" role="group">
-                <div class="btn-group" >
-                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">批量审核 <span class="caret"></span>
+                <div class="btn-group">
+                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">批量审核 <span
+                            class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" id="commentVisible" th:with="type=${@dictTag.getType('cms_comment_visible')}">
-                        <li  th:each="dict : ${type}"  th:data-id="${dict.dictValue}" ><a href="javascript:void(0)" th:text="${dict.dictLabel}"></a></li>
+                    <ul class="dropdown-menu" id="commentVisible"
+                        th:with="type=${@dictTag.getType('cms_comment_visible')}">
+                        <li th:each="dict : ${type}" th:data-id="${dict.dictValue}"><a href="javascript:void(0)"
+                                th:text="${dict.dictLabel}"></a></li>
                     </ul>
                 </div>
-                <a class="btn btn-danger multiple disabled"
-                   onclick="$.operate.removeAll()"
-                   shiro:hasPermission="cms:comment:remove"> <i
-                    class="fa fa-remove"></i> 批量删除
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+                    shiro:hasPermission="cms:comment:remove"> <i class="fa fa-remove"></i> 批量删除
                 </a>
                 <a class="btn btn-warning" onclick="commentConfig()" shiro:hasPermission="comment:config:view">
                     <i class="fa fa-edit"></i> 评论配置
@@ -76,116 +83,121 @@
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: select2-js" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('cms:comment:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('cms:comment:remove')}]];
-        var handFlag = [[${@permission.hasPermi('cms:comment:hand')}]];
-        var vi =[[${@dictTag.getType('cms_comment_visible')}]];
+        var editFlag = [[${@permission.hasPermi('cms:comment:edit') }]];
+        var removeFlag = [[${@permission.hasPermi('cms:comment:remove') }]];
+        var handFlag = [[${@permission.hasPermi('cms:comment:hand') }]];
+        var vi = [[${@dictTag.getType('cms_comment_visible') }]];
         var prefix = ctx + "cms/comment";
-        $(function() {
+        $(function () {
             var options = {
                 url: prefix + "/list",
                 removeUrl: prefix + "/deleteCmsCommentByIds",
-                detailUrl: prefix + "/hand",
+                detailUrl: prefix + "/hand/{id}",
                 exportUrl: prefix + "/export",
                 modalName: "评论",
                 columns: [{
-                        checkbox: true
+                    checkbox: true
                 },
-                    {
-                        field : 'commentId',
-                        title : '评论id',
-                        align: 'left'
-                    },
                 {
-                    field : 'commentType',
-                    title : '评论类型',
+                    field: 'commentId',
+                    title: '评论id',
+                    align: 'left'
+                },
+                {
+                    field: 'commentType',
+                    title: '评论类型',
                     align: 'left',
                     formatter: function (value, row, index) {
                         switch (value) {
                             case 0:
-                              value="文章";  
+                                value = "文章";
                                 break;
-                                case 1:
-                              value="站点"; 
-                                break; 
-                                case 2:
-                               value="链接"; 
+                            case 1:
+                                value = "站点";
                                 break;
-                     
+                            case 2:
+                                value = "链接";
+                                break;
+
                         }
-                        return '<span class="badge badge-info">'+value+'</span>';
+                        return '<span class="badge badge-info">' + value + '</span>';
                     }
                 },
                 {
-                    field : 'parentId',
-                    title : '父Id',
+                    field: 'typeId',
+                    title: '类型ID',
+                    align: 'left'
+                },
+                {
+                    field: 'parentId',
+                    title: '父Id',
                     align: 'left',
-                 	visible:false
+                    visible: false
                 },
                 {
-                    field : 'fromBy',
-                    title : '发布人',
+                    field: 'fromBy',
+                    title: '发布人',
                     align: 'left'
                 },
                 {
-                    field : 'replyBy',
-                    title : '回复的人',
+                    field: 'replyBy',
+                    title: '回复的人',
                     align: 'left'
                 },
                 {
-                    field : 'content',
-                    title : '内容',
+                    field: 'content',
+                    title: '内容',
                     align: 'left'
                 },
                 {
-                    field : 'visible',
-                    title : '状态',
+                    field: 'visible',
+                    title: '状态',
                     align: 'left',
                     formatter: function (value, row, index) {
                         switch (value) {
                             case 0:
-                              value="CHECK";  
+                                value = "CHECK";
                                 break;
-                                case 1:
-                              value="CLOSE"; 
-                                break; 
-                                case 2:
-                               value="PASS"; 
+                            case 1:
+                                value = "CLOSE";
+                                break;
+                            case 2:
+                                value = "PASS";
                                 break;
                         }
                         return $.table.selectDictLabel(vi, value);
                     }
                 },
                 {
-                    field : 'ip',
-                    title : 'ip',
+                    field: 'ip',
+                    title: 'ip',
                     align: 'left'
                 },
                 {
-                    field : 'userSystem',
-                    title : '系统',
+                    field: 'userSystem',
+                    title: '系统',
                     align: 'left'
                 },
                 {
-                    field : 'userBower',
-                    title : '浏览器',
+                    field: 'userBower',
+                    title: '浏览器',
                     align: 'left'
                 },
                 {
-                    field : 'nastyCount',
-                    title : '讨厌统计',
+                    field: 'nastyCount',
+                    title: '讨厌统计',
                     align: 'left'
                 },
                 {
-                    field : 'likeCount',
-                    title : '喜欢统计',
+                    field: 'likeCount',
+                    title: '喜欢统计',
                     align: 'left'
                 },
 
                 {
                     title: '操作',
                     align: 'center',
-                    formatter: function(value, row, index) {
+                    formatter: function (value, row, index) {
                         var actions = [];
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.commentId + '\')"><i class="fa fa-remove"></i>删除</a>');
                         actions.push('<a class="btn btn-info btn-xs ' + handFlag + '" href="javascript:void(0)" onclick="$.operate.detailTab(\'' + row.commentId + '\')"><i class="fa fa-list-ul"></i>操作</a> ');
@@ -195,20 +207,20 @@
             };
             $.table.init(options);
             /*评论下拉框点击事件*/
-            $('#commentVisible>li').click(function(e) {
+            $('#commentVisible>li').click(function (e) {
                 //获取选中行数据
-                var pam={},ids=[],chooseData =$("#bootstrap-table").bootstrapTable('getSelections');
-                pam.visibleEnums=$(this).attr("data-id");
-                if (chooseData.length>0)
-                {$.each(chooseData,function (index,ele) {
-                    ids.push(ele.commentId);
-                });
-                    pam.ids=ids.join();
-                    $.modal.confirm("确认要修改选中评论的属性吗？", function() {
+                var pam = {}, ids = [], chooseData = $("#bootstrap-table").bootstrapTable('getSelections');
+                pam.visibleEnums = $(this).attr("data-id");
+                if (chooseData.length > 0) {
+                    $.each(chooseData, function (index, ele) {
+                        ids.push(ele.commentId);
+                    });
+                    pam.ids = ids.join();
+                    $.modal.confirm("确认要修改选中评论的属性吗？", function () {
                         $.operate.post(prefix + "/updateCommentVisible", pam);
                     })
                 }
-                else{
+                else {
                     $.modal.alert("请至少选择一项");
 
                 }
@@ -219,4 +231,5 @@
         }
     </script>
 </body>
+
 </html>

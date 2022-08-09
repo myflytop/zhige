@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.oly.cms.comment.mapper.CmsCommentHandMapper;
 import com.oly.cms.comment.mapper.CmsCommentMapper;
 import com.oly.cms.comment.model.CmsComment;
 import com.oly.cms.comment.model.enums.CommentVisibleEnums;
@@ -30,6 +32,9 @@ public class CmsCommentServiceImpl implements ICmsCommentService {
 
     @Autowired
     private ISysConfigService configService;
+
+    @Autowired
+    private CmsCommentHandMapper cmsCommentHandMapper;
 
     @Autowired
     private ApplicationEventPublisher app;
@@ -95,7 +100,13 @@ public class CmsCommentServiceImpl implements ICmsCommentService {
      */
     @Override
     public int deleteCmsCommentByCommentIds(String commentIds) {
-        return cmsCommentMapper.deleteCmsCommentByCommentIds(Convert.toLongArray(commentIds));
+        Long[] ids = Convert.toLongArray(commentIds);
+        int re = 0;
+        for (long id : ids) {
+            this.deleteCmsCommentByCommentId(id);
+            re += 1;
+        }
+        return re;
     }
 
     /**
@@ -105,7 +116,9 @@ public class CmsCommentServiceImpl implements ICmsCommentService {
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteCmsCommentByCommentId(Long commentId) {
+        cmsCommentHandMapper.deleteCmsCommentHandByCommentId(commentId);
         return cmsCommentMapper.deleteCmsCommentByCommentId(commentId);
     }
 

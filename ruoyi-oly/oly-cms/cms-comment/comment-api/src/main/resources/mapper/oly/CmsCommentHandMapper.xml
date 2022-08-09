@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="commentId != null">and comment_id=#{commentId}</if>
             <if test="userId != null">and user_id = #{userId}</if>
-            <if test="typeId != null">and type_id = #{typeId}</if>
+            <if test="typeId != null and typeId != ''">and type_id = #{typeId}</if>
             <if test="visible != null">and visible = #{visible}</if>
         </where>
     </select>
@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="commentId != null">and comment_id=#{commentId}</if>
             <if test="userId != null">and user_id = #{userId}</if>
-            <if test="typeId != null">and type_id = #{typeId}</if>
+            <if test="typeId != null and typeId != ''">and type_id = #{typeId}</if>
         </where>
         limit 1
     </select>
@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into cms_comment_hand
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="commentId != null">comment_id,</if>
-            <if test="typeId != null">type_id,</if>
+            <if test="typeId != null and typeId != ''">type_id,</if>
             <if test="userId != null">user_id,</if>
             <if test="visible != null">visible,</if>
             <if test="ip != null  and ip != ''">ip,</if>
@@ -91,6 +91,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="handId" collection="array" open="(" separator="," close=")">
             #{handId}
         </foreach>
+    </delete>
+
+    <delete id="deleteCmsCommentHandByCommentId" parameterType="Long">
+        delete from cms_comment_hand where comment_id = #{commentId}
     </delete>
 
     <update id="updateCmsCommentCountPlus">

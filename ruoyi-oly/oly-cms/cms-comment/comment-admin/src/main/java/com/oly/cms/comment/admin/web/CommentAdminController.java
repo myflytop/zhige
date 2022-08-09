@@ -8,13 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oly.cms.comment.model.CmsComment;
+import com.oly.cms.comment.model.CmsCommentHand;
 import com.oly.cms.comment.model.enums.CommentVisibleEnums;
+import com.oly.cms.comment.servie.ICmsCommentHandService;
 import com.oly.cms.comment.servie.impl.CmsCommentServiceImpl;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -34,6 +37,9 @@ public class CommentAdminController extends BaseController {
     private CmsCommentServiceImpl cmsCommentService;
 
     @Autowired
+    private ICmsCommentHandService cmsCommentHandService;
+
+    @Autowired
     private SysConfigServiceImpl sysConfigService;
 
     private final String prefix = "cms/comment";
@@ -42,6 +48,13 @@ public class CommentAdminController extends BaseController {
     @RequiresPermissions("cms:comment:view")
     public String comment() {
         return prefix + "/comment";
+    }
+
+    @GetMapping("/hand/{commentId}")
+    @RequiresPermissions("cms:comment:hand")
+    public String hand(@PathVariable("commentId") String commentId, ModelMap mp) {
+        mp.put("commentId", commentId);
+        return prefix + "/hand";
     }
 
     @RequiresPermissions("comment:config:view")
@@ -59,7 +72,7 @@ public class CommentAdminController extends BaseController {
      * @return
      */
     @RequiresPermissions("comment:config:edit")
-    @Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.UPDATE)
+    @Log(title = OperateTitle.CMS_COMMENT, businessType = BusinessType.UPDATE)
     @PostMapping("/updateByGk")
     @ResponseBody
     public AjaxResult editByGkSaves(@RequestParam Map<String, String> mp) {
@@ -75,6 +88,28 @@ public class CommentAdminController extends BaseController {
         return getDataTable(list);
     }
 
+    @RequiresPermissions("cms:comment:hand")
+    @PostMapping("/handList")
+    @ResponseBody
+    public TableDataInfo hangList(CmsCommentHand cmsCommentHand) {
+        startPage();
+        List<CmsCommentHand> list = cmsCommentHandService.listCmsCommentHand(cmsCommentHand);
+        return getDataTable(list);
+    }
+
+    /**
+     * @param ids
+     * @return
+     */
+    @PostMapping("/deleteCmsCommentHandByIds")
+    @Log(title = OperateTitle.CMS_COMMENT, businessType = BusinessType.DELETE)
+    @RequiresPermissions("cms:comment:remove")
+    @ResponseBody
+    public AjaxResult deleteCmsCommentHandByIds(String ids) {
+
+        return toAjax(cmsCommentHandService.deleteCmsCommentHandByHandIds(ids));
+    }
+
     /**
      * 评论审核
      * 
@@ -82,6 +117,7 @@ public class CommentAdminController extends BaseController {
      * @return
      */
     @PostMapping("/updateCommentVisible")
+    @Log(title = OperateTitle.CMS_COMMENT, businessType = BusinessType.UPDATE)
     @RequiresPermissions("cms:comment:edit")
     @ResponseBody
     public AjaxResult updateCommentVisible(String ids, CommentVisibleEnums visibleEnums) {
@@ -93,6 +129,7 @@ public class CommentAdminController extends BaseController {
      * @return
      */
     @PostMapping("/deleteCmsCommentByIds")
+    @Log(title = OperateTitle.CMS_COMMENT, businessType = BusinessType.DELETE)
     @RequiresPermissions("cms:comment:remove")
     @ResponseBody
     public AjaxResult deleteCmsCommentByIds(String ids) {

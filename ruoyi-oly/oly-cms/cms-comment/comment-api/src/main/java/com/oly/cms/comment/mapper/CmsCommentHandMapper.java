@@ -69,6 +69,14 @@ public interface CmsCommentHandMapper {
      */
     int deleteCmsCommentHandByHandIds(String[] handIds);
 
+    /**
+     * 删除评论记录
+     * 
+     * @param commentId 评论记录主键
+     * @return 结果
+     */
+    int deleteCmsCommentHandByCommentId(Long commentId);
+
     int updateCmsCommentCountPlus(@Param("commentId") Long commentId, @Param("field") String field);
 
     int updateCmsCommentCountMinus(@Param("commentId") Long commentId, @Param("field") String field);

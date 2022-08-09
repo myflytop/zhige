@@ -117,12 +117,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="deleteCmsCommentByCommentId" parameterType="Long">
         delete from cms_comment where comment_id = #{commentId}
     </delete>
-
-    <delete id="deleteCmsCommentByCommentIds" parameterType="Long">
-        delete from cms_comment where comment_id in 
-        <foreach item="commentId" collection="array" open="(" separator="," close=")">
-            #{commentId}
-        </foreach>
-    </delete>
-
+    
 </mapper>
