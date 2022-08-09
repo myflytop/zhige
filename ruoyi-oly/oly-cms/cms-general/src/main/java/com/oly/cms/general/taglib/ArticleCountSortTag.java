@@ -32,6 +32,27 @@ public class ArticleCountSortTag {
                 sort.getOrder(order));
     }
 
+    public List<WebArticleVo> listWebArticleOrderByType(int pageNum, int pageSize, Integer articleType,
+            String themeName,
+            ArticleCountSortEnum sort, OrderEnums order) {
+        return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, articleType, null, null, themeName,
+                sort.getOrder(order));
+    }
+
+    public List<WebArticleVo> listWebArticleOrderByCatId(int pageNum, int pageSize, long catId,
+            String themeName,
+            ArticleCountSortEnum sort, OrderEnums order) {
+        return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, null, catId, null, themeName,
+                sort.getOrder(order));
+    }
+
+    public List<WebArticleVo> listWebArticleOrderByTagId(int pageNum, int pageSize, long tagId,
+            String themeName,
+            ArticleCountSortEnum sort, OrderEnums order) {
+        return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, null, null, tagId, themeName,
+                sort.getOrder(order));
+    }
+
     public List<WebArticleVo> listArticlesVo(int num, int size, Integer articleType, Long catId, Long tagId,
             String themeName,
             ArticleCountSortEnum sort, OrderEnums order) {
