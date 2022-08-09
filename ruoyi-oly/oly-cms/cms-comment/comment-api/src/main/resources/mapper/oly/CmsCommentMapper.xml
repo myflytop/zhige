@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="listCmsComment" parameterType="com.oly.cms.comment.model.CmsComment" resultMap="CmsCommentResult">
         <include refid="selectCmsCommentVo"/>
         <where>
-            <if test="typeId != null "> and type_id = #{typeId}</if>
+            <if test="typeId != null and typeId != ''"> and type_id = #{typeId}</if>
             <if test="parentId != null "> and parent_id = #{parentId}</if>
             <if test="fromBy != null"> and from_by = #{fromBy}</if>
             <if test="replyBy != null"> and reply_by = #{replyBy}</if>
