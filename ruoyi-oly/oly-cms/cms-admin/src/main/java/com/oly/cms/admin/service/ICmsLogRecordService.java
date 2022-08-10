@@ -1,8 +1,8 @@
 package com.oly.cms.admin.service;
 
-import com.oly.cms.admin.model.po.record.CmsLogRecord;
-
 import java.util.List;
+
+import com.oly.cms.general.model.record.CmsLogRecord;
 
 public interface ICmsLogRecordService {
     List<CmsLogRecord> listCmsLogRecord(CmsLogRecord cmsLogRecord);

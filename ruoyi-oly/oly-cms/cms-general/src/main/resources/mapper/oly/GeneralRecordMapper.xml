@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oly.cms.general.mapper.GeneralRecordMapper">
-    <insert id="insertCmsLogRecord" parameterType="com.oly.cms.general.model.po.WebLogRecord">
+    <insert id="insertCmsLogRecord" parameterType="com.oly.cms.general.model.record.CmsLogRecord">
         insert into cms_log_record
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="logId != null ">log_id,</if>

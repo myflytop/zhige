@@ -51,7 +51,7 @@
         </where>
     </select>
 
-    <select id="countCmsLogRecord" parameterType="com.oly.cms.admin.model.po.record.CmsLogRecord" resultType="int">
+    <select id="countCmsLogRecord" parameterType="com.oly.cms.general.model.record.CmsLogRecord" resultType="int">
         select count(*)  from cms_log_record
         <where>
             <if test="title != null  and title != ''"> and title LIKE CONCAT('%',#{title},'%')</if>

@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oly.cms.admin.mapper.CmsLogRecordMapper">
-    <resultMap  id="RecordMap" type="com.oly.cms.admin.model.po.record.CmsLogRecord" >
+    <resultMap  id="RecordMap" type="com.oly.cms.general.model.record.CmsLogRecord" >
         <result property="logId"    column="log_id"    />
         <result property="title"    column="title"    />
         <result property="businessType"    column="business_type"    />
@@ -25,7 +25,7 @@
         select log_id, title, business_type, method, request_method, operator_type, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time, oper_bower, oper_system from cms_log_record
     </sql>
 
-    <select id="listCmsLogRecord"  parameterType="com.oly.cms.admin.model.po.record.CmsLogRecord"  resultMap="RecordMap">
+    <select id="listCmsLogRecord"  parameterType="com.oly.cms.general.model.record.CmsLogRecord"  resultMap="RecordMap">
         <include refid="selectCmsLogRecordVo"/>
         <where>
             <if test="title != null  and title != ''"> and title LIKE CONCAT('%',#{title},'%')</if>

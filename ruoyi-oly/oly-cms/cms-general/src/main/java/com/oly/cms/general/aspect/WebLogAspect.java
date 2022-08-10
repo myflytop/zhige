@@ -6,7 +6,7 @@ import java.util.Map;
 import com.oly.cms.general.annotation.WebLog;
 import com.oly.cms.general.factory.WebAsyncFactory;
 import com.oly.cms.general.manager.GeneralAsyncManager;
-import com.oly.cms.general.model.po.WebLogRecord;
+import com.oly.cms.general.model.record.CmsLogRecord;
 import com.ruoyi.common.enums.BusinessStatus;
 import com.ruoyi.common.json.JSON;
 import com.ruoyi.common.utils.ServletUtils;
@@ -72,7 +72,7 @@ public class WebLogAspect {
             // 游客未登录null
 
             // *========数据库日志=========*//
-            WebLogRecord operLog = new WebLogRecord();
+            CmsLogRecord operLog = new CmsLogRecord();
             operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
             // 请求的地址
             String ip = ShiroUtils.getIp();
@@ -120,7 +120,7 @@ public class WebLogAspect {
      * @param operLog 操作日志
      * @throws Exception
      */
-    public void getControllerMethodDescription(WebLog log, WebLogRecord operLog) throws Exception {
+    public void getControllerMethodDescription(WebLog log, CmsLogRecord operLog) throws Exception {
         // 设置action动作
         operLog.setBusinessType(log.businessType().ordinal());
         // 设置标题
@@ -140,7 +140,7 @@ public class WebLogAspect {
      * @param operLog 操作日志
      * @throws Exception 异常
      */
-    private void setRequestValue(WebLogRecord operLog) throws Exception {
+    private void setRequestValue(CmsLogRecord operLog) throws Exception {
         Map<String, String[]> map = ServletUtils.getRequest().getParameterMap();
         String params = JSON.marshal(map);
         operLog.setOperParam(StringUtils.substring(params, 0, 2000));

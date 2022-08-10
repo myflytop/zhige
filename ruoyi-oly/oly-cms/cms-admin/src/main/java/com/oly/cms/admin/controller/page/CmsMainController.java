@@ -18,10 +18,10 @@ import com.oly.cms.common.domain.entity.CmsContact;
 import com.oly.cms.common.domain.entity.CmsTag;
 import com.oly.cms.common.domain.entity.CmsUnion;
 import com.oly.cms.common.model.enums.ArticleVisibleEnums;
+import com.oly.cms.general.model.record.CmsLogRecord;
 import com.ruoyi.common.enums.CommonVisibleEnums;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ShiroUtils;
-import com.oly.cms.admin.model.po.record.CmsLogRecord;
 import com.oly.cms.admin.model.vo.ArticleVo;
 import com.oly.cms.admin.service.ICmsReportService;
 

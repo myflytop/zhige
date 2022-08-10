@@ -1,6 +1,6 @@
 package com.oly.cms.general.service;
 
-import com.oly.cms.general.model.po.WebLogRecord;
+import com.oly.cms.general.model.record.CmsLogRecord;
 import com.oly.cms.general.model.record.CmsLookRecord;
 
 public interface IGeneralRecordService {
@@ -11,7 +11,7 @@ public interface IGeneralRecordService {
      * @param webLogRecord 内容请求记录
      * @return 结果
      */
-    int insertWebLogRecord(WebLogRecord webLogRecord);
+    int insertWebLogRecord(CmsLogRecord CmsLogRecord);
 
     /**
      * 阅读记录

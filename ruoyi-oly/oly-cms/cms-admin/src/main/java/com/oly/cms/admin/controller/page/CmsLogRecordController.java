@@ -2,9 +2,9 @@ package com.oly.cms.admin.controller.page;
 
 import java.util.List;
 
-import com.oly.cms.admin.model.po.record.CmsLogRecord;
 import com.oly.cms.admin.service.impl.CmsLogRecordServiceImpl;
 import com.oly.cms.admin.web.CmsCommonController;
+import com.oly.cms.general.model.record.CmsLogRecord;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -21,23 +21,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.hutool.core.convert.Convert;
 
+/** 内容请求记录 */
 @Controller
-@RequestMapping("/cms/record")
-public class CmsRecordContorller extends CmsCommonController {
+@RequestMapping("/cms/logRecord")
+public class CmsLogRecordController extends CmsCommonController {
     @Autowired
     private CmsLogRecordServiceImpl cmsRecordService;
 
-    private final String preifx = acceptPrefix + "record";
+    private final String prefix = acceptPrefix + "logRecord";
 
     /**
      * 日志记录表
      * 
      * @return
      */
-    @GetMapping("/logRecord")
+    @GetMapping
     @RequiresPermissions("cms:record:view")
     public String logRecord() {
-        return preifx + "/logRecord";
+        return prefix + "/logRecord";
     }
 
     /**

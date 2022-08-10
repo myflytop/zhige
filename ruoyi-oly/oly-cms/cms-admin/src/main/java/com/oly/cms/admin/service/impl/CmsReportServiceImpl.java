@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oly.cms.admin.mapper.CmsReportMapper;
-import com.oly.cms.admin.model.po.record.CmsLogRecord;
 import com.oly.cms.admin.model.vo.ArticleVo;
 import com.oly.cms.admin.service.ICmsReportService;
 import com.oly.cms.comment.model.CmsComment;
@@ -12,6 +11,7 @@ import com.oly.cms.common.domain.entity.CmsCat;
 import com.oly.cms.common.domain.entity.CmsContact;
 import com.oly.cms.common.domain.entity.CmsTag;
 import com.oly.cms.common.domain.entity.CmsUnion;
+import com.oly.cms.general.model.record.CmsLogRecord;
 
 @Service
 public class CmsReportServiceImpl implements ICmsReportService {

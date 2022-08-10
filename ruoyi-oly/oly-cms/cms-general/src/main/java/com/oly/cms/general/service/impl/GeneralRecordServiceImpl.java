@@ -1,7 +1,8 @@
 package com.oly.cms.general.service.impl;
 
 import com.oly.cms.general.mapper.GeneralRecordMapper;
-import com.oly.cms.general.model.po.WebLogRecord;
+
+import com.oly.cms.general.model.record.CmsLogRecord;
 import com.oly.cms.general.model.record.CmsLookRecord;
 import com.oly.cms.general.service.IGeneralRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class GeneralRecordServiceImpl implements IGeneralRecordService {
     private GeneralRecordMapper webRecordMapper;
 
     @Override
-    public int insertWebLogRecord(WebLogRecord webLogRecord) {
-        return webRecordMapper.insertCmsLogRecord(webLogRecord);
+    public int insertWebLogRecord(CmsLogRecord cmsLogRecord) {
+        return webRecordMapper.insertCmsLogRecord(cmsLogRecord);
     }
 
     @Override

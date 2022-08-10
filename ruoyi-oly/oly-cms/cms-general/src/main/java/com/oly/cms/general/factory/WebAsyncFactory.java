@@ -2,7 +2,7 @@ package com.oly.cms.general.factory;
 
 import java.util.TimerTask;
 
-import com.oly.cms.general.model.po.WebLogRecord;
+import com.oly.cms.general.model.record.CmsLogRecord;
 import com.oly.cms.general.service.IGeneralRecordService;
 import com.ruoyi.common.utils.AddressUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;
@@ -17,7 +17,7 @@ public class WebAsyncFactory {
      * @param operLog 操作日志信息
      * @return 任务task
      */
-    public static TimerTask recordOper(final WebLogRecord operLog) {
+    public static TimerTask recordOper(final CmsLogRecord operLog) {
         return new TimerTask() {
             @Override
             public void run() {
