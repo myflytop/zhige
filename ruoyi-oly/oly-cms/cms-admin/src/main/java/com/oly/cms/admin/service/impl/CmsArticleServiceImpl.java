@@ -59,7 +59,6 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 	@Transactional
 	@Override
 	public int insertCmsArticle(ArticleVo arVo) {
-
 		if (UserConstants.UNIQUE.equals(this.checkArticleUnique(arVo))) {
 			CmsArticle art = arVo;
 			// 顶置默认

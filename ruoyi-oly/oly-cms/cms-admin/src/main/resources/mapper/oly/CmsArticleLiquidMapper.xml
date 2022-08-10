@@ -150,15 +150,15 @@
     <select id="countArticleCat" parameterType="long" resultType="int"> select count(*) from cms_article_cat where article_id=#{articleId}</select>
 
     <update id="updateCmsTagCountByIds">
-        <foreach collection="array" separator=";" item="tagId">
-            update cms_tag as t1 set tag_count=(select count(1) from cms_article_tag as t2 where t2.tag_id=#{tagId})
+        <foreach collection="array" separator=";" index="index" item="tagId">
+            update cms_tag as t1 set tag_count=(select count(*) from cms_article_tag as t2 where t2.tag_id=#{tagId})
             where t1.tag_id=#{tagId}
         </foreach>
     </update>
 
     <update id="updateCmsCatCountByIds">
-        <foreach collection="array" separator=";" item="catId">
-            update cms_cat t1 set cat_count=(select count(1) from cms_article_cat as t2 where t2.cat_id=#{catId}) where
+        <foreach collection="array" separator=";" index="index" item="catId">
+            update cms_cat as t1 set cat_count=(select count(*) from cms_article_cat as t2 where t2.cat_id=#{catId}) where
             t1.cat_id=#{catId}
         </foreach>
     </update>
