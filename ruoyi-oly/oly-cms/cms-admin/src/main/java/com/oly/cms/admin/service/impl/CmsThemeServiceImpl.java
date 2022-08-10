@@ -22,6 +22,7 @@ import com.ruoyi.common.enums.OlyStageRoot;
 import com.ruoyi.common.enums.SysConfigGroups;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.ShiroUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.oss.service.impl.NativeOssHandler;
 import com.ruoyi.system.config.domain.SysConfig;
 import com.ruoyi.system.config.service.impl.SysConfigServiceImpl;
@@ -238,16 +239,19 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	 * @param themeName
 	 */
 	private void addThemeConfig(List<SysConfig> listConfigs, String themeName) {
-		for (SysConfig sysConfig : listConfigs) {
-			if (themeName.equals(sysConfig.getConfigGroup())
-					&& sysConfig.getConfigKey().startsWith(OlyWebConfigProperties.THEME_CONFIG_PREFIX.getValue())) {
-				sysConfig.setConfigType(1);
-				if (sysConfigService.selectConfigByGk(sysConfig.getConfigGroup(), sysConfig.getConfigKey()) != null) {
-					sysConfig.setUpdateBy(ShiroUtils.getUserIdStr());
-					sysConfigService.updateConfigByGk(sysConfig);
-				} else {
-					sysConfig.setCreateBy(ShiroUtils.getUserIdStr());
-					sysConfigService.insertConfig(sysConfig);
+		if (StringUtils.isNotEmpty(listConfigs)) {
+			for (SysConfig sysConfig : listConfigs) {
+				if (themeName.equals(sysConfig.getConfigGroup())
+						&& sysConfig.getConfigKey().startsWith(OlyWebConfigProperties.THEME_CONFIG_PREFIX.getValue())) {
+					sysConfig.setConfigType(1);
+					if (sysConfigService.selectConfigByGk(sysConfig.getConfigGroup(),
+							sysConfig.getConfigKey()) != null) {
+						sysConfig.setUpdateBy(ShiroUtils.getUserIdStr());
+						sysConfigService.updateConfigByGk(sysConfig);
+					} else {
+						sysConfig.setCreateBy(ShiroUtils.getUserIdStr());
+						sysConfigService.insertConfig(sysConfig);
+					}
 				}
 			}
 		}

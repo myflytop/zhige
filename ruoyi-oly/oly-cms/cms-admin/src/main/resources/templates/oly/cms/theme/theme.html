@@ -359,14 +359,14 @@
 							layer.close(loadIndex);
 							if (result.code == web_status.SUCCESS) {
 								$.modal.closeAll();
-								$.modal.alertSuccess(result.msg);
+								$.modal.alertSuccess(result.msg==null?"操作成功":result.msg);
 								location.reload();
 							} else if (result.code == web_status.WARNING) {
 								$.modal.enable();
-								$.modal.alertWarning(result.msg)
+								$.modal.alertWarning(result.msg==null?"操作异常":result.msg);
 							} else {
 								$.modal.enable();
-								$.modal.alertError(result.msg);
+								$.modal.alertError(result.msg==null?"操作异常":result.msg);
 							}
 						}
 					});
