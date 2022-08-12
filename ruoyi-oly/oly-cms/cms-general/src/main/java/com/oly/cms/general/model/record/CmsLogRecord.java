@@ -37,6 +37,10 @@ public class CmsLogRecord extends BaseEntity {
     @Excel(name = "操作类别", readConverterExp = "0=其它,1=用户")
     private Integer operatorType;
 
+    /** 记录类型 */
+    @Excel(name = "记录类型")
+    private Integer logType;
+
     /** 请求URL */
     @Excel(name = "请求URL")
     private String operUrl;
@@ -91,6 +95,14 @@ public class CmsLogRecord extends BaseEntity {
 
     public String getTitle() {
         return title;
+    }
+
+    public Integer getLogType() {
+        return logType;
+    }
+
+    public void setLogType(Integer logType) {
+        this.logType = logType;
     }
 
     public void setBusinessType(Integer businessType) {
@@ -210,6 +222,7 @@ public class CmsLogRecord extends BaseEntity {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("logId", getLogId())
                 .append("title", getTitle()).append("businessType", getBusinessType()).append("method", getMethod())
                 .append("requestMethod", getRequestMethod()).append("operatorType", getOperatorType())
+                .append("logType", getLogType())
                 .append("operUrl", getOperUrl()).append("operIp", getOperIp()).append("operLocation", getOperLocation())
                 .append("operParam", getOperParam()).append("jsonResult", getJsonResult()).append("status", getStatus())
                 .append("errorMsg", getErrorMsg()).append("operTime", getOperTime()).append("operBower", getOperBower())

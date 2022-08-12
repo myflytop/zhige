@@ -5,9 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.oly.cms.common.domain.entity.CmsCat;
 import com.oly.cms.common.domain.entity.CmsTag;
 import com.oly.cms.general.annotation.WebLog;
+import com.oly.cms.general.model.enums.WebLogType;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.web.service.page.WebPageService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,7 +28,7 @@ public class WebPageController {
      * @param mp
      * @return
      */
-    @WebLog(title = "主页请求")
+    @WebLog(title = "主页请求", logType = WebLogType.PAGE)
     @GetMapping(value = { "/", "/index", "/{themeName}/index" })
     public String index(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
         return webPageService.index(themeName, mp);
@@ -41,7 +41,7 @@ public class WebPageController {
      * @param mp
      * @return
      */
-    @WebLog(title = "获取文章")
+    @WebLog(title = "获取文章", logType = WebLogType.PAGE)
     @GetMapping(value = { "/post/{postId}", "/{themeName}/post/{postId}" })
     public String post(@PathVariable(name = "postId") Long postId,
             @PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
@@ -56,7 +56,7 @@ public class WebPageController {
      * @param parm
      * @return
      */
-    @WebLog(title = "获取文章列表")
+    @WebLog(title = "获取文章列表", logType = WebLogType.PAGE)
     @GetMapping(value = { "/post", "/{themeName}/post" })
     public String posts(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp,
             WebArticleSearchParam parm) {
@@ -70,7 +70,7 @@ public class WebPageController {
      * @param mp
      * @return
      */
-    @WebLog(title = "获取标签列表")
+    @WebLog(title = "获取标签列表", logType = WebLogType.PAGE)
     @GetMapping(value = { "/tag", "/{themeName}/tag" })
     public String tags(@PathVariable(name = "themeName", required = false) String themeName, CmsTag tag, ModelMap mp) {
         return webPageService.tags(themeName, tag, mp);
@@ -83,7 +83,7 @@ public class WebPageController {
      * @param mp
      * @return
      */
-    @WebLog(title = "获取标签")
+    @WebLog(title = "获取标签", logType = WebLogType.PAGE)
     @GetMapping(value = { "/tag/{tagId}", "/{themeName}/tag/{tagId}" })
     public String tag(@PathVariable(name = "themeName", required = false) String themeName,
             @PathVariable("tagId") Long tagId, ModelMap mp) {
@@ -97,7 +97,7 @@ public class WebPageController {
      * @param mp
      * @return
      */
-    @WebLog(title = "获取分类列表")
+    @WebLog(title = "获取分类列表", logType = WebLogType.PAGE)
     @GetMapping(value = { "/category", "/{themeName}/category" })
     public String cats(@PathVariable(name = "themeName", required = false) String themeName, CmsCat cat, ModelMap mp) {
         return webPageService.cats(themeName, cat, mp);
@@ -111,7 +111,7 @@ public class WebPageController {
      * @param mp
      * @return
      */
-    @WebLog(title = "获取分类")
+    @WebLog(title = "获取分类", logType = WebLogType.PAGE)
     @GetMapping(value = { "/category/{catId}", "/{themeName}/category/{catId}" })
     public String cat(@PathVariable(name = "themeName", required = false) String themeName,
             @PathVariable("catId") Long catId, ModelMap mp) {
@@ -124,7 +124,7 @@ public class WebPageController {
      * @param mp
      * @return
      */
-    @WebLog(title = "获取链接")
+    @WebLog(title = "获取链接", logType = WebLogType.PAGE)
     @GetMapping(value = { "/links", "/{themeName}/links" })
     public String links(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
         return webPageService.links(themeName, mp);
@@ -136,7 +136,7 @@ public class WebPageController {
      * @param mp
      * @return
      */
-    @WebLog(title = "关于页")
+    @WebLog(title = "关于页", logType = WebLogType.PAGE)
     @GetMapping(value = { "/about", "/{themeName}/about" })
     public String about(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
         return webPageService.about(themeName, mp);
@@ -148,7 +148,7 @@ public class WebPageController {
      * @param modelMap
      * @return
      */
-    @WebLog(title = "排行页")
+    @WebLog(title = "排行页", logType = WebLogType.PAGE)
     @GetMapping(value = { "/rank", "/{themeName}/rank" })
     public String rank(@PathVariable(name = "themeName", required = false) String themeName, ModelMap modelMap) {
         return webPageService.rank(themeName, modelMap);
@@ -161,7 +161,7 @@ public class WebPageController {
      * @param pageNum
      * @return
      */
-    @WebLog(title = "时间线")
+    @WebLog(title = "时间线", logType = WebLogType.PAGE)
     @GetMapping(value = { "/timeLine", "/{themeName}/timeLine" })
     public String timeLine(@PathVariable(name = "themeName", required = false) String themeName, ModelMap modelMap,
             @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "20") int pageSize) {
@@ -174,7 +174,7 @@ public class WebPageController {
      * @param mp
      * @return
      */
-    @WebLog(title = "反馈页")
+    @WebLog(title = "反馈页", logType = WebLogType.PAGE)
     @GetMapping(value = { "/contact", "/{themeName}/contact" })
     public String contact(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
         return webPageService.contact(themeName, mp);
@@ -186,7 +186,7 @@ public class WebPageController {
      * @param mp
      * @return
      */
-    @WebLog(title = "联盟页")
+    @WebLog(title = "联盟页", logType = WebLogType.PAGE)
     @GetMapping(value = { "/union", "/{themeName}/union" })
     public String Union(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
         return webPageService.union(themeName, mp);
@@ -198,7 +198,7 @@ public class WebPageController {
      * @param page
      * @return
      */
-    @WebLog(title = "自定义页面")
+    @WebLog(title = "自定义页面", logType = WebLogType.PAGE)
     @GetMapping(value = { "/custom/{page}", "/{themeName}/custom/{page}" })
     public String customPage(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp,
             @PathVariable("page") String page) {

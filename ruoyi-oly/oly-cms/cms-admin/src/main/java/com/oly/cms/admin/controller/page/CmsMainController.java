@@ -18,6 +18,7 @@ import com.oly.cms.common.domain.entity.CmsContact;
 import com.oly.cms.common.domain.entity.CmsTag;
 import com.oly.cms.common.domain.entity.CmsUnion;
 import com.oly.cms.common.model.enums.ArticleVisibleEnums;
+import com.oly.cms.general.model.enums.WebLogType;
 import com.oly.cms.general.model.record.CmsLogRecord;
 import com.ruoyi.common.enums.CommonVisibleEnums;
 import com.ruoyi.common.utils.DateUtils;
@@ -51,6 +52,7 @@ public class CmsMainController extends CmsCommonController {
 
     private void ReportLog(ModelMap mm, Map<String, Object> timeMap) {
         CmsLogRecord cmsLogRecord = new CmsLogRecord();
+        cmsLogRecord.setLogType(WebLogType.PAGE.ordinal());
         mm.put("log", cmsReportService.countCmsLogRecord(cmsLogRecord));
         cmsLogRecord.setParams(timeMap);
         mm.put("logNow", cmsReportService.countCmsLogRecord(cmsLogRecord));

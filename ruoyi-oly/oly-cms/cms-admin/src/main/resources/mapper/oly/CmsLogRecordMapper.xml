@@ -20,9 +20,10 @@
         <result property="operTime"    column="oper_time"    />
         <result property="operBower"    column="oper_bower"    />
         <result property="operSystem"    column="oper_system"    />
+        <result property="logType"    column="log_type"    />
     </resultMap>
     <sql id="selectCmsLogRecordVo">
-        select log_id, title, business_type, method, request_method, operator_type, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time, oper_bower, oper_system from cms_log_record
+        select log_id, title, business_type, method, request_method, operator_type, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time, oper_bower, oper_system,log_type from cms_log_record
     </sql>
 
     <select id="listCmsLogRecord"  parameterType="com.oly.cms.general.model.record.CmsLogRecord"  resultMap="RecordMap">
@@ -43,6 +44,7 @@
             <if test="operTime != null "> and oper_time = #{operTime}</if>
             <if test="operBower != null  and operBower != ''"> and oper_bower = #{operBower}</if>
             <if test="operSystem != null  and operSystem != ''"> and oper_system = #{operSystem}</if>
+            <if test="logType!= null">and log_type=#{logType},</if>
         </where>
     </select>
 

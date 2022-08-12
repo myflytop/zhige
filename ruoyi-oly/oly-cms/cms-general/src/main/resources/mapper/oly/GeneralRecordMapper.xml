@@ -20,6 +20,7 @@
             oper_time,
             <if test="operBower != null  and operBower != ''">oper_bower,</if>
             <if test="operSystem != null  and operSystem != ''">oper_system,</if>
+            <if test="logType!= null">log_type,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="logId != null ">#{logId},</if>
@@ -38,6 +39,7 @@
             sysdate(),
             <if test="operBower != null  and operBower != ''">#{operBower},</if>
             <if test="operSystem != null  and operSystem != ''">#{operSystem},</if>
+            <if test="logType!= null">#{logType},</if>
         </trim>
     </insert>
 

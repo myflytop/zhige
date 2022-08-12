@@ -13,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.oly.cms.general.annotation.WebLog;
+import com.oly.cms.general.model.enums.WebBusinessType;
+import com.oly.cms.general.model.enums.WebLogType;
 
 import eu.bitwalker.useragentutils.UserAgent;
 
@@ -29,6 +32,7 @@ public class HandRecordController {
      * @return
      */
     @PostMapping("/addLikeRecord")
+    @WebLog(title = "添加赞成", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
     @ResponseBody
     public AjaxResult addLikeRecord(WebRecordParam webRecordParam) {
@@ -52,6 +56,7 @@ public class HandRecordController {
      * @return
      */
     @PostMapping("/addNastyRecord")
+    @WebLog(title = "添加反对", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
     @ResponseBody
     public AjaxResult addNastyRecord(WebRecordParam webRecordParam) {
@@ -75,6 +80,7 @@ public class HandRecordController {
      * @return
      */
     @PostMapping("/addScoreRecord")
+    @WebLog(title = "添加评分", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
     @ResponseBody
     public AjaxResult addScoreRecord(WebRecordParam webRecordParam) {
@@ -93,6 +99,7 @@ public class HandRecordController {
      * @return
      */
     @PostMapping("/addShareRecord")
+    @WebLog(title = "添加分享", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
     @ResponseBody
     public AjaxResult addShareRecord(WebRecordParam webRecordParam) {
@@ -107,6 +114,7 @@ public class HandRecordController {
      * @return
      */
     @PostMapping("/addCollectRecord")
+    @WebLog(title = "添加收藏", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
     @ResponseBody
     public AjaxResult addCollectRecord(WebRecordParam webRecordParam) {

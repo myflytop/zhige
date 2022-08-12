@@ -127,6 +127,8 @@ public class WebLogAspect {
         operLog.setTitle(log.title());
         // 设置操作人类别
         operLog.setOperatorType(log.operatorType().ordinal());
+        // 设置日志类型
+        operLog.setLogType(log.logType().ordinal());
         // 是否需要保存request，参数和值
         if (log.isSaveRequestData()) {
             // 获取参数的信息，传入到数据库中。

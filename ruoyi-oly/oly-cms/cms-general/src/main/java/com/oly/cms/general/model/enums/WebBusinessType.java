@@ -3,21 +3,16 @@ package com.oly.cms.general.model.enums;
 /**
  * 内容操作业务
  *
- * 进入页面 退出页面 获取数据 登陆 修改
- *
+ * 页面
+ * 评论
+ * 反馈
  */
 public enum WebBusinessType {
-
-    /**
-     * 其它
-     */
-    OTHER,
 
     /**
      * 新增
      */
     INSERT,
-
     /**
      * 修改
      */
@@ -27,12 +22,8 @@ public enum WebBusinessType {
      */
     DELETE,
     /**
-     * 访问页面
+     * 其它
      */
-    VISIT,
-    /**
-     * 获取数据
-     */
-    GET_DATA,
+    OTHER,
 
 }

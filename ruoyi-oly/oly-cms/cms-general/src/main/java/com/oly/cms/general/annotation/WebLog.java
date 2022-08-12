@@ -7,6 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.oly.cms.general.model.enums.WebBusinessType;
+import com.oly.cms.general.model.enums.WebLogType;
 import com.oly.cms.general.model.enums.WebOperatorType;
 
 /**
@@ -30,6 +31,11 @@ public @interface WebLog {
      * 操作人类别
      */
     public WebOperatorType operatorType() default WebOperatorType.USER;
+
+    /**
+     * 记录类型
+     */
+    public WebLogType logType() default WebLogType.OTHER;
 
     /**
      * 是否保存请求的参数

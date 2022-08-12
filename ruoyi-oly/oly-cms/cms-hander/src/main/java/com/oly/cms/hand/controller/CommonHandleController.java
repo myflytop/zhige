@@ -5,6 +5,10 @@ import com.oly.cms.hand.service.impl.HandleServiceImpl;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.ShiroUtils;
+import com.oly.cms.general.annotation.WebLog;
+import com.oly.cms.general.model.enums.WebBusinessType;
+import com.oly.cms.general.model.enums.WebLogType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +31,12 @@ public class CommonHandleController extends BaseController {
      * @return
      */
     @PostMapping("/addContact")
+    @WebLog(title = "添加评论", logType = WebLogType.CONTACT, businessType = WebBusinessType.INSERT)
     @ResponseBody
     public AjaxResult addContact(CmsContact cmsContact) {
         cmsContact.setCreateBy(ShiroUtils.getUserIdStr());
         cmsContact.setVisible(0);
-        cmsContact.setContactType(cmsContact == null ? 0 : cmsContact.getContactType());
+        cmsContact.setContactType(cmsContact.getContactType() == null ? 0 : cmsContact.getContactType());
         return toAjax(webHandleService.insertCmsContact(cmsContact));
     }
 

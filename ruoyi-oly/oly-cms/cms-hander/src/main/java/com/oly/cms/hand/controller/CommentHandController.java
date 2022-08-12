@@ -13,16 +13,16 @@ import com.oly.cms.comment.model.CmsCommentHand;
 import com.oly.cms.comment.model.enums.CommentHandVisibleEnums;
 import com.oly.cms.comment.model.enums.CommentTypeEnum;
 import com.oly.cms.comment.model.enums.CommentVisibleEnums;
-import com.oly.cms.comment.model.properties.OlyCommentProperties;
 import com.oly.cms.comment.servie.impl.CmsCommentHandServiceImpl;
 import com.oly.cms.comment.servie.impl.CmsCommentServiceImpl;
+import com.oly.cms.general.annotation.WebLog;
+import com.oly.cms.general.model.enums.WebBusinessType;
+import com.oly.cms.general.model.enums.WebLogType;
 import com.oly.cms.general.taglib.ArticleTag;
 import com.oly.cms.hand.service.tadlib.CommentTag;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.ShiroUtils;
-import com.ruoyi.system.config.service.ISysConfigService;
-
 import eu.bitwalker.useragentutils.UserAgent;
 
 /**
@@ -44,16 +44,15 @@ public class CommentHandController {
     @Autowired
     private ArticleTag articleTag;
 
-    @Autowired
-    private ISysConfigService configService;
-
     /**
      * 添加评论
      * 
      * @param cmsComment
      * @return
      */
+
     @PostMapping("/addComment")
+    @WebLog(title = "添加评论", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
     @RequiresAuthentication
     public AjaxResult addComment(CmsComment cmsComment, CommentTypeEnum type) {
         if (commentTag.commentSupport(type)) {
@@ -90,13 +89,14 @@ public class CommentHandController {
     }
 
     /**
-     * 点赞取消点赞
+     * 点赞|取消点赞
      * 
      * @param commentId
      * @param visibleEnums
      * @return
      */
     @RequiresAuthentication
+    @WebLog(title = "评论赞成", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
     @PostMapping("/addcommentLike")
     public AjaxResult addCommentLike(long commentId) {
         CmsComment comment = cmsCommentService.selectCmsCommentByCommentId(commentId);
@@ -130,15 +130,16 @@ public class CommentHandController {
     }
 
     /**
-     * 点赞取消点赞
+     * 反对|取消反对
      * 
      * @param commentId
      * @param visibleEnums
      * @return
      */
     @RequiresAuthentication
+    @WebLog(title = "评论反对", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
     @PostMapping("/addcommentNasty")
-    public AjaxResult addCommentDialike(long commentId) {
+    public AjaxResult addCommentNasty(long commentId) {
         CmsComment comment = cmsCommentService.selectCmsCommentByCommentId(commentId);
         if (comment == null || comment.getVisible().intValue() != CommentVisibleEnums.PASS.ordinal()) {
             return AjaxResult.error("操作节点不存在或者不存在");
@@ -189,16 +190,6 @@ public class CommentHandController {
 
     private UserAgent getUserAgent() {
         return UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
-    }
-
-    /**
-     * 是否开启邮件回复
-     * 
-     * @return
-     */
-    private boolean supportEmailReply() {
-        return "true".equals(configService.selectConfigDefauleValue(
-                OlyCommentProperties.COMMENT_CONFIG_GROUP.defaultValue(), OlyCommentProperties.COMMENT_MAIL_RESTORE));
     }
 
     void addComment() {
