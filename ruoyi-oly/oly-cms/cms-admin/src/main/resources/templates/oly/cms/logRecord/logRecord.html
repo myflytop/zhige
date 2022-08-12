@@ -15,30 +15,25 @@
                                 <input type="text" name="title"/>
                             </li>
                             <li>
-                                <p>业务类型：</p>
-                                <select name="businessType" th:with="type=${@dictTag.getType('')}">
+                                <p>日志类型：</p>
+                                <select name="logType" th:with="type=${@dictTag.getType('cms_log_type')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
                             <li>
-                                <p>操作类别：</p>
-                                <select name="operatorType" th:with="type=${@dictTag.getType('')}">
+                                <p>操作类型：</p>
+                                <select name="businessType" th:with="type=${@dictTag.getType('cms_log_business_type')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
-
                             <li>
-                                <p>操作地点：</p>
-                                <input type="text" name="operLocation"/>
-                            </li>
-                            <li>
-                                <p>操作状态：</p>
-                                <select name="status">
-                                    <option value="">所有</option>
-                                </select>
-                            </li>
+								<p>操作状态：</p><select class="form-control" name="status" th:with="type=${@dictTag.getType('sys_common_status')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
                             <li class="select-time">
                                 <p>操作时间：</p>
                                 <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginOperTime]"/>

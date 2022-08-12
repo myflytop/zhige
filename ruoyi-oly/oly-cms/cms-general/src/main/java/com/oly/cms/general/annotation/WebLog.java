@@ -23,14 +23,14 @@ public @interface WebLog {
     public String title() default "";
 
     /**
-     * 功能
+     * 操作类型
      */
     public WebBusinessType businessType() default WebBusinessType.OTHER;
 
     /**
      * 操作人类别
      */
-    public WebOperatorType operatorType() default WebOperatorType.USER;
+    public WebOperatorType operatorType() default WebOperatorType.OTHER;
 
     /**
      * 记录类型
