@@ -205,7 +205,7 @@ public class WebPageController {
         return webPageService.fr(themeName, mp, page);
     }
 
-    @GetMapping(value = { "/robots.txt", "/{themeName}/robotx.txt" })
+    @GetMapping(value = { "/robots.txt", "/{themeName}/robots.txt" })
     public void robots(@PathVariable(name = "themeName", required = false) String themeName,
             HttpServletResponse response, ModelMap mp) {
         webPageService.robots(themeName, response, mp);
