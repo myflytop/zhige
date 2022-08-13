@@ -93,14 +93,13 @@
                 url: prefix + "/list",
                 removeUrl: prefix + "/deleteCmsCommentByIds",
                 detailUrl: prefix + "/hand/{id}",
-                exportUrl: prefix + "/export",
                 modalName: "评论",
                 columns: [{
                     checkbox: true
                 },
                 {
                     field: 'commentId',
-                    title: '评论id',
+                    title: '评论ID',
                     align: 'left'
                 },
                 {
@@ -147,7 +146,8 @@
                 {
                     field: 'content',
                     title: '内容',
-                    align: 'left'
+                    align: 'left',
+                    visible: false
                 },
                 {
                     field: 'visible',
@@ -170,7 +170,7 @@
                 },
                 {
                     field: 'ip',
-                    title: 'ip',
+                    title: 'IP',
                     align: 'left'
                 },
                 {
