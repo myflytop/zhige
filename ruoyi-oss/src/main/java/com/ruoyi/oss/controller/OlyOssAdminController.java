@@ -156,14 +156,14 @@ public class OlyOssAdminController extends BaseController {
         startPage();
         List<OlyOss> list = ossService.selectOlyOssList(olyOss);
         TableDataInfo tableDataInfo = getDataTable(list);
-        List<OlyOss> olyOsses = new ArrayList<>();
+        List<OlyOss> olyOses = new ArrayList<>();
         for (OlyOss o : list) {
             if (o.getFileType().equals(MimeExtxensionEnum.IMAGE.name().toLowerCase())) {
                 o.setThumbKey(ossHandler.get().getThumbKey(o.getFk()));
             }
-            olyOsses.add(o);
+            olyOses.add(o);
         }
-        tableDataInfo.setRows(olyOsses);
+        tableDataInfo.setRows(olyOses);
         return tableDataInfo;
     }
 

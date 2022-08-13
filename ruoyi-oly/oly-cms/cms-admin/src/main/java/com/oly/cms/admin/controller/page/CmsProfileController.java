@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/cms/profile")
 public class CmsProfileController extends CmsCommonController {
 
-    private final String preifx = acceptPrefix + "profile";
+    private final String prefix = acceptPrefix + "profile";
 
     @GetMapping("/user")
     public String userProfile() {
 
-        return preifx + "/user";
+        return prefix + "/user";
     }
 }

@@ -73,6 +73,7 @@ public class CmsContactController extends CmsCommonController {
      * 新增反馈|建议
      */
     @GetMapping("/add")
+    @RequiresPermissions("cms:contact:add")
     public String add() {
         return prefix + "/add";
     }
@@ -90,9 +91,10 @@ public class CmsContactController extends CmsCommonController {
     }
 
     /**
-     * 修改反馈|建议
+     * 查看反馈|建议
      */
     @GetMapping("/detail/{contactId}")
+    @RequiresPermissions("cms:contact:view")
     public String detail(@PathVariable("contactId") Long contactId, ModelMap mm) {
         CmsContact cmsContact = cmsContactService.selectCmsContactById(contactId);
         mm.put("cmsContact", cmsContact);
@@ -102,6 +104,7 @@ public class CmsContactController extends CmsCommonController {
     /**
      * 修改反馈|建议
      */
+    @RequiresPermissions("cms:contact:edit")
     @GetMapping("/edit/{contactId}")
     public String edit(@PathVariable("contactId") Long contactId, ModelMap mm) {
         CmsContact cmsContact = cmsContactService.selectCmsContactById(contactId);

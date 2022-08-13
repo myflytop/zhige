@@ -52,7 +52,9 @@ public class CmsArticleRecordController extends CmsCommonController {
     }
 
     /**
-     * 查询文章统计列表
+     * 
+     * @param cmsArticleCount
+     * @return
      */
     @RequiresPermissions("cms:articleCount:list")
     @PostMapping("/articleCount")
@@ -63,9 +65,6 @@ public class CmsArticleRecordController extends CmsCommonController {
         return getDataTable(list);
     }
 
-    /**
-     * 导出文章统计列表
-     */
     @RequiresPermissions("cms:articleCount:export")
     @Log(title = OperateTitle.CMS_POST, businessType = BusinessType.EXPORT)
     @PostMapping("/export")
@@ -77,9 +76,11 @@ public class CmsArticleRecordController extends CmsCommonController {
     }
 
     /**
-     * 查询文章统计列表
+     * 
+     * @param lookRecord
+     * @return
      */
-    @RequiresPermissions("cms:articleCount:list")
+    @RequiresPermissions("cms:articleLook:list")
     @PostMapping("/lookRecord")
     @ResponseBody
     public TableDataInfo lookRecord(CmsLookRecord lookRecord) {
@@ -90,9 +91,11 @@ public class CmsArticleRecordController extends CmsCommonController {
     }
 
     /**
-     * 查询文章统计列表
+     * 
+     * @param likeRecord
+     * @return
      */
-    @RequiresPermissions("cms:articleCount:list")
+    @RequiresPermissions("cms:articleLike:list")
     @PostMapping("/likeRecord")
     @ResponseBody
     public TableDataInfo likeRecord(CmsLikeRecord likeRecord) {
@@ -102,9 +105,11 @@ public class CmsArticleRecordController extends CmsCommonController {
     }
 
     /**
-     * 查询文章统计列表
+     * 
+     * @param collectRecord
+     * @return
      */
-    @RequiresPermissions("cms:articleCount:list")
+    @RequiresPermissions("cms:articleCollect:list")
     @PostMapping("/collectRecord")
     @ResponseBody
     public TableDataInfo collectRecord(CmsCollectRecord collectRecord) {
@@ -114,9 +119,11 @@ public class CmsArticleRecordController extends CmsCommonController {
     }
 
     /**
-     * 查询文章统计列表
+     * 
+     * @param shareRecord
+     * @return
      */
-    @RequiresPermissions("cms:articleCount:list")
+    @RequiresPermissions("cms:articleShare:list")
     @PostMapping("/shareRecord")
     @ResponseBody
     public TableDataInfo shareRecord(CmsShareRecord shareRecord) {
@@ -126,9 +133,11 @@ public class CmsArticleRecordController extends CmsCommonController {
     }
 
     /**
-     * 查询文章统计列表
+     * 
+     * @param nastyRecord
+     * @return
      */
-    @RequiresPermissions("cms:articleCount:list")
+    @RequiresPermissions("cms:articleNasty:list")
     @PostMapping("/nastyRecord")
     @ResponseBody
     public TableDataInfo nastyRecord(CmsNastyRecord nastyRecord) {
@@ -138,9 +147,11 @@ public class CmsArticleRecordController extends CmsCommonController {
     }
 
     /**
-     * 查询文章统计列表
+     * 
+     * @param scoreRecord
+     * @return
      */
-    @RequiresPermissions("cms:articleCount:list")
+    @RequiresPermissions("cms:articleScore:list")
     @PostMapping("/scoreRecord")
     @ResponseBody
     public TableDataInfo scoreRecord(CmsScoreRecord scoreRecord) {
