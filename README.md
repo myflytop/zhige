@@ -146,8 +146,24 @@ ruoyi:
 #### 项目地址
 - [后台地址](https://gitee.com/Getawy/zhige)
 - [主题地址](https://gitee.com/Getawy/zgblog)
-- [主题预览地址](pingpinduo.site)
-- [后台预览地址](pingpinduo.site/admin)
+- [主题预览地址](https://pingpinduo.site)
+- [后台预览地址](https://pingpinduo.site/admin)
+## 演示图
+
+<table>
+    <tr>
+        <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/img/登录页.png"/></td>
+        <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/img/管理页.png"/></td>
+       <tr>
+        <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/img/首页.png"/></td>
+        <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/img/移动端.png"/></td>
+    </tr>
+    </tr>
+    <tr>
+        <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/img/优惠卷.png"/></td>
+        <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/img/文档.png"/></td>
+    </tr>
+</table>
 #### 注意事项
 - 预览账号为为管理账号，望千万不要手欠，随意修改删除预览数据。
 - 如果项目对你有帮助，请点下小红星⭐表示支持，谢谢！
