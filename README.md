@@ -148,6 +148,8 @@ ruoyi:
 - [主题地址](https://gitee.com/Getawy/zgblog)
 - [主题预览地址](https://pingpinduo.site)
 - [后台预览地址](https://pingpinduo.site/admin)
+- 管理员账号admin/admin123  
+- 浏览账号viewer/admin123
 ## 演示图
 
 <table>
