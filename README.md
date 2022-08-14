@@ -154,10 +154,10 @@ ruoyi:
     <tr>
         <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/img/登录页.png"/></td>
         <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/img/管理页.png"/></td>
-       <tr>
+    </tr>
+    <tr>
         <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/img/首页.png"/></td>
         <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/img/移动端.png"/></td>
-    </tr>
     </tr>
     <tr>
         <td><img src="https://gitee.com/Getawy/zhige/raw/master/doc/img/优惠卷.png"/></td>
