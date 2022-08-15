@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.oly.cms.admin.service.CmsToolService;
 import com.oly.cms.common.constant.OlyPagePrefix;
+import com.oly.cms.common.model.properties.OlyThemeConfigProperties;
 import com.oly.cms.common.model.properties.OlyWebConfigProperties;
 import com.oly.cms.common.utils.site.GenerateMapUtils;
 import com.ruoyi.common.core.controller.BaseController;
@@ -42,6 +43,13 @@ public class CmsToolController extends BaseController {
     @PostMapping("/siteMapXml/{themeName}")
     @ResponseBody
     public AjaxResult siteMapXml(@PathVariable("themeName") String themeName) {
+        String prefix = "";
+        if (themeName.equals(configService.selectConfigDefauleValue(
+                OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(), OlyThemeConfigProperties.THEME_USED))) {
+
+        } else {
+            prefix = themeName;
+        }
         String basePath = OlyStageRoot.SITE_DIR.getRoot("");
         Map<String, List<String>> mnMap = new HashMap<>();
         List<String> em = new ArrayList<>();
@@ -56,7 +64,8 @@ public class CmsToolController extends BaseController {
         mnMap.put(OlyPagePrefix.linksPage, em);
         mnMap.put(OlyPagePrefix.aboutPage, em);
         GenerateMapUtils.generateBaiDuMap(basePath,
-                configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.DOMAIN), mnMap, themeName);
+                configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.DOMAIN), mnMap, themeName,
+                prefix);
         // 主页
         // 所有文章
         // 分类{单个分类 文章，所有分类}
@@ -74,6 +83,13 @@ public class CmsToolController extends BaseController {
     @PostMapping("/siteMapXmlByByBeginTime/{themeName}")
     @ResponseBody
     public AjaxResult siteMapXmlByBeginTime(String beginTime, @PathVariable("themeName") String themeName) {
+        String prefix = "";
+        if (themeName.equals(configService.selectConfigDefauleValue(
+                OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(), OlyThemeConfigProperties.THEME_USED))) {
+
+        } else {
+            prefix = themeName;
+        }
         String basePath = OlyStageRoot.SITE_DIR.getRoot("");
         Map<String, List<String>> mnMap = new HashMap<>();
         List<String> em = new ArrayList<>();
@@ -87,7 +103,8 @@ public class CmsToolController extends BaseController {
         mnMap.put(OlyPagePrefix.aboutPage, em);
         mnMap.put(OlyPagePrefix.linksPage, em);
         GenerateMapUtils.generateBaiDuMap(basePath,
-                configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.DOMAIN), mnMap, themeName);
+                configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.DOMAIN), mnMap, themeName,
+                prefix);
         // 主页
         // 所有文章
         // 分类{单个分类 文章，所有分类}

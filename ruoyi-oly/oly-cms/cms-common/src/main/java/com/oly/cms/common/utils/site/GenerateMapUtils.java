@@ -29,7 +29,7 @@ public class GenerateMapUtils {
      * @param themeName
      */
     public static void generateBaiDuMap(String tempPath, String domain, Map<String, List<String>> maps,
-            String themeName) {
+            String themeName, String prefix) {
         Assert.hasLength(tempPath, "基础路径不能为空");
         Assert.hasLength(domain, "域名不能为空");
         Assert.notEmpty(maps, "数据不能为空");
@@ -44,7 +44,7 @@ public class GenerateMapUtils {
             Iterator<Entry<String, List<String>>> entries = maps.entrySet().iterator();
             while (entries.hasNext()) {
                 Entry<String, List<String>> entry = entries.next();
-                String prefixUrl = entry.getKey();
+                String prefixUrl = prefix + entry.getKey();
                 List<String> ids = entry.getValue();
                 for (int i = 0; i < ids.size(); i++) {
                     WebSitemapUrl url = new WebSitemapUrl.Options(domain + prefixUrl + ids.get(i)).lastMod(date)
@@ -60,8 +60,8 @@ public class GenerateMapUtils {
             // 构造 sitemap_index 生成器
             W3CDateFormat dateFormat = new W3CDateFormat(W3CDateFormat.Pattern.DAY);
             SitemapIndexGenerator sitemapIndexGenerator = new SitemapIndexGenerator.Options(domain,
-                    new File(tempPath + "/" + themeName + "SiteMapIndex.xml")).dateFormat(dateFormat).autoValidate(true)
-                            .build();
+                    new File(tempPath + "/" + themeName + "_sitemap.xml")).dateFormat(dateFormat).autoValidate(true)
+                    .build();
             fileNames.forEach(e -> {
                 // 组装 sitemap 文件 URL 地址
                 try {
