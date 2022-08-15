@@ -10,8 +10,7 @@ import com.ruoyi.quartz.domain.SysJob;
  * 
  * @author ruoyi
  */
-public interface ISysJobService
-{
+public interface ISysJobService {
     /**
      * 获取quartz调度器的计划任务
      * 
@@ -74,7 +73,7 @@ public interface ISysJobService
      * @param job 调度信息
      * @return 结果
      */
-    public void run(SysJob job) throws SchedulerException;
+    public boolean run(SysJob job) throws SchedulerException;
 
     /**
      * 新增任务
