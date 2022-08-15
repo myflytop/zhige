@@ -261,7 +261,38 @@ public class WebPageService extends CommonController {
     }
 
     public void robots(String themeName, HttpServletResponse response, ModelMap mp) {
-        File file = Paths.get(OlyStageRoot.THEME_DIR.getRoot(""), getPrefix(themeName, "", mp), "robots.txt").toFile();
+        themeName = getThemeName(themeName);
+        File file = Paths.get(OlyStageRoot.THEME_DIR.getRoot(themeName), "robots.txt").toFile();
+        outPrint(file, response, mp);
+    }
+
+    /**
+     * 索引文件列表
+     * 
+     * @param themeName
+     * @param response
+     * @param mp
+     */
+    public void siteMapIndex(String themeName, HttpServletResponse response, ModelMap mp) {
+        themeName = getThemeName(themeName);
+        File file = Paths.get(OlyStageRoot.SITE_DIR.getRoot(themeName + "_sitemap.xml")).toFile();
+        outPrint(file, response, mp);
+    }
+
+    /**
+     * 索引文件
+     * 
+     * @param themeName
+     * @param fileName
+     * @param response
+     * @param mp
+     */
+    public void siteMap(String themeName, String fileName, HttpServletResponse response, ModelMap mp) {
+        File file = Paths.get(OlyStageRoot.SITE_DIR.getRoot(themeName), fileName).toFile();
+        outPrint(file, response, mp);
+    }
+
+    private void outPrint(File file, HttpServletResponse response, ModelMap mp) {
         BufferedReader reader = null;
         if (!file.exists()) {
             try {

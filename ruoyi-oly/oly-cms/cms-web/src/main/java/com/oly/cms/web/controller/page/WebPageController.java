@@ -211,4 +211,17 @@ public class WebPageController {
         webPageService.robots(themeName, response, mp);
     }
 
+    @GetMapping(value = { "/sitemap.xml", "/{themeName}/sitemap.xml" })
+    public void siteMapIndex(@PathVariable(name = "themeName", required = false) String themeName,
+            HttpServletResponse response, ModelMap mp) {
+        webPageService.siteMapIndex(themeName, response, mp);
+    }
+
+    @GetMapping(value = { "/site/{themeName}/{file:.+}" })
+    public void siteMap(@PathVariable(name = "themeName") String themeName,
+            @PathVariable(name = "file") String fileName,
+            HttpServletResponse response, ModelMap mp) {
+        webPageService.siteMap(themeName, fileName, response, mp);
+    }
+
 }

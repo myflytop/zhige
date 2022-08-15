@@ -101,10 +101,14 @@
                                 <div class="col-sm-8">
                                     <div class="input-group"
                                         th:with="sus=${#strings.arraySplit(webConfig['oly.web.article.supportType'],',')}">
-                                        <select id="supportType" class="form-control select2-multiple" multiple>
-                                            <option th:each="dict : ${@dictTag.getType('cms_support_type')}"
+                                        <select th:if="${sus!=null}"  id="supportType" class="form-control select2-multiple" multiple>
+                                            <option  th:each="dict : ${@dictTag.getType('cms_support_type')}"
                                                 th:value="${dict.dictValue}" th:text="${dict.dictLabel}"
                                                 th:selected="${#arrays.contains(sus,dict.dictValue)}"></option>
+                                        </select>
+                                        <select th:if="${sus==null}"  id="supportType" class="form-control select2-multiple" multiple>
+                                            <option  th:each="dict : ${@dictTag.getType('cms_support_type')}"
+                                                th:value="${dict.dictValue}" th:text="${dict.dictLabel}" ></option>
                                         </select>
                                         <input type="hidden" name="oly.web.article.supportType" />
                                     </div>
