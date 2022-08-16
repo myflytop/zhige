@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="ibox-content no-padding border-left-right text-center">
-                                <img alt="image" class="img-responsive img-circle m-t-xs img-responsive" style="margin: 0 auto;padding-left: 5px;" th:src="(${#strings.isEmpty(user.avatar)}) ? @{/img/profile.jpg} : @{${user.avatar}}" th:onerror="this.src='img/profile.jpg'">
+                                <img alt="image" class="img-responsive img-circle m-t-xs img-responsive" style="margin: 0 auto;padding-left: 5px;" th:src="(${#strings.isEmpty(user.avatar)}) ? @{/img/profile.jpg} : @{${user.avatar}}" th:onerror="this.src='/img/profile.jpg'">
                                 <br />
                                 <span class="m-t-xs font-bold" th:text="${#strings.defaultString(user.userName, '-')}" >营销总监</span>
                             </div>    

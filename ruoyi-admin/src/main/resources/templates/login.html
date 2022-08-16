@@ -24,13 +24,13 @@
         if(window.top!==window.self){alert('未登录或登录超时。请重新登录');window.top.location=window.location};
     </script>
 </head>
-<body class="signin" th:style="'background-image:url('+${#strings.isEmpty(@configTag.getKey('sysLogin','sys.login.back'))?'../img/login-background.jpg':@configTag.getKey('sysLogin','sys.login.back')}+')'">
+<body class="signin" th:style="'background-image:url('+${#strings.isEmpty(@configTag.getKey('sysLogin','sys.login.back'))?'/img/login-background.jpg':@configTag.getKey('sysLogin','sys.login.back')}+')'">
     <div class="signinpanel">
         <div class="row">
             <div class="col-sm-7">
                 <div class="signin-info">
                     <div class="logopanel m-b">
-                        <img alt="logo"  th:src="${#strings.isEmpty(@configTag.getKey('sysCommon','sys.common.logo'))?'../ruoyi.png':@configTag.getKey('sysCommon','sys.common.logo')}">
+                        <img alt="logo"  th:src="${#strings.isEmpty(@configTag.getKey('sysCommon','sys.common.logo'))? '/ruoyi.png' :@configTag.getKey('sysCommon','sys.common.logo')}" th:onerror="this.src='/ruoyi.png'">
                     </div>
                     <h4>欢迎使用 <strong th:text="${#strings.isEmpty(@configTag.getKey('sysCommon','sys.common.title'))?'止戈管理系统':@configTag.getKey('sysCommon','sys.common.title')}">止戈管理系统</strong></h4>
                     <div th:utext="${@configTag.getKey('sysLogin','sys.login.info')}">
