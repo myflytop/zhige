@@ -17,8 +17,8 @@ public enum OssConfigProperties implements PropertyEnum {
     OSS_PREFIX_AL("oly.oss.aliyun.", String.class, ""),
     /* up储存配置前缀 */
     OSS_PREFIX_UP("oly.oss.upyun.", String.class, ""),
-    // 允许上传最大文件大小 默认100M
-    OSS_FILE_MAX_SIZE("oly.oss.max.size", Long.class, "100"),
+    // 允许上传最大文件大小 默认1024KB
+    OSS_FILE_MAX_SIZE("oly.oss.max.size", Long.class, "1024"),
     // 允许原文件最长文件名
     OSS_FILE_NAME_MAX_LENGTH("oly.oss.max.length", Integer.class, "100"),
     // 支持文件类型 图片 文档 默认为空允许所有

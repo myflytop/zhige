@@ -55,7 +55,7 @@ public class OssResult {
     }
 
     public static OssResult ok(String msg, OlyOss data) {
-        return new OssResult(200, msg, data, null);
+        return new OssResult(0, msg, data, null);
     }
 
     public static OssResult error(String msg, OlyOss data) {
@@ -63,6 +63,6 @@ public class OssResult {
     }
 
     public static OssResult listOk(String msg, List<OlyOss> datas) {
-        return new OssResult(200, msg, null, datas);
+        return new OssResult(0, msg, null, datas);
     }
 }

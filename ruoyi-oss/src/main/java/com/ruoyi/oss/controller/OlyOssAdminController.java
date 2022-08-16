@@ -18,6 +18,7 @@ import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
 import com.ruoyi.common.exception.file.InvalidExtensionException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.MimeExtxensionEnum;
+import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.oss.domain.OlyOss;
 import com.ruoyi.oss.factory.OssFactory;
 import com.ruoyi.oss.model.OssResult;
@@ -84,6 +85,7 @@ public class OlyOssAdminController extends BaseController {
         Map<String, String> configMap = configService
                 .selectConfigMapValueByGroupName(OssConfigProperties.OSS_CONFIG_GROUP.getValue());
         mmp.put("ossConfig", configMap);
+        mmp.put("maxSize", SpringUtils.getRequiredProperty("spring.servlet.multipart.max-file-size"));
         return prefix + "/config";
     }
 

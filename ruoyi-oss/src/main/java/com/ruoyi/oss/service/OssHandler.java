@@ -95,7 +95,7 @@ public interface OssHandler {
    * @throws FileSizeLimitExceededException
    */
   public static void fileSizeChick(long fileSize, long maxSize) throws FileSizeLimitExceededException {
-    if (fileSize > maxSize * 1024 * 1024) {
+    if (fileSize > maxSize * 1024) {
       throw new FileSizeLimitExceededException(maxSize);
     }
   }
@@ -109,8 +109,8 @@ public interface OssHandler {
    */
   public static void fileNameLengthChick(String fileName, int maxLength) throws FileNameLengthLimitExceededException {
 
-    int fileNamelength = Objects.requireNonNull(fileName).length();
-    if (fileNamelength > maxLength) {
+    int fileMaxlength = Objects.requireNonNull(fileName).length();
+    if (fileMaxlength > maxLength) {
       throw new FileNameLengthLimitExceededException(maxLength);
     }
   }

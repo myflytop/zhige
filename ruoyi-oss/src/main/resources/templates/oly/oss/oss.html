@@ -2,9 +2,9 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head>
-    <th:block th:include="include :: header('文件管理')"/>
-    <th:block th:include="include :: animate_css"/>
-    <th:block th:include="include :: bootstrap-fileinput-css"/>
+    <th:block th:include="include :: header('文件管理')" />
+    <th:block th:include="include :: animate_css" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
     <style>
         /** 白色主题 */
         .dropdown-menu {
@@ -48,7 +48,7 @@
             border: none;
         }
 
-        .dropdown-menu ul li > a,
+        .dropdown-menu ul li>a,
         .dropdown-menu ul li label {
             display: block;
             color: #333;
@@ -59,14 +59,14 @@
             font-size: 14px;
         }
 
-        .dropdown-menu ul li > a:hover,
+        .dropdown-menu ul li>a:hover,
         .dropdown-menu ul li label:hover {
             background-color: #eeeeee;
         }
 
         /** 禁用样式 */
-        .dropdown-menu ul li > a.disabled,
-        .dropdown-menu ul li > a.disabled:hover,
+        .dropdown-menu ul li>a.disabled,
+        .dropdown-menu ul li>a.disabled:hover,
         .dropdown-menu ul li label.disabled,
         .dropdown-menu ul li label.disabled:hover {
             cursor: not-allowed;
@@ -274,113 +274,117 @@
         .dropdown-menu.dropdown-anchor-right-bottom.dropdown-anchor-right-bottom .dropdown-anchor {
             top: calc(100% - 26px);
         }
-        .file-name{
+
+        .file-name {
             overflow: hidden;
             margin: 5px;
         }
-        .file-name span{
+
+        .file-name span {
             white-space: nowrap;
-            
+
         }
     </style>
 
 </head>
+
 <body class="gray-bg">
-<div class="container-div">
-    <div class="wrapper wrapper-content">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="ibox float-e-margins" >
-                    <div class="ibox-content">
-                        <div class="file-manager">
-                            <h5>操作</h5>
-                            <div class="hr-line-dashed"></div>
-                            <button class="btn btn-primary btn-block text-center" type="btn" data-toggle="modal"
+    <div class="container-div">
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="file-manager">
+                                <h5>操作</h5>
+                                <div class="hr-line-dashed"></div>
+                                <button class="btn btn-primary btn-block text-center" type="btn" data-toggle="modal"
                                     data-target="#uploadModal">上传文件
-                            </button>
-                            <div class="modal inmodal fade" id="uploadModal" tabindex="-1" role="dialog"
-                                 aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span
-                                                    aria-hidden="true">&times;</span><span
-                                                    class="sr-only">Close</span>
-                                            </button>
-                                            <h4 class="modal-title">文件上传</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input type="file" multiple="true" id="filePath" name="file"/>
+                                </button>
+                                <div class="modal inmodal fade" id="uploadModal" tabindex="-1" role="dialog"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span
+                                                        aria-hidden="true">&times;</span><span
+                                                        class="sr-only">Close</span>
+                                                </button>
+                                                <h4 class="modal-title">文件上传</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="file" multiple="true" id="filePath" name="file" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <button class="btn btn-primary btn-block" id="configBtn" shiro:hasPermission="oss:config:view">储存配置</button>
-                            <button class="btn btn-primary btn-block" id="refreshBtn">刷新</button>
-                            <div shiro:hasPermission="oss:config:edit">
-                            <div class="hr-line-dashed"></div>
-                            <h5>储存选择</h5>
-                            <div class="folder-list" style="padding: 0"
-                                 th:with="type=${@dictTag.getType('oly_oss_location')}">
-                                <div class="radio-box" th:each="dict : ${type}">
-                                    <input type="radio" name="ossLocation" th:value="${dict.dictValue}">
-                                    <label th:text="${dict.dictLabel}"></label>
+                                <button class="btn btn-primary btn-block" id="configBtn"
+                                    shiro:hasPermission="oss:config:view">储存配置</button>
+                                <button class="btn btn-primary btn-block" id="refreshBtn">刷新</button>
+                                <div shiro:hasPermission="oss:config:edit">
+                                    <div class="hr-line-dashed"></div>
+                                    <h5>储存选择</h5>
+                                    <div class="folder-list" style="padding: 0"
+                                        th:with="type=${@dictTag.getType('oly_oss_location')}">
+                                        <div class="radio-box" th:each="dict : ${type}">
+                                            <input type="radio" name="ossLocation" th:value="${dict.dictValue}">
+                                            <label th:text="${dict.dictLabel}"></label>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            <h5>文件类型</h5>
-                            <ul class="folder-list" id="fileTypeList" style="padding: 0"
-                                th:with="type=${@dictTag.getType('oly_oss_type')}">
-                                <li th:each="dict : ${type}" th:attr="data-value=${dict.dictValue}"><a
-                                        href="javascript:void(0)"><i class="fa fa-folder"></i> <span
-                                        th:text="${dict.dictLabel}"></span></a></li>
-                                <li  data-value=""><a href="javascript:void(0)"><i class="fa fa-folder"></i>
-                                        <span>所有</span></a></li>
+                                <div class="hr-line-dashed"></div>
+                                <h5>文件类型</h5>
+                                <ul class="folder-list" id="fileTypeList" style="padding: 0"
+                                    th:with="type=${@dictTag.getType('oly_oss_type')}">
+                                    <li th:each="dict : ${type}" th:attr="data-value=${dict.dictValue}"><a
+                                            href="javascript:void(0)"><i class="fa fa-folder"></i> <span
+                                                th:text="${dict.dictLabel}"></span></a></li>
+                                    <li data-value=""><a href="javascript:void(0)"><i class="fa fa-folder"></i>
+                                            <span>所有</span></a></li>
 
-                            </ul>
+                                </ul>
 
-                            <div class="clearfix"></div>
+                                <div class="clearfix"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-9 animated fadeInRight">
-                <div class="row">
-                    <div class="col-md-12" id="file_list">
+                <div class="col-md-9 animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12" id="file_list">
+
+                        </div>
+                        <div class="col-md-12" aria-label="...">
+                            <ul class="pager">
+                                <li id="prePage" class="previous"><a href="javascript:void(0)"><span
+                                            aria-hidden="true">&larr;</span> 上一页</a></li>
+                                <li id="nextPage" class="next"><a href="javascript:void(0)">下一页 <span
+                                            aria-hidden="true">&rarr;</span></a></li>
+                            </ul>
+                        </div>
 
                     </div>
-                    <div class="col-md-12" aria-label="...">
-                        <ul class="pager">
-                            <li id="prePage" class="previous"><a href="javascript:void(0)"><span
-                                    aria-hidden="true">&larr;</span> 上一页</a></li>
-                            <li id="nextPage" class="next"><a href="javascript:void(0)">下一页 <span
-                                    aria-hidden="true">&rarr;</span></a></li>
-                        </ul>
-                    </div>
-
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
-<!-- 下拉菜单 -->
-<div class="dropdown-menu dropdown-anchor-top-left" id="dropdownFile">
-    <div class="dropdown-anchor"></div>
-    <ul>
-        <li><a id="open"><i class="layui-icon layui-icon-file"></i>&emsp;查看&emsp;</a></li>
-        <li><a id="copy"><i class="layui-icon layui-icon-release"></i>&emsp;复制&emsp;</a></li>
-        <li>
-            <a id="del" style="color: red !important;">
-                <i class="layui-icon layui-icon-delete" style="font-size: 19px;"></i>&nbsp;&nbsp;&nbsp;删除&emsp;
-            </a>
-        </li>
-    </ul>
-</div>
-<!-- 渲染模板 -->
-<script id="fileTpl" type="text/html">
+    <!-- 下拉菜单 -->
+    <div class="dropdown-menu dropdown-anchor-top-left" id="dropdownFile">
+        <div class="dropdown-anchor"></div>
+        <ul>
+            <li><a id="open"><i class="layui-icon layui-icon-file"></i>&emsp;查看&emsp;</a></li>
+            <li><a id="copy"><i class="layui-icon layui-icon-release"></i>&emsp;复制&emsp;</a></li>
+            <li>
+                <a id="del" style="color: red !important;">
+                    <i class="layui-icon layui-icon-delete" style="font-size: 19px;"></i>&nbsp;&nbsp;&nbsp;删除&emsp;
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- 渲染模板 -->
+    <script id="fileTpl" type="text/html">
     {{# if(d.length<=0){ }}
     <span>没找到任何文件！</span>
     {{# } else { layui.each(d.rows, function(index, item){ }}
@@ -418,243 +422,250 @@
     {{#  } });} }}
 </script>
 
-<th:block th:include="include :: footer"/>
-<th:block th:include="include :: bootstrap-fileinput-js"/>
-<th:block th:include="include :: oly_clipboard_js"/>
-<script th:inlone="javascript">
-    var prefix = ctx + "oly/oss";  
-    layui.use(['element', 'laytpl'], function () {
-        var element = layui.element;
-        var laytpl = layui.laytpl;
-        var pageModel = {
-            fileHeard: "",
-            fileType: "",
-            isAsc:"desc",
-            orderByColumn:"createTime",
-            param: {
-                startTimen: "",
-                endTime: ""
-            },
-            total: 1,
-            totalPage: 1,
-            pageSize: 20,
-            pageNum: 1
-        }
-
-        //鼠标经过动画
-        function animationHover(element, animation) {
-            element = $(element);
-            element.hover(
-                function () {
-                    element.addClass('animated ' + animation);
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+    <th:block th:include="include :: oly_clipboard_js" />
+    <script th:inlone="javascript">
+        var prefix = ctx + "oly/oss";
+        layui.use(['element', 'laytpl'], function () {
+            var element = layui.element;
+            var laytpl = layui.laytpl;
+            var pageModel = {
+                fileHeard: "",
+                fileType: "",
+                isAsc: "desc",
+                orderByColumn: "createTime",
+                param: {
+                    startTimen: "",
+                    endTime: ""
                 },
-                function () {
-                    //wait for animation to finish before removing classes
-                    window.setTimeout(function () {
-                        element.removeClass('animated ' + animation);
-                    }, 2000);
-                });
-        }
+                total: 1,
+                totalPage: 1,
+                pageSize: 20,
+                pageNum: 1
+            }
 
-        $("#filePath").fileinput({
-            language: 'zh', //设置语言
-            uploadUrl: prefix + "/upload", //上传的地址
-            dropZoneEnabled: true,//是否显示拖拽区域
-            allowedFileExtensions: [
-            // 图片
-            "bmp", "gif", "jpg", "jpeg", "png",
-            // word excel powerpoint
-            "doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt",
-            // 压缩文件
-            "rar", "zip", "gz", "bz2",
-            // 视频格式
-            "mp4", "avi", "rmvb",
-            // pdf
-            "pdf" ],//接收的文件后缀
-        });
-
-        $("#filePath").on("fileuploaded", function (event, data, previewId, index) {
-            renderList(pageModel);
-        });
-
-        // 渲染文件列表
-        function renderList(olyoss) {
-            layer.load(2);
-            //获取文件列表
-            $.get(prefix + '/list', olyoss, function (res) {
-                layer.closeAll('loading');
-                if (res.code == 0) {
-                    res.ctx = ctx;
-                    pageModel.total = res.total;
-                    if (res.total % pageModel.pageSize == 0) {
-                        pageModel.totalPage = res.total / pageModel.pageSize;
-                    } else {
-                        pageModel.totalPage = res.total / pageModel.pageSize + 1;
-                    }
-                    //小于一页
-                    if (pageModel.pageSize >= res.total) {
-                        $("#nextPage").addClass('disabled');
-                        $("#prePage").addClass('disabled');
-                    }
-                    //最后一页
-                    else if (pageModel.pageNum == pageModel.totalPage) {
-                        $("#nextPage").addClass('disabled');
-                    }
-                    //第一页
-                    else if (pageModel.pageNum == 1) {
-                        $("#prePage").addClass('disabled');
-                    } else {
-                        $("#prePage").removeClass('disabled');
-                        $("#nextPage").removeClass('disabled');
-                    }
-
-
-                    laytpl(fileTpl.innerHTML).render(res, function (html) {
-
-                        document.getElementById('file_list').innerHTML = html;
-                        $('.file-box').each(function () {
-                            animationHover(this, 'pulse');
-                        });
+            //鼠标经过动画
+            function animationHover(element, animation) {
+                element = $(element);
+                element.hover(
+                    function () {
+                        element.addClass('animated ' + animation);
+                    },
+                    function () {
+                        //wait for animation to finish before removing classes
+                        window.setTimeout(function () {
+                            element.removeClass('animated ' + animation);
+                        }, 2000);
                     });
-                } else {
-                    layer.msg(res.msg, {icon: 2});
+            }
+
+            $("#filePath").fileinput({
+                language: 'zh', //设置语言
+                uploadUrl: prefix + "/upload", //上传的地址
+                dropZoneEnabled: true,//是否显示拖拽区域
+                allowedFileExtensions: [
+                    // 图片
+                    "bmp", "gif", "jpg", "jpeg", "png",
+                    // word excel powerpoint
+                    "doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt",
+                    // 压缩文件
+                    "rar", "zip", "gz", "bz2",
+                    // 视频格式
+                    "mp4", "avi", "rmvb",
+                    // pdf
+                    "pdf"],//接收的文件后缀
+            });
+
+            $("#filePath").on("fileuploaded", function (event, data, previewId, index) {
+                if (data.response.code == web_status.SUCCESS) {
+                    renderList(pageModel);
+                }
+                else {
+                    $(event.target).fileinput('clear').fileinput('unlock');
+                    $(event.target).parent().siblings('.fileinput-remove').hide();
+                    $.modal.alertSuccess(data.response.msg);
                 }
             });
-        }
 
-        //初始化文件列表
-        renderList(pageModel);
-
-        $("#prePage").click(function (e) {
-            if (pageModel.pageNum == 1) {
-
-            } else {
-                $("#nextPage").removeClass('disabled');
-                pageModel.pageNum--;
-                renderList(pageModel);
-            }
-        });
-
-        $("#nextPage").click(function (e) {
-            if ((pageModel.pageNum == pageModel.totalPage) || (pageModel.total <= pageModel.pageSize)) {
-
-            } else {
-                pageModel.pageNum++;
-                renderList(pageModel);
-            }
-        });
-
-
-        function submitHandler() {
-            if ($.validate.form()) {
-                uploadFile();
-            }
-        }
-
-
-        var mUrl, mKey,mId;
-        $('body').on('click', '.file-box', function (e) {
-            mUrl = $(this).data('url').replaceAll("\\","\/");
-            mKey = $(this).data('key');
-            mId = $(this).data('id');
-            $('#copy').attr('data-clipboard-text', mUrl);
-            var $target = $(this).find('.file');
-            $('#dropdownFile').css({
-                'top': $target.offset().top + 90,
-                'left': $target.offset().left + 25
-            });
-            $('#dropdownFile').addClass('dropdown-opened');
-            if (e !== void 0) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-        });
-        //获取储存位置
-        $('input[value="[[${@configTag.getKey("ossConfig","oly.oss.used")}]]"]').iCheck('check');
-        //选择储存位置
-        $('input[name="ossLocation"]').on('ifChecked', function (obj) {
-            $.operate.saveTab(prefix + "/updateByGk", {"configGroup":"ossConfig","oly.oss.used": $(this).val()}, function () {
-                location.reload();
-            });
-
-        })
-        $("#fileTypeList li").click(function () {
-            $('#fileTypeList li i').css({
-                'color': '#3d4d5d'
-            });
-            pageModel.fileType = $(this).data('value');
-            renderList(pageModel);
-            $(this).find("i").css({
-                'color': '#1ab394'
-            });
-        });
+            // 渲染文件列表
+            function renderList(olyoss) {
+                layer.load(2);
+                //获取文件列表
+                $.get(prefix + '/list', olyoss, function (res) {
+                    layer.closeAll('loading');
+                    if (res.code == 0) {
+                        res.ctx = ctx;
+                        pageModel.total = res.total;
+                        if (res.total % pageModel.pageSize == 0) {
+                            pageModel.totalPage = res.total / pageModel.pageSize;
+                        } else {
+                            pageModel.totalPage = res.total / pageModel.pageSize + 1;
+                        }
+                        //小于一页
+                        if (pageModel.pageSize >= res.total) {
+                            $("#nextPage").addClass('disabled');
+                            $("#prePage").addClass('disabled');
+                        }
+                        //最后一页
+                        else if (pageModel.pageNum == pageModel.totalPage) {
+                            $("#nextPage").addClass('disabled');
+                        }
+                        //第一页
+                        else if (pageModel.pageNum == 1) {
+                            $("#prePage").addClass('disabled');
+                        } else {
+                            $("#prePage").removeClass('disabled');
+                            $("#nextPage").removeClass('disabled');
+                        }
 
 
-        // 点击空白隐藏下拉框
-        $('html').off('click.dropdown').on('click.dropdown', function () {
-            $('#copy').attr('data-clipboard-text', '');
-            $('#dropdownFile').removeClass('dropdown-opened');
-        });
+                        laytpl(fileTpl.innerHTML).render(res, function (html) {
 
-        // 打开
-        $('#open').click(function () {
-            window.open(mUrl);
-        });
-        // 删除
-        $('#del').click(function () {   
-        let  fif= layer.confirm('确定要删除此文件吗？', function () {
-            layer.close(fif);
-            $.operate.get(prefix + '/delete/' + mKey,function(res){
-                renderList(pageModel);
-            })     
-            });
-        });
-
-        // 复制
-        var clipboard = new ClipboardJS('#copy');
-        clipboard.on('success', function (e) {
-            e.clearSelection();
-            layer.msg('文件地址已复制', {icon: 1});
-        });
-        clipboard.on('error', function (e) {
-            layer.msg('复制失败，请手动复制', {icon: 2});
-        });
-
-        // 配置编辑弹窗
-        $('#configBtn').click(function () {
-            $.modal.open('储存配置', prefix + '/config');
-        });
-
-        // 刷新
-        $('#refreshBtn').click(function () {
-            layer.msg('列表已经刷新!', {icon: 1});
-            renderList(pageModel);
-        });
-
-
-        // 弹窗模式
-        $('#btnDilaog').click(function () {
-            layer.open({
-                type: 2,
-                title: '选择文件',
-                content: prefix + '/alert?multi=true&a=3',
-                area: ['600px', '420px'],
-                offset: '50px',
-                shade: .1,
-                fixed: false,
-                resize: false,
-                end: function () {
-                    if (typeof (mFsUrls) != "undefined" && mFsUrls.length > 0) {
-                        layer.msg('你选择了：' + JSON.stringify(mFsUrls), {icon: 1});
-                        mFsUrls = undefined;
+                            document.getElementById('file_list').innerHTML = html;
+                            $('.file-box').each(function () {
+                                animationHover(this, 'pulse');
+                            });
+                        });
+                    } else {
+                        layer.msg(res.msg, { icon: 2 });
                     }
+                });
+            }
+
+            //初始化文件列表
+            renderList(pageModel);
+
+            $("#prePage").click(function (e) {
+                if (pageModel.pageNum == 1) {
+
+                } else {
+                    $("#nextPage").removeClass('disabled');
+                    pageModel.pageNum--;
+                    renderList(pageModel);
                 }
             });
-        });
 
-    });
-</script>
+            $("#nextPage").click(function (e) {
+                if ((pageModel.pageNum == pageModel.totalPage) || (pageModel.total <= pageModel.pageSize)) {
+
+                } else {
+                    pageModel.pageNum++;
+                    renderList(pageModel);
+                }
+            });
+
+
+            function submitHandler() {
+                if ($.validate.form()) {
+                    uploadFile();
+                }
+            }
+
+
+            var mUrl, mKey, mId;
+            $('body').on('click', '.file-box', function (e) {
+                mUrl = $(this).data('url').replaceAll("\\", "\/");
+                mKey = $(this).data('key');
+                mId = $(this).data('id');
+                $('#copy').attr('data-clipboard-text', mUrl);
+                var $target = $(this).find('.file');
+                $('#dropdownFile').css({
+                    'top': $target.offset().top + 90,
+                    'left': $target.offset().left + 25
+                });
+                $('#dropdownFile').addClass('dropdown-opened');
+                if (e !== void 0) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+            });
+            //获取储存位置
+            $('input[value="[[${@configTag.getKey("ossConfig","oly.oss.used")}]]"]').iCheck('check');
+            //选择储存位置
+            $('input[name="ossLocation"]').on('ifChecked', function (obj) {
+                $.operate.saveTab(prefix + "/updateByGk", { "configGroup": "ossConfig", "oly.oss.used": $(this).val() }, function () {
+                    location.reload();
+                });
+
+            })
+            $("#fileTypeList li").click(function () {
+                $('#fileTypeList li i').css({
+                    'color': '#3d4d5d'
+                });
+                pageModel.fileType = $(this).data('value');
+                renderList(pageModel);
+                $(this).find("i").css({
+                    'color': '#1ab394'
+                });
+            });
+
+
+            // 点击空白隐藏下拉框
+            $('html').off('click.dropdown').on('click.dropdown', function () {
+                $('#copy').attr('data-clipboard-text', '');
+                $('#dropdownFile').removeClass('dropdown-opened');
+            });
+
+            // 打开
+            $('#open').click(function () {
+                window.open(mUrl);
+            });
+            // 删除
+            $('#del').click(function () {
+                let fif = layer.confirm('确定要删除此文件吗？', function () {
+                    layer.close(fif);
+                    $.operate.get(prefix + '/delete/' + mKey, function (res) {
+                        renderList(pageModel);
+                    })
+                });
+            });
+
+            // 复制
+            var clipboard = new ClipboardJS('#copy');
+            clipboard.on('success', function (e) {
+                e.clearSelection();
+                layer.msg('文件地址已复制', { icon: 1 });
+            });
+            clipboard.on('error', function (e) {
+                layer.msg('复制失败，请手动复制', { icon: 2 });
+            });
+
+            // 配置编辑弹窗
+            $('#configBtn').click(function () {
+                $.modal.open('储存配置', prefix + '/config');
+            });
+
+            // 刷新
+            $('#refreshBtn').click(function () {
+                layer.msg('列表已经刷新!', { icon: 1 });
+                renderList(pageModel);
+            });
+
+
+            // 弹窗模式
+            $('#btnDilaog').click(function () {
+                layer.open({
+                    type: 2,
+                    title: '选择文件',
+                    content: prefix + '/alert?multi=true&a=3',
+                    area: ['600px', '420px'],
+                    offset: '50px',
+                    shade: .1,
+                    fixed: false,
+                    resize: false,
+                    end: function () {
+                        if (typeof (mFsUrls) != "undefined" && mFsUrls.length > 0) {
+                            layer.msg('你选择了：' + JSON.stringify(mFsUrls), { icon: 1 });
+                            mFsUrls = undefined;
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
 
 </body>
 
