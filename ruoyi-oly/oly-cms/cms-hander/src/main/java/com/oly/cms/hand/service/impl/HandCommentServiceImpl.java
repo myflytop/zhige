@@ -29,7 +29,7 @@ public class HandCommentServiceImpl implements IHandCommentService {
         CmsComment cmsComment = new CmsComment();
         cmsComment.setVisible(CommentVisibleEnums.PASS.ordinal());
         cmsComment.setTypeId(typeId);
-        PageHelper.startPage(pageNum, pageSize, "create_time,order_num desc");
+        PageHelper.startPage(pageNum, pageSize, "order_num,create_time desc");
         return cmsCommentService.listCmsComment(cmsComment);
     }
 
@@ -39,7 +39,7 @@ public class HandCommentServiceImpl implements IHandCommentService {
         cmsComment.setVisible(CommentVisibleEnums.PASS.ordinal());
         cmsComment.setTypeId(typeId);
         cmsComment.setParentId(0L);
-        PageHelper.startPage(pageNum, pageSize, "create_time,order_num desc");
+        PageHelper.startPage(pageNum, pageSize, "order_num,create_time desc");
         return cmsCommentService.listCmsComment(cmsComment);
     }
 
@@ -48,7 +48,7 @@ public class HandCommentServiceImpl implements IHandCommentService {
         CmsComment cmsComment = new CmsComment();
         cmsComment.setVisible(CommentVisibleEnums.PASS.ordinal());
         cmsComment.setParentId(parentId);
-        PageHelper.startPage(pageNum, pageSize, "create_time,order_num desc");
+        PageHelper.startPage(pageNum, pageSize, "order_num,create_time desc");
         return cmsCommentService.listCmsComment(cmsComment);
 
     }
