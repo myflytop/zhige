@@ -395,7 +395,7 @@
                 <span class="corner"></span>
                 <div class="image">
                     {{# if(item.fileType=='image'){ }}
-                    <img alt="{{item.fileName}}" class="img-responsive" style="margin: 0 auto;margin-top: 22px;" src="{{item.domain}}{{item.thumbKey}}">
+                    <img alt="{{item.fileName}}" class="img-responsive"  src="{{item.domain}}{{item.thumbKey}}">
                 </div>
                 <div class="file-name">
                    <span> {{item.fileName}}</span>
@@ -407,7 +407,7 @@
     </div>
     </div>
     {{# }else{ }}
-    <img alt="{{item.fileName}}" class="img-responsive" src="{{d.ctx}}images/fti/{{item.fileType}}.png">
+    <img alt="{{item.fileName}}" class="img-responsive" style="margin: 0 auto;margin-top: 22px;" src="{{d.ctx}}images/fti/{{item.fileType}}.png">
 
     </div>
     <div class="file-name">
@@ -501,7 +501,7 @@
                         if (res.total % pageModel.pageSize == 0) {
                             pageModel.totalPage = res.total / pageModel.pageSize;
                         } else {
-                            pageModel.totalPage = res.total / pageModel.pageSize + 1;
+                            pageModel.totalPage =Math.ceil(res.total / pageModel.pageSize);
                         }
                         //小于一页
                         if (pageModel.pageSize >= res.total) {
@@ -519,7 +519,6 @@
                             $("#prePage").removeClass('disabled');
                             $("#nextPage").removeClass('disabled');
                         }
-
                         laytpl(fileTpl.innerHTML).render(res, function (html) {
                             document.getElementById('file_list').innerHTML = html;
                             $('.file-box').each(function () {
@@ -546,6 +545,8 @@
             });
 
             $("#nextPage").click(function (e) {
+                console.log(pageModel.pageNum+"----")
+                console.log(pageModel.totalPage)
                 if ((pageModel.pageNum == pageModel.totalPage) || (pageModel.total <= pageModel.pageSize)) {
 
                 } else {
