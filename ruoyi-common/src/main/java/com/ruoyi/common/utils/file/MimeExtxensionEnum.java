@@ -7,7 +7,7 @@ public enum MimeExtxensionEnum {
   IMAGE(new String[] { "bmp", "gif", "jpg", "jpeg", "png" }),
   MUSIC(new String[] { "swf", "flv", "mp3", "wav", "wma", "wmv", "mid", "avi", "mpg", "asf", "rm", "rmvb" }),
   VIDEO(new String[] { "mp4", "avi", "rmvb" }),
-  DOCUMENT(new String[] { "doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt" }),
+  DOCUMENT(new String[] { "doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt", "pdf" }),
   COMPRESS(new String[] { "rar", "zip", "gz", "bz2" });
 
   private String[] type;

@@ -58,12 +58,8 @@ public class OssUtils {
         } else if (ArrayUtils.contains(MimeExtxensionEnum.VIDEO.getType(), suffix)) {
             return MimeExtxensionEnum.VIDEO.name().toLowerCase();
         } else {
-            return "other";
+            return "file";
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new String[] { "1", "2" });
     }
 
 }

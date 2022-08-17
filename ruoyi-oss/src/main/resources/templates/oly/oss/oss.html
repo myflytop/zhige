@@ -395,7 +395,7 @@
                 <span class="corner"></span>
                 <div class="image">
                     {{# if(item.fileType=='image'){ }}
-                    <img alt="{{item.fileName}}" class="img-responsive" src="{{item.domain}}{{item.thumbKey}}">
+                    <img alt="{{item.fileName}}" class="img-responsive" style="margin: 0 auto;margin-top: 22px;" src="{{item.domain}}{{item.thumbKey}}">
                 </div>
                 <div class="file-name">
                    <span> {{item.fileName}}</span>
@@ -467,24 +467,25 @@
                 allowedFileExtensions: [
                     // 图片
                     "bmp", "gif", "jpg", "jpeg", "png",
-                    // word excel powerpoint
-                    "doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt",
+                    // 音频
+                    "swf", "flv", "mp3", "wav", "wma", "wmv", "mid", "avi", "mpg", "asf", "rm", "rmvb",
                     // 压缩文件
                     "rar", "zip", "gz", "bz2",
                     // 视频格式
                     "mp4", "avi", "rmvb",
-                    // pdf
-                    "pdf"],//接收的文件后缀
+                    // 文档
+                    "doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt", "pdf"],//接收的文件后缀
             });
 
             $("#filePath").on("fileuploaded", function (event, data, previewId, index) {
                 if (data.response.code == web_status.SUCCESS) {
+                    pageModel.pageNum=1;
                     renderList(pageModel);
                 }
                 else {
                     $(event.target).fileinput('clear').fileinput('unlock');
                     $(event.target).parent().siblings('.fileinput-remove').hide();
-                    $.modal.alertSuccess(data.response.msg);
+                    $.modal.alertWarning(data.response.msg);
                 }
             });
 
@@ -519,9 +520,7 @@
                             $("#nextPage").removeClass('disabled');
                         }
 
-
                         laytpl(fileTpl.innerHTML).render(res, function (html) {
-
                             document.getElementById('file_list').innerHTML = html;
                             $('.file-box').each(function () {
                                 animationHover(this, 'pulse');
