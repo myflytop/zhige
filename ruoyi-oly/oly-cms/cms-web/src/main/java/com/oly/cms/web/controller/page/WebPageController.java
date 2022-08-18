@@ -174,7 +174,7 @@ public class WebPageController {
     @GetMapping(value = { "/timeLine", "/{themeName}/timeLine" })
     public String timeLine(@PathVariable(name = "themeName", required = false) String themeName, ModelMap modelMap,
             @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "20") int pageSize) {
-        return webPageService.timeLine(themeName == null ? "" : themeName, modelMap, pageNum, pageSize);
+        return webPageService.timeLine(themeName, modelMap, pageNum, pageSize);
     }
 
     /**
