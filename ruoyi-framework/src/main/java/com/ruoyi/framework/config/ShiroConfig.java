@@ -43,6 +43,7 @@ import net.sf.ehcache.CacheManager;
 
 /**
  * 权限配置加载
+ * 依赖于 flyway，flyway先加载
  * 
  * @author ruoyi
  */
