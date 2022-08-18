@@ -64,8 +64,9 @@ public class WebPageController {
     }
 
     /**
-     * 文章标签
+     * 标签列表
      * 
+     * @param themeName
      * @param tag
      * @param mp
      * @return
@@ -77,8 +78,9 @@ public class WebPageController {
     }
 
     /**
-     * 文章标签
+     * 标签信息
      * 
+     * @param themeName
      * @param tagId
      * @param mp
      * @return
@@ -91,8 +93,9 @@ public class WebPageController {
     }
 
     /**
-     * 请求文章分类
+     * 分类列表
      * 
+     * @param themeName
      * @param cat
      * @param mp
      * @return
@@ -105,8 +108,9 @@ public class WebPageController {
     }
 
     /**
-     * 请求文章分类
+     * 分类详情
      * 
+     * @param themeName
      * @param catId
      * @param mp
      * @return
@@ -119,36 +123,39 @@ public class WebPageController {
     }
 
     /**
-     * 请求链接
+     * 友情链接
      * 
+     * @param themeName
      * @param mp
      * @return
      */
-    @WebLog(title = "获取链接", logType = WebLogType.PAGE)
+    @WebLog(title = "友情链接", logType = WebLogType.PAGE)
     @GetMapping(value = { "/links", "/{themeName}/links" })
     public String links(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
         return webPageService.links(themeName, mp);
     }
 
     /**
-     * 获取关于本站
+     * 关于本站
      * 
+     * @param themeName
      * @param mp
      * @return
      */
-    @WebLog(title = "关于页", logType = WebLogType.PAGE)
+    @WebLog(title = "关于本站", logType = WebLogType.PAGE)
     @GetMapping(value = { "/about", "/{themeName}/about" })
     public String about(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
         return webPageService.about(themeName, mp);
     }
 
     /**
-     * 各种排行
+     * 排行榜
      * 
+     * @param themeName
      * @param modelMap
      * @return
      */
-    @WebLog(title = "排行页", logType = WebLogType.PAGE)
+    @WebLog(title = "排行榜", logType = WebLogType.PAGE)
     @GetMapping(value = { "/rank", "/{themeName}/rank" })
     public String rank(@PathVariable(name = "themeName", required = false) String themeName, ModelMap modelMap) {
         return webPageService.rank(themeName, modelMap);
@@ -157,8 +164,10 @@ public class WebPageController {
     /**
      * 时间线
      * 
+     * @param themeName
      * @param modelMap
      * @param pageNum
+     * @param pageSize
      * @return
      */
     @WebLog(title = "时间线", logType = WebLogType.PAGE)
@@ -169,20 +178,22 @@ public class WebPageController {
     }
 
     /**
-     * 反馈建议
+     * 反馈
      * 
+     * @param themeName
      * @param mp
      * @return
      */
-    @WebLog(title = "反馈页", logType = WebLogType.PAGE)
+    @WebLog(title = "反馈", logType = WebLogType.PAGE)
     @GetMapping(value = { "/contact", "/{themeName}/contact" })
     public String contact(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
         return webPageService.contact(themeName, mp);
     }
 
     /**
-     * 反馈建议
+     * 联盟页面
      * 
+     * @param themeName
      * @param mp
      * @return
      */
