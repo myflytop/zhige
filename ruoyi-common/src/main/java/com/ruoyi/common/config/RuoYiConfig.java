@@ -22,7 +22,7 @@ public class RuoYiConfig {
     /** 版权年份 */
     private static String copyrightYear;
 
-    /** 实例演示开关 */
+    /** 是否指定任意目录 */
     private static boolean appointProfile;
 
     /** 工作目录 */
