@@ -509,7 +509,7 @@
                             $("#prePage").addClass('disabled');
                         }
                         //最后一页
-                        else if (pageModel.pageNum == pageModel.totalPage) {
+                        else if (pageModel.pageNum >= pageModel.totalPage) {
                             $("#nextPage").addClass('disabled');
                         }
                         //第一页
@@ -545,8 +545,6 @@
             });
 
             $("#nextPage").click(function (e) {
-                console.log(pageModel.pageNum+"----")
-                console.log(pageModel.totalPage)
                 if ((pageModel.pageNum == pageModel.totalPage) || (pageModel.total <= pageModel.pageSize)) {
 
                 } else {
