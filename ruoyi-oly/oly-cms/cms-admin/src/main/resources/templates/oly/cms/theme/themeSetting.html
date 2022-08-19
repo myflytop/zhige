@@ -3,50 +3,258 @@
 
 <head>
     <th:block th:include="include :: header('主题设置')" />
-    <th:block th:include="include::bootstrap-select-css" />
+    <style>
+        .form-horizontal .form-group {
+            margin: 10px 0 0 0 !important;
+        }
+
+        .form-horizontal div.form-group * {
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .form-horizontal div.form-group label {
+            width: 200px;
+            text-align: right;
+        }
+
+
+
+        .form-horizontal .form-group input {
+            width: 500px;
+        }
+
+        .form-horizontal .form-group textarea {
+            width: 500px !important;
+            height: 75px !important;
+        }
+    </style>
 </head>
+
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-            <div class="row">
-                <div class="col-sm-8">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>主题设置</h5>
-                        </div>
-                        <div class="ibox-content" id="themesettingBox">
-                            <form role="form" class="form-horizontal m-t">
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group draggable">
-                                    <div class="col-sm-12 col-sm-offset-3">
-                                        <button type="submit" class="btn btn-primary">提交</button>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="clearfix"></div>
-                        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>主题设置</h5>
                     </div>
-                </div>        
+                    <div class="ibox-content ">
+                        <form class="form-horizontal m" id="themesettingBox">
+                        </form>
+                    </div>
+                    <button type="button" class="btn btn-w-m btn-primary center-block" id="submit-btn">修改</button>
+                </div>
             </div>
         </div>
-        <th:block th:include="include :: footer" />
-        <th:block th:include="include::bootstrap-select-js" />
-        <script type="text/javascript">
-            var prefix = ctx + "system/config";
-            var myForm = "form-normal";
-            $('#config-title a').click(function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-                myForm = $(this).attr('href').replace("#", "form-");
-                console.log(myForm);
-            });
-            function submitHandler() {
-                $.operate.saveModal(prefix + "/updateByKey", $('#' + myForm).serialize());
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: oly_jsonform" />
+    <script type="text/javascript" th:inline="javascript">
+        var prefix = ctx + "cms/theme";
+        var themeName= [[${ themeName }]];
+        var themeUrl = ctx + "themes/" + themeName+ "/setting/setting.json";
+        var themeData = [[${ themeData }]],newData={};
+        $.each(themeData, function (key, value) {
+          newData[key.replace(/\./g,'_')]=value;
+        });
+        
+        $.getJSON(themeUrl, function (result) {
+            result.value = newData;
+            $('#themesettingBox').jsonForm(result);
+        });
 
-            }
-            $("#submit-btn").click(function () {
-                submitHandler();
-            })
-        </script>
+    //     $('#themesettingBox').jsonForm({
+    //         "schema": {
+    //             "oly_web_theme_zgblog_post_now": {
+    //                 "type": "integer",
+    //                 "title": "最新发布"
+    //             },
+    //             "oly_web_theme_zgblog_post_string": {
+    //                 "type": "string",
+    //                 "title": "最新发布"
+    //             },
+    //             "oly_web_theme_zgblog_post_top": {
+    //                 "type": "integer",
+    //                 "title": "文章推荐"
+    //             },
+    //             "oly_web_theme_zgblog_post_look": {
+    //                 "type": "integer",
+    //                 "title": "阅读排行"
+    //             },
+    //             "oly_web_theme_zgblog_menu_main": {
+    //                 "type": "integer",
+    //                 "title": "主导航"
+    //             },
+    //             "oly_web_theme_zgblog_docs_catId": {
+    //                 "type": "integer",
+    //                 "title": "分类树"
+    //             },
+    //             "oly_web_theme_zgblog_docs_defaultPostId": {
+    //                 "type": "integer",
+    //                 "title": "默认文档"
+    //             },
+    //             "oly_web_theme_zgblog_docs_size": {
+    //                 "type": "integer",
+    //                 "title": "请求条数"
+    //             },
+    //             "oly_web_theme_zgblog_docs_order": {
+    //                 "type": "string",
+    //                 "title": "默认排序",
+    //                 "enum": [
+    //                     "ASC",
+    //                     "DESC"
+    //                 ]
+    //             },
+    //             "oly_web_theme_zgblog_union_size": {
+    //                 "type": "integer",
+    //                 "title": "请求条数"
+    //             },
+    //             "oly_web_theme_zgblog_union_order": {
+    //                 "type": "string",
+    //                 "title": "默认排序",
+    //                 "enum": [
+    //                     "ASC",
+    //                     "DESC"
+    //                 ]
+    //             },
+    //             "oly_web_theme_zgblog_union_youTag": {
+    //                 "type": "integer",
+    //                 "title": "省钱标签"
+    //             },
+    //             "oly_web_theme_zgblog_union_wealTag": {
+    //                 "type": "integer",
+    //                 "title": "福利标签"
+    //             },
+    //             "oly_web_theme_zgblog_union_articleSize": {
+    //                 "type": "integer",
+    //                 "title": "文章条数"
+    //             },
+    //             "oly_web_theme_zgblog_union_tuiSize": {
+    //                 "type": "integer",
+    //                 "title": "推荐条数"
+    //             },
+    //             "oly_web_theme_zgblog_union_catType": {
+    //                 "type": "integer",
+    //                 "title": "分类类型"
+    //             },
+    //             "oly_web_theme_zgblog_union_catId": {
+    //                 "type": "integer",
+    //                 "title": "分类ID"
+    //             }
+    //         },
+    //         "form": [
+    //             {
+    //                 "type": "fieldset",
+    //                 "items": [
+    //                     {
+    //                         "type": "tabs",
+    //                         "id": "navtabs",
+    //                         "items": [
+    //                             {
+    //                                 "title": "右边栏",
+    //                                 "type": "tab",
+    //                                 "items": [
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_post_now"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_post_string",
+    //                                         "type": "textarea"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_post_top"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_post_look"
+    //                                     }
+    //                                 ]
+    //                             },
+    //                             {
+    //                                 "title": "主题设置",
+    //                                 "type": "tab",
+    //                                 "items": [
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_menu_main"
+    //                                     }
+    //                                 ]
+    //                             },
+    //                             {
+    //                                 "title": "文档设置",
+    //                                 "type": "tab",
+    //                                 "items": [
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_docs_catId"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_docs_defaultPostId"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_docs_size"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_docs_order"
+    //                                     }
+    //                                 ]
+    //                             },
+    //                             {
+    //                                 "title": "联盟设置",
+    //                                 "type": "tab",
+    //                                 "items": [
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_union_size"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_union_order"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_union_youTag"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_union_wealTag"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_union_articleSize"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_union_tuiSize"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_union_catType"
+    //                                     },
+    //                                     {
+    //                                         "key": "oly_web_theme_zgblog_union_catId"
+    //                                     }
+    //                                 ]
+    //                             }
+    //                         ]
+    //                     }
+    //                 ]
+    //             }
+    //         ],
+    //         "value": {
+    //             "oly_web_theme_zgblog_post_now": 1,
+    //             "oly_web_theme_zgblog_post_string": 2,
+    //             "oly_web_theme_zgblog_docs_order": "DESC"
+    //         }
+    //     });
+    //
+        $("textarea").addClass("form-control");
+    
+        function submitHandler() {
+            var data = $("#themesettingBox").serializeArray(),formData=[];
+            $.each(data, function (key, value) {
+                formData.push({"name":value.name.replace(/_/g,"."),"value":value.value});
+           });
+           formData.push({"name": "configGroup", "value": themeName});
+           $.operate.saveModal(prefix + "/updateByGk", formData);
+        }
+
+        
+        $("#submit-btn").click(function () {
+            submitHandler();
+        })
+    </script>
 </body>
 
 </html>

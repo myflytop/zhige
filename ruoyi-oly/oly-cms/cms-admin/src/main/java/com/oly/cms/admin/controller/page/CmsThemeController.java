@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.oly.cms.admin.model.support.ThemeTreeNode;
 import com.oly.cms.admin.service.impl.CmsArticleServiceImpl;
 import com.oly.cms.admin.service.impl.CmsThemeServiceImpl;
@@ -36,6 +38,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.enums.OlyStageRoot;
 import com.ruoyi.common.enums.OperateTitle;
+import com.ruoyi.common.json.JSON;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.mail.domain.OlyMail;
@@ -128,12 +131,27 @@ public class CmsThemeController extends CmsCommonController {
 	 *
 	 * @return
 	 */
-	@GetMapping("/themeSetting/{configGroup}")
-	@RequiresPermissions("theme:config:view")
-	public String themeSetting(@PathVariable("configGroup") String configGroup, ModelMap map) {
-		map.put("webConfig", configGroup);
-		return configGroup + "/setting/setting";
+	@GetMapping("/themeSetting/{themeName}")
+	@RequiresPermissions("theme:config:setting")
+	public String themeSetting(@PathVariable("themeName") String themeName, ModelMap map) {
+		map.put("themeName", themeName);
+		map.put("themeData",
+				JSONObject.toJSON(sysConfigService.selectConfigMapValueByGf(themeName, "oly.web.theme." + themeName)));
+		return prefix + "/themeSetting";
 	}
+
+	/**
+	 * 主题设置
+	 *
+	 * @return
+	 */
+	// @GetMapping("/themeSetting/{configGroup}")
+	// @RequiresPermissions("theme:config:view")
+	// public String themeSetting(@PathVariable("configGroup") String configGroup,
+	// ModelMap map) {
+	// map.put("webConfig", configGroup);
+	// return configGroup + "/setting/setting";
+	// }
 
 	/**
 	 * 修改保存参数配置

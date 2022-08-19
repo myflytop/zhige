@@ -1,0 +1,64 @@
+{
+  "schema": {
+  	"friends": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "Friend",
+        "properties": {
+          "nick": {
+            "type": "string",
+            "title": "Nickname"
+          },
+          "animals": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "title": "Animal name"
+            }
+          }
+        }
+      }
+    },
+    "notDraggableFamily": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "Family member",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        }
+      }
+    }
+  },
+  "form": [
+    {
+      "type": "tabarray",
+      "items": {
+        "type": "section",
+        "items": [
+          "friends[].nick",
+          {
+            "type": "array",
+            "items": [
+              "friends[].animals[]"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "tabarray",
+      "draggable": false,
+      "items": {
+        "type": "section",
+        "items": [
+          "notDraggableFamily[].name"
+        ]
+      }
+    }
+  ]
+}
