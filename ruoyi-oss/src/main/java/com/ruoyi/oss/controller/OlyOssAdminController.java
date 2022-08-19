@@ -17,7 +17,7 @@ import com.ruoyi.common.enums.OperateTitle;
 import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
 import com.ruoyi.common.exception.file.InvalidExtensionException;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.file.MimeExtxensionEnum;
+import com.ruoyi.common.utils.file.MimeExtensionEnum;
 import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.oss.domain.OlyOss;
 import com.ruoyi.oss.factory.OssFactory;
@@ -160,7 +160,7 @@ public class OlyOssAdminController extends BaseController {
         TableDataInfo tableDataInfo = getDataTable(list);
         List<OlyOss> olyOses = new ArrayList<>();
         for (OlyOss o : list) {
-            if (o.getFileType().equals(MimeExtxensionEnum.IMAGE.name().toLowerCase())) {
+            if (o.getFileType().equals(MimeExtensionEnum.IMAGE.name().toLowerCase())) {
                 o.setThumbKey(ossHandler.get().getThumbKey(o.getFk()));
             }
             olyOses.add(o);

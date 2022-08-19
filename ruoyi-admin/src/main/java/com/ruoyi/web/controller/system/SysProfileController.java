@@ -12,7 +12,7 @@ import com.ruoyi.common.enums.OperateTitle;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ShiroUtils;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.file.MimeExtxensionEnum;
+import com.ruoyi.common.utils.file.MimeExtensionEnum;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.oss.factory.OssFactory;
 import com.ruoyi.oss.model.OssResult;
@@ -189,7 +189,7 @@ public class SysProfileController extends BaseController {
                 long maxSize = Long.parseLong(
                         configService.selectConfigDefauleValue(groupName, OssConfigProperties.OSS_FILE_MAX_SIZE));
                 OssHandler.check(file, maxLength, maxSize,
-                        new String[] { MimeExtxensionEnum.IMAGE.name().toLowerCase() });
+                        new String[] { MimeExtensionEnum.IMAGE.name().toLowerCase() });
                 OssResult avat = ossHandler.get().ossAppointUpload(file, OlyStageRoot.HEARD_DIR, null);
                 String avatar = avat.getData().getDomain() + OlyStageRoot.HEARD_DIR.getValue() + "/"
                         + avat.getData().getFk();

@@ -101,7 +101,7 @@
                          <div class="form-group">
                             <label class="col-sm-3 control-label">文件类型限制：</label>
                             <div class="col-sm-8">
-                                <select id="oly.oss.support.type" class="form-control select2-multiple" multiple th:with="types=${T(com.ruoyi.common.utils.file.MimeExtxensionEnum).getExtensions()}">
+                                <select id="oly.oss.support.type" class="form-control select2-multiple" multiple th:with="types=${T(com.ruoyi.common.utils.file.MimeExtensionEnum).getExtensions()}">
                                     <option th:each="type:${types}" th:value="${type}" th:text="${type}" th:selected="${ossConfig['oly.oss.support.type']==type}"></option>
                                 </select>
                             </div>

@@ -23,7 +23,7 @@ import com.ruoyi.common.enums.OperateTitle;
 import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
 import com.ruoyi.common.exception.file.InvalidExtensionException;
 import com.ruoyi.common.utils.ShiroUtils;
-import com.ruoyi.common.utils.file.MimeExtxensionEnum;
+import com.ruoyi.common.utils.file.MimeExtensionEnum;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.oss.domain.OlyOss;
 import com.ruoyi.oss.factory.OssFactory;
@@ -413,7 +413,7 @@ public class CmsArticleController extends CmsCommonController {
 		boolean chan = Boolean.parseBoolean(
 				configService.selectConfigDefauleValue(groupName, OssConfigProperties.OSS_FILE_NAME_ZH_PY));
 		return ossHandler.get().ossUpload(file, maxLength, maxSize, chan,
-				new String[] { MimeExtxensionEnum.IMAGE.name().toLowerCase() }).getData();
+				new String[] { MimeExtensionEnum.IMAGE.name().toLowerCase() }).getData();
 	}
 
 }

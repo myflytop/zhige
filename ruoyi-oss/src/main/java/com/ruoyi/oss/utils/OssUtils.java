@@ -1,7 +1,7 @@
 package com.ruoyi.oss.utils;
 
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.file.MimeExtxensionEnum;
+import com.ruoyi.common.utils.file.MimeExtensionEnum;
 import com.ruoyi.common.utils.file.MimeTypeUtils;
 
 import org.apache.commons.io.FilenameUtils;
@@ -47,16 +47,16 @@ public class OssUtils {
      * @return
      */
     public static String getFileTypeExtension(String suffix) {
-        if (ArrayUtils.contains(MimeExtxensionEnum.IMAGE.getType(), suffix)) {
-            return MimeExtxensionEnum.IMAGE.name().toLowerCase();
-        } else if (ArrayUtils.contains(MimeExtxensionEnum.DOCUMENT.getType(), suffix)) {
-            return MimeExtxensionEnum.DOCUMENT.name().toLowerCase();
-        } else if (ArrayUtils.contains(MimeExtxensionEnum.COMPRESS.getType(), suffix)) {
-            return MimeExtxensionEnum.COMPRESS.name().toLowerCase();
-        } else if (ArrayUtils.contains(MimeExtxensionEnum.MUSIC.getType(), suffix)) {
-            return MimeExtxensionEnum.MUSIC.name().toLowerCase();
-        } else if (ArrayUtils.contains(MimeExtxensionEnum.VIDEO.getType(), suffix)) {
-            return MimeExtxensionEnum.VIDEO.name().toLowerCase();
+        if (ArrayUtils.contains(MimeExtensionEnum.IMAGE.getType(), suffix)) {
+            return MimeExtensionEnum.IMAGE.name().toLowerCase();
+        } else if (ArrayUtils.contains(MimeExtensionEnum.DOCUMENT.getType(), suffix)) {
+            return MimeExtensionEnum.DOCUMENT.name().toLowerCase();
+        } else if (ArrayUtils.contains(MimeExtensionEnum.COMPRESS.getType(), suffix)) {
+            return MimeExtensionEnum.COMPRESS.name().toLowerCase();
+        } else if (ArrayUtils.contains(MimeExtensionEnum.MUSIC.getType(), suffix)) {
+            return MimeExtensionEnum.MUSIC.name().toLowerCase();
+        } else if (ArrayUtils.contains(MimeExtensionEnum.VIDEO.getType(), suffix)) {
+            return MimeExtensionEnum.VIDEO.name().toLowerCase();
         } else {
             return "file";
         }

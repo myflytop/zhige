@@ -336,10 +336,12 @@
                                 <div class="hr-line-dashed"></div>
                                 <h5>文件类型</h5>
                                 <ul class="folder-list" id="fileTypeList" style="padding: 0"
-                                    th:with="type=${@dictTag.getType('oly_oss_type')}">
-                                    <li th:each="dict : ${type}" th:attr="data-value=${dict.dictValue}"><a
+                                     th:with="types=${T(com.ruoyi.common.utils.file.MimeExtensionEnum).getTv()}">
+                                    <li th:each="dict : ${types}" th:attr="data-value=${dict.key}"><a
                                             href="javascript:void(0)"><i class="fa fa-folder"></i> <span
-                                                th:text="${dict.dictLabel}"></span></a></li>
+                                                th:text="${dict.value}"></span></a></li>
+                                    <li data-value="file"><a href="javascript:void(0)"><i class="fa fa-folder"></i>
+                                                    <span>其它</span></a></li>
                                     <li data-value=""><a href="javascript:void(0)"><i class="fa fa-folder"></i>
                                             <span>所有</span></a></li>
 
