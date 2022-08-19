@@ -215,7 +215,10 @@ public abstract class AbstractMailService implements IOlyMailService {
     protected synchronized DefaultMailProperties getMailProperties() {
         if (cachedMailProperties == null) {
             // create mail properties
-            DefaultMailProperties mailProperties = new DefaultMailProperties();
+            DefaultMailProperties mailProperties = new DefaultMailProperties(log.isDebugEnabled(),
+                    Boolean.parseBoolean(
+                            sysConfigService.selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(),
+                                    EmailProperties.STARTTLS)));
             // set properties
             mailProperties.setHost(sysConfigService.selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(),
                     EmailProperties.HOST));
@@ -227,13 +230,6 @@ public abstract class AbstractMailService implements IOlyMailService {
                     EmailProperties.PASSWORD));
             mailProperties.setUsername(sysConfigService.selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(),
                     EmailProperties.USERNAME));
-            if (Boolean.parseBoolean(sysConfigService.selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(),
-                    EmailProperties.STARTTLS))) {
-                Map<String, String> starttls = new HashMap<>();
-                starttls.put("mail.smtp.starttls.enable", "true");
-                starttls.put("mail.smtp.auth", "true");
-                mailProperties.setProperties(starttls);
-            }
             this.cachedMailProperties = mailProperties;
         }
 

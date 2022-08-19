@@ -12,14 +12,20 @@ public class DefaultMailProperties extends MailProperties {
     private Map<String, String> properties;
 
     public DefaultMailProperties() {
-        this(false);
+        this(false, false);
     }
-    public DefaultMailProperties(boolean needDebug) {
+
+    public DefaultMailProperties(boolean needDebug, boolean starttlsEnable) {
         // set some default properties
         addProperties("mail.debug", Boolean.toString(needDebug));
+
+        if (starttlsEnable) {
+            addProperties("mail.smtp.starttls.enable", "true");
+        } else {
+            addProperties("mail.smtp.ssl.enable", Boolean.TRUE.toString());
+        }
         addProperties("mail.smtp.auth", Boolean.TRUE.toString());
-        addProperties("mail.smtp.ssl.enable", Boolean.TRUE.toString());
-        // 超时时间
+        // timeout
         addProperties("mail.smtp.timeout", "600000");
     }
 
