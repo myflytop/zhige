@@ -54,7 +54,7 @@
           newData[key.replace(/\./g,'_')]=value;
         });
         
-        $.getJSON(themeUrl, function (result) {
+        $.getJSON(themeUrl, function (data) {
             result.value = newData;
             $('#themesettingBox').jsonForm(result);
         });
