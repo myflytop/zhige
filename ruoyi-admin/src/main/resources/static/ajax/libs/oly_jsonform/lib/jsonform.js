@@ -24,7 +24,7 @@
 
  /*global window*/
 
-(function(serverside, global, $, _, JSON) {
+ (function(serverside, global, $, _, JSON) {
   if (serverside && !_) {
     _ = require('underscore');
   }
@@ -839,7 +839,7 @@ jsonform.elementTypes = {
       var choices = null;
       var choiceshtml = null;
       var template = '<div class="checkbox"><label>' +
-        '<input type="checkbox" <% if (value) { %> checked="checked" <% } %> name="<%= name %>" value="1"' +
+        '<input type="checkbox" <% if (value) { %> checked="checked" <% } %> name="<%= name %>" value="<%= choice %>"' +
         '<%= (node.disabled? " disabled" : "")%>' +
         '/><%= title %></label></div>';
       if (!node || !node.schemaElement) return;
@@ -858,6 +858,7 @@ jsonform.elementTypes = {
         choiceshtml += _.template(template, fieldTemplateSettings)({
           name: node.key + '[' + idx + ']',
           value: _.include(node.value, choice),
+		      choice:choice,
           title: hasOwnProperty(node.formElement.titleMap, choice) ? node.formElement.titleMap[choice] : choice,
           node: node
         });
