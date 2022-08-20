@@ -4,6 +4,7 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.MimeExtensionEnum;
 import com.ruoyi.common.utils.file.MimeTypeUtils;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,8 +37,12 @@ public class OssUtils {
         return baseFileName + "." + extension;
     }
 
-    public static String getBuildPath() {
-        return null;
+    public static boolean checkAllowFileName(String name) {
+        // 禁止目录上跳级别
+        if (StringUtils.contains(name, "..")) {
+            return false;
+        }
+        return true;
     }
 
     /**

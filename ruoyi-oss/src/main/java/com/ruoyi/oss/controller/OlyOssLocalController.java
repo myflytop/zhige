@@ -39,14 +39,15 @@ public class OlyOssLocalController {
         outputFile(Paths.get(OlyStageRoot.UPLOAD_DIR.getRoot(""), f, y, m, d, filename).toString(), response);
     }
 
-   /**
-    * 头像请求地址
-    * @param y
-    * @param m
-    * @param d
-    * @param filename
-    * @param response
-    */
+    /**
+     * 头像请求地址
+     * 
+     * @param y
+     * @param m
+     * @param d
+     * @param filename
+     * @param response
+     */
     @GetMapping("/download/avatar/{y}/{m}/{d}/{file:.+}")
     public void download(@PathVariable("y") String y, @PathVariable("m") String m, @PathVariable("d") String d,
             @PathVariable("file") String filename, HttpServletResponse response) {

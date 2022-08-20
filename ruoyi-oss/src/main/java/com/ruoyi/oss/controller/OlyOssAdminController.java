@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.constraints.Pattern;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -14,6 +15,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.enums.OperateTitle;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
 import com.ruoyi.common.exception.file.InvalidExtensionException;
 import com.ruoyi.common.utils.StringUtils;
@@ -25,12 +27,14 @@ import com.ruoyi.oss.model.OssResult;
 import com.ruoyi.oss.properties.OssConfigProperties;
 import com.ruoyi.oss.service.OssHandler;
 import com.ruoyi.oss.service.impl.OssService;
+import com.ruoyi.oss.utils.OssUtils;
 import com.ruoyi.system.config.service.ISysConfigService;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +45,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/oly/oss")
+@Validated
 public class OlyOssAdminController extends BaseController {
     @Autowired
     private OssFactory ossHandler;
@@ -199,8 +204,14 @@ public class OlyOssAdminController extends BaseController {
     @RequiresPermissions("oly:oss:delete")
     @GetMapping("/delete/{f}/{y}/{m}/{d}/{file:.+}")
     @ResponseBody
-    public OssResult delete(@PathVariable("f") String f, @PathVariable("y") String y, @PathVariable("m") String m,
-            @PathVariable("d") String d, @PathVariable("file") String filename) {
+    public OssResult delete(@PathVariable("f") String f,
+            @PathVariable("y") @Pattern(regexp = "^\\d*$", message = "必须全是数字") String y,
+            @PathVariable("m") @Pattern(regexp = "^\\d*$", message = "必须全是数字") String m,
+            @PathVariable("d") @Pattern(regexp = "^\\d*$", message = "必须全是数字") String d,
+            @PathVariable("file") String filename) {
+        if (!OssUtils.checkAllowFileName(f) || !OssUtils.checkAllowFileName(filename)) {
+            throw new ServiceException("禁止非法字符");
+        }
         return ossHandler.get().ossDelete(Paths.get(f, y, m, d, filename).toString());
     }
 
