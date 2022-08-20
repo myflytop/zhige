@@ -123,11 +123,7 @@
 
         function sendMailBackTheme() {
                 var url = prefix;
-                $.modal.msg("发送中...");
-                $.operate.post(prefix + "/sendMailBackTheme",{'themeName':$("#themeName").val(),'toMail':$("#toMail").val()},function (result){
-                    $.modal.msg(result.msg);
-					$.modal.closeLoading();
-                });
+                $.operate.post(prefix + "/sendMailBackTheme",{'themeName':$("#themeName").val(),'toMail':$("#toMail").val()});
             }
     </script>
 </body>

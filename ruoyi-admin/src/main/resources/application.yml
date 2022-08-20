@@ -37,9 +37,10 @@ server:
 # 日志配置
 logging:
   level:
-    com.ruoyi: debug
+    root: info
+    com.ruoyi: info
     org.springframework: warn
-    com.oly: debug 
+    com.oly: info
 # 用户配置
 user:
   password:

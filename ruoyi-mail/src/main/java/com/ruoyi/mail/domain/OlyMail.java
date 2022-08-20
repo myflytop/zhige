@@ -46,8 +46,8 @@ public class OlyMail extends BaseEntity {
     private Integer mailType;
 
     /** 发送时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "发送时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "发送时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date sendTime;
 
     /** 抄送用户 */

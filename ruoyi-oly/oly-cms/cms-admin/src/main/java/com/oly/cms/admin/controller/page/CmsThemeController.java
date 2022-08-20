@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.oly.cms.admin.model.support.ThemeTreeNode;
 import com.oly.cms.admin.service.impl.CmsArticleServiceImpl;
@@ -38,7 +37,6 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.enums.OlyStageRoot;
 import com.ruoyi.common.enums.OperateTitle;
-import com.ruoyi.common.json.JSON;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.mail.domain.MailUsedEnums;
@@ -310,7 +308,7 @@ public class CmsThemeController extends CmsCommonController {
 		olyMail.setAttachKeys(attachKeys);
 		olyMail.setMailUsed(MailUsedEnums.BACK_UP.ordinal());
 		mailService.sendTextMail(olyMail, true);
-		return AjaxResult.success();
+		return AjaxResult.success("发送中,请登录邮箱稍后查看!");
 	}
 
 	/**

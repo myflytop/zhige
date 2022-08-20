@@ -2,8 +2,6 @@ package com.ruoyi.mail.service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
