@@ -204,14 +204,12 @@ public class OlyOssAdminController extends BaseController {
     @RequiresPermissions("oly:oss:delete")
     @GetMapping("/delete/{f}/{y}/{m}/{d}/{file:.+}")
     @ResponseBody
-    public OssResult delete(@PathVariable("f") String f,
+    public OssResult delete(@PathVariable("f") @Pattern(regexp = "^(?!(\\.\\.)).*$", message = "禁止特殊字符") String f,
             @PathVariable("y") @Pattern(regexp = "^\\d*$", message = "必须全是数字") String y,
             @PathVariable("m") @Pattern(regexp = "^\\d*$", message = "必须全是数字") String m,
             @PathVariable("d") @Pattern(regexp = "^\\d*$", message = "必须全是数字") String d,
-            @PathVariable("file") String filename) {
-        if (!OssUtils.checkAllowFileName(f) || !OssUtils.checkAllowFileName(filename)) {
-            throw new ServiceException("禁止非法字符");
-        }
+            @PathVariable("file") @Pattern(regexp = "^(?![.]{2}).*$", message = "禁止特殊字符") String filename) {
+
         return ossHandler.get().ossDelete(Paths.get(f, y, m, d, filename).toString());
     }
 
