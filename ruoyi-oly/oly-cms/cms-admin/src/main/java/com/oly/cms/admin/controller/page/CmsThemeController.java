@@ -41,6 +41,7 @@ import com.ruoyi.common.enums.OperateTitle;
 import com.ruoyi.common.json.JSON;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUtils;
+import com.ruoyi.mail.domain.MailUsedEnums;
 import com.ruoyi.mail.domain.OlyMail;
 import com.ruoyi.mail.service.impl.OlyMailServiceImpl;
 import com.ruoyi.oss.domain.OlyOss;
@@ -278,15 +279,15 @@ public class CmsThemeController extends CmsCommonController {
 	 * 下载备份主题
 	 * 
 	 * @param themeName
+	 * @param response
+	 * @param request
 	 * @return
 	 */
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.EXPORT)
 	@GetMapping("/downloadBackTheme")
 	@RequiresPermissions("cms:theme:update")
-	@ResponseBody
-	public AjaxResult downloadBackTheme(String themeName, HttpServletResponse response, HttpServletRequest request) {
+	public void downloadBackTheme(String themeName, HttpServletResponse response, HttpServletRequest request) {
 		CmsUtils.downloadBackTheme(themeName, response, request);
-		return AjaxResult.success();
 	}
 
 	/**
@@ -307,6 +308,7 @@ public class CmsThemeController extends CmsCommonController {
 		olyMail.setSubject("你收到来自于止戈管理系统的备份邮件");
 		olyMail.setContent("你收到来自于止戈管理系统的备份邮件,邮件名为" + themeName);
 		olyMail.setAttachKeys(attachKeys);
+		olyMail.setMailUsed(MailUsedEnums.BACK_UP.ordinal());
 		mailService.sendTextMail(olyMail, true);
 		return AjaxResult.success();
 	}
