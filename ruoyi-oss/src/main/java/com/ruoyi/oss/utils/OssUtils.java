@@ -4,7 +4,6 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.MimeExtensionEnum;
 import com.ruoyi.common.utils.file.MimeTypeUtils;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.web.multipart.MultipartFile;

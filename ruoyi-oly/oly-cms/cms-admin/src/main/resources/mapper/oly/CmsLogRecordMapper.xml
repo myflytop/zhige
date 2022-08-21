@@ -44,7 +44,7 @@
             <if test="operTime != null "> and oper_time = #{operTime}</if>
             <if test="operBower != null  and operBower != ''"> and oper_bower = #{operBower}</if>
             <if test="operSystem != null  and operSystem != ''"> and oper_system = #{operSystem}</if>
-            <if test="logType!= null">and log_type=#{logType},</if>
+            <if test="logType!= null">and log_type=#{logType}</if>
         </where>
     </select>
 
