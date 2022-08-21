@@ -27,10 +27,6 @@
                             <input type="text" class="form-control" name="ip"/>
                         </li>
                         <li>
-                            <label>状态：</label>
-                            <input type="text" class="form-control" name="visible"/>
-                        </li>
-                        <li>
                             <label>系统:</label>
                             <input type="text" class="form-control" name="userSystem"/>
                         </li>
@@ -109,8 +105,9 @@
                     title : '浏览器'
                 },
                 {
-                    field : 'fettle',
-                    title : '状态'
+                    field : 'visible',
+                    title : '状态',
+                    visible:false
                 }]
         };
         $.table.init(options);
