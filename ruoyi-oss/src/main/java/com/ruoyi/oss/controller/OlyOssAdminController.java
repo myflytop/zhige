@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.validation.constraints.Pattern;
-
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -15,7 +14,6 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.enums.OperateTitle;
-import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
 import com.ruoyi.common.exception.file.InvalidExtensionException;
 import com.ruoyi.common.utils.StringUtils;
@@ -27,9 +25,7 @@ import com.ruoyi.oss.model.OssResult;
 import com.ruoyi.oss.properties.OssConfigProperties;
 import com.ruoyi.oss.service.OssHandler;
 import com.ruoyi.oss.service.impl.OssService;
-import com.ruoyi.oss.utils.OssUtils;
 import com.ruoyi.system.config.service.ISysConfigService;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -209,7 +205,6 @@ public class OlyOssAdminController extends BaseController {
             @PathVariable("m") @Pattern(regexp = "^\\d*$", message = "必须全是数字") String m,
             @PathVariable("d") @Pattern(regexp = "^\\d*$", message = "必须全是数字") String d,
             @PathVariable("file") @Pattern(regexp = "^(?![.]{2}).*$", message = "禁止特殊字符") String filename) {
-
         return ossHandler.get().ossDelete(Paths.get(f, y, m, d, filename).toString());
     }
 
