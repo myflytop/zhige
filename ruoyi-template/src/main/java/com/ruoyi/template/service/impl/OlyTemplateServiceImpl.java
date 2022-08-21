@@ -1,40 +1,25 @@
 package com.ruoyi.template.service.impl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.templateresolver.StringTemplateResolver;
 
 import com.ruoyi.common.core.domain.Ztree;
 import com.ruoyi.common.core.text.Convert;
-import com.ruoyi.common.enums.OlyStageRoot;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.template.domain.OlyTemplate;
 import com.ruoyi.template.mapper.OlyTemplateMapper;
 import com.ruoyi.template.service.IOlyTemplateService;
-
-import org.apache.tika.Tika;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.StringTemplateResolver;
 
 /**
  * 模板模型Service业务层处理

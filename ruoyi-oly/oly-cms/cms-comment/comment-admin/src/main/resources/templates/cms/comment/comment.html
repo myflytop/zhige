@@ -62,10 +62,13 @@
                     <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">批量审核 <span
                             class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" id="commentVisible"
-                        th:with="type=${@dictTag.getType('cms_comment_visible')}">
-                        <li th:each="dict : ${type}" th:data-id="${dict.dictValue}"><a href="javascript:void(0)"
-                                th:text="${dict.dictLabel}"></a></li>
+                    <ul class="dropdown-menu" id="commentVisible">
+                        <li  data-id="CHECK"><a href="javascript:void(0)"
+                                >审核中</a></li>
+                        <li  data-id="CLOSE"><a href="javascript:void(0)"
+                                >不通过</a></li>
+                        <li  data-id="PASS"><a href="javascript:void(0)"
+                                >通过</a></li>
                     </ul>
                 </div>
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
