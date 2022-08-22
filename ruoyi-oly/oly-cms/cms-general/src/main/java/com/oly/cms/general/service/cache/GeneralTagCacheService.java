@@ -12,7 +12,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
-@CacheConfig(cacheNames = CacheConstant.LINKS_CACHE_KEY_PREFIX)
+@CacheConfig(cacheNames = CacheConstant.TAGS_CACHE_KEY_PREFIX)
 public class GeneralTagCacheService {
     @Autowired
     private GeneralTagServiceImpl tagServiceImpl;
