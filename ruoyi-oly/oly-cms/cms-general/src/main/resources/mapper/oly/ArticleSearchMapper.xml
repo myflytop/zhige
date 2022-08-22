@@ -119,14 +119,13 @@
 			<if test="articleTop!=null">
 			and article_top=#{articleTop}
 		</if>
-		
-			<if test="articleBuild!=null">
+		<if test="articleBuild!=null">
 			and article_build=#{articleBuild}
 		</if>
-			<if test="themeName != null and themeName != ''">
-				<!-- 支持主题 -->
-				and article_id in(select article_id from cms_article_theme where theme_name=#{themeName})
-			</if>
+		<if test="themeName != null and themeName != ''">
+			<!-- 支持主题 -->
+		    and article_id in(select article_id from cms_article_theme where theme_name=#{themeName})
+		</if>
 		and visible=3
 		</where>
 		GROUP BY article_id
