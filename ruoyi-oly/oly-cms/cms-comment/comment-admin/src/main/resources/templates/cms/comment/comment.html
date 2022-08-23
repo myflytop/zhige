@@ -157,17 +157,6 @@
                     title: '状态',
                     align: 'left',
                     formatter: function (value, row, index) {
-                        switch (value) {
-                            case 0:
-                                value = "CHECK";
-                                break;
-                            case 1:
-                                value = "CLOSE";
-                                break;
-                            case 2:
-                                value = "PASS";
-                                break;
-                        }
                         return $.table.selectDictLabel(vi, value);
                     }
                 },

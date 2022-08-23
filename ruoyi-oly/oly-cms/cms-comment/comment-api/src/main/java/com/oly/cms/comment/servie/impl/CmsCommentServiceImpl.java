@@ -131,7 +131,10 @@ public class CmsCommentServiceImpl implements ICmsCommentService {
      */
     @Override
     public int updateCmsCommentVisible(String commentIds, CommentVisibleEnums commentVisibleEnums) {
-        return cmsCommentMapper.updateCmsCommentVisible(Convert.toLongArray(commentIds), commentVisibleEnums.ordinal());
+        int re = cmsCommentMapper.updateCmsCommentVisible(Convert.toLongArray(commentIds),
+                commentVisibleEnums.ordinal());
+        app.publishEvent(new CacheWebRefreshAllEvent(this, CacheConstant.COMMENT_CACHE_KEY_PREFIX));
+        return re;
     }
 
     @Override
