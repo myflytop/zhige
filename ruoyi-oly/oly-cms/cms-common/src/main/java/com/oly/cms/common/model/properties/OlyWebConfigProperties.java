@@ -15,24 +15,19 @@ public enum OlyWebConfigProperties implements PropertyEnum {
     TITLE("oly.web.title", String.class, "止戈"),
     // 主页
     INDEX("oly.web.index", String.class, "/index"),
+    // 作者
+    AUTHOR("oly.web.author", String.class, "ZG"),
     // LOGO
     LOGO("oly.web.logo", String.class, ""),
     // ICO
     ICO("oly.web.ico", String.class, ""),
     // 页脚
     FOOTER("oly.web.footer", String.class, ""),
+    // 版权
+    COPYRIGHT("oly.web.copyright", String.class, "3"),
 
     // 评论开关
     COMMENT_ENABLE("oly.web.comment.enable", Boolean.class, "false"),
-
-    // 作者
-    AUTHOR("oly.web.author", String.class, "ZG"),
-    // 版权
-    COPYRIGHT("oly.web.copyright", String.class, "3"),
-    // 主页
-    kEYWORDS("oly.web.keywords", String.class, "3"),
-    // 描述
-    DESCRIPTION("oly.web.description", String.class, "3"),
 
     // 默认排序
     ARTICLE_ORDER_BY("oly.web.articleOrder", String.class, "2"),
