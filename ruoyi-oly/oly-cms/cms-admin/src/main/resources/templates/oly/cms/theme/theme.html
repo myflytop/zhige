@@ -184,16 +184,23 @@
 		<input type="file" id="file" name="file" accept=".zip,.rar,.gz"/>
         <br>
         <div class="form-group">
-				<label class="col-sm-3 control-label">是否覆盖：</label>
+				<label class="col-sm-3 control-label">是否覆盖上传：</label>
 				<div class="col-sm-8">
-					<label class="radio-box" title="覆盖上传"> <input  name="cover" type="radio" value="true"  />覆盖</label> 
-					<label class="radio-box" title="不覆盖上传"> <input  name="cover" type="radio" value="false" checked /> 不覆盖 </label> 
+					<label class="radio-box" title="覆盖"> <input  name="cover" type="radio" value="true"  />覆盖</label> 
+					<label class="radio-box" title="不覆盖"> <input  name="cover" type="radio" value="false" checked /> 不覆盖 </label> 
 				</div>
-        <font color="red" class="pull-left mt10">
-			提示：仅允许导入“.zip”,“.gz”或“.rar”格式文件！
-		</font>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">是否覆盖配置：</label>
+			<div class="col-sm-8">
+				<label class="radio-box" title="覆盖"> <input  name="coverConfig" type="radio" value="true"  />覆盖</label> 
+				<label class="radio-box" title="不覆盖"> <input  name="coverConfig" type="radio" value="false" checked /> 不覆盖 </label> 
 		</div>
 	</div>
+	</div>
+	<font color="red" class="pull-left mt10">
+		提示：仅允许导入“.zip”,“.gz”或“.rar”格式文件！
+	</font>
     </form>
     </script>
 	<script type="text/javascript">
@@ -323,7 +330,7 @@
 				title: "上传主题",
 				closeBtn: 0, //不显示关闭按钮
 				anim: 2,
-				area: ['420px', '240px'],
+				area: ['560px', '330px'],
 				btn: ['<i class="fa fa-check"></i> 安装',
 					'<i class="fa fa-remove"></i> 取消'],
 				shadeClose: true, //开启遮罩关闭
@@ -348,6 +355,8 @@
 					formData.append("themeFile", file);
 					formData.append("cover", $(
 						"input[name='cover']:checked").val());
+					formData.append("coverConfig", $(
+						"input[name='coverConfig']:checked").val());
 					$.ajax({
 						url: prefix + "/uploadTheme",
 						data: formData,

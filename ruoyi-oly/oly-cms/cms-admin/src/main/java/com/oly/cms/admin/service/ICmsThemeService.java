@@ -36,13 +36,14 @@ public interface ICmsThemeService {
 
     /**
      * 
-     * @param file  文件
-     * @param cover 覆盖上传
+     * @param file       文件
+     * @param cover      覆盖上传
+     * @param coveConfig 覆盖配置
      * @return
      * @throws IOException
      * @throws Throwable
      */
-    int uploadTheme(MultipartFile file, boolean cover) throws Throwable, IOException;
+    int uploadTheme(MultipartFile file, boolean cover, boolean coverConfig) throws Throwable, IOException;
 
     /**
      * 启用设置主题
@@ -79,10 +80,10 @@ public interface ICmsThemeService {
     /**
      * 同步主题信息
      * 
-     * @param themeName
-     * @param iSync
+     * @param themeName   主题名
+     * @param coverConfig 是否更新配置
      * @return
      */
-    int syncThemeInfo(String themeName, boolean iSync);
+    int syncThemeInfo(String themeName, boolean coverConfig);
 
 }

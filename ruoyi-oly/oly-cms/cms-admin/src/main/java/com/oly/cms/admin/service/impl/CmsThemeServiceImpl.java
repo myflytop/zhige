@@ -48,7 +48,7 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	private CmsThemeMapper themeMapper;
 
 	@Autowired
-	private NativeOssHandler ossHander;
+	private NativeOssHandler ossHanded;
 
 	@Autowired
 	private SysConfigServiceImpl sysConfigService;
@@ -81,7 +81,7 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	}
 
 	@Override
-	public int uploadTheme(MultipartFile file, boolean cover) throws Throwable, IOException {
+	public int uploadTheme(MultipartFile file, boolean cover, boolean coverConfig) throws Throwable, IOException {
 		String floadName = FilenameUtils.getBaseName(file.getOriginalFilename());
 		if (SysConfigGroups.getValues().contains(floadName)) {
 			throw new ServiceException("主题名不被系统允许!");
@@ -91,25 +91,23 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 		File themeFile = Paths.get(OlyStageRoot.THEME_DIR.getRoot(fileName)).toFile();
 		// 主题文件夹
 		File themeFload = Paths.get(OlyStageRoot.THEME_DIR.getRoot(floadName)).toFile();
-		// 主题信息是否同步数据库
-		boolean iSync = (themeMapper.countThemeByName(floadName) == 0);
 		// 文件夹存在
 		if (themeFload.exists() && themeFload.isDirectory()) {
 			if (cover) {
-				ossHander.ossAppointUpload(file, OlyStageRoot.THEME_DIR, fileName);
+				ossHanded.ossAppointUpload(file, OlyStageRoot.THEME_DIR, fileName);
 				log.info("主题已覆盖");
 			} else {
 				throw new ServiceException("主题未上传,因为文件已经存在,你选择的是不覆盖上传！");
 			}
 		} else {
-			ossHander.ossAppointUpload(file, OlyStageRoot.THEME_DIR, fileName);
+			ossHanded.ossAppointUpload(file, OlyStageRoot.THEME_DIR, fileName);
 			log.info("主题已经上传！");
 		}
 		// 解压到当前目录
 		ZipUtil.unzip(themeFile.getAbsolutePath(), themeFile.getParent(), CharsetUtil.systemCharset());
 		// 删除压缩文件
 		FileUtil.del(themeFile);
-		return this.syncThemeInfo(floadName, iSync);
+		return this.syncThemeInfo(floadName, coverConfig);
 	}
 
 	/**
@@ -181,8 +179,10 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	}
 
 	@Override
-	public int syncThemeInfo(String themeName, boolean iSync) {
+	public int syncThemeInfo(String themeName, boolean coverConfig) {
 		int re = 0;
+		// 主题是否存在
+		boolean iSync = (themeMapper.countThemeByName(themeName) == 0);
 		File themeYaml = Paths
 				.get(OlyStageRoot.THEME_DIR.getRoot(themeName), OlyThemeConfigProperties.THEME_INFO.defaultValue())
 				.toFile();
@@ -199,10 +199,12 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 				throw new ServiceException("获取主题说明异常");
 			}
 			// 读取配置
-			addThemeConfig(JSON.parseArray(
-					JSON.toJSONString(
-							yamMap.getObject().get(OlyThemeConfigProperties.THEME_CONFIG_PREFIX.defaultValue())),
-					SysConfig.class), themeName);
+			if (iSync || coverConfig) {
+				addThemeConfig(JSON.parseArray(
+						JSON.toJSONString(
+								yamMap.getObject().get(OlyThemeConfigProperties.THEME_CONFIG_PREFIX.defaultValue())),
+						SysConfig.class), themeName);
+			}
 			// 设置主题名字
 			theme.setThemeName(themeName);
 			// 插入数据库上传主题

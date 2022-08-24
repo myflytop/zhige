@@ -95,13 +95,12 @@ public class CmsThemeController extends CmsCommonController {
 	@RequiresPermissions("cms:theme:upload")
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.INSERT)
 	@ResponseBody
-	public AjaxResult themeUpload(@RequestParam("themeFile") MultipartFile file,
-			@RequestParam(value = "cover", defaultValue = "false", required = false) boolean cover,
+	public AjaxResult themeUpload(@RequestParam("themeFile") MultipartFile file, boolean cover, boolean coverConfig,
 			HttpServletRequest request) throws Throwable {
 		if (file.isEmpty() || !"zip|gz|rar".contains(FilenameUtils.getExtension(file.getOriginalFilename()))) {
 			return AjaxResult.error("文件不存在或者不支持压缩类型,请上传.zip|.gz|.rar压缩包");
 		} else {
-			return toAjax(themeService.uploadTheme(file, cover));
+			return toAjax(themeService.uploadTheme(file, cover, coverConfig));
 		}
 
 	}
