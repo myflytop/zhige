@@ -9,30 +9,25 @@ import com.ruoyi.common.utils.html.EscapeUtil;
  * 
  * @author ruoyi
  */
-public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper
-{
+public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     /**
      * @param request
      */
-    public XssHttpServletRequestWrapper(HttpServletRequest request)
-    {
+    public XssHttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
     }
 
     @Override
-    public String[] getParameterValues(String name)
-    {
+    public String[] getParameterValues(String name) {
         String[] values = super.getParameterValues(name);
-        if (values != null)
-        {
+        if (values != null) {
             int length = values.length;
-            String[] escapseValues = new String[length];
-            for (int i = 0; i < length; i++)
-            {
+            String[] escapesValues = new String[length];
+            for (int i = 0; i < length; i++) {
                 // 防xss攻击和过滤前后空格
-                escapseValues[i] = EscapeUtil.clean(values[i]).trim();
+                escapesValues[i] = EscapeUtil.clean(values[i]).trim();
             }
-            return escapseValues;
+            return escapesValues;
         }
         return super.getParameterValues(name);
     }

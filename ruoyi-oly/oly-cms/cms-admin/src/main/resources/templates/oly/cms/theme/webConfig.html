@@ -264,9 +264,17 @@
                     <div class="panel-body">
                         <form class="form-horizontal m" id="form-other">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label is-">统计代码：</label>
+                                <label class="col-sm-3 control-label is-">自定义头部：</label>
                                 <div class="col-sm-8">
-                                    <textarea name="oly.web.countCode" th:text="${webConfig['oly.web.countCode']}"
+                                    <textarea name="oly.web.head" th:text="${webConfig['oly.web.head']}"
+                                        class="form-control" type="text">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label is-">自定义脚本：</label>
+                                <div class="col-sm-8">
+                                    <textarea name="oly.web.script" th:text="${webConfig['oly.web.script']}"
                                         class="form-control" type="text">
                                     </textarea>
                                 </div>
