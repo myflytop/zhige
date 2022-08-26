@@ -55,7 +55,7 @@ public class SysConfigController extends BaseController {
 
     @RequiresPermissions("system:config:view")
     @GetMapping()
-    public String config(ModelMap mmap) {
+    public String config(ModelMap map) {
         return prefix + "/config";
     }
 
@@ -82,7 +82,6 @@ public class SysConfigController extends BaseController {
     @PostMapping("/updateByGk")
     @ResponseBody
     public AjaxResult editByGkSaves(@RequestParam Map<String, String> mp) {
-
         return toAjax(configService.updatesByMap(mp));
     }
 
