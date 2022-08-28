@@ -1,250 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
-<meta charset="utf-8">
-
-<head th:include="include :: header('添加文章')"></head>
-<th:block th:include="include::bootstrap-select-css" />
-<th:block th:include="include :: oly_froala_css" />
-<th:block th:include="include :: oly_tagsinput_css" />
-<th:block th:include="include :: bootstrap-fileinput-css" />
-
-<style>
-	.keyinput>.bootstrap-tagsinput {
-		width: 100%;
-	}
-
-	.keyinput input {
-		width: 150px;
-	}
-
-	.tagView input {
-		display: none;
-	}
-
-	.tagView .bootstrap-tagsinput {
-		padding: 0;
-	}
-
-	.opshow {
-		opacity: 1;
-	}
-
-	.ophide {
-		opacity: 0.5;
-	}
-
-	#chooseImgBox>img {
-		width: 100px;
-		height: 100px;
-	}
-</style>
-
-<body class="white-bg" th:object="${article}">
+<head>
+	<meta charset="utf-8">
+	<th:block th:include="oly/cms/article/article_edit_include :: editHead" />
+	<th:block th:include="include :: oly_froala_css" />
+</head>
+<body class="white-bg" >
 	<h1 style="display: inline-block;padding-left: 10px;">文章修改</h1>
-	<form class="form-horizontal m" id="form-article-edit">
-		<input name="articleId" type="hidden" th:field="*{articleId}" id="articleId">
-		<div class="row" style="padding: 10px">
-			<div class="col-md-9">
-				<!--   标题 -->
-				<div class="form-group">
-					<div class="col-sm-12">
-						<input class="form-control" type="text" name="articleTitle" id="articleTitle"
-							th:field="*{articleTitle}" placeholder="文章标题" minlength="2" maxlength="32" />
-					</div>
-				</div>
-				<!-- 固定链接|保存 -->
-				<div class="form-group">
-					<div class="row" style="padding-left: 15px; padding-right: 15px">
-						<div class="col-sm-12">
-							<div class="row">
-								<div class="col-sm-6">
-									<input class="form-control" type="text" name="articleUrl" id="articleUrl"
-										th:field="*{articleUrl}" placeholder="固定链接" />
-									<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 固定路径为：<span
-											th:text="${@configTag.getKey('cmsConfig','oly.cms.articleUrl.fixedPrefix')}"></span><span
-											id="relativeUrl" th:text="*{articleUrl}"></span></span>
-								</div>
-								<div class="col-sm-6">
-									<div class="btn-group" role="group"
-										style="margin-top: 10px; float: right; margin-right: 40px;">
-										<span class="btn btn-default" id="editOk">保存</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- 关键词 -->
-				<div class="form-group">
-					<div class="col-sm-12 keyinput">
-						<input class="form-control" type="text" name="keywords" th:field="*{keywords}" id="articleKey" placeholder="关键词" />
-					</div>
-				</div>
-				<!-- 内容 -->
-				<div class="form-group">
-					<div class="col-sm-12">
-						<div id="editor" th:utext="*{articleContent}"></div>
-					</div>
-				</div>
-			</div>
 
-			<div class="col-md-3">
-				<!-- 分类 -->
-				<div class="form-group">
-					<div class="ibox float-e-margins">
-						<div class="ibox-title">
-							<h5>选择分类</h5>
-							<div class="ibox-tools">
-								<a class="close-link"><i class="fa fa-question-circle" title="选择分类"></i></a><a
-									class="add-link" onclick="addCat()"><i class="fa fa-plus-circle"
-										title="添加分类"></i></a> <a class="collapse-link"><i class="fa fa-chevron-up"></i>
-								</a>
-							</div>
-						</div>
-						<div class="ibox-content" style="display: block;">
-							<ul class="list-unstyled">
-								<li class="tagView"><input class="form-control" type="text" name="cats" id="catInput" />
-								</li>
-								<li>
-									<div class="input-group" style="padding-top: 10px">
-										<input class="form-control" type="text" onclick="selectCatTree()" id="treeName"
-											readonly th:value="${#arrays.isEmpty(cats)?'':cats[0].catName}"> <span
-											class="input-group-addon"><i class="fa fa-search"></i></span>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- 标签 -->
-				<div class="form-group">
-					<div class="ibox float-e-margins">
-						<div class="ibox-title">
-							<h5>选择标签</h5>
-							<div class="ibox-tools">
-								<a class="close-link"><i class="fa fa-question-circle" title="选择标签"></i></a> <a
-									class="add-link" onclick="addTag()"><i class="fa fa-plus-circle"
-										title="添加标签"></i></a> <a class="collapse-link"><i class="fa fa-chevron-up"></i>
-								</a>
-							</div>
-						</div>
-						<div class="ibox-content" style="display: block;">
-							<ul class="list-unstyled">
-								<li class="tagView"><input class="form-control" type="text" name="tags" id="tagInput" />
-								</li>
-								<li style="padding-top: 10px"><select class="selectpicker show-tick form-control"
-										data-live-search="true" id="chooseTag" name="chooseTag" title="选择标签">
-									</select></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- 类型 -->
-				<div class="form-group">
-					<div class="ibox float-e-margins">
-						<div class="ibox-title">
-							<h5>文章类型</h5>
-							<div class="ibox-tools">
-								<a class="collapse-link"><i class="fa fa-chevron-up"></i> </a> <a class="close-link"><i
-										class="fa fa-times"></i></a>
-							</div>
-						</div>
-						<div class="ibox-content" style="display: block;">
-							<div class="radio-box" th:each="dict : ${@dictTag.getType('cms_article_type')}">
-								<input type="radio" th:id="${dict.dictCode}" name="articleType"
-									th:value="${dict.dictValue}" th:field="*{articleType}">
-								<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- 评论 -->
-				<div class="form-group">
-					<div class="ibox float-e-margins">
-						<div class="ibox-title">
-							<h5>评论开关</h5>
-							<div class="ibox-tools">
-								<a class="collapse-link"><i class="fa fa-chevron-up"></i> </a> <a class="close-link"><i
-										class="fa fa-times"></i></a>
-							</div>
-						</div>
-						<div class="ibox-content" style="display: block;">
-							<label class="radio-inline"> <input type="radio" checked name="allowComment" value="1"
-									th:field="*{allowComment}">
-								开启
-							</label> <label class="radio-inline"> <input type="radio" name="allowComment" value="0"
-									th:field="*{allowComment}">
-								关闭
-							</label>
-						</div>
-					</div>
-				</div>
-				<!-- seo描述 -->
-				<div class="form-group">
-					<div class="ibox float-e-margins">
-						<div class="ibox-title">
-							<h5>SEO描述</h5>
-							<div class="ibox-tools">
-								<a class="collapse-link"><i class="fa fa-chevron-up"></i> </a> <a class="close-link"><i
-										class="fa fa-times"></i></a>
-							</div>
-						</div>
-						<div class="ibox-content" style="display: block;">
-							<textarea class="form-control" rows="3" name="description"
-								th:field="*{description}"></textarea>
-						</div>
-					</div>
-				</div>
-				<!-- 评论 -->
-				<div class="form-group">
-					<div class="ibox float-e-margins">
-						<div class="ibox-title">
-							<h5>转载链接</h5>
-							<div class="ibox-tools">
-								<a class="close-link"><i class="fa fa-question-circle" title="文章来源，不填则为原创"></i></a> <a
-									class="collapse-link"><i class="fa fa-chevron-up"></i> </a>
-							</div>
-						</div>
-						<div class="ibox-content" style="display: block;">
-							<input class="form-control" type="text" name="reprintUrl" th:value=${reprintUrl} />
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-
-	<th:block th:include="include :: footer" />
-	<th:block th:include="include::bootstrap-select-js" />
+	<th:block th:include="oly/cms/article/article_edit_include :: editForm(edit='fro',article=${article})" />
+	<th:block th:include="oly/cms/article/article_edit_include :: editFooter(articleSummary=${article.articleSummary})" />
 	<th:block th:include="include :: oly_froala_js" />
-	<th:block th:include="include :: bootstrap-fileinput-js" />
-	<th:block th:include="include :: oly_tagsinput_js" />
-	<!-- 确认文章 -->
-	<script type="text/html" id="okAddModel">
-    <div class="form-group" style="padding-top:20px">
-			<label class="col-sm-2 control-label">文章预览</label>
-			<div class="col-sm-10">
-				<textarea class="form-control" rows="3" id="articleSummary" placeholder="文章预览">
+	
 
-				</textarea>
-			</div>
-	</div>
 
-    <div class="form-group" style="padding-top:80px">
-			<label class="col-sm-2 control-label">选择封面</label>
-			<div class="col-sm-10" id="chooseImgBox">   
-			</div>  
-    </div>
-    <div class="form-group text-center">
-			<button type="button" class="btn btn-primary" id="saveArticle">保存文章</button>
-	</div>
-    </script>
 
 	<script type="text/javascript" th:inline="JavaScript">
 		var prefix = ctx + "cms/article";
 		var baseTag = ctx + "cms/tag";
 		var baseCat = ctx + "cms/cat";
-		var articleSummary = [[*{ articleSummary }]];
 		//初始化参数
 		var tags = [[${ tags }]], cats = [[${ cats }]],
 			maxTag = [[${@configTag.getKey('cmsConfig','oly.cms.articleTag.maxNum') }]],
@@ -271,7 +45,7 @@
 					title: "确认信息",
 					area: ['600px', '400px'],
 					type: 1,
-					content: $("#okAddModel").html(),
+					content: $("#editTemplate").html(),
 					success: function () {
 						/*  getImgSrc($(".opshow")); */
 						//填充图片
@@ -281,8 +55,7 @@
 								$("#chooseImgBox").append("<img class='ophide' src='" + val + "' />")
 							})
 						}
-						//填充描述
-						$("#articleSummary").val(articleSummary);
+
 						//初始化选择事件
 						$("#chooseImgBox>img").click(function () {
 							if ($(this).hasClass("opshow")) {
