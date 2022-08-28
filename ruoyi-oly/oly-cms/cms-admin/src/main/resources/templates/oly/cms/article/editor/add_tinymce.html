@@ -10,136 +10,10 @@
 	<th:block th:include="oly/cms/article/article_add_include :: addForm(edit='tin')" />
 	<th:block th:include="oly/cms/article/article_add_include :: addFooter" />
 	<th:block th:include="include :: oly_tinymce" />
+	<th:block th:include="oly/cms/article/article_add_include :: addCommonJs" />
 
 	<script th:inline="JavaScript">
-		var prefix = ctx + "cms/article",
-			tagPrefix = ctx + "cms/tag",
-			catPrefix = ctx + "cms/cat",
-			maxTag = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleTag.maxNum') }]],
-		maxCat = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleCat.maxNum') }]],
-		maxPhoto = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleImg.maxNum') }]],
-		maxKeyword = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleKeyword.maxNum') }]];
-		//初始化标签
-		$("#tagInput").tagsinput({
-			maxTags: maxTag,
-			itemValue: 'tagId',
-			itemText: 'tagName'
-		});
-
-		//初始化文章分类
-		$("#catInput").tagsinput({
-			maxTags: maxCat,
-			itemValue: 'catId',
-			itemText: 'catName'
-		});
-
-		//文章关键词
-		$("#articleKey").tagsinput({
-			maxTags: maxKeyword,
-			maxChars: 8
-		});
-
-		// 选择标签
-		$("#chooseTag").change(function () {
-			var k = $(this).val();
-			var n = $(this).find("option:selected").text().split("(")[0];
-			if (n != "") {
-				$("#tagInput").tagsinput('add', {
-					'tagId': k,
-					'tagName': n
-				});
-			}
-		});
-
-		//获取标签列表
-		function getTag() {
-			$.get(tagPrefix + "/listTagNotHide", function (data, status) {
-				$("#chooseTag").empty();
-				$.each(data, function (i, e) { //i是索引，e是json对象
-					$("#chooseTag").append("<option value=" + e.tagId + ">" + e.tagName + "(" + ((e.tagCount) === null ? 0 : e.tagCount) +
-						")</option>");
-				});
-				$("#chooseTag").selectpicker("refresh");
-			});
-		}
-
-		/*文章管理-新增-选择类目树*/
-		function selectCatTree() {
-			var url = catPrefix + "/selectCatTree?catId=0&visible=1";
-			var options = {
-				title: '类目选择',
-				width: "380",
-				url: url,
-				callBack: doSubmit
-			};
-			$.modal.openOptions(options);
-		}
-		//选择类目回调
-		function doSubmit(index, layero) {
-			var body = $.modal.getChildFrame(index);
-			var catId = body.find('#treeId').val();
-			var catName = body.find('#treeName').val();
-			$("#treeName").val(catName);
-			$("#catInput").tagsinput('add', {
-				'catId': catId,
-				'catName': catName
-			});
-			$.modal.close(index);
-		};
-		/* 添加分类 */
-		function addCat() {
-			$.modal.open('添加分类', catPrefix + "/add/0");
-		}
-		/* 添加标签 */
-		function addTag() {
-			$.modal.open('添加标签', tagPrefix + "/add");
-		}
-		//初始化标签
-		$(window).on('load', function () {
-			//初始化标签下拉框
-			$('#chooseTag').selectpicker();
-			getTag();
-		});
-
-		const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
-			const xhr = new XMLHttpRequest();
-			xhr.withCredentials = false;
-			xhr.open('POST', 'postAcceptor.php');
-			xhr.upload.onprogress = (e) => {
-				progress(e.loaded / e.total * 100);
-			};
-
-			xhr.onload = () => {
-				if (xhr.status === 403) {
-					reject({ message: 'HTTP Error: ' + xhr.status, remove: true });
-					return;
-				}
-
-				if (xhr.status < 200 || xhr.status >= 300) {
-					reject('HTTP Error: ' + xhr.status);
-					return;
-				}
-
-				const json = JSON.parse(xhr.responseText);
-
-				if (!json || typeof json.location != 'string') {
-					reject('Invalid JSON: ' + xhr.responseText);
-					return;
-				}
-
-				resolve(json.location);
-			};
-
-			xhr.onerror = () => {
-				reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
-			};
-
-			const formData = new FormData();
-			formData.append('file', blobInfo.blob(), blobInfo.filename());
-
-			xhr.send(formData);
-		});
-
+		
 		tinymce.init({
 			selector: 'div#editor',
 			language: 'zh-Hans',
@@ -157,78 +31,6 @@
 		});
 
 	
-		/* 文章验证 */
-		$("#form-article-add").validate({
-			errorPlacement: function (error, element) {
-				layer.tips(error.html(), element, {
-					tipsMore: true
-				});
-			},
-			rules: {
-				articleType: {
-					required: true
-				},
-				allowComment: {
-					required: true
-				},
-				articleTitle: {
-					required: true,
-					rangelength: [2, 32],
-					remote: {
-						url: prefix + "/checkArticleUnique",
-						type: "post",
-						dataType: "json",
-						data: {
-							"articleTitle": function () {
-								if ($("#catInput").val().length != null) {
-									return $.common.trim($("#articleTitle").val());
-								} else {
-									layer.msg('类别未选', {
-										icon: 1,
-										time: 1000 //2秒关闭（如果不配置，默认是3秒）
-									}, function () {
-										layer.closeAll();
-									});
-									return;
-								}
-							}
-						},
-						dataFilter: function (data, type) {
-							return $.validate.unique(data);
-						}
-					}
-				},
-				articleUrl: {
-					required: true,
-					remote: {
-						url: prefix + "/checkArticleUnique",
-						type: "post",
-						dataType: "json",
-						data: {
-							"articleUrl": function () {
-								return $.common.trim($("#articleUrl").val());
-							}
-						},
-						dataFilter: function (data, type) {
-							if (data == "0") {
-								$("#relativeUrl").text($("#articleUrl").val());
-							}
-							return $.validate.unique(data);
-						}
-					}
-				}
-			},
-			messages: {
-				"articleTitle": {
-					remote: "文章标题已经存在"
-				},
-				"articleUrl": {
-					remote: "文章路径已经存在"
-				}
-			},
-			focusCleanup: true
-		});
-
 		/* 进入保存按钮 */
 		$("#add-btn").click(function () {
 			if ($("input[name='cats']").val() === '') {
@@ -240,10 +42,11 @@
 				let editorData = tinyMCE.activeEditor.getContent();
 				layer.open({
 					title: "确认信息",
-					area: ['600px', '400px'],
+					area: ['600px', '600px'],
 					type: 1,
 					content: $("#addTemplate").html(),
 					success: function () {
+						$.imageUpload.init(imgConfig);
 						//填充图片
 						var imgs = chooseImg(editorData);
 						if (imgs.length > 0) {
@@ -253,8 +56,9 @@
 						}
 						//填充描述
 						$("#articleSummary").val(chooseSummary(editorData).slice(0, 160));
+						
 						//初始化选择事件
-						$("#chooseImgBox>img").click(function () {
+						$("#chooseImgBox").on('click','img',function(){
 							if ($(this).hasClass("opshow")) {
 								$(this).removeClass("opshow");
 								$(this).addClass("ophide");
@@ -270,10 +74,20 @@
 								})
 							}
 						});
+
+						$("#uploadImg").on("imgUploaded", function (e, msg) {
+							var rs=msg.data.domain + msg.data.fk;
+							imgs.push(rs);
+							$("#chooseImgBox").append("<img class='ophide' src='" + rs + "' />")
+						});
+
 						//保存文章
 						$("#saveArticle").click(function () {
 							let data = $('#form-article-add').serializeArray();
-							data.push({ "name": "articleImg", "value": getImgSrc($(".opshow")).join(",") });
+							var imgData= getImgSrc($(".opshow"));
+							if (imgData.length> 0) {
+								data.push({ "name": "articleImg", "value": imgData.join(",") });
+							}
 							data.push({ "name": "articleContent", "value": editorData });
 							data.push({ "name": "articleBuild", "value": 2 });
 							data.push({ "name": "articleSummary", "value": $("#articleSummary").val() });
@@ -289,53 +103,7 @@
 				});
 			}
 		});
-		//截取图片
-		function getImgSrc(dom) {
-			var srcs = [];
-			$.each(dom, function (i, val) {
-				srcs.push($(this).attr("src"))
-			});
-			return srcs;
-		}
-		//获取上传的图片
-		function chooseImg(str) {
-			var data = []
-			//获取img标签
-			var imgReg = /<img.*?(?:>|\/>)/gi;
-			//匹配src属性
-			var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-			var arr = str.match(imgReg);
-			if (arr == null) {
-				return data;
-			}
-			for (var i = 0; i < arr.length; i++) {
-				var src = arr[i].match(srcReg);
-				//获取图片地址
-				if (src[1]) {
-					data.push(src[1]);
-				}
-			}
-			return data;
-		}
-		//文章预览
-		function chooseSummary(html) {
-			html = html.replace(/<\/?[^>]*>/g, ''); //去除HTML tag
-			html = html.replace(/[ | ]*\n/g, '\n'); //去除行尾空白
-			html = html.replace(/ /ig, ''); //去掉
-			return html;
-		}
-
-		function autoComplateUrl() {
-			var articleUrl = $("#articleUrl");
-			if (articleUrl.html() === '') {
-				var g = new Date().getTime();
-				$("input[name='articleUrl']").val(g);
-				$("#relativeUrl").html("/" + g);
-			}
-		}
-		//初始化填充
-		autoComplateUrl();
-
+		
 	</script>
 </body>
 

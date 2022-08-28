@@ -10,21 +10,11 @@
 	<h1 style="display: inline-block;padding-left: 10px;">文章修改</h1>
 
 	<th:block th:include="oly/cms/article/article_edit_include :: editForm(edit='mark',article=${article})" />
-
 	<th:block th:include="oly/cms/article/article_edit_include :: editFooter(articleSummary=${article.articleSummary})" />
-
 	<th:block th:include="include :: oly_markdown_js" />
+	<th:block th:include="oly/cms/article/article_edit_include :: editCommonJs" />
 
 	<script type="text/javascript" th:inline="JavaScript">
-		var prefix = ctx + "cms/article";
-		var baseTag = ctx + "cms/tag";
-		var baseCat = ctx + "cms/cat";
-		//初始化参数
-		var tags = [[${ tags }]], cats = [[${ cats }]], 
-			maxTag = [[${@configTag.getKey('cmsConfig','oly.cms.articleTag.maxNum') }]],
-		maxCat = [[${@configTag.getKey('cmsConfig','oly.cms.articleCat.maxNum') }]],
-		maxPhoto = [[${@configTag.getKey('cmsConfig','oly.cms.articleImg.maxNum') }]],
-		maxKeyword = [[${@configTag.getKey('cmsConfig','oly.cms.articleKeyword.maxNum') }]];
 
 		/* 初始化富文本编辑器 */
 		var editor = editormd("editor", {
@@ -82,12 +72,11 @@
 				let editMark = editor.getMarkdown();
 				layer.open({
 					title: "确认信息",
-					area: ['600px', '400px'],
+					area: ['600px', '600px'],
 					type: 1,
 					content: $("#editTemplate").html(),
 					success: function () {
-						/*  getImgSrc($(".opshow")); */
-
+						$.imageUpload.init(imgConfig);
 						//填充图片
 						var imgs = chooseImg(editorData);
 						if (imgs.length > 0) {
@@ -95,28 +84,39 @@
 								$("#chooseImgBox").append("<img class='ophide' src='" + val + "' />")
 							})
 						}
-
-						//初始化选择事件
-						$("#chooseImgBox>img").click(function () {
+						
+	                    //初始化选择事件
+						$("#chooseImgBox").on('click','img',function(){
 							if ($(this).hasClass("opshow")) {
 								$(this).removeClass("opshow");
 								$(this).addClass("ophide");
 								return;
 							}
-							if ($(this).hasClass("ophide") && $(".opshow").length < maxPhoto + 1) {
+							if ($(this).hasClass("ophide") && $(".opshow").length < maxPhoto) {
 								$(this).removeClass("ophide");
 								$(this).addClass("opshow");
 								return;
-							}
-							else {
-								layer.msg('最多选择' + maxPhoto + '张', { icon: 6 })
+							} else {
+								layer.msg('最多选择' + maxPhoto + '张', {
+									icon: 6
+								})
 							}
 						});
+
+						$("#uploadImg").on("imgUploaded", function (e, msg) {
+							var rs=msg.data.domain + msg.data.fk;
+							imgs.push(rs);
+							$("#chooseImgBox").append("<img class='ophide' src='" + rs + "' />")
+						});
+
 						//初始化提交
 						$("#saveArticle").click(function () {
 							$("#editor").remove();	
 							let data = $('#form-article-edit').serializeArray();
-							data.push({ "name": "articleImg", "value": getImgSrc($(".opshow")).join(",") });
+							var imgData= getImgSrc($(".opshow"));
+							if (imgData.length> 0) {
+								data.push({ "name": "articleImg", "value": imgData.join(",") });
+							}
 							data.push({ "name": "articleMd", "value": editMark });
 							data.push({ "name": "articleContent", "value": editorData });
 							data.push({ "name": "articleBuild", "value": 1 });
@@ -133,302 +133,7 @@
 			}
 		});
 
-		function getImgSrc(dom) {
-			var srcs = [];
-			$.each(dom, function (i, val) {
-				srcs.push($(this).attr("src"))
-			});
-			return srcs;
-		}
-
-		function chooseImg(str) {
-			var data = []
-			//获取img标签
-			var imgReg = /<img.*?(?:>|\/>)/gi;
-			//匹配src属性
-			var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-			var arr = str.match(imgReg);
-			if (arr == null) { return data; }
-			for (var i = 0; i < arr.length; i++) {
-				var src = arr[i].match(srcReg);
-				//获取图片地址
-				if (src[1]) {
-					data.push(src[1]);
-				}
-			}
-			return data;
-		}
-
-		function chooseSummary(html) {
-			html = html.replace(/<\/?[^>]*>/g, ''); //去除HTML tag
-			html = html.replace(/[ | ]*\n/g, '\n'); //去除行尾空白
-			html = html.replace(/ /ig, '');//去掉
-			return html;
-		}
-
-		$("#form-article-edit").validate({
-			errorPlacement: function (error, element) {
-				layer.tips(error.html(), element, { tipsMore: true });
-			},
-			rules: {
-				articleType: {
-					required: true
-				},
-				allowComment: {
-					required: true
-				},
-				articleTitle: {
-					required: true,
-					rangelength:[2,32],
-					remote: {
-						url: prefix + "/checkArticleUnique",
-						type: "post",
-						dataType: "json",
-						data: {
-							"articleId": $("#articleId").val()
-							,
-							"articleTitle": function () {
-								if ($("#catInput").val().length != null) {
-									return $.common.trim($("#articleTitle").val());
-								} else {
-									layer.msg('类别未选', {
-										icon: 1,
-										time: 1000 //2秒关闭（如果不配置，默认是3秒）
-									}, function () {
-										layer.closeAll();
-									});
-									return;
-								}
-							}
-						},
-						dataFilter: function (data, type) {
-							return $.validate.unique(data);
-						}
-					}
-				}, articleUrl: {
-					required: true,
-					remote: {
-						url: prefix + "/checkArticleUnique",
-						type: "post",
-						dataType: "json",
-						data: {
-							"articleUrl": function () {
-								return $.common.trim($("#articleUrl").val());
-							},
-							"articleId": $("#articleId").val()
-						},
-						dataFilter: function (data, type) {
-							if (data == "0") {
-								$("#relativeUrl").text($("#articleUrl").val());
-							}
-							return $.validate.unique(data);
-						}
-					}
-				}
-			}
-			,
-			messages: {
-				"articleTitle": {
-					remote: "文章标题已经存在"
-				},
-				"articleUrl": {
-					remote: "文章路径已经存在"
-				}
-			},
-			focusCleanup: true
-		});
-
-
-		/*文章管理-新增-选择类目树*/
-		function selectCatTree() {
-			var url = baseCat + "/selectCatTree?catId=0&visible=1";
-			var options = {
-				title: '类目选择',
-				width: "380",
-				url: url,
-				callBack: doSubmit
-			};
-			$.modal.openOptions(options);
-		}
-		//选择类目回调
-		function doSubmit(index, layero) {
-			var body = $.modal.getChildFrame(index);
-			var catId = body.find('#treeId').val();
-			var catName = body.find('#treeName').val();
-			$("#treeName").val(catName);
-			//$('#catInput').tagsinput('removeAll');//不会调用移除事件
-			if ($("#catInput").tagsinput('items').length > cats) {
-				layer.msg('只允许添加' + $("#catInput").tagsinput('items').length + '个分类', {
-					icon: 1,
-					time: 2000 //2秒关闭（如果不配置，默认是3秒）
-				});
-			}
-			//会调用beforeItemAdd
-			$("#catInput").tagsinput('add', { 'catId': catId, 'catName': catName });
-			$.modal.close(index);
-		};
-		//初始化文章标签
-		$("#tagInput").tagsinput({
-			maxTags: maxTag,
-			itemValue: 'tagId',
-			itemText: 'tagName'
-		});
-		//初始化文章标签
-		$("#catInput").tagsinput({
-			maxTags: maxCat,
-			itemValue: 'catId',
-			itemText: 'catName'
-		});
-		function tagsSync(url, data, ent) {
-			return new Promise(function (resolve) {
-				$.post(url, data,
-					function (data, status) {
-						if (data.code === 0) {
-							layer.msg('操作成功', {
-								icon: 1,
-								time: 2000 //2秒关闭（如果不配置，默认是3秒）
-							});
-						}
-						else {
-							layer.msg('操作失败', {
-								icon: 1,
-								time: 2000 //2秒关闭（如果不配置，默认是3秒）
-							});
-						}
-						resolve(data.code);
-					});
-			});
-		}
-		function tagsEvent() {
-			$('#catInput').on('beforeItemAdd', function (event) {
-				var data = {
-					'articleId': $("#articleId").val(),
-					'catId': event.item.catId
-				}, url = prefix + '/addCatArticle';
-				tagsSync(url, data, event).then(function (res) {
-					if (res === 0) {
-						event.cancel;
-					}
-					else {
-						$('#catInput').tagsinput('remove', event.item);
-					}
-				});
-			});
-
-			$('#catInput').on('beforeItemRemove', function (event) {
-				var data = {
-					'articleId': $("#articleId").val(),
-					'catId': event.item.catId
-				}, url = prefix + '/removeCatArticle';
-				tagsSync(url, data, event).then(function (res) {
-					if (res === 0 || res === 500) {
-						event.cancel
-					}
-					else {
-						$('#catInput').tagsinput('remove', event.item);
-					}
-				});
-			});
-			/* 添加成功后调用*/
-			$('#tagInput').on('beforeItemAdd', function (event) {
-				var data = {
-					'articleId': $("#articleId").val(),
-					'tagId': event.item.tagId
-				}, url = prefix + '/addTagArticle';
-				tagsSync(url, data, event).then(function (res) {
-
-					if (res === 0 || res === 500) {
-						event.cancel
-					}
-					else {
-						$('#tagInput').tagsinput('remove', event.item);
-					}
-					getTag();
-				});
-			});
-
-			//删除成功后调用
-			$('#tagInput').on('beforeItemRemove', function (event) {
-
-				var data = {
-					'articleId': $("#articleId").val(),
-					'tagId': event.item.tagId
-				}, url = prefix + '/removeTagArticle';
-				tagsSync(url, data, event).then(function (res) {
-					if (res === 0) {
-						event.cancel
-					}
-					else {
-
-						$('#tagInput').tagsinput('remove', event.item);
-					}
-					getTag();
-				});
-			});
-		};
-		function initView() {
-			//初始化标签页
-			if (tags != null) {
-				$.each(tags, function (i, e) {//i是索引，e是json对象
-					$("#tagInput").tagsinput('add', { 'tagId': e.tagId, 'tagName': e.tagName });
-				});
-			}
-			//初始化类目页
-			if (cats != null) {
-				$.each(cats, function (i, e) {//i是索引，e是json对象
-					$("#catInput").tagsinput('add', { 'catId': e.catId, 'catName': e.catName });
-				});
-			}
-			//初始化标签事件
-			tagsEvent();
-
-		}
-		initView();
-
-		//初始化关键词
-		$("#articleKey").tagsinput({
-			maxTags: maxKeyword,
-			maxChars: 8
-		});
 		
-		//选择标签
-		$("#chooseTag").change(function () {
-			var k = $(this).val();
-			var n = $(this).find("option:selected").text().split("(")[0];
-			if (n != "") {
-				if ($("#tagInput").tagsinput('items').length > maxTag) {
-					layer.msg('最多允许添加' + $("#tagInput").tagsinput('items').length + '个标签', {
-						icon: 1,
-						time: 2000 //2秒关闭（如果不配置，默认是3秒）
-					});
-				}
-				$("#tagInput").tagsinput('add', { 'tagId': k, 'tagName': n });
-			}
-
-		});
-		//获取标签列表
-		function getTag() {
-			$.get(baseTag + "/listTagNotHide", function (data, status) {
-				$("#chooseTag").empty();
-				$.each(data, function (i, e) {//i是索引，e是json对象
-					$("#chooseTag").append("<option value=" + e.tagId + ">" + e.tagName + "(" + ((e.tagCount) === null ? 0 : e.tagCount) + ")</option>");
-				});
-				$("#chooseTag").selectpicker("refresh");
-			});
-		}
-		//初始化下拉
-		$(window).on('load', function () {
-			$('#chooseTag').selectpicker();
-			getTag();
-		});
-
-		function addCat() {
-			$.modal.open('添加分类', baseCat + "/add/0");
-		}
-
-		function addTag() {
-			$.modal.open('添加标签', baseTag + "/add");
-		}
 	</script>
 </body>
 

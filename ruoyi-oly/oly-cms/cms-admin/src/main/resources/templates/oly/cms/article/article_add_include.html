@@ -1,49 +1,59 @@
 <div th:fragment="addHead">
-    <th:block th:include="include :: header('添加文章')" />
-    <th:block th:include="include::bootstrap-select-css" />
-    <th:block th:include="include :: oly_tagsinput_css" />
-    <th:block th:include="include :: bootstrap-fileinput-css" />
-    <style>
-        .keyinput>.bootstrap-tagsinput {
-            width: 100%;
-        }
-    
-        .keyinput input {
-            width: 150px;
-        }
-    
-        .tagView input {
-            display: none;
-        }
-    
-        .tagView .bootstrap-tagsinput {
-            padding: 0;
-        }
-    
-        .opshow {
-            opacity: 1;
-        }
-    
-        .ophide {
-            opacity: 0.5;
-        }
-    
-        #chooseImgBox>img {
-            width: 100px;
-            height: 100px;
-        }
-    </style>
+	<th:block th:include="include :: header('添加文章')" />
+	<th:block th:include="include::bootstrap-select-css" />
+	<th:block th:include="include :: oly_tagsinput_css" />
+	<th:block th:include="include :: bootstrap-fileinput-css" />
+	<th:block th:include="include :: img_upload_css" />
+	<style>
+		.keyinput>.bootstrap-tagsinput {
+			width: 100%;
+		}
+
+		.keyinput input {
+			width: 150px;
+		}
+
+		.tagView input {
+			display: none;
+		}
+
+		.tagView .bootstrap-tagsinput {
+			padding: 0;
+		}
+
+		.opshow {
+			opacity: 1;
+		}
+
+		.ophide {
+			opacity: 0.5;
+		}
+
+		#chooseImgBox>img {
+			width: 100px;
+			height: 100px;
+		}
+
+		.layui-layer-shade {
+			z-index: 9 !important;
+		}
+
+		.layui-layer {
+			z-index: 10 !important;
+
+		}
+	</style>
 </div>
 
 <div th:fragment="addForm(edit)">
-    <form class="form-horizontal m" id="form-article-add">
+	<form class="form-horizontal m" id="form-article-add">
 		<div class="row" style="padding: 10px">
 			<div class="col-md-9">
 				<!--   标题 -->
 				<div class="form-group">
 					<div class="col-sm-12">
-						<input class="form-control" type="text" name="articleTitle" id="articleTitle"
-							placeholder="文章标题" minlength="2" maxlength="32"/>
+						<input class="form-control" type="text" name="articleTitle" id="articleTitle" placeholder="文章标题"
+							minlength="2" maxlength="32" />
 					</div>
 				</div>
 				<!-- 固定链接|保存 -->
@@ -77,9 +87,12 @@
 				<!-- 内容 -->
 				<div class="form-group">
 					<div class="col-sm-12">
-						<th:block th:if="${edit=='mark'}" th:include="oly/cms/article/article_add_include :: addEditMark" />
-                        <th:block th:if="${edit=='tin'}" th:include="oly/cms/article/article_add_include :: addEditTin" />
-                        <th:block th:if="${edit=='fro'}" th:include="oly/cms/article/article_add_include :: addEditFro" />
+						<th:block th:if="${edit=='mark'}"
+							th:include="oly/cms/article/article_add_include :: addEditMark" />
+						<th:block th:if="${edit=='tin'}"
+							th:include="oly/cms/article/article_add_include :: addEditTin" />
+						<th:block th:if="${edit=='fro'}"
+							th:include="oly/cms/article/article_add_include :: addEditFro" />
 					</div>
 				</div>
 			</div>
@@ -198,7 +211,7 @@
 							</div>
 						</div>
 						<div class="ibox-content" style="display: block;">
-							<input class="form-control" type="text" name="reprintUrl"  />
+							<input class="form-control" type="text" name="reprintUrl" />
 						</div>
 					</div>
 				</div>
@@ -208,15 +221,20 @@
 </div>
 
 <div th:fragment="addTemplate">
-    <script type="text/html" id="addTemplate">
+	<script type="text/html" id="addTemplate">
         <div class="form-group" style="padding-top:20px">
             <label class="col-sm-2 control-label">文章预览</label>
             <div class="col-sm-10">
                 <textarea class="form-control" rows="3" id="articleSummary" placeholder="文章预览"></textarea>
             </div>
         </div>
+		<div class="form-group" style="padding-top:80px">
+			<label class="col-sm-2 control-label">上传图片</label>
+		    <div class="col-sm-10 upload-content" id="uploadImg">
+		   </div>
+        </div>		
         <div class="form-group" style="padding-top:80px">
-            <label class="col-sm-2 control-label">选择封面</label>
+			<label class="col-sm-2 control-label">选择封面</label>
             <div class="col-sm-10" id="chooseImgBox">
             </div>
         </div>
@@ -227,24 +245,242 @@
 </div>
 
 <div th:fragment="addFooter">
-    <th:block th:include="include :: footer" />
-    <th:block th:include="include :: bootstrap-select-js" />
-    <th:block th:include="include :: bootstrap-fileinput-js" />
-    <th:block th:include="include :: oly_tagsinput_js" />
-    <th:block th:include="oly/cms/article/article_add_include :: addTemplate" />
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: bootstrap-select-js" />
+	<th:block th:include="include :: bootstrap-fileinput-js" />
+	<th:block th:include="include :: oly_tagsinput_js" />
+	<th:block th:include="include :: img_upload_js" />
+	<th:block th:include="oly/cms/article/article_add_include :: addTemplate" />
+</div>
+
+<div th:fragment="addCommonJs">
+	<script th:inline="JavaScript">
+		var prefix = ctx + "cms/article",
+			tagPrefix = ctx + "cms/tag",
+			catPrefix = ctx + "cms/cat",
+			uploadUrl = ctx + "oly/oss/upload",
+			maxTag = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleTag.maxNum') }]],
+		maxCat = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleCat.maxNum') }]],
+		maxPhoto = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleImg.maxNum') }]],
+		maxKeyword = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleKeyword.maxNum') }]];
+		var imgConfig = { element: "uploadImg", maxNum: 1, uploadUrl: uploadUrl };
+
+		//初始化标签
+		$("#tagInput").tagsinput({
+			maxTags: maxTag,
+			itemValue: 'tagId',
+			itemText: 'tagName'
+		});
+
+		//初始化文章分类
+		$("#catInput").tagsinput({
+			maxTags: maxCat,
+			itemValue: 'catId',
+			itemText: 'catName'
+		});
+
+		//文章关键词
+		$("#articleKey").tagsinput({
+			maxTags: maxKeyword,
+			maxChars: 8
+		});
+
+		// 选择标签
+		$("#chooseTag").change(function () {
+			var k = $(this).val();
+			var n = $(this).find("option:selected").text().split("(")[0];
+			if (n != "") {
+				$("#tagInput").tagsinput('add', {
+					'tagId': k,
+					'tagName': n
+				});
+			}
+		});
+
+		//获取标签列表
+		function getTag() {
+			$.get(tagPrefix + "/listTagNotHide", function (data, status) {
+				$("#chooseTag").empty();
+				$.each(data, function (i, e) { //i是索引，e是json对象
+					$("#chooseTag").append("<option value=" + e.tagId + ">" + e.tagName + "(" + ((e.tagCount) === null ? 0 : e.tagCount) +
+						")</option>");
+				});
+				$("#chooseTag").selectpicker("refresh");
+			});
+		}
+
+		/*文章管理-新增-选择类目树*/
+		function selectCatTree() {
+			var url = catPrefix + "/selectCatTree?catId=0&visible=1";
+			var options = {
+				title: '类目选择',
+				width: "380",
+				url: url,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		//选择类目回调
+		function doSubmit(index, layero) {
+			var body = $.modal.getChildFrame(index);
+			var catId = body.find('#treeId').val();
+			var catName = body.find('#treeName').val();
+			$("#treeName").val(catName);
+			$("#catInput").tagsinput('add', {
+				'catId': catId,
+				'catName': catName
+			});
+			$.modal.close(index);
+		};
+		/* 添加分类 */
+		function addCat() {
+			$.modal.open('添加分类', catPrefix + "/add/0");
+		}
+		/* 添加标签 */
+		function addTag() {
+			$.modal.open('添加标签', tagPrefix + "/add");
+		}
+		//初始化标签
+		$(window).on('load', function () {
+			//初始化标签下拉框
+			$('#chooseTag').selectpicker();
+			getTag();
+		});
+
+		/* 文章验证 */
+		$("#form-article-add").validate({
+			errorPlacement: function (error, element) {
+				layer.tips(error.html(), element, {
+					tipsMore: true
+				});
+			},
+			rules: {
+				articleType: {
+					required: true
+				},
+				allowComment: {
+					required: true
+				},
+				articleTitle: {
+					required: true,
+					rangelength: [2, 32],
+					remote: {
+						url: prefix + "/checkArticleUnique",
+						type: "post",
+						dataType: "json",
+						data: {
+							"articleTitle": function () {
+								if ($("#catInput").val().length != null) {
+									return $.common.trim($("#articleTitle").val());
+								} else {
+									layer.msg('类别未选', {
+										icon: 1,
+										time: 1000 //2秒关闭（如果不配置，默认是3秒）
+									}, function () {
+										layer.closeAll();
+									});
+									return;
+								}
+							}
+						},
+						dataFilter: function (data, type) {
+							return $.validate.unique(data);
+						}
+					}
+				},
+				articleUrl: {
+					required: true,
+					remote: {
+						url: prefix + "/checkArticleUnique",
+						type: "post",
+						dataType: "json",
+						data: {
+							"articleUrl": function () {
+								return $.common.trim($("#articleUrl").val());
+							}
+						},
+						dataFilter: function (data, type) {
+							if (data == "0") {
+								$("#relativeUrl").text($("#articleUrl").val());
+							}
+							return $.validate.unique(data);
+						}
+					}
+				}
+			},
+			messages: {
+				"articleTitle": {
+					remote: "文章标题已经存在"
+				},
+				"articleUrl": {
+					remote: "文章路径已经存在"
+				}
+			},
+			focusCleanup: true
+		});
+	
+		//截取图片
+		function getImgSrc(dom) {
+			var srcs = [];
+			$.each(dom, function (i, val) {
+				srcs.push($(this).attr("src"))
+			});
+			return srcs;
+		}
+
+
+		//获取上传的图片
+		function chooseImg(str) {
+			var data = []
+			//获取img标签
+			var imgReg = /<img.*?(?:>|\/>)/gi;
+			//匹配src属性
+			var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+			var arr = str.match(imgReg);
+			if (arr == null) {
+				return data;
+			}
+			for (var i = 0; i < arr.length; i++) {
+				var src = arr[i].match(srcReg);
+				//获取图片地址
+				if (src[1]) {
+					data.push(src[1]);
+				}
+			}
+			return data;
+		}
+		//文章预览
+		function chooseSummary(html) {
+			html = html.replace(/<\/?[^>]*>/g, ''); //去除HTML tag
+			html = html.replace(/[ | ]*\n/g, '\n'); //去除行尾空白
+			html = html.replace(/ /ig, ''); //去掉
+			return html;
+		}
+
+		function autoComplateUrl() {
+			var articleUrl = $("#articleUrl");
+			if (articleUrl.html() === '') {
+				var g = new Date().getTime();
+				$("input[name='articleUrl']").val(g);
+				$("#relativeUrl").html("/" + g);
+			}
+		}
+		//初始化填充
+		autoComplateUrl();
+	</script>
 </div>
 
 <div th:fragment="addEditMark">
-    <div id="editor" style="z-index: 100000;">
-        <textarea style="display:none;"></textarea>
-    </div>
+	<div id="editor" style="z-index: 6;">
+		<textarea style="display:none;"></textarea>
+	</div>
 </div>
 
 <div th:fragment="addEditTin">
-    <div id="editor">Next, use our Get Started docs to setup Tiny!</div>
+	<div id="editor">Next, use our Get Started docs to setup Tiny!</div>
 </div>
 
 <div th:fragment="addEditFro">
-    <div id="editor">
-    </div>
+	<div id="editor">
+	</div>
 </div>

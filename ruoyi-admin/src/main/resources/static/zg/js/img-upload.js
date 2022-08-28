@@ -61,14 +61,12 @@
                         }
                     });
                     var fileList = e.currentTarget.files;
-                    var imgSrc = [];
                     for (var i = 0; i < fileList.length; i++) {
                         var imgSrcI = $.imageUpload.getObjectURL(fileList[i]);
                         // imgName.push(fileList[i].name);
-                        imgSrc.push(imgSrcI);
+                        options.imgSrc.push(imgSrcI);
                         // imgFile.push(fileList[i]);
                     }
-                    options.imgSrc = imgSrc;
                     $.imageUpload.addNewContent(options);
                     this.value = null; //上传相同图片
                 });
