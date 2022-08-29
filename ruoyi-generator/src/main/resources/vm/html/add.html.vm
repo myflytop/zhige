@@ -80,7 +80,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label#if($column.required) is-required#end">${comment}：</label>
                 <div class="col-sm-8">
-                    <select name="${field}" class="form-control m-b" th:with="type=${@dict.getType('${dictType}')}"#if($column.required) required#end>
+                    <select name="${field}" class="form-control m-b" th:with="type=${@dictTag.getType('${dictType}')}"#if($column.required) required#end>
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                     </select>
                 </div>
@@ -98,7 +98,7 @@
 #elseif($column.htmlType == "checkbox" && "" != $dictType)
             <div class="form-group">    
                 <label class="col-sm-3 control-label#if($column.required) is-required#end">${comment}：</label>
-                <div class="col-sm-8" th:with="type=${@dict.getType('${dictType}')}">
+                <div class="col-sm-8" th:with="type=${@dictTag.getType('${dictType}')}">
                     <label th:each="dict : ${type}" class="check-box">
                         <input name="${field}" type="checkbox" th:value="${dict.dictValue}" th:text="${dict.dictLabel}"#if($column.required) required#end>
                     </label>
@@ -118,7 +118,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label#if($column.required) is-required#end">${comment}：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('${dictType}')}">
+                    <div class="radio-box" th:each="dict : ${@dictTag.getType('${dictType}')}">
                         <input type="radio" th:id="${'${field}_' + dict.dictCode}" name="${field}" th:value="${dict.dictValue}" th:checked="${dict.default}"#if($column.required) required#end>
                         <label th:for="${'${field}_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
                     </div>
@@ -194,7 +194,7 @@
 #if($table.sub)
 #foreach($column in $subTable.columns)
 #if(${column.dictType} != '')
-        var ${column.javaField}Datas = [[${@dict.getType('${column.dictType}')}]];
+        var ${column.javaField}Datas = [[${@dictTag.getType('${column.dictType}')}]];
 #end
 #end
 #end
