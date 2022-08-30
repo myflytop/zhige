@@ -132,14 +132,21 @@
 	</select>
 
 	
-	<!-- 获取热门标签 -->
+	<!-- 通过分类ID获取文章ID列表 -->
 	<select id="listArticleIdsByCatId" resultType="long" parameterType="long">
 		select article_id from cms_article_cat where cat_id=#{catId}
 	</select>
 
-	<!-- 获取热门标签 -->
+	<!-- 通过标签ID获取文章ID列表 -->
 	<select id="listArticleIdsByTagId" resultType="long" parameterType="long">
 		select article_id from cms_article_tag where tag_id=#{tagId}
+	</select>
+
+	<select id="getArticlesNum" resultType="int" parameterType="string">
+		select count(*) from cms_article a  left join cms_article_theme b on   a.visible=3 
+		<if test="themeName != null and themeName != ''">
+		and b.theme_name=#{themeName} 
+		</if>
 	</select>
 
 

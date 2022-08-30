@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.oly.cms.admin.mapper.CmsArticleLiquidMapper;
 import com.oly.cms.admin.mapper.CmsThemeMapper;
 import com.oly.cms.common.domain.entity.CmsTheme;
 import com.oly.cms.admin.service.ICmsThemeService;
@@ -53,6 +54,10 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	@Autowired
 	private SysConfigServiceImpl sysConfigService;
 
+	@Autowired
+	private CmsArticleLiquidMapper cmsArticleLiquidMapper;
+
+
 	/**
 	 * 删除主题
 	 * 
@@ -70,6 +75,7 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 		}
 		// 删除主题包
 		CmsUtils.deleteThemeFile(themeName);
+		cmsArticleLiquidMapper.deleteCmsArticleThemeByTheme(themeName);
 		// 从数据库中删除
 		return themeMapper.deleteByName(themeName);
 
@@ -209,13 +215,15 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 			theme.setThemeName(themeName);
 			// 插入数据库上传主题
 			if (iSync) {
-				log.info("主题上传完毕,配置文件已经加载");
+				
 				// 默认不开启
 				theme.setThemeEnabled(0);
+				theme.setCreateBy(ShiroUtils.getUserId());
 				re = themeMapper.insert(theme);
+				log.info("主题上传完毕,配置文件已经加载");
 			} else {
-				log.info("主题上传完毕,配置文件已更新");
 				re = themeMapper.updateByName(theme);
+				log.info("主题上传完毕,配置文件已更新");
 			}
 		} else {
 			try {

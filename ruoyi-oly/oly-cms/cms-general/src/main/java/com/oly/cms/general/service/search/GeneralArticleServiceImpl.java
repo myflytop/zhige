@@ -137,4 +137,8 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
         String newDate = sdf.format(date);
         return newDate;
     }
+
+    public int getArticlesNum(String themeName) {
+        return webSearchMapper.getArticlesNum(themeName);
+    }
 }

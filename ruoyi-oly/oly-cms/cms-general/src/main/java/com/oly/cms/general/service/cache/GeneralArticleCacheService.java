@@ -42,6 +42,11 @@ public class GeneralArticleCacheService {
         return articleServiceImpl.groupByTime(pageNum, pageSize, themeName);
     }
 
+    @Cacheable(keyGenerator = "myKeyGenerator")
+    public int getArticlesNum(String themeName) {
+        return articleServiceImpl.getArticlesNum(themeName);
+    }
+
     /**
      * 综合查询
      * 

@@ -9,7 +9,7 @@ import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.config.service.ISysConfigService;
 
-@Service
+@Service("webTag")
 public class WebTag {
 
     @Autowired
@@ -27,6 +27,13 @@ public class WebTag {
                 configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
     }
 
+    /**
+     * 验证当前类型文章是否支持
+     * 
+     * @param type      cacType tagType
+     * @param themeName
+     * @return
+     */
     public boolean checkTagSupportTheme(int type, String themeName) {
         if (StringUtils.isEmpty(getThemeSupportType(themeName))) {
             return true;

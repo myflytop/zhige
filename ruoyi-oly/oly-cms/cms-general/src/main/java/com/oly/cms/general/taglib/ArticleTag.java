@@ -20,6 +20,12 @@ public class ArticleTag {
     @Autowired
     private GeneralArticleCacheService webPostService;
 
+    public int getArticlesNum(String themeName) {
+
+        return webPostService.getArticlesNum(themeName);
+
+    }
+
     /**
      * 获取文章Html
      * 
