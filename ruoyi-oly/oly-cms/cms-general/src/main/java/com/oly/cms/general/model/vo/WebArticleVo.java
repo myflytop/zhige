@@ -21,6 +21,9 @@ public class WebArticleVo extends CmsArticleCount {
     /** 文章链接别名 */
     private String articleUrl;
 
+    /** 文章预览 */
+    private String articleSummary;
+
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
@@ -63,6 +66,14 @@ public class WebArticleVo extends CmsArticleCount {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getArticleSummary() {
+        return articleSummary;
+    }
+
+    public void setArticleSummary(String articleSummary) {
+        this.articleSummary = articleSummary;
     }
 
 }
