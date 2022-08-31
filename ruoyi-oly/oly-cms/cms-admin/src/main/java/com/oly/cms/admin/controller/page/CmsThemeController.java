@@ -386,6 +386,15 @@ public class CmsThemeController extends CmsCommonController {
 		return AjaxResult.success(articleService.buildArticleIndex(themeName));
 	}
 
+	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.UPDATE)
+	@PostMapping("/buildAllArticleIndex")
+	@RequiresPermissions("cms:theme:buildArticleIndex")
+	@ResponseBody
+	public AjaxResult buildAllArticleIndex() {
+
+		return AjaxResult.success(themeService.buildAllArticleIndex());
+	}
+
 	/**
 	 * 遍历主题文件
 	 * 

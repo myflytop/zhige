@@ -57,6 +57,9 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	@Autowired
 	private CmsArticleLiquidMapper cmsArticleLiquidMapper;
 
+	@Autowired
+	private CmsArticleServiceImpl articleService;
+
 	/**
 	 * 删除主题
 	 * 
@@ -74,6 +77,7 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 		}
 		// 删除主题包
 		CmsUtils.deleteThemeFile(themeName);
+		// 删除关联主题
 		cmsArticleLiquidMapper.deleteCmsArticleThemeByTheme(themeName);
 		// 从数据库中删除
 		return themeMapper.deleteByName(themeName);
@@ -269,6 +273,16 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 				}
 			}
 		}
+	}
+
+	@Override
+	public String buildAllArticleIndex() {
+		cmsArticleLiquidMapper.deleteCmsArticleThemeByTheme("");
+		List<String> names = themeMapper.listThemeNames();
+		for (String name : names) {
+			articleService.buildArticleIndex(name);
+		}
+		return "重建所有索引成功";
 	}
 
 }

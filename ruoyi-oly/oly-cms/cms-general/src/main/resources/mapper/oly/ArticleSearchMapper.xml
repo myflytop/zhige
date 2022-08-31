@@ -141,13 +141,18 @@
 	<select id="listArticleIdsByTagId" resultType="long" parameterType="long">
 		select article_id from cms_article_tag where tag_id=#{tagId}
 	</select>
-
-	<select id="getArticlesNum" resultType="int" parameterType="string">
-		select count(*) from cms_article a  left join cms_article_theme b on   a.visible=3 
-		<if test="themeName != null and themeName != ''">
-		and b.theme_name=#{themeName} 
-		</if>
+    
+	<!-- 联合查询 -->
+	<select id="getArticlesNumUnion" resultType="int" parameterType="string">
+		select count(*) from cms_article a  inner JOIN cms_article_theme b on ( b.article_id=a.article_id and a.visible=3 and b.theme_name=#{themeName})
 	</select>
+    
+	<!-- 单表统计 -->
+	<select id="getArticlesNum" resultType="int">
+		select count(*) from cms_article where  visible=3
+	</select>
+
+
 
 
 

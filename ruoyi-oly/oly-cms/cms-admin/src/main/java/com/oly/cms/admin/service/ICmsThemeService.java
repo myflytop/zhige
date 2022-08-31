@@ -86,4 +86,5 @@ public interface ICmsThemeService {
      */
     int syncThemeInfo(String themeName, boolean coverConfig);
 
+    public String buildAllArticleIndex();
 }

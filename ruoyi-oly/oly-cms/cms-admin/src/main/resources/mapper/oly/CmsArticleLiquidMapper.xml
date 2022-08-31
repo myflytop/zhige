@@ -106,7 +106,9 @@
     </delete>
 
     <delete id="deleteCmsArticleThemeByTheme">
-         delete from cms_article_theme where theme_name=#{themeName}
+         delete from cms_article_theme <if test="themeName!=null and themeName!=''">
+            where theme_name=#{themeName}
+         </if>
     </delete>
 
     <insert id="insertCmsArticleCount" parameterType="Long">

@@ -13,17 +13,24 @@ import com.github.pagehelper.PageHelper;
 import com.oly.cms.common.model.enums.ArticleEditTypeEnums;
 import com.oly.cms.common.model.enums.ArticleKeyTypeEnums;
 import com.oly.cms.common.model.enums.OrderEnums;
+import com.oly.cms.common.model.properties.OlyWebConfigProperties;
 import com.oly.cms.general.mapper.ArticleSearchMapper;
 import com.oly.cms.general.model.PageArticleTimeLine;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.po.WebArticle;
 import com.oly.cms.general.service.IGeneralSearchService;
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.system.config.service.ISysConfigService;
 
 @Service
 public class GeneralArticleServiceImpl implements IGeneralSearchService {
+
     @Autowired
     private ArticleSearchMapper webSearchMapper;
+
+    @Autowired
+    private ISysConfigService configService;
 
     /**
      * 综合查询
@@ -139,6 +146,10 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
     }
 
     public int getArticlesNum(String themeName) {
-        return webSearchMapper.getArticlesNum(themeName);
+        if (StringUtils.isEmpty(themeName) || StringUtils
+                .isEmpty(configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES))) {
+            return webSearchMapper.getArticlesNum();
+        }
+        return webSearchMapper.getArticlesNumUnion(themeName);
     }
 }

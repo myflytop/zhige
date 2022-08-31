@@ -41,6 +41,12 @@ public class ArticleApiController extends BaseController {
     return AjaxResult.success(pageOne);
   }
 
+  @GetMapping("/getArticleNum/{themeName}")
+  public AjaxResult getArticleNum(@PathVariable(name = "themeName", required = false) String themeName) {
+
+    return AjaxResult.success(articleService.getArticlesNum(themeName));
+  }
+
   /**
    * 获取文章HTML
    * 
