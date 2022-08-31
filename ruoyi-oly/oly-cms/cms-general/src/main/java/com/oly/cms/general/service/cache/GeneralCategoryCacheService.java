@@ -37,6 +37,11 @@ public class GeneralCategoryCacheService {
         return categoryServiceImpl.selectCmsCatsTrees(orderNum, catType, parentId, catId, parent, themeName);
     }
 
+    @Cacheable(keyGenerator = "myKeyGenerator")
+    public int getCatNum(String themeName) {
+        return categoryServiceImpl.getCatNum(themeName);
+    }
+
     public List<CmsCat> listCmsCats(CmsCat cmsCat) {
 
         return categoryServiceImpl.listCmsCats(cmsCat);

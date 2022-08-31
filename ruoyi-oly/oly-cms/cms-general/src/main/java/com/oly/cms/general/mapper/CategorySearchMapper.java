@@ -46,4 +46,6 @@ public interface CategorySearchMapper {
      */
     List<CmsCat> listCmsCatByArticleId(Long articleId);
 
+    int getCatNum(String types);
+
 }

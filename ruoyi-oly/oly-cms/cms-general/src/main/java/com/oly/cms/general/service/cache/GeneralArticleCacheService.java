@@ -43,8 +43,8 @@ public class GeneralArticleCacheService {
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")
-    public int getArticlesNum(String themeName) {
-        return articleServiceImpl.getArticlesNum(themeName);
+    public int getArticleNum(String themeName) {
+        return articleServiceImpl.getArticleNum(themeName);
     }
 
     /**

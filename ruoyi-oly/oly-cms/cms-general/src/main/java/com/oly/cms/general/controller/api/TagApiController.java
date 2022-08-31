@@ -41,6 +41,17 @@ public class TagApiController extends BaseController {
   }
 
   /**
+   * 获取数量
+   * 
+   * @param themeName
+   * @return
+   */
+  @GetMapping("/getTagNum/{themeName}")
+  public AjaxResult getTagNum(@PathVariable("themeName") String themeName) {
+    return AjaxResult.success(tagService.getTagNum(themeName));
+  }
+
+  /**
    * 获取标签
    * 
    * @param tagId

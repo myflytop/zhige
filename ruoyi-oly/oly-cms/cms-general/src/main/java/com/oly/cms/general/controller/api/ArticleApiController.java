@@ -44,7 +44,7 @@ public class ArticleApiController extends BaseController {
   @GetMapping("/getArticleNum/{themeName}")
   public AjaxResult getArticleNum(@PathVariable(name = "themeName", required = false) String themeName) {
 
-    return AjaxResult.success(articleService.getArticlesNum(themeName));
+    return AjaxResult.success(articleService.getArticleNum(themeName));
   }
 
   /**

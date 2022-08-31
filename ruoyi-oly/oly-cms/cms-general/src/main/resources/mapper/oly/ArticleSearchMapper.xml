@@ -143,12 +143,12 @@
 	</select>
     
 	<!-- 联合查询 -->
-	<select id="getArticlesNumUnion" resultType="int" parameterType="string">
+	<select id="getArticleNumUnion" resultType="int" parameterType="string">
 		select count(*) from cms_article a  inner JOIN cms_article_theme b on ( b.article_id=a.article_id and a.visible=3 and b.theme_name=#{themeName})
 	</select>
     
 	<!-- 单表统计 -->
-	<select id="getArticlesNum" resultType="int">
+	<select id="getArticleNum" resultType="int">
 		select count(*) from cms_article where  visible=3
 	</select>
 

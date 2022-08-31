@@ -28,8 +28,8 @@ public interface ArticleSearchMapper {
 
     boolean allowComment(Long postId);
 
-    int getArticlesNumUnion(String themeName);
+    int getArticleNumUnion(String themeName);
 
-    int getArticlesNum();
+    int getArticleNum();
 
 }

@@ -20,9 +20,9 @@ public class ArticleTag {
     @Autowired
     private GeneralArticleCacheService webPostService;
 
-    public int getArticlesNum(String themeName) {
+    public int getArticleNum(String themeName) {
 
-        return webPostService.getArticlesNum(themeName);
+        return webPostService.getArticleNum(themeName);
 
     }
 

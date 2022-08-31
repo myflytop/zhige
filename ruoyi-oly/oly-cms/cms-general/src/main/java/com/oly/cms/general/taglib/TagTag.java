@@ -67,6 +67,16 @@ public class TagTag {
         return tagCacheService.listCmsTagsByTypeAndOrderNum(tagType, orderNum, themeName);
     }
 
+    /**
+     * 获取数量
+     * 
+     * @param themeName
+     * @return
+     */
+    public int getTagNum(String themeName) {
+        return tagCacheService.getTagNum(themeName);
+    }
+
     public List<CmsTag> listCmsTags(CmsTag cmsTag) {
         return tagCacheService.listCmsTags(cmsTag);
     }

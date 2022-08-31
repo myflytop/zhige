@@ -45,4 +45,6 @@ public interface TagSearchMapper {
      */
     CmsTag checkTagUnique(CmsTag cmsTag);
 
+    int getTagNum(String types);
+
 }

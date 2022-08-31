@@ -83,6 +83,11 @@ public class GeneralCategoryServiceImpl implements IGeneralSearchService {
                 catId == null ? 0L : catId);
     }
 
+    public int getCatNum(String themeName) {
+        String supportType = configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
+        return categorySearchMapper.getCatNum(supportType);
+    }
+
     private void setSupportType(CmsCat cmsCat, String themeName) {
         if (StringUtils.isEmpty(themeName)) {
             return;

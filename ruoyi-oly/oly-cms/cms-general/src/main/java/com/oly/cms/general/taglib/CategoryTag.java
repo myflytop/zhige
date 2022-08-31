@@ -153,6 +153,16 @@ public class CategoryTag {
         return catCacheService.listCmsCats(null, null, null, null, null, themeName);
     }
 
+    /**
+     * 获取数量
+     * 
+     * @param themeName
+     * @return
+     */
+    public int getCatNum(String themeName) {
+        return catCacheService.getCatNum(themeName);
+    }
+
     public List<CmsCat> listCmsCats(CmsCat cmsCat) {
 
         return catCacheService.listCmsCats(cmsCat);

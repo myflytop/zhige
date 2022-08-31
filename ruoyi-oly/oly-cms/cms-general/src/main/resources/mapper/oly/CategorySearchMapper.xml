@@ -113,4 +113,11 @@
         select count(*) from cms_article_cat as b inner join cms_article as a on (a.article_id=b.article_id and cat_id=#{catId} and  a.visible=3)
     </select>
 
+	<select id="getCatNum" resultType="int" parameterType="string">
+        select count(*) from cms_cat where visible=1 
+        <if test="types!=null and types!=''">
+            and FIND_IN_SET(cat_type,#{types})
+        </if>
+    </select>
+
 </mapper> 

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class GeneralTagServiceImpl implements IGeneralSearchService {
 
     @Autowired
-    private TagSearchMapper tsgSearchMapper;
+    private TagSearchMapper tagSearchMapper;
 
     @Autowired
     private ISysConfigService configService;
@@ -25,11 +25,11 @@ public class GeneralTagServiceImpl implements IGeneralSearchService {
     public List<CmsTag> listCmsTags(CmsTag cmsTag) {
         cmsTag.setVisible(CommonVisibleEnums.SHOW.ordinal());
         setSupportType(cmsTag, cmsTag.getSearchValue());
-        return tsgSearchMapper.listCmsTags(cmsTag);
+        return tagSearchMapper.listCmsTags(cmsTag);
     }
 
     public CmsTag getCmsTagByTagId(long tagId) {
-        return tsgSearchMapper.selectCmsTagById(tagId);
+        return tagSearchMapper.selectCmsTagById(tagId);
     }
 
     public List<CmsTag> listCmsTags(Integer tagType, Long orderNum, String themeName) {
@@ -38,6 +38,11 @@ public class GeneralTagServiceImpl implements IGeneralSearchService {
         cmsTag.setOrderNum(orderNum);
         cmsTag.setSearchValue(themeName);
         return this.listCmsTags(cmsTag);
+    }
+
+    public int getTagNum(String themeName) {
+        String supportType = configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
+        return tagSearchMapper.getTagNum(supportType);
     }
 
     private void setSupportType(CmsTag cmsTag, String themeName) {

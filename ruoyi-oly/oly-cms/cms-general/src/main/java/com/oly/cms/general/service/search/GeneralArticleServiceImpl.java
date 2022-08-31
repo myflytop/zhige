@@ -145,11 +145,11 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
         return newDate;
     }
 
-    public int getArticlesNum(String themeName) {
+    public int getArticleNum(String themeName) {
         if (StringUtils.isEmpty(themeName) || StringUtils
                 .isEmpty(configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES))) {
-            return webSearchMapper.getArticlesNum();
+            return webSearchMapper.getArticleNum();
         }
-        return webSearchMapper.getArticlesNumUnion(themeName);
+        return webSearchMapper.getArticleNumUnion(themeName);
     }
 }

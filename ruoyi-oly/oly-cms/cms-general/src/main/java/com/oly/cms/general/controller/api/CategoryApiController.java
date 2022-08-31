@@ -30,6 +30,18 @@ public class CategoryApiController extends BaseController {
   @GetMapping("/get/{catId}")
   public AjaxResult getCatById(@PathVariable("catId") Long catId) {
     return AjaxResult.success(categoryService.getCatById(catId));
+
+  }
+
+  /**
+   * 获取数量
+   * 
+   * @param themeName
+   * @return
+   */
+  @GetMapping("/getCatNum/{themeName}")
+  public AjaxResult getCatNum(@PathVariable("themeName") String themeName) {
+    return AjaxResult.success(categoryService.getCatNum(themeName));
   }
 
   /**

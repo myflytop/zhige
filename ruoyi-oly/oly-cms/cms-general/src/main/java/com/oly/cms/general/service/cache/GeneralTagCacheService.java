@@ -27,6 +27,11 @@ public class GeneralTagCacheService {
         return tagServiceImpl.listCmsTags(tagType, orderNum, themeName);
     }
 
+    @Cacheable(keyGenerator = "myKeyGenerator")
+    public int getTagNum(String themeName) {
+        return tagServiceImpl.getTagNum(themeName);
+    }
+
     public List<CmsTag> listCmsTags(CmsTag cmsTag) {
         return tagServiceImpl.listCmsTags(cmsTag);
     }
