@@ -57,7 +57,6 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	@Autowired
 	private CmsArticleLiquidMapper cmsArticleLiquidMapper;
 
-
 	/**
 	 * 删除主题
 	 * 
@@ -202,6 +201,11 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 							yamMap.getObject().get(OlyThemeConfigProperties.THEME_DATA_PREFIX.defaultValue())),
 					CmsTheme.class);
 			if (theme == null) {
+				try {
+					CmsUtils.deleteThemeFile(themeName);
+				} catch (FileNotFoundException e) {
+					throw new ServiceException("主题不存在:" + themeName + e.getMessage());
+				}
 				throw new ServiceException("获取主题说明异常");
 			}
 			// 读取配置
@@ -215,7 +219,7 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 			theme.setThemeName(themeName);
 			// 插入数据库上传主题
 			if (iSync) {
-				
+
 				// 默认不开启
 				theme.setThemeEnabled(0);
 				theme.setCreateBy(ShiroUtils.getUserId());
@@ -230,7 +234,7 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 				CmsUtils.deleteThemeFile(themeName);
 				throw new ServiceException("同步主题信息失败,找不到或者读取配置文件");
 			} catch (FileNotFoundException e) {
-				throw new ServiceException("主题配置文件不存在:" + themeName + e.getMessage());
+				throw new ServiceException("主题不存在:" + themeName + e.getMessage());
 			}
 
 		}

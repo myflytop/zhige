@@ -284,6 +284,10 @@
             white-space: nowrap;
 
         }
+
+        .row{
+            margin: 0 auto;
+        }
     </style>
 
 </head>
@@ -357,7 +361,7 @@
                         <div class="col-md-12" id="file_list">
 
                         </div>
-                        <div class="col-md-12" aria-label="...">
+                        <div class="col-md-12" aria-label="..." style="position:static;">
                             <ul class="pager">
                                 <li id="prePage" class="previous"><a href="javascript:void(0)"><span
                                             aria-hidden="true">&larr;</span> 上一页</a></li>
@@ -566,14 +570,15 @@
 
             var mUrl, mKey, mId;
             $('body').on('click', '.file-box', function (e) {
+              
                 mUrl = $(this).data('url').replaceAll("\\", "\/");
                 mKey = $(this).data('key');
                 mId = $(this).data('id');
                 $('#copy').attr('data-clipboard-text', mUrl);
                 var $target = $(this).find('.file');
                 $('#dropdownFile').css({
-                    'top': $target.offset().top + 90,
-                    'left': $target.offset().left + 25
+                    'top': e.pageY +10,
+                    'left': e.pageX
                 });
                 $('#dropdownFile').addClass('dropdown-opened');
                 if (e !== void 0) {
