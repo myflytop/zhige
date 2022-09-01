@@ -7,6 +7,7 @@ import com.oly.cms.common.model.enums.ArticleEditTypeEnums;
 import com.oly.cms.common.model.enums.ArticleKeyTypeEnums;
 import com.oly.cms.common.model.enums.OrderEnums;
 import com.oly.cms.common.model.support.PageData;
+import com.oly.cms.general.model.PageArticleTimeLine;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.po.WebArticle;
 import com.oly.cms.general.service.cache.GeneralArticleCacheService;
@@ -254,6 +255,10 @@ public class ArticleTag {
     public List<WebArticle> listWebArticles(WebArticleSearchParam bb) {
 
         return webPostService.listWebArticles(bb);
+    }
+
+    public PageArticleTimeLine groupByTime(int pageNum, int pageSize, String themeName) {
+        return webPostService.groupByTime(pageNum, pageSize, themeName);
     }
 
 }

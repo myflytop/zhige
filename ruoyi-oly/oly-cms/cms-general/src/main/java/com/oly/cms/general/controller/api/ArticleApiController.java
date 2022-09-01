@@ -3,9 +3,9 @@ package com.oly.cms.general.controller.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.oly.cms.common.model.TimeNum;
 import com.oly.cms.common.model.enums.OrderEnums;
 import com.oly.cms.common.model.support.PageData;
+import com.oly.cms.general.model.PageArticleTimeLine;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.po.WebArticle;
 import com.oly.cms.general.taglib.ArticleTag;
@@ -209,6 +209,12 @@ public class ArticleApiController extends BaseController {
       @PathVariable("num") int num) {
 
     return AjaxResult.success(articleService.listWebArticleByType(type, num, size));
+  }
+
+  @GetMapping("/groupByTime/{themeName}/{num}/{size}")
+  public PageArticleTimeLine groupByTime(@PathVariable("num") int pageNum, @PathVariable("size") int pageSize,
+      @PathVariable("themeName") String themeName) {
+    return articleService.groupByTime(pageNum, pageSize, themeName);
   }
 
 }

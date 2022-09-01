@@ -141,7 +141,7 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
     }
 
     private String neData(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         String newDate = sdf.format(date);
         return newDate;
     }
