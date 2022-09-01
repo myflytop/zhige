@@ -53,6 +53,15 @@ public class HandCommentServiceImpl implements IHandCommentService {
 
     }
 
+    public List<CmsComment> recentlyComment(int commentType, int pageNum, int pageSize) {
+        CmsComment cmsComment = new CmsComment();
+        cmsComment.setVisible(CommentVisibleEnums.PASS.ordinal());
+        cmsComment.setCommentType(commentType);
+        cmsComment.setParentId(0L);
+        PageHelper.startPage(pageNum, pageSize, "create_time desc");
+        return cmsCommentService.listCmsComment(cmsComment);
+    }
+
     @Override
     public PageData pageCommentByTypeId(String typeId, int pageNum, int pageSize) {
         List<CmsComment> parentList = this.listCommentOneByTypeId(typeId, pageNum, pageSize);
@@ -82,5 +91,4 @@ public class HandCommentServiceImpl implements IHandCommentService {
                 OlyCommentProperties.getEnum("COMMENT_OPEN_" + commentTypeEnum.name())));
 
     }
-
 }

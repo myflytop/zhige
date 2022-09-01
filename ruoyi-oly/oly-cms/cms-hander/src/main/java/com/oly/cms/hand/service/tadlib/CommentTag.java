@@ -21,6 +21,11 @@ public class CommentTag {
         return null;
     }
 
+    public List<CmsComment> recentlyComment(int commentType, int pageNum, int pageSize) {
+
+        return webCommentCacheService.recentlyComment(commentType, pageNum, pageSize);
+    }
+
     public List<CmsComment> listCommentByTypeId(String typeId, int pageNum, int pageSize) {
         return webCommentCacheService.listCommentByTypeId(typeId, pageNum, pageSize);
     }

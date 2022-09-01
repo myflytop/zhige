@@ -50,6 +50,11 @@ public class HandCommentCacheService {
         return commentService.pageTwoCommentByParentId(parentId, pageNum, pageSize);
     }
 
+    @Cacheable(keyGenerator = "myKeyGenerator")
+    public List<CmsComment> recentlyComment(int commentType, int pageNum, int pageSize) {
+        return commentService.recentlyComment(commentType, pageNum, pageSize);
+    }
+
     public boolean commentSupport(CommentTypeEnum commentTypeEnum) {
         return commentService.commentSupport(commentTypeEnum);
     }
