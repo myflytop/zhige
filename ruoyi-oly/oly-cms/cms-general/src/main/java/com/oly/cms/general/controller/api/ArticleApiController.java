@@ -3,6 +3,7 @@ package com.oly.cms.general.controller.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.oly.cms.common.model.TimeNum;
 import com.oly.cms.common.model.enums.OrderEnums;
 import com.oly.cms.common.model.support.PageData;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
@@ -39,6 +40,18 @@ public class ArticleApiController extends BaseController {
     list = articleService.listWebArticles(parm);
     PageData pageOne = PageData.getData(list);
     return AjaxResult.success(pageOne);
+  }
+
+  /**
+   * 依据年月获取文章数量
+   * 
+   * @param pageNum
+   * @param pageSize
+   * @return
+   */
+  @GetMapping("/listArticleTimeNum/{pageNum}/{pageSize}")
+  public AjaxResult listArticleTimeNum(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize) {
+    return AjaxResult.success(articleService.listArticleTimeNum(pageNum, pageSize));
   }
 
   @GetMapping("/getArticleNum/{themeName}")

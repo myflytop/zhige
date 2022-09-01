@@ -2,6 +2,7 @@ package com.oly.cms.general.taglib;
 
 import java.util.List;
 
+import com.oly.cms.common.model.TimeNum;
 import com.oly.cms.common.model.enums.ArticleEditTypeEnums;
 import com.oly.cms.common.model.enums.ArticleKeyTypeEnums;
 import com.oly.cms.common.model.enums.OrderEnums;
@@ -20,10 +21,25 @@ public class ArticleTag {
     @Autowired
     private GeneralArticleCacheService webPostService;
 
+    /**
+     * 获取文章数量
+     * 
+     * @param themeName
+     * @return
+     */
     public int getArticleNum(String themeName) {
-
         return webPostService.getArticleNum(themeName);
+    }
 
+    /**
+     * 依据年月获取文章数量
+     * 
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public List<TimeNum> listArticleTimeNum(int pageNum, int pageSize) {
+        return webPostService.listArticleTimeNum(pageNum, pageSize);
     }
 
     /**

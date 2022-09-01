@@ -3,6 +3,7 @@ package com.oly.cms.general.service.cache;
 import java.util.List;
 
 import com.oly.cms.common.constant.CacheConstant;
+import com.oly.cms.common.model.TimeNum;
 import com.oly.cms.common.model.enums.ArticleEditTypeEnums;
 import com.oly.cms.common.model.enums.ArticleKeyTypeEnums;
 import com.oly.cms.common.model.enums.OrderEnums;
@@ -45,6 +46,11 @@ public class GeneralArticleCacheService {
     @Cacheable(keyGenerator = "myKeyGenerator")
     public int getArticleNum(String themeName) {
         return articleServiceImpl.getArticleNum(themeName);
+    }
+
+    @Cacheable(keyGenerator = "myKeyGenerator")
+    public List<TimeNum> listArticleTimeNum(int pageNum, int pageSize) {
+        return articleServiceImpl.listArticleTimeNum(pageNum, pageSize);
     }
 
     /**

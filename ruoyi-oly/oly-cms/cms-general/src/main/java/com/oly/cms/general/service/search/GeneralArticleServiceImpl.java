@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
+import com.oly.cms.common.model.TimeNum;
 import com.oly.cms.common.model.enums.ArticleEditTypeEnums;
 import com.oly.cms.common.model.enums.ArticleKeyTypeEnums;
 import com.oly.cms.common.model.enums.OrderEnums;
@@ -151,5 +152,10 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
             return webSearchMapper.getArticleNum();
         }
         return webSearchMapper.getArticleNumUnion(themeName);
+    }
+
+    public List<TimeNum> listArticleTimeNum(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return webSearchMapper.listArticleTimeNum();
     }
 }

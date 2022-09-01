@@ -2,6 +2,7 @@ package com.oly.cms.general.mapper;
 
 import java.util.List;
 
+import com.oly.cms.common.model.TimeNum;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.po.WebArticle;
 
@@ -31,5 +32,7 @@ public interface ArticleSearchMapper {
     int getArticleNumUnion(String themeName);
 
     int getArticleNum();
+
+    List<TimeNum> listArticleTimeNum();
 
 }
