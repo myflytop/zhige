@@ -29,6 +29,8 @@ public class RuoYiApplication {
             workPath = YamlUtil.yamlPropertiesByFile("zg.profile", ymlFile).toString();
             appointProfile = BooleanUtil
                     .toBoolean(YamlUtil.yamlPropertiesByFile("zg.appointProfile", ymlFile).toString());
+            // 覆盖默认配置
+            System.setProperty("spring.config.additional-location", "file:" + ymlFile.getParent() + File.separator);
         } else {
             workPath = YamlUtil.yamlPropertiesByResources("zg.profile", "application.yml").toString();
             appointProfile = BooleanUtil.toBoolean(
@@ -43,8 +45,6 @@ public class RuoYiApplication {
         System.setProperty("tmp_path", Paths.get(workPath, OlyStageRoot.TMP_DIR.getValue()).toString());
         // 缓存目录
         System.setProperty("cache_path", Paths.get(workPath, OlyStageRoot.CACHE_DIR.getValue()).toString());
-        // 覆盖默认配置
-        System.setProperty("spring.config.additional-location", "file:" + ymlFile.getParent() + File.separator);
     }
 
     public static void main(String[] args) {
