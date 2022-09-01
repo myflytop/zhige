@@ -54,6 +54,12 @@ public class ArticleApiController extends BaseController {
     return AjaxResult.success(articleService.listArticleTimeNum(pageNum, pageSize));
   }
 
+  /**
+   * 依据主题名获取所有文章数量
+   * 
+   * @param themeName
+   * @return
+   */
   @GetMapping("/getArticleNum/{themeName}")
   public AjaxResult getArticleNum(@PathVariable(name = "themeName", required = false) String themeName) {
 

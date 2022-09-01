@@ -23,6 +23,8 @@ public class WebArticleSearchParam implements Serializable {
     private Integer articleTop;
     /* 主题名 */
     private String themeName;
+    /* 开始时间 如2022-08 */
+    private String crTime;
 
     public String getArticleTitle() {
         return articleTitle;
@@ -112,19 +114,12 @@ public class WebArticleSearchParam implements Serializable {
         this.themeName = themeName;
     }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("WebSearchParam{");
-        sb.append("articleTitle='").append(articleTitle).append('\'');
-        sb.append(", articleBuild=").append(articleBuild);
-        sb.append(", articleType=").append(articleType);
-        sb.append(", createBy=").append(createBy);
-        sb.append(", catId=").append(catId);
-        sb.append(", tagId=").append(tagId);
-        sb.append(", articleTop=").append(articleTop);
-        sb.append(", themeName=").append(getThemeName());
-        sb.append('}');
-        return sb.toString();
+    public String getCrTime() {
+        return crTime;
+    }
+
+    public void setCrTime(String crTime) {
+        this.crTime = crTime;
     }
 
 }
