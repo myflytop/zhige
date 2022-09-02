@@ -17,56 +17,61 @@ import org.springframework.stereotype.Service;
 @Service("articleCountSortTag")
 public class ArticleCountSortTag {
 
-    @Autowired
-    private GeneralArticleVoCacheService webArticleSortService;
+        @Autowired
+        private GeneralArticleVoCacheService webArticleSortService;
 
-    public List<WebArticleVo> listWebArticleOrder(int pageNum, int pageSize, ArticleCountSortEnum sort,
-            OrderEnums order) {
-        return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, null, null, null, null,
-                sort.getOrder(order));
-    }
+        public List<WebArticleVo> listWebArticleOrder(int pageNum, int pageSize, ArticleCountSortEnum sort,
+                        OrderEnums order) {
+                return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, null, null, null, null,
+                                sort.getOrder(order));
+        }
 
-    public List<WebArticleVo> listWebArticleOrder(int pageNum, int pageSize, String themeName,
-            ArticleCountSortEnum sort, OrderEnums order) {
-        return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, null, null, null, themeName,
-                sort.getOrder(order));
-    }
+        public List<WebArticleVo> listWebArticleOrder(int pageNum, int pageSize, String themeName,
+                        ArticleCountSortEnum sort, OrderEnums order) {
+                return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, null, null, null, themeName,
+                                sort.getOrder(order));
+        }
 
-    public List<WebArticleVo> listWebArticleOrderByType(int pageNum, int pageSize, Integer articleType,
-            String themeName,
-            ArticleCountSortEnum sort, OrderEnums order) {
-        return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, articleType, null, null, themeName,
-                sort.getOrder(order));
-    }
+        public List<WebArticleVo> listWebArticleOrderByType(int pageNum, int pageSize, Integer articleType,
+                        String themeName,
+                        ArticleCountSortEnum sort, OrderEnums order) {
+                return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, articleType, null, null, themeName,
+                                sort.getOrder(order));
+        }
 
-    public List<WebArticleVo> listWebArticleOrderByCatId(int pageNum, int pageSize, long catId,
-            String themeName,
-            ArticleCountSortEnum sort, OrderEnums order) {
-        return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, null, catId, null, themeName,
-                sort.getOrder(order));
-    }
+        public List<WebArticleVo> listWebArticleOrderByCatId(int pageNum, int pageSize, long catId,
+                        String themeName,
+                        ArticleCountSortEnum sort, OrderEnums order) {
+                return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, null, catId, null, themeName,
+                                sort.getOrder(order));
+        }
 
-    public List<WebArticleVo> listWebArticleOrderByTagId(int pageNum, int pageSize, long tagId,
-            String themeName,
-            ArticleCountSortEnum sort, OrderEnums order) {
-        return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, null, null, tagId, themeName,
-                sort.getOrder(order));
-    }
+        public List<WebArticleVo> listWebArticleOrderByTagId(int pageNum, int pageSize, long tagId,
+                        String themeName,
+                        ArticleCountSortEnum sort, OrderEnums order) {
+                return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, null, null, tagId, themeName,
+                                sort.getOrder(order));
+        }
 
-    public List<WebArticleVo> listArticlesVo(int num, int size, Integer articleType, Long catId, Long tagId,
-            String themeName,
-            ArticleCountSortEnum sort, OrderEnums order) {
-        return webArticleSortService.listArticlesVoOrder(num, size, articleType, catId, tagId, themeName,
-                sort.getOrder(order));
-    }
+        public List<WebArticleVo> listWebArticleOrderByTagId(String themeName, int pageNum, int pageSize, long tagId) {
+                return webArticleSortService.listArticlesVoOrder(pageNum, pageSize, null, null, tagId, themeName,
+                                ArticleCountSortEnum.TIME.getOrder(OrderEnums.DESC));
+        }
 
-    public List<WebArticleVo> listArticleVo(WebArticleSearchParam bb) {
-        return webArticleSortService.listArticleVo(bb);
-    }
+        public List<WebArticleVo> listArticlesVo(int num, int size, Integer articleType, Long catId, Long tagId,
+                        String themeName,
+                        ArticleCountSortEnum sort, OrderEnums order) {
+                return webArticleSortService.listArticlesVoOrder(num, size, articleType, catId, tagId, themeName,
+                                sort.getOrder(order));
+        }
 
-    public List<WebArticleVo> listArticleVoOrder(int num, int size, WebArticleSearchParam bb,
-            String order) {
-        return webArticleSortService.listArticleVoOrder(num, size, bb, order);
-    }
+        public List<WebArticleVo> listArticleVo(WebArticleSearchParam bb) {
+                return webArticleSortService.listArticleVo(bb);
+        }
+
+        public List<WebArticleVo> listArticleVoOrder(int num, int size, WebArticleSearchParam bb,
+                        String order) {
+                return webArticleSortService.listArticleVoOrder(num, size, bb, order);
+        }
 
 }
