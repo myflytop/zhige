@@ -84,6 +84,16 @@ public class CategoryTag {
     /**
      * 分类树
      * 
+     * @param themeName
+     * @return
+     */
+    public CmsCat getCatTreeByThemeName(String themeName) {
+        return catCacheService.selectCmsCatsTrees(null, null, null, null, null, themeName);
+    }
+
+    /**
+     * 分类树
+     * 
      * @param catId
      * @param themeName
      * @return
