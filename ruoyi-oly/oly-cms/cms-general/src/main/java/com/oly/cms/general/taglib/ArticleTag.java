@@ -230,7 +230,7 @@ public class ArticleTag {
      * @return
      */
     public PageData pagePosts(String themeName, int pageNum, int pageSize) {
-        List<WebArticle> list = webPostService.listWebArticlesOrder(pageNum, pageSize, null, null, null, null,
+        List<WebArticle> list = webPostService.listWebArticlesOrder(pageNum, pageSize, null, null, null, themeName,
                 OrderEnums.DESC);
         PageData pageOne = PageData.getData(list);
         return pageOne;
