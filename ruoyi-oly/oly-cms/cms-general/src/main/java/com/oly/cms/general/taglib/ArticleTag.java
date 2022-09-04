@@ -237,6 +237,38 @@ public class ArticleTag {
     }
 
     /**
+     * 文章列表通过标签ID
+     * 
+     * @param themeName
+     * @param pageNum
+     * @param pageSize
+     * @param tagId
+     * @return
+     */
+    public PageData pagePostsByTagId(String themeName, long tagId, int pageNum, int pageSize) {
+        List<WebArticle> list = webPostService.listWebArticlesOrder(pageNum, pageSize, null, null, tagId, themeName,
+                OrderEnums.DESC);
+        PageData pageOne = PageData.getData(list);
+        return pageOne;
+    }
+
+    /**
+     * 文章列表通过分类ID
+     * 
+     * @param themeName
+     * @param pageNum
+     * @param pageSize
+     * @param catId
+     * @return
+     */
+    public PageData pagePostsByCatId(String themeName, long catId, int pageNum, int pageSize) {
+        List<WebArticle> list = webPostService.listWebArticlesOrder(pageNum, pageSize, null, catId, null, themeName,
+                OrderEnums.DESC);
+        PageData pageOne = PageData.getData(list);
+        return pageOne;
+    }
+
+    /**
      * 验证是文章否支持评论
      * 
      * @param articleId
