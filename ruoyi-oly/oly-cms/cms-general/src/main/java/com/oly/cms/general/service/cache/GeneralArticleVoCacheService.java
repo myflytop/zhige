@@ -37,4 +37,14 @@ public class GeneralArticleVoCacheService {
         return webSortService.listArticleVoOrder(num, size, articleType, catId, tagId, themeName, order);
     }
 
+    @Cacheable(keyGenerator = "myKeyGenerator")
+    public WebArticleVo selectNextArticle(long articleId) {
+        return webSortService.selectNextArticle(articleId);
+    }
+
+    @Cacheable(keyGenerator = "myKeyGenerator")
+    public WebArticleVo selectPreArticle(long articleId) {
+        return webSortService.selectPreArticle(articleId);
+    }
+
 }

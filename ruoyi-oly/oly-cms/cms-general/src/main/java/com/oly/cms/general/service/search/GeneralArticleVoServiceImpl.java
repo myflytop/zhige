@@ -42,4 +42,12 @@ public class GeneralArticleVoServiceImpl implements IGeneralSearchService {
         return this.listArticleVoOrder(num, size, bb, order);
     }
 
+    public WebArticleVo selectPreArticle(long articleId) {
+        return webArticleSortMapper.selectPreArticle(articleId);
+    }
+
+    public WebArticleVo selectNextArticle(long articleId) {
+        return webArticleSortMapper.selectNextArticle(articleId);
+    }
+
 }

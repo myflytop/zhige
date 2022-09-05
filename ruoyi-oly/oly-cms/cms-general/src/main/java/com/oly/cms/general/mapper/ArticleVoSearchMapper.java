@@ -12,4 +12,20 @@ import com.oly.cms.general.model.vo.WebArticleVo;
 public interface ArticleVoSearchMapper {
 
     List<WebArticleVo> listWebArticleVo(WebArticleSearchParam bb);
+
+    /**
+     * 上一天记录
+     * 
+     * @param articleId
+     * @return
+     */
+    WebArticleVo selectPreArticle(long articleId);
+
+    /**
+     * 下一条记录
+     * 
+     * @param articleId
+     * @return
+     */
+    WebArticleVo selectNextArticle(long articleId);
 }
