@@ -14,7 +14,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/")
@@ -171,13 +170,17 @@ public class WebPageController {
      * @return
      */
     @WebLog(title = "时间线", logType = WebLogType.PAGE)
-    @GetMapping(value = { "/timeLine", "/timeLine/page/{pageNum}", "/{themeName}/timeLine",
-            "/{themeName}/timeLine/page/{pageNum}" })
-    public String timeLine(@PathVariable(name = "themeName", required = false) String themeName, ModelMap modelMap,
+    @GetMapping(value = { "/timeLine", "/timeLine/page/{pageNum}/{pageSize}", "/{themeName}/timeLine",
+            "/{themeName}/timeLine/page/{pageNum}/{pageSize}" })
+    public String timeLine(@PathVariable(name = "themeName", required = false) String themeName,
+            ModelMap modelMap,
             @PathVariable(name = "pageNum", required = false) Integer pageNum,
-            @RequestParam(defaultValue = "20") int pageSize) {
+            @PathVariable(name = "pageSize", required = false) Integer pageSize) {
         if (pageNum == null) {
             pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 20;
         }
         return webPageService.timeLine(themeName, modelMap, pageNum, pageSize);
     }

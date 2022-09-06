@@ -220,7 +220,8 @@ public class WebPageService extends CommonController {
      */
     public String timeLine(String themeName, ModelMap mp, Integer pageNum, Integer pageSize) {
         mp.put("menu", getCmsColumn(themeName, OlyWebConfigProperties.PAGE_TIMELINE));
-        mp.put("timeData", webPostService.groupByTime(pageNum, pageSize, getThemeName(themeName)));
+        mp.put("pageNum", pageNum);
+        mp.put("pageSize", pageSize);
         return getPrefix(themeName, "/pages/web/timeLine", mp);
     }
 
