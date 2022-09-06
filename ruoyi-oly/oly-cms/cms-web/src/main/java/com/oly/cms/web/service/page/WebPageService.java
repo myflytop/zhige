@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.github.pagehelper.PageHelper;
 import com.oly.cms.common.domain.entity.CmsCat;
 import com.oly.cms.common.domain.entity.CmsTag;
 import com.oly.cms.common.model.properties.OlyWebConfigProperties;
@@ -115,6 +117,7 @@ public class WebPageService extends CommonController {
                 bl.setTagId(tagId);
                 List<WebArticle> list = new ArrayList<>();
                 startPage();
+                PageHelper.orderBy("create_time desc");
                 list = webPostService.listWebArticles(bl);
                 pageOne = PageData.getData(list);
             } else {
@@ -160,6 +163,7 @@ public class WebPageService extends CommonController {
                 bl.setCatId(catId);
                 List<WebArticle> list = new ArrayList<>();
                 startPage();
+                PageHelper.orderBy("create_time desc");
                 list = webPostService.listWebArticles(bl);
                 pageOne = PageData.getData(list);
             } else {
