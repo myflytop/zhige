@@ -217,10 +217,18 @@ public class ArticleApiController extends BaseController {
     return AjaxResult.success(articleService.listWebArticleByType(type, num, size));
   }
 
-  @GetMapping("/groupByTime/{themeName}/{num}/{size}")
+  /**
+   * 
+   * @param pageNum   页数
+   * @param pageSize  大小
+   * @param themeName 主题名字
+   * @param crTime    时间
+   * @return
+   */
+  @GetMapping({ "/groupByTime/{themeName}/{num}/{size}/{crTime}", "/groupByTime/{themeName}/{num}/{size}" })
   public PageArticleTimeLine groupByTime(@PathVariable("num") int pageNum, @PathVariable("size") int pageSize,
-      @PathVariable("themeName") String themeName) {
-    return articleService.groupByTime(pageNum, pageSize, themeName);
+      @PathVariable("themeName") String themeName, @PathVariable(name = "crTime", required = false) String crTime) {
+    return articleService.groupByTime(pageNum, pageSize, themeName, crTime);
   }
 
 }

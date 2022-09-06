@@ -1,7 +1,5 @@
 package com.oly.cms.general.service.search;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,6 +19,7 @@ import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.po.WebArticle;
 import com.oly.cms.general.service.IGeneralSearchService;
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.config.service.ISysConfigService;
 
@@ -128,12 +127,13 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
         List<WebArticle> list = this.listWebArticles(bb);
         // 按照时间分组
         Map<String, List<WebArticle>> map = list.stream()
-                .collect(Collectors.groupingBy(webArticle -> neData(webArticle.getCreateTime())));
+                .collect(Collectors.groupingBy(webArticle -> DateUtils.neData(webArticle.getCreateTime())));
         return PageArticleTimeLine.getData(list, map);
     }
 
-    public PageArticleTimeLine groupByTime(int pageNum, int pageSize, String themeName) {
+    public PageArticleTimeLine groupByTime(int pageNum, int pageSize, String themeName, String crTime) {
         WebArticleSearchParam bb = new WebArticleSearchParam();
+        bb.setCrTime(crTime);
         if (!isSupportType(themeName)) {
             bb.setThemeName(themeName);
         }
@@ -142,12 +142,6 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
 
     public boolean allowComment(long postId) {
         return webSearchMapper.allowComment(postId);
-    }
-
-    private String neData(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-        String newDate = sdf.format(date);
-        return newDate;
     }
 
     public int getArticleNum(String themeName) {

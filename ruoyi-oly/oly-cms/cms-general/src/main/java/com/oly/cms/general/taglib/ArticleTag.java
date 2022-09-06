@@ -289,8 +289,8 @@ public class ArticleTag {
         return webPostService.listWebArticles(bb);
     }
 
-    public PageArticleTimeLine groupByTime(int pageNum, int pageSize, String themeName) {
-        return webPostService.groupByTime(pageNum, pageSize, themeName);
+    public PageArticleTimeLine groupByTime(int pageNum, int pageSize, String themeName, String crTime) {
+        return webPostService.groupByTime(pageNum, pageSize, themeName, crTime);
     }
 
 }

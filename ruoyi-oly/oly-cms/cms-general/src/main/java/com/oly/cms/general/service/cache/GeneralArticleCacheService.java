@@ -39,8 +39,8 @@ public class GeneralArticleCacheService {
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")
-    public PageArticleTimeLine groupByTime(int pageNum, int pageSize, String themeName) {
-        return articleServiceImpl.groupByTime(pageNum, pageSize, themeName);
+    public PageArticleTimeLine groupByTime(int pageNum, int pageSize, String themeName, String crTime) {
+        return articleServiceImpl.groupByTime(pageNum, pageSize, themeName, crTime);
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")

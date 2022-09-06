@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.oly.cms.common.model.enums.OrderEnums;
+import com.oly.cms.general.model.PageArticleVoTimeLine;
 import com.oly.cms.general.model.enums.ArticleCountSortEnum;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.vo.WebArticleVo;
@@ -95,6 +96,11 @@ public class ArticleCountSortTag {
         public List<WebArticleVo> listArticleVoOrder(int num, int size, WebArticleSearchParam bb,
                         String order) {
                 return webArticleSortService.listArticleVoOrder(num, size, bb, order);
+        }
+
+        public PageArticleVoTimeLine groupByTime(int pageNum, int pageSize, String themeName, String crTime) {
+
+                return webArticleSortService.groupByTime(pageNum, pageSize, themeName, crTime);
         }
 
 }

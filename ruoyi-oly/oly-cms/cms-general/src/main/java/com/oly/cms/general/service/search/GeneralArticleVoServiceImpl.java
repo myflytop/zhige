@@ -1,16 +1,20 @@
 package com.oly.cms.general.service.search;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.oly.cms.common.model.properties.OlyWebConfigProperties;
 import com.oly.cms.general.mapper.ArticleVoSearchMapper;
+import com.oly.cms.general.model.PageArticleVoTimeLine;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.vo.WebArticleVo;
 import com.oly.cms.general.service.IGeneralSearchService;
 import com.ruoyi.system.config.service.ISysConfigService;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 
 /**
@@ -56,7 +60,7 @@ public class GeneralArticleVoServiceImpl implements IGeneralSearchService {
      * @return
      */
     private boolean isSupportType(String themeName) {
-        if (StringUtils.isNotEmpty(themeName)) {
+        if (StringUtils.isEmpty(themeName)) {
             return true;
         } else {
             return StringUtils
@@ -70,6 +74,24 @@ public class GeneralArticleVoServiceImpl implements IGeneralSearchService {
 
     public WebArticleVo selectNextArticle(long articleId) {
         return webArticleSortMapper.selectNextArticle(articleId);
+    }
+
+    public PageArticleVoTimeLine groupByTime(int pageNum, int pageSize, WebArticleSearchParam bb) {
+        PageHelper.startPage(pageNum, pageSize, "create_time desc");
+        List<WebArticleVo> list = this.listArticleVo(bb);
+        // 按照时间分组
+        Map<String, List<WebArticleVo>> map = list.stream()
+                .collect(Collectors.groupingBy(webArticleVo -> DateUtils.neData(webArticleVo.getCreateTime())));
+        return PageArticleVoTimeLine.getData(list, map);
+    }
+
+    public PageArticleVoTimeLine groupByTime(int pageNum, int pageSize, String themeName, String crTime) {
+        WebArticleSearchParam bb = new WebArticleSearchParam();
+        bb.setCrTime(crTime);
+        if (!isSupportType(themeName)) {
+            bb.setThemeName(themeName);
+        }
+        return this.groupByTime(pageNum, pageSize, bb);
     }
 
 }

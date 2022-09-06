@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.oly.cms.common.constant.CacheConstant;
+import com.oly.cms.general.model.PageArticleVoTimeLine;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.vo.WebArticleVo;
 import com.oly.cms.general.service.search.GeneralArticleVoServiceImpl;
@@ -55,6 +56,11 @@ public class GeneralArticleVoCacheService {
         mp.put("next", webSortService.selectNextArticle(articleId));
         mp.put("pre", webSortService.selectPreArticle(articleId));
         return mp;
+    }
+
+    @Cacheable(keyGenerator = "myKeyGenerator")
+    public PageArticleVoTimeLine groupByTime(int pageNum, int pageSize, String themeName, String crTime) {
+        return webSortService.groupByTime(pageNum, pageSize, themeName, crTime);
     }
 
 }

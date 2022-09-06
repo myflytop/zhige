@@ -217,4 +217,10 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         }
     }
 
+    public static String neData(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        String newDate = sdf.format(date);
+        return newDate;
+    }
+
 }
