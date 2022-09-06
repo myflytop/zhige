@@ -171,7 +171,8 @@ public class WebPageController {
      * @return
      */
     @WebLog(title = "时间线", logType = WebLogType.PAGE)
-    @GetMapping(value = { "/timeLine", "/timeLine/page/{pageNum}", "/{themeName}/timeLine/page/{pageNum}" })
+    @GetMapping(value = { "/timeLine", "/timeLine/page/{pageNum}", "/{themeName}/timeLine",
+            "/{themeName}/timeLine/page/{pageNum}" })
     public String timeLine(@PathVariable(name = "themeName", required = false) String themeName, ModelMap modelMap,
             @PathVariable(name = "pageNum", required = false) Integer pageNum,
             @RequestParam(defaultValue = "20") int pageSize) {

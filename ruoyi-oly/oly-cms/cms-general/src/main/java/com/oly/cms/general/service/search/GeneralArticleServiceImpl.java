@@ -114,7 +114,9 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
             String themeName,
             OrderEnums order) {
         WebArticleSearchParam bb = new WebArticleSearchParam();
-        bb.setThemeName(themeName);
+        if (!isSupportType(themeName)) {
+            bb.setThemeName(themeName);
+        }
         bb.setArticleType(articleType);
         bb.setCatId(catId);
         bb.setTagId(tagId);
@@ -132,7 +134,9 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
 
     public PageArticleTimeLine groupByTime(int pageNum, int pageSize, String themeName) {
         WebArticleSearchParam bb = new WebArticleSearchParam();
-        bb.setThemeName(themeName);
+        if (!isSupportType(themeName)) {
+            bb.setThemeName(themeName);
+        }
         return this.groupByTime(pageNum, pageSize, bb);
     }
 
@@ -147,11 +151,26 @@ public class GeneralArticleServiceImpl implements IGeneralSearchService {
     }
 
     public int getArticleNum(String themeName) {
-        if (StringUtils.isEmpty(themeName) || StringUtils
-                .isEmpty(configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES))) {
+        if (isSupportType(themeName)) {
             return webSearchMapper.getArticleNum();
         }
         return webSearchMapper.getArticleNumUnion(themeName);
+    }
+
+    /**
+     * 自此类型是否为空
+     * 主题名为空默认支持所有类型
+     * 
+     * @param themeName
+     * @return
+     */
+    private boolean isSupportType(String themeName) {
+        if (StringUtils.isEmpty(themeName)) {
+            return true;
+        } else {
+            return StringUtils
+                    .isEmpty(configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
+        }
     }
 
     public List<TimeNum> listArticleTimeNum(int pageNum, int pageSize) {

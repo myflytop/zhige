@@ -53,19 +53,24 @@
 			<if test="themeName != null and themeName != ''">
 				<!-- 支持主题 -->
 				and a.article_id in(select article_id from cms_article_theme where theme_name=#{themeName})
-			</if>
+		</if>
+			<if test="crTime!=null and crTime!=''">
+				and date_format(create_time,'%Y-%m') = #{crTime}
+		</if>
 			and visible=3
 		</where>
 		GROUP BY a.article_id
 	</select>
 
 	<select id="selectPreArticle" resultMap="WebArticleVoResult" parameterType="long">
-		select <include refid="article_count_sort_sql" />
+		select
+		<include refid="article_count_sort_sql" />
 		from cms_article a left join cms_article_count c on a.article_id=c.article_id where a.article_id = (select b.article_id from cms_article b where b.article_id &lt; #{articleId} order by b.article_id desc limit 1)
 	</select>
 
 	<select id="selectNextArticle" resultMap="WebArticleVoResult" parameterType="long">
-		select <include refid="article_count_sort_sql" />
+		select
+		<include refid="article_count_sort_sql" />
 		from cms_article a left join cms_article_count c on a.article_id=c.article_id where a.article_id = (select b.article_id from cms_article b where b.article_id &gt; #{articleId} order by b.article_id asc limit 1)
 	</select>
 
