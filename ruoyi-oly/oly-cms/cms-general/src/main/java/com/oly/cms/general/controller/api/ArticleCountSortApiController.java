@@ -24,10 +24,9 @@ public class ArticleCountSortApiController extends BaseController {
     @Autowired
     private GeneralArticleVoCacheService articleCountService;
 
-    @GetMapping({ "/list", "/list/{themeName}" })
+    @GetMapping({ "/list", "/{themeName}/list" })
     public AjaxResult list(@PathVariable(value = "themeName", required = false) String themeName,
             WebArticleSearchParam bb) {
-
         if (StringUtils.isNotEmpty(themeName)) {
             bb.setThemeName(themeName);
         }
@@ -35,6 +34,11 @@ public class ArticleCountSortApiController extends BaseController {
         List<WebArticleVo> list = articleCountService.listArticleVo(bb);
         PageData pageOne = PageData.getData(list);
         return AjaxResult.success(pageOne);
+    }
+
+    @GetMapping("/getPreAndNextArticle/{articleId}")
+    public AjaxResult selectPreAndNextArticle(@PathVariable("articleId") long articleId) {
+        return AjaxResult.success(articleCountService.selectPreAndNextArticle(articleId));
     }
 
 }

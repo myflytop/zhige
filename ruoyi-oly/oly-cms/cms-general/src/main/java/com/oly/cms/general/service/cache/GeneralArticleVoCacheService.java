@@ -1,6 +1,8 @@
 package com.oly.cms.general.service.cache;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.oly.cms.common.constant.CacheConstant;
 import com.oly.cms.general.model.param.WebArticleSearchParam;
@@ -45,6 +47,14 @@ public class GeneralArticleVoCacheService {
     @Cacheable(keyGenerator = "myKeyGenerator")
     public WebArticleVo selectPreArticle(long articleId) {
         return webSortService.selectPreArticle(articleId);
+    }
+
+    @Cacheable(keyGenerator = "myKeyGenerator")
+    public Map<String, WebArticleVo> selectPreAndNextArticle(long articleId) {
+        Map<String, WebArticleVo> mp = new HashMap<>();
+        mp.put("next", webSortService.selectNextArticle(articleId));
+        mp.put("pre", webSortService.selectPreArticle(articleId));
+        return mp;
     }
 
 }

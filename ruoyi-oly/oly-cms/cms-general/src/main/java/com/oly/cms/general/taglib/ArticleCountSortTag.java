@@ -1,6 +1,7 @@
 package com.oly.cms.general.taglib;
 
 import java.util.List;
+import java.util.Map;
 
 import com.oly.cms.common.model.enums.OrderEnums;
 import com.oly.cms.general.model.enums.ArticleCountSortEnum;
@@ -76,11 +77,15 @@ public class ArticleCountSortTag {
         }
 
         public WebArticleVo selectPreArticle(long articleId) {
-                return webArticleSortService.selectPreArticle(articleId);
+                return this.selectPreAndNextArticle(articleId).get("pre");
         }
 
         public WebArticleVo selectNextArticle(long articleId) {
-                return webArticleSortService.selectNextArticle(articleId);
+                return this.selectPreAndNextArticle(articleId).get("next");
+        }
+
+        public Map<String, WebArticleVo> selectPreAndNextArticle(long articleId) {
+                return webArticleSortService.selectPreAndNextArticle(articleId);
         }
 
         public List<WebArticleVo> listArticleVo(WebArticleSearchParam bb) {
