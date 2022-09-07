@@ -41,20 +41,10 @@ public class GeneralArticleVoCacheService {
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")
-    public WebArticleVo selectNextArticle(long articleId) {
-        return webSortService.selectNextArticle(articleId);
-    }
-
-    @Cacheable(keyGenerator = "myKeyGenerator")
-    public WebArticleVo selectPreArticle(long articleId) {
-        return webSortService.selectPreArticle(articleId);
-    }
-
-    @Cacheable(keyGenerator = "myKeyGenerator")
-    public Map<String, WebArticleVo> selectPreAndNextArticle(long articleId) {
+    public Map<String, WebArticleVo> selectPreAndNextArticle(long articleId, String themeName) {
         Map<String, WebArticleVo> mp = new HashMap<>();
-        mp.put("next", webSortService.selectNextArticle(articleId));
-        mp.put("pre", webSortService.selectPreArticle(articleId));
+        mp.put("next", webSortService.selectNextArticle(articleId, themeName));
+        mp.put("pre", webSortService.selectPreArticle(articleId, themeName));
         return mp;
     }
 

@@ -2,6 +2,8 @@ package com.oly.cms.general.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.oly.cms.general.model.param.WebArticleSearchParam;
 import com.oly.cms.general.model.vo.WebArticleVo;
 
@@ -14,18 +16,20 @@ public interface ArticleVoSearchMapper {
     List<WebArticleVo> listWebArticleVo(WebArticleSearchParam bb);
 
     /**
-     * 上一天记录
+     * 上一条记录
      * 
      * @param articleId
+     * @param themeName
      * @return
      */
-    WebArticleVo selectPreArticle(long articleId);
+    WebArticleVo selectPreArticle(@Param("articleId") long articleId, @Param("themeName") String themeName);
 
     /**
      * 下一条记录
      * 
      * @param articleId
+     * @param themeName
      * @return
      */
-    WebArticleVo selectNextArticle(long articleId);
+    WebArticleVo selectNextArticle(@Param("articleId") long articleId, @Param("themeName") String themeName);
 }

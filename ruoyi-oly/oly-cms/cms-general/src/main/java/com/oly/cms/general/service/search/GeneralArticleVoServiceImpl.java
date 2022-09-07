@@ -52,28 +52,18 @@ public class GeneralArticleVoServiceImpl implements IGeneralSearchService {
         return this.listArticleVoOrder(num, size, bb, order);
     }
 
-    /**
-     * 自此类型是否为空
-     * 主题名为空默认支持所有类型
-     * 
-     * @param themeName
-     * @return
-     */
-    private boolean isSupportType(String themeName) {
-        if (StringUtils.isEmpty(themeName)) {
-            return true;
-        } else {
-            return StringUtils
-                    .isEmpty(configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
+    public WebArticleVo selectPreArticle(long articleId, String themeName) {
+        if (isSupportType(themeName)) {
+            themeName = null;
         }
+        return webArticleSortMapper.selectPreArticle(articleId, themeName);
     }
 
-    public WebArticleVo selectPreArticle(long articleId) {
-        return webArticleSortMapper.selectPreArticle(articleId);
-    }
-
-    public WebArticleVo selectNextArticle(long articleId) {
-        return webArticleSortMapper.selectNextArticle(articleId);
+    public WebArticleVo selectNextArticle(long articleId, String themeName) {
+        if (isSupportType(themeName)) {
+            themeName = null;
+        }
+        return webArticleSortMapper.selectNextArticle(articleId, themeName);
     }
 
     public PageArticleVoTimeLine groupByTime(int pageNum, int pageSize, WebArticleSearchParam bb) {
@@ -92,6 +82,22 @@ public class GeneralArticleVoServiceImpl implements IGeneralSearchService {
             bb.setThemeName(themeName);
         }
         return this.groupByTime(pageNum, pageSize, bb);
+    }
+
+    /**
+     * 自此类型是否为空
+     * 主题名为空默认支持所有类型
+     * 
+     * @param themeName
+     * @return
+     */
+    private boolean isSupportType(String themeName) {
+        if (StringUtils.isEmpty(themeName)) {
+            return true;
+        } else {
+            return StringUtils
+                    .isEmpty(configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
+        }
     }
 
 }

@@ -158,31 +158,34 @@ public class ArticleCountSortTag {
         /**
          * 上一条
          * 
+         * @param themeName
          * @param articleId
          * @return
          */
-        public WebArticleVo selectPreArticle(long articleId) {
-                return this.selectPreAndNextArticle(articleId).get("pre");
+        public WebArticleVo selectPreArticle(long articleId, String themeName) {
+                return this.selectPreAndNextArticle(articleId, themeName).get("pre");
         }
 
         /**
          * 下一条
          * 
          * @param articleId
+         * @param themeName
          * @return
          */
-        public WebArticleVo selectNextArticle(long articleId) {
-                return this.selectPreAndNextArticle(articleId).get("next");
+        public WebArticleVo selectNextArticle(long articleId, String themeName) {
+                return this.selectPreAndNextArticle(articleId, themeName).get("next");
         }
 
         /**
          * 上下
          * 
          * @param articleId
+         *                  * @param themeName
          * @return
          */
-        public Map<String, WebArticleVo> selectPreAndNextArticle(long articleId) {
-                return webArticleSortService.selectPreAndNextArticle(articleId);
+        public Map<String, WebArticleVo> selectPreAndNextArticle(long articleId, String themeName) {
+                return webArticleSortService.selectPreAndNextArticle(articleId, themeName);
         }
 
         /**

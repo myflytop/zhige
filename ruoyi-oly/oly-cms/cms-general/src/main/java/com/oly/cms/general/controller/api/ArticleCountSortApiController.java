@@ -36,9 +36,10 @@ public class ArticleCountSortApiController extends BaseController {
         return AjaxResult.success(pageOne);
     }
 
-    @GetMapping("/getPreAndNextArticle/{articleId}")
-    public AjaxResult selectPreAndNextArticle(@PathVariable("articleId") long articleId) {
-        return AjaxResult.success(articleCountService.selectPreAndNextArticle(articleId));
+    @GetMapping("/getPreAndNextArticle/{themeName}/{articleId}")
+    public AjaxResult selectPreAndNextArticle(@PathVariable(value = "themeName") String themeName,
+            @PathVariable("articleId") long articleId) {
+        return AjaxResult.success(articleCountService.selectPreAndNextArticle(articleId, themeName));
     }
 
 }
