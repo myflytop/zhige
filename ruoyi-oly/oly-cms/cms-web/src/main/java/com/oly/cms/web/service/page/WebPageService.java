@@ -109,25 +109,7 @@ public class WebPageService extends CommonController {
      * @return
      */
     public String tag(String themeName, Long tagId, ModelMap mp) {
-        CmsTag tag = cmsTagService.getTagById(tagId);
-        PageData pageOne = null;
-        if (tag != null) {
-            String[] types = StringUtils.split(getSupportType(themeName, OlyWebConfigProperties.ARTICLE_TYPES), ",");
-            if (StringUtils.isEmpty(types) || ArrayUtils.contains(types, tag.getTagType().toString())) {
-                WebArticleSearchParam bl = new WebArticleSearchParam();
-                bl.setTagId(tagId);
-                List<WebArticle> list = new ArrayList<>();
-                startPage();
-                PageHelper.orderBy("create_time desc");
-                list = webPostService.listWebArticles(bl);
-                pageOne = PageData.getData(list);
-            } else {
-                tag = null;
-            }
-        }
-        // 当前查询的标签
-        mp.put("tag", tag);
-        mp.put("posts", pageOne);
+        mp.put("tag", cmsTagService.getTagById(tagId));
         return getPrefix(themeName, "/pages/web/tag", mp);
     }
 
@@ -155,25 +137,7 @@ public class WebPageService extends CommonController {
      * @return
      */
     public String cat(String themeName, Long catId, ModelMap mp) {
-        CmsCat cat = cmsCatService.getCatById(catId);
-        PageData pageOne = null;
-        if (cat != null) {
-            String[] types = StringUtils.split(getSupportType(themeName, OlyWebConfigProperties.ARTICLE_TYPES), ",");
-            if (StringUtils.isEmpty(types) || ArrayUtils.contains(types, cat.getCatType().toString())) {
-                WebArticleSearchParam bl = new WebArticleSearchParam();
-                bl.setCatId(catId);
-                List<WebArticle> list = new ArrayList<>();
-                startPage();
-                PageHelper.orderBy("create_time desc");
-                list = webPostService.listWebArticles(bl);
-                pageOne = PageData.getData(list);
-            } else {
-                cat = null;
-            }
-        }
-        // 当前查询的分类
-        mp.put("cat", cat);
-        mp.put("posts", pageOne);
+        mp.put("cat", cmsCatService.getCatById(catId));
         return getPrefix(themeName, "/pages/web/category", mp);
     }
 
