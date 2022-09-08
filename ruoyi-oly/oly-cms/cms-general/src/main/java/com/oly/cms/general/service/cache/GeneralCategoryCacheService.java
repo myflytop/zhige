@@ -52,4 +52,9 @@ public class GeneralCategoryCacheService {
         return categoryServiceImpl.selectCmsCatsTree(cmsCat);
     }
 
+    @Cacheable(keyGenerator = "myKeyGenerator")
+    public boolean checkSupportCat(String themeName, long catId) {
+        return categoryServiceImpl.checkSupportCat(themeName, catId);
+    }
+
 }

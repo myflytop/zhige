@@ -173,6 +173,11 @@ public class CategoryTag {
         return catCacheService.getCatNum(themeName);
     }
 
+    public boolean checkSupportCat(String themeName, long catId) {
+        return catCacheService.checkSupportCat(themeName, catId);
+
+    }
+
     public List<CmsCat> listCmsCats(CmsCat cmsCat) {
 
         return catCacheService.listCmsCats(cmsCat);

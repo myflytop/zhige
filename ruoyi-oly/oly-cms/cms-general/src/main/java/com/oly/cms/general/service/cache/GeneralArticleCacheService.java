@@ -67,4 +67,5 @@ public class GeneralArticleCacheService {
     public boolean checkArticleSupportComment(String articleId) {
         return articleServiceImpl.allowComment(Convert.toLong(articleId));
     }
+
 }

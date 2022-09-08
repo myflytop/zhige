@@ -35,4 +35,9 @@ public class GeneralTagCacheService {
     public List<CmsTag> listCmsTags(CmsTag cmsTag) {
         return tagServiceImpl.listCmsTags(cmsTag);
     }
+
+    @Cacheable(keyGenerator = "myKeyGenerator")
+    public boolean checkSupportTag(String themeName, long tagId) {
+        return tagServiceImpl.checkSupportTag(themeName, tagId);
+    }
 }

@@ -28,8 +28,14 @@ public class WebPageController {
      * @return
      */
     @WebLog(title = "主页请求", logType = WebLogType.PAGE)
-    @GetMapping(value = { "/", "/index", "/{themeName}/index" })
-    public String index(@PathVariable(name = "themeName", required = false) String themeName, ModelMap mp) {
+    @GetMapping(value = { "/", "/index", "/index/page/{pageNum}", "/{themeName}/index",
+            "/{themeName}/index/page/{pageNum}" })
+    public String index(@PathVariable(name = "themeName", required = false) String themeName,
+            @PathVariable(name = "pageNum", required = false) Integer pageNum, ModelMap mp) {
+        if (pageNum == null) {
+            pageNum = 1;
+            mp.put("pageNum", pageNum);
+        }
         return webPageService.index(themeName, mp);
     }
 
@@ -176,12 +182,6 @@ public class WebPageController {
             ModelMap modelMap,
             @PathVariable(name = "pageNum", required = false) Integer pageNum,
             @PathVariable(name = "pageSize", required = false) Integer pageSize) {
-        if (pageNum == null) {
-            pageNum = 1;
-        }
-        if (pageSize == null) {
-            pageSize = 20;
-        }
         return webPageService.timeLine(themeName, modelMap, pageNum, pageSize);
     }
 

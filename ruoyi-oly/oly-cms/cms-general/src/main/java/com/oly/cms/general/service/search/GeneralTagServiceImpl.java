@@ -10,6 +10,7 @@ import com.ruoyi.common.enums.CommonVisibleEnums;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.config.service.ISysConfigService;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +55,18 @@ public class GeneralTagServiceImpl implements IGeneralSearchService {
             cmsTag.getParams().put("supportType", supportType);
         }
 
+    }
+
+    public boolean checkSupportTag(String themeName, long tagId) {
+        CmsTag tag = tagSearchMapper.selectCmsTagById(tagId);
+        if (tag != null) {
+            String[] types = StringUtils.split(
+                    configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES), ",");
+            if (StringUtils.isEmpty(types) || ArrayUtils.contains(types, tag.getTagType().toString())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

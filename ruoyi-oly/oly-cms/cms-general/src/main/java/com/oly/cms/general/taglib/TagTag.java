@@ -77,6 +77,11 @@ public class TagTag {
         return tagCacheService.getTagNum(themeName);
     }
 
+    public boolean checkSupportTag(String themeName, long tagId) {
+        return tagCacheService.checkSupportTag(themeName, tagId);
+
+    }
+
     public List<CmsTag> listCmsTags(CmsTag cmsTag) {
         return tagCacheService.listCmsTags(cmsTag);
     }

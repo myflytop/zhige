@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-
 import com.github.pagehelper.PageHelper;
 import com.oly.cms.common.domain.entity.CmsCat;
 import com.oly.cms.common.domain.entity.CmsTag;
@@ -19,6 +18,9 @@ import com.oly.cms.general.model.po.WebArticle;
 import com.oly.cms.general.service.cache.GeneralArticleCacheService;
 import com.oly.cms.general.service.cache.GeneralCategoryCacheService;
 import com.oly.cms.general.service.cache.GeneralTagCacheService;
+import com.oly.cms.general.taglib.ArticleTag;
+import com.oly.cms.general.taglib.CategoryTag;
+import com.oly.cms.general.taglib.TagTag;
 import com.oly.cms.web.controller.CommonController;
 import com.ruoyi.common.enums.OlyStageRoot;
 import com.ruoyi.common.utils.StringUtils;
@@ -28,17 +30,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class WebPageService extends CommonController {
     private static final Logger log = LoggerFactory.getLogger(WebPageService.class);
     @Autowired
-    private GeneralCategoryCacheService cmsCatService;
+    private CategoryTag cmsCatService;
     @Autowired
-    private GeneralTagCacheService cmsTagService;
+    private TagTag cmsTagService;
     @Autowired
-    private GeneralArticleCacheService webPostService;
+    private ArticleTag webPostService;
 
     /**
      * 主页
@@ -108,7 +109,7 @@ public class WebPageService extends CommonController {
      * @return
      */
     public String tag(String themeName, Long tagId, ModelMap mp) {
-        CmsTag tag = cmsTagService.getCmsTagByTagId(tagId);
+        CmsTag tag = cmsTagService.getTagById(tagId);
         PageData pageOne = null;
         if (tag != null) {
             String[] types = StringUtils.split(getSupportType(themeName, OlyWebConfigProperties.ARTICLE_TYPES), ",");
@@ -153,8 +154,8 @@ public class WebPageService extends CommonController {
      * @param mp
      * @return
      */
-    public String cat(String themeName, @PathVariable("catId") Long catId, ModelMap mp) {
-        CmsCat cat = cmsCatService.getCmsCatByCatId(catId);
+    public String cat(String themeName, Long catId, ModelMap mp) {
+        CmsCat cat = cmsCatService.getCatById(catId);
         PageData pageOne = null;
         if (cat != null) {
             String[] types = StringUtils.split(getSupportType(themeName, OlyWebConfigProperties.ARTICLE_TYPES), ",");
