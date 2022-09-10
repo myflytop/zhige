@@ -14,6 +14,13 @@
 * 标签：使用Thymeleaf模板,可直接调用service,简化主题开发
 ***
 
+#### 预览地址
+- [主题zgblog预览地址](https://pingpinduo.site)
+- [主题butgo预览地址](https://pingpinduo.site/butgo/index)
+- [后台预览地址](https://pingpinduo.site/admin)
+- 管理员账号admin/admin123  
+- 浏览账号viewer/admin123
+
 ## 目录说明
 ```
 RuoYi
@@ -145,11 +152,7 @@ ruoyi:
   主题还在优化中,想要体验的自己加群下载(qq群:893754716),相关文档还在编写中
 #### 项目地址
 - [后台地址](https://gitee.com/Getawy/zhige)
-- [主题地址](https://gitee.com/Getawy/zgblog)
-- [主题预览地址](https://pingpinduo.site)
-- [后台预览地址](https://pingpinduo.site/admin)
-- 管理员账号admin/admin123  
-- 浏览账号viewer/admin123
+- [主题zgblog地址](https://gitee.com/Getawy/zgblog)
 ## 演示图
 
 <table>
