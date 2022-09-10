@@ -16,10 +16,11 @@
 
 #### 预览地址
 - [主题zgblog预览地址](https://pingpinduo.site)
-- [主题butgo预览地址](https://pingpinduo.site/butgo/index)
+- [主题butgo预览地址](https://pingpinduo.site/butgo/index) 
 - [后台预览地址](https://pingpinduo.site/admin)
 - 管理员账号admin/admin123  
 - 浏览账号viewer/admin123
+- 其中butgo基于hexo的主题butterfly
 
 ## 目录说明
 ```
