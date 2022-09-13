@@ -12,10 +12,17 @@
     <artifactId>cms-search</artifactId> 
     <groupId>com.oly.cms.search</groupId>
     <packaging>jar</packaging>
+    
     <description>
        搜索模块
     </description>
 
+   <dependencies>
+      <dependency>
+         <groupId>com.oly.cms.general</groupId>
+         <artifactId>cms-general</artifactId>
+      </dependency>
+  </dependencies>
   
 
 </project>
