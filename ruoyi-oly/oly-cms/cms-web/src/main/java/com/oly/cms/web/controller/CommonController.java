@@ -34,7 +34,7 @@ public class CommonController extends BaseController {
             if (support) {
                 return themeName + page;
             }
-            return "redirect:/";
+            return "/web/jump";
         } else {
             themeName = configService.selectConfigDefauleValue(
                     OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(), OlyThemeConfigProperties.THEME_USED);
