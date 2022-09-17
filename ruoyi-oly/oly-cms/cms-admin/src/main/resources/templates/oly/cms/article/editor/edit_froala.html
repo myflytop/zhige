@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="utf-8">
 	<th:block th:include="oly/cms/article/article_edit_include :: editHead" />
 	<th:block th:include="include :: oly_froala_css" />
 </head>
-<body class="white-bg" >
+
+<body class="white-bg">
 	<h1 style="display: inline-block;padding-left: 10px;">文章修改</h1>
 
 	<th:block th:include="oly/cms/article/article_edit_include :: editForm(edit='fro',article=${article})" />
-	<th:block th:include="oly/cms/article/article_edit_include :: editFooter(articleSummary=${article.articleSummary})" />
+	<th:block
+		th:include="oly/cms/article/article_edit_include :: editFooter(articleSummary=${article.articleSummary})" />
 	<th:block th:include="include :: oly_froala_js" />
 	<th:block th:include="oly/cms/article/article_edit_include :: editCommonJs" />
 	<script type="text/javascript" th:inline="JavaScript">
-	
+
 		/* 初始化富文本编辑器 */
 		var editor = new FroalaEditor("#editor", {
 			// Set the language code.
@@ -40,12 +43,27 @@
 						var imgs = chooseImg(editorData);
 						if (imgs.length > 0) {
 							$.each(imgs, function (i, val) {
-								$("#chooseImgBox").append("<img class='ophide' src='" + val + "' />")
+								let ii=readyChooseImg.indexOf(val);
+								if (ii== -1) {
+									$("#chooseImgBox").append("<img class='ophide' src='" + val + "' />");
+								}
+								else{
+									$("#chooseImgBox").append("<img class='opshow' src='" + val + "' />");
+								}
+							})
+						}
+
+						if(readyChooseImg.length>0){
+							$.each(readyChooseImg, function (i, val) {
+								let ii=imgs.indexOf(val);
+								if (ii== -1) {
+									$("#chooseImgBox").append("<img class='opshow' src='" + val + "' />");
+								}
 							})
 						}
 
 						//初始化选择事件
-						$("#chooseImgBox").on('click','img',function(){
+						$("#chooseImgBox").on('click', 'img', function () {
 							if ($(this).hasClass("opshow")) {
 								$(this).removeClass("opshow");
 								$(this).addClass("ophide");
@@ -63,7 +81,7 @@
 						});
 
 						$("#uploadImg").on("imgUploaded", function (e, msg) {
-							var rs=msg.data.domain + msg.data.fk;
+							var rs = msg.data.domain + msg.data.fk;
 							imgs.push(rs);
 							$("#chooseImgBox").append("<img class='ophide' src='" + rs + "' />")
 						});
@@ -71,8 +89,8 @@
 						//初始化提交
 						$("#saveArticle").click(function () {
 							let data = $('#form-article-edit').serializeArray();
-							var imgData= getImgSrc($(".opshow"));
-							if (imgData.length> 0) {
+							var imgData = getImgSrc($(".opshow"));
+							if (imgData.length > 0) {
 								data.push({ "name": "articleImg", "value": imgData.join(",") });
 							}
 							data.push({ "name": "articleContent", "value": editorData });

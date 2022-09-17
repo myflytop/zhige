@@ -262,7 +262,15 @@
 			maxTag = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleTag.maxNum') }]],
 		maxCat = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleCat.maxNum') }]],
 		maxPhoto = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleImg.maxNum') }]],
-		maxKeyword = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleKeyword.maxNum') }]];
+		maxKeyword = [[${@configTag.getKey('cmsConfig', 'oly.cms.articleKeyword.maxNum') }]],
+		readyChooseImg=[[${article.articleImg}]];
+		if(readyChooseImg!=null)
+		{
+			readyChooseImg=readyChooseImg.split(',');
+		}
+		else{
+			readyChooseImg=[];
+		}
 		var imgConfig = { element: "uploadImg", maxNum: 1, uploadUrl: uploadUrl };
 
 		//基本验证

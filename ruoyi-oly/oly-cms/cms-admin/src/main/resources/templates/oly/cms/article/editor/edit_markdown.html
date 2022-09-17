@@ -87,7 +87,22 @@
 						var imgs = chooseImg(editorData);
 						if (imgs.length > 0) {
 							$.each(imgs, function (i, val) {
-								$("#chooseImgBox").append("<img class='ophide' src='" + val + "' />")
+								let ii=readyChooseImg.indexOf(val);
+								if (ii== -1) {
+									$("#chooseImgBox").append("<img class='ophide' src='" + val + "' />");
+								}
+								else{
+									$("#chooseImgBox").append("<img class='opshow' src='" + val + "' />");
+								}
+							})
+						}
+
+						if(readyChooseImg.length>0){
+							$.each(readyChooseImg, function (i, val) {
+								let ii=imgs.indexOf(val);
+								if (ii== -1) {
+									$("#chooseImgBox").append("<img class='opshow' src='" + val + "' />");
+								}
 							})
 						}
 						
