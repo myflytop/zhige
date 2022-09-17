@@ -38,17 +38,17 @@ public class SysLoginController extends BaseController {
     private ISysConfigService configService;
 
     @GetMapping("/login")
-    public String login(HttpServletRequest request, HttpServletResponse response, ModelMap mmap,
+    public String login(HttpServletRequest request, HttpServletResponse response, ModelMap map,
             @RequestParam(required = false, defaultValue = "admin") String toUrl) {
         // 如果是Ajax请求，返回Json字符串。
         if (ServletUtils.isAjaxRequest(request)) {
             return ServletUtils.renderString(response, "{\"code\":\"1\",\"msg\":\"未登录或登录超时。请重新登录\"}");
         }
         // 是否开启记住我
-        mmap.put("isRemembered", rememberMe);
-        mmap.put("toUrl", toUrl);
+        map.put("isRemembered", rememberMe);
+        map.put("toUrl", toUrl);
         // 是否开启用户注册
-        mmap.put("isAllowRegister",
+        map.put("isAllowRegister",
                 Convert.toBool(configService.selectConfigByGk("sysUser", "sys.account.registerUser"), false));
 
         return "login";
