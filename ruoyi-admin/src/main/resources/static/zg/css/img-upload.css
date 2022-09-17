@@ -63,6 +63,7 @@
 
   .upload-content .content-img-list-item img {
     width: 100%;
+    height: 100%;
   }
 
   /*.upload-content .upload-tips {
