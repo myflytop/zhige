@@ -39,7 +39,7 @@ logging:
   level:
     root: info
     com.ruoyi: info
-    org.springframework: warn
+    org.springframework: info
     com.oly: info
 # 用户配置
 user:
