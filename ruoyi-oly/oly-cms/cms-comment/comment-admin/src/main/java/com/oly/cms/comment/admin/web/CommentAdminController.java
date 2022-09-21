@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.oly.cms.comment.model.CmsComment;
 import com.oly.cms.comment.model.CmsCommentHand;
 import com.oly.cms.comment.model.enums.CommentVisibleEnums;
-import com.oly.cms.comment.servie.ICmsCommentHandService;
-import com.oly.cms.comment.servie.impl.CmsCommentServiceImpl;
+import com.oly.cms.comment.model.vo.CmsCommentVo;
+import com.oly.cms.comment.service.ICmsCommentHandService;
+import com.oly.cms.comment.service.impl.CmsCommentServiceImpl;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -84,7 +85,7 @@ public class CommentAdminController extends BaseController {
     @ResponseBody
     public TableDataInfo list(CmsComment cmsComment) {
         startPage();
-        List<CmsComment> list = cmsCommentService.listCmsComment(cmsComment);
+        List<CmsCommentVo> list = cmsCommentService.listCmsCommentVo(cmsComment);
         return getDataTable(list);
     }
 

@@ -1,4 +1,4 @@
-package com.oly.cms.comment.servie;
+package com.oly.cms.comment.service;
 
 import java.util.List;
 

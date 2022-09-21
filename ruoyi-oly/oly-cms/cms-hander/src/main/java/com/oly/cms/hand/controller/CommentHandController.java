@@ -12,8 +12,9 @@ import com.oly.cms.comment.model.CmsCommentHand;
 import com.oly.cms.comment.model.enums.CommentHandVisibleEnums;
 import com.oly.cms.comment.model.enums.CommentTypeEnum;
 import com.oly.cms.comment.model.enums.CommentVisibleEnums;
-import com.oly.cms.comment.servie.impl.CmsCommentHandServiceImpl;
-import com.oly.cms.comment.servie.impl.CmsCommentServiceImpl;
+import com.oly.cms.comment.model.vo.CmsCommentVo;
+import com.oly.cms.comment.service.impl.CmsCommentHandServiceImpl;
+import com.oly.cms.comment.service.impl.CmsCommentServiceImpl;
 import com.oly.cms.general.annotation.WebLog;
 import com.oly.cms.general.model.enums.WebBusinessType;
 import com.oly.cms.general.model.enums.WebLogType;
@@ -98,7 +99,7 @@ public class CommentHandController {
     @WebLog(title = "评论赞成", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
     @PostMapping("/addcommentLike")
     public AjaxResult addCommentLike(long commentId) {
-        CmsComment comment = cmsCommentService.selectCmsCommentByCommentId(commentId);
+        CmsComment comment = cmsCommentService.selectCmsCommentVoById(commentId);
         if (comment == null || comment.getVisible().intValue() != CommentVisibleEnums.PASS.ordinal()) {
             return AjaxResult.error("操作节点不存在或者不存在");
         }
@@ -139,7 +140,7 @@ public class CommentHandController {
     @WebLog(title = "评论反对", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
     @PostMapping("/addcommentNasty")
     public AjaxResult addCommentNasty(long commentId) {
-        CmsComment comment = cmsCommentService.selectCmsCommentByCommentId(commentId);
+        CmsCommentVo comment = cmsCommentService.selectCmsCommentVoById(commentId);
         if (comment == null || comment.getVisible().intValue() != CommentVisibleEnums.PASS.ordinal()) {
             return AjaxResult.error("操作节点不存在或者不存在");
         }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.oly.cms.comment.model.CmsComment;
 import com.oly.cms.comment.model.enums.CommentTypeEnum;
+import com.oly.cms.comment.model.vo.CmsCommentVo;
 import com.oly.cms.common.constant.CacheConstant;
 import com.oly.cms.common.model.support.PageData;
 import com.oly.cms.hand.service.impl.HandCommentServiceImpl;
@@ -21,17 +22,17 @@ public class HandCommentCacheService {
     private HandCommentServiceImpl commentService;
 
     @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<CmsComment> listCommentByTypeId(String typeId, int pageNum, int pageSize) {
+    public List<CmsCommentVo> listCommentByTypeId(String typeId, int pageNum, int pageSize) {
         return commentService.listCommentByTypeId(typeId, pageNum, pageSize);
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<CmsComment> listCommentOneByTypeId(String typeId, int pageNum, int pageSize) {
+    public List<CmsCommentVo> listCommentOneByTypeId(String typeId, int pageNum, int pageSize) {
         return commentService.listCommentOneByTypeId(typeId, pageNum, pageSize);
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<CmsComment> listCommentTwoByParentId(long parentId, int pageNum, int pageSize) {
+    public List<CmsCommentVo> listCommentTwoByParentId(long parentId, int pageNum, int pageSize) {
         return commentService.listCommentTwoByParentId(parentId, pageNum, pageSize);
     }
 
@@ -51,7 +52,7 @@ public class HandCommentCacheService {
     }
 
     @Cacheable(keyGenerator = "myKeyGenerator")
-    public List<CmsComment> recentlyComment(int commentType, int pageNum, int pageSize) {
+    public List<CmsCommentVo> recentlyComment(int commentType, int pageNum, int pageSize) {
         return commentService.recentlyComment(commentType, pageNum, pageSize);
     }
 

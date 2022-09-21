@@ -12,7 +12,8 @@ import com.oly.cms.admin.service.ICmsArticleService;
 import com.oly.cms.admin.service.ICmsContactService;
 import com.oly.cms.admin.web.CmsCommonController;
 import com.oly.cms.comment.model.CmsComment;
-import com.oly.cms.comment.servie.ICmsCommentService;
+import com.oly.cms.comment.model.vo.CmsCommentVo;
+import com.oly.cms.comment.service.ICmsCommentService;
 import com.oly.cms.common.domain.entity.CmsArticle;
 import com.oly.cms.common.domain.entity.CmsContact;
 import com.oly.cms.general.model.record.CmsLookRecord;
@@ -45,7 +46,7 @@ public class UserProfileRest extends CmsCommonController {
     public TableDataInfo listComment(CmsComment cmsComment) {
         cmsComment.setFromBy(ShiroUtils.getUserId());
         startPage();
-        List<CmsComment> list = commentService.listCmsComment(cmsComment);
+        List<CmsCommentVo> list = commentService.listCmsCommentVo(cmsComment);
         return getDataTable(list);
     }
 

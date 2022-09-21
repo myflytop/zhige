@@ -1,4 +1,4 @@
-package com.oly.cms.comment.servie.impl;
+package com.oly.cms.comment.service.impl;
 
 import java.util.List;
 
@@ -12,7 +12,8 @@ import com.oly.cms.comment.mapper.CmsCommentMapper;
 import com.oly.cms.comment.model.CmsComment;
 import com.oly.cms.comment.model.enums.CommentVisibleEnums;
 import com.oly.cms.comment.model.properties.OlyCommentProperties;
-import com.oly.cms.comment.servie.ICmsCommentService;
+import com.oly.cms.comment.model.vo.CmsCommentVo;
+import com.oly.cms.comment.service.ICmsCommentService;
 import com.oly.cms.common.constant.CacheConstant;
 import com.oly.cms.common.event.CacheWebRefreshAllEvent;
 import com.ruoyi.common.core.text.Convert;
@@ -42,12 +43,12 @@ public class CmsCommentServiceImpl implements ICmsCommentService {
     /**
      * 查询评论
      * 
-     * @param commentId 评论主键
+     * @param id 评论主键
      * @return 评论
      */
     @Override
-    public CmsComment selectCmsCommentByCommentId(Long commentId) {
-        return cmsCommentMapper.selectCmsCommentByCommentId(commentId);
+    public CmsCommentVo selectCmsCommentVoById(Long id) {
+        return cmsCommentMapper.selectCmsCommentById(id);
     }
 
     /**
@@ -57,8 +58,8 @@ public class CmsCommentServiceImpl implements ICmsCommentService {
      * @return 评论
      */
     @Override
-    public List<CmsComment> listCmsComment(CmsComment cmsComment) {
-        return cmsCommentMapper.listCmsComment(cmsComment);
+    public List<CmsCommentVo> listCmsCommentVo(CmsComment cmsComment) {
+        return cmsCommentMapper.listCmsCommentVo(cmsComment);
     }
 
     /**
@@ -138,16 +139,16 @@ public class CmsCommentServiceImpl implements ICmsCommentService {
     }
 
     @Override
-    public List<CmsComment> listCmsCommentParent(CmsComment cmsComment) {
+    public List<CmsCommentVo> listCmsCommentVoParent(CmsComment cmsComment) {
         cmsComment.setParentId(0L);
-        return this.listCmsComment(cmsComment);
+        return this.listCmsCommentVo(cmsComment);
     }
 
     @Override
-    public List<CmsComment> listCmsCommentChild(CmsComment cmsComment) {
+    public List<CmsCommentVo> listCmsCommentVoChild(CmsComment cmsComment) {
         if (cmsComment.getParentId() == null || cmsComment.getParentId() == 0L) {
             throw new ServiceException("父级ID不能为O或者空");
         }
-        return this.listCmsComment(cmsComment);
+        return this.listCmsCommentVo(cmsComment);
     }
 }

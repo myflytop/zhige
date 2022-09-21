@@ -10,7 +10,8 @@ import com.oly.cms.comment.model.CmsComment;
 import com.oly.cms.comment.model.enums.CommentTypeEnum;
 import com.oly.cms.comment.model.enums.CommentVisibleEnums;
 import com.oly.cms.comment.model.properties.OlyCommentProperties;
-import com.oly.cms.comment.servie.ICmsCommentService;
+import com.oly.cms.comment.model.vo.CmsCommentVo;
+import com.oly.cms.comment.service.ICmsCommentService;
 import com.oly.cms.common.model.support.PageData;
 import com.oly.cms.hand.service.IHandCommentService;
 import com.ruoyi.system.config.service.ISysConfigService;
@@ -25,46 +26,46 @@ public class HandCommentServiceImpl implements IHandCommentService {
     private ISysConfigService configService;
 
     @Override
-    public List<CmsComment> listCommentByTypeId(String typeId, int pageNum, int pageSize) {
+    public List<CmsCommentVo> listCommentByTypeId(String typeId, int pageNum, int pageSize) {
         CmsComment cmsComment = new CmsComment();
         cmsComment.setVisible(CommentVisibleEnums.PASS.ordinal());
         cmsComment.setTypeId(typeId);
         PageHelper.startPage(pageNum, pageSize, "order_num,create_time desc");
-        return cmsCommentService.listCmsComment(cmsComment);
+        return cmsCommentService.listCmsCommentVo(cmsComment);
     }
 
     @Override
-    public List<CmsComment> listCommentOneByTypeId(String typeId, int pageNum, int pageSize) {
+    public List<CmsCommentVo> listCommentOneByTypeId(String typeId, int pageNum, int pageSize) {
         CmsComment cmsComment = new CmsComment();
         cmsComment.setVisible(CommentVisibleEnums.PASS.ordinal());
         cmsComment.setTypeId(typeId);
         cmsComment.setParentId(0L);
         PageHelper.startPage(pageNum, pageSize, "order_num,create_time desc");
-        return cmsCommentService.listCmsComment(cmsComment);
+        return cmsCommentService.listCmsCommentVo(cmsComment);
     }
 
     @Override
-    public List<CmsComment> listCommentTwoByParentId(long parentId, int pageNum, int pageSize) {
+    public List<CmsCommentVo> listCommentTwoByParentId(long parentId, int pageNum, int pageSize) {
         CmsComment cmsComment = new CmsComment();
         cmsComment.setVisible(CommentVisibleEnums.PASS.ordinal());
         cmsComment.setParentId(parentId);
         PageHelper.startPage(pageNum, pageSize, "order_num,create_time desc");
-        return cmsCommentService.listCmsComment(cmsComment);
+        return cmsCommentService.listCmsCommentVo(cmsComment);
 
     }
 
-    public List<CmsComment> recentlyComment(int commentType, int pageNum, int pageSize) {
+    public List<CmsCommentVo> recentlyComment(int commentType, int pageNum, int pageSize) {
         CmsComment cmsComment = new CmsComment();
         cmsComment.setVisible(CommentVisibleEnums.PASS.ordinal());
         cmsComment.setCommentType(commentType);
         cmsComment.setParentId(0L);
         PageHelper.startPage(pageNum, pageSize, "create_time desc");
-        return cmsCommentService.listCmsComment(cmsComment);
+        return cmsCommentService.listCmsCommentVo(cmsComment);
     }
 
     @Override
     public PageData pageCommentByTypeId(String typeId, int pageNum, int pageSize) {
-        List<CmsComment> parentList = this.listCommentOneByTypeId(typeId, pageNum, pageSize);
+        List<CmsCommentVo> parentList = this.listCommentOneByTypeId(typeId, pageNum, pageSize);
         for (CmsComment parenComment : parentList) {
             parenComment.setChildPage(this.pageTwoCommentByParentId(parenComment.getCommentId(), pageNum, pageSize));
         }

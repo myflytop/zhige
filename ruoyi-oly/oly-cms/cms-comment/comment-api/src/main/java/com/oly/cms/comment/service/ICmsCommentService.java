@@ -1,11 +1,13 @@
-package com.oly.cms.comment.servie;
+package com.oly.cms.comment.service;
 
 import java.util.List;
 
 import com.oly.cms.comment.model.CmsComment;
 import com.oly.cms.comment.model.enums.CommentVisibleEnums;
+import com.oly.cms.comment.model.vo.CmsCommentVo;
 
 /**
+ * <CmsCommentVo>
  * 评论Service接口
  * 
  * @author zd
@@ -15,10 +17,10 @@ public interface ICmsCommentService {
     /**
      * 查询评论
      * 
-     * @param commentId 评论主键
+     * @param id 评论主键
      * @return 评论
      */
-    CmsComment selectCmsCommentByCommentId(Long commentId);
+    CmsCommentVo selectCmsCommentVoById(Long id);
 
     /**
      * 查询评论列表
@@ -26,7 +28,7 @@ public interface ICmsCommentService {
      * @param cmsComment 评论
      * @return 评论集合
      */
-    List<CmsComment> listCmsComment(CmsComment cmsComment);
+    List<CmsCommentVo> listCmsCommentVo(CmsComment cmsComment);
 
     /**
      * 查询评论父级列表
@@ -34,7 +36,7 @@ public interface ICmsCommentService {
      * @param cmsComment 评论
      * @return 评论集合
      */
-    List<CmsComment> listCmsCommentParent(CmsComment cmsComment);
+    List<CmsCommentVo> listCmsCommentVoParent(CmsComment cmsCommentVo);
 
     /**
      * 查询评论子级列表
@@ -42,7 +44,7 @@ public interface ICmsCommentService {
      * @param cmsComment 评论
      * @return 评论集合
      */
-    List<CmsComment> listCmsCommentChild(CmsComment cmsComment);
+    List<CmsCommentVo> listCmsCommentVoChild(CmsComment cmsComment);
 
     /**
      * 新增评论

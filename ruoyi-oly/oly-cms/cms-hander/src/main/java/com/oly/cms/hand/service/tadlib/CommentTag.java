@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.oly.cms.comment.model.CmsComment;
 import com.oly.cms.comment.model.enums.CommentTypeEnum;
+import com.oly.cms.comment.model.vo.CmsCommentVo;
 import com.oly.cms.common.model.support.PageData;
 import com.oly.cms.hand.service.cache.HandCommentCacheService;
 
@@ -16,25 +16,25 @@ public class CommentTag {
     @Autowired
     private HandCommentCacheService webCommentCacheService;
 
-    public List<CmsComment> listComment() {
+    public List<CmsCommentVo> listComment() {
 
         return null;
     }
 
-    public List<CmsComment> recentlyComment(int commentType, int pageNum, int pageSize) {
+    public List<CmsCommentVo> recentlyComment(int commentType, int pageNum, int pageSize) {
 
         return webCommentCacheService.recentlyComment(commentType, pageNum, pageSize);
     }
 
-    public List<CmsComment> listCommentByTypeId(String typeId, int pageNum, int pageSize) {
+    public List<CmsCommentVo> listCommentByTypeId(String typeId, int pageNum, int pageSize) {
         return webCommentCacheService.listCommentByTypeId(typeId, pageNum, pageSize);
     }
 
-    public List<CmsComment> listCommentTypeId(String typeId, int pageNum, int pageSize) {
+    public List<CmsCommentVo> listCommentTypeId(String typeId, int pageNum, int pageSize) {
         return webCommentCacheService.listCommentOneByTypeId(typeId, pageNum, pageSize);
     }
 
-    List<CmsComment> listCommentByParentId(long parentId, int pageNum, int pageSize) {
+    List<CmsCommentVo> listCommentByParentId(long parentId, int pageNum, int pageSize) {
         return webCommentCacheService.listCommentTwoByParentId(parentId, pageNum, pageSize);
     }
 

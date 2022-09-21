@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.oly.cms.comment.model.CmsComment;
+import com.oly.cms.comment.model.vo.CmsCommentVo;
 
 /**
  * 评论Mapper接口
@@ -16,18 +17,17 @@ public interface CmsCommentMapper {
   /**
    * 查询评论
    * 
-   * @param commentId 评论主键
+   * @param id 评论主键
    * @return 评论
    */
-  CmsComment selectCmsCommentByCommentId(Long commentId);
+  CmsCommentVo selectCmsCommentById(Long id);
 
   /**
-   * 查询评论列表
    * 
-   * @param cmsComment 评论
-   * @return 评论集合
+   * @param cmsComment
+   * @return
    */
-  List<CmsComment> listCmsComment(CmsComment cmsComment);
+  List<CmsCommentVo> listCmsCommentVo(CmsComment cmsComment);
 
   /**
    * 新增评论

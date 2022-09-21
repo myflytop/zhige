@@ -1,4 +1,4 @@
-package com.oly.cms.comment.servie.impl;
+package com.oly.cms.comment.service.impl;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.oly.cms.comment.mapper.CmsCommentHandMapper;
 import com.oly.cms.comment.model.CmsCommentHand;
 import com.oly.cms.comment.model.enums.CommentCountFieldEnum;
 import com.oly.cms.comment.model.enums.CommentHandVisibleEnums;
-import com.oly.cms.comment.servie.ICmsCommentHandService;
+import com.oly.cms.comment.service.ICmsCommentHandService;
 import com.ruoyi.common.core.text.Convert;
 
 /**

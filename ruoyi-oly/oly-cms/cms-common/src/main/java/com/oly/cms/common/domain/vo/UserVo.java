@@ -1,4 +1,4 @@
-package com.oly.cms.hand.model.vo;
+package com.oly.cms.common.domain.vo;
 
 public class UserVo {
     private Long userId;
