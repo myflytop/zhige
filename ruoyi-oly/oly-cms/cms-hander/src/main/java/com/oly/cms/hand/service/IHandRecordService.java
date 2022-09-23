@@ -15,5 +15,5 @@ public interface IHandRecordService {
 
     int insertCollectRecord(WebRecordParam recordParam);
 
-    int countRecord(RecordTableEnum recordTable, Long articleId, Long userId);
+    int getCountRecord(RecordTableEnum recordTable, Long articleId, Long userId);
 }

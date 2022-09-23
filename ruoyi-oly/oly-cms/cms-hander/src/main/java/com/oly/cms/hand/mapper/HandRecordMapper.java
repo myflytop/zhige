@@ -12,6 +12,13 @@ public interface HandRecordMapper {
    */
   int insertRecord(WebRecordParam recordParam);
 
+  /**
+   * 更新文章统计
+   * 
+   * @param countColumn
+   * @param articleId
+   * @return
+   */
   int updateCmsArticleCount(@Param("countColumn") String countColumn, @Param("articleId") Long articleId);
 
   /**
@@ -22,6 +29,6 @@ public interface HandRecordMapper {
    * @param userId      用户id
    * @return
    */
-  int countRecord(@Param("recordTable") String recordTable, @Param("articleId") Long articleId,
+  int getCountRecord(@Param("recordTable") String recordTable, @Param("articleId") Long articleId,
       @Param("userId") Long userId);
 }

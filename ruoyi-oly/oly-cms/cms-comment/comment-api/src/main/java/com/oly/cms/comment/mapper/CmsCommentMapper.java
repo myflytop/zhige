@@ -62,4 +62,11 @@ public interface CmsCommentMapper {
    */
   int deleteCmsCommentByCommentId(Long commentId);
 
+  /**
+   * 
+   * @param articleId typeId 文章Id
+   * @return
+   */
+  int updateCmsArticleCountByLook(long articleId);
+
 }

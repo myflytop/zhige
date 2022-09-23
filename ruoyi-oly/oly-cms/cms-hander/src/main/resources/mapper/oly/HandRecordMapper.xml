@@ -33,15 +33,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ON DUPLICATE KEY UPDATE
 		<choose>
 			<when test="countColumn=='article_score'">
-				${countColumn}=(select AVG(score) from cms_score_record where article_id=#{articleId})
+				${countColumn}=(select AVG(score) from cms_score_record where article_id=#{articleId} and visible=1)
 			</when>
 			<otherwise>
-				 ${countColumn}=${countColumn}+1
+				 ${countColumn}=(select count(*) from concat(${countColumn}, '_', 'record')  where article_id=#{articleId} and visible=1)
 			</otherwise>
 		</choose>
 	</insert>
 
-	<select id="countRecord" resultType="int" parameterType="com.oly.cms.hand.model.param.WebRecordParam">
+	<select id="getCountRecord" resultType="int" parameterType="com.oly.cms.hand.model.param.WebRecordParam">
 		select count(1) from ${recordTable} where user_id=#{userId} and article_id=#{articleId}
 	</select>
 

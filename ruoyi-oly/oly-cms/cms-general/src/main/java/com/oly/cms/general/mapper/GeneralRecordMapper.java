@@ -20,6 +20,11 @@ public interface GeneralRecordMapper {
      */
     int insertCmsLookRecord(CmsLookRecord cmsLookRecord);
 
+    /**
+     * 
+     * @param articleId
+     * @return
+     */
     int updateCmsArticleCountLook(Long articleId);
 
 }

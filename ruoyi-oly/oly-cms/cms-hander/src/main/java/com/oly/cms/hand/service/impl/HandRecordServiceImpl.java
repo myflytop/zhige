@@ -70,7 +70,7 @@ public class HandRecordServiceImpl implements IHandRecordService {
     }
 
     @Override
-    public int countRecord(RecordTableEnum recordTable, Long articleId, Long userId) {
-        return webRecordMapper.countRecord(recordTable.getValue(), articleId, userId);
+    public int getCountRecord(RecordTableEnum recordTable, Long articleId, Long userId) {
+        return webRecordMapper.getCountRecord(recordTable.getValue(), articleId, userId);
     }
 }

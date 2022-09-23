@@ -130,5 +130,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="deleteCmsCommentByCommentId" parameterType="Long">
         delete from cms_comment where comment_id = #{commentId}
     </delete>
+
+    <insert id="updateCmsArticleCountByLook" parameterType="long">
+            insert into cms_article_count(article_id,article_discuss) values (#{articleId},1)
+            ON DUPLICATE KEY UPDATE
+            article_discuss=(select count(*) from cms_comment  where type_id=#{articleId} and visible=2)
+    </insert>
     
 </mapper>

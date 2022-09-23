@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.oly.cms.comment.mapper.CmsCommentHandMapper;
 import com.oly.cms.comment.mapper.CmsCommentMapper;
 import com.oly.cms.comment.model.CmsComment;
+import com.oly.cms.comment.model.enums.CommentTypeEnum;
 import com.oly.cms.comment.model.enums.CommentVisibleEnums;
 import com.oly.cms.comment.model.properties.OlyCommentProperties;
 import com.oly.cms.comment.model.vo.CmsCommentVo;
@@ -69,12 +70,16 @@ public class CmsCommentServiceImpl implements ICmsCommentService {
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertCmsComment(CmsComment cmsComment) {
         String value = configService.selectConfigDefauleValue(OlyCommentProperties.COMMENT_CONFIG_GROUP.defaultValue(),
                 OlyCommentProperties.COMMENT_DEFAULT_VISIBLE);
         cmsComment.setVisible(CommentVisibleEnums.valueOf(value).ordinal());
         int re = cmsCommentMapper.insertCmsComment(cmsComment);
         if (CommentVisibleEnums.PASS.name().equals(value)) {
+            if (cmsComment.getCommentType() == CommentTypeEnum.ARTICLE.ordinal()) {
+                cmsCommentMapper.updateCmsArticleCountByLook(Long.parseLong(cmsComment.getTypeId()));
+            }
             app.publishEvent(new CacheWebRefreshAllEvent(this, CacheConstant.COMMENT_CACHE_KEY_PREFIX));
         }
         return re;
@@ -134,6 +139,9 @@ public class CmsCommentServiceImpl implements ICmsCommentService {
     public int updateCmsCommentVisible(String commentIds, CommentVisibleEnums commentVisibleEnums) {
         int re = cmsCommentMapper.updateCmsCommentVisible(Convert.toLongArray(commentIds),
                 commentVisibleEnums.ordinal());
+        for (Long id : Convert.toLongArray(commentIds)) {
+            cmsCommentMapper.updateCmsArticleCountByLook(id);
+        }
         app.publishEvent(new CacheWebRefreshAllEvent(this, CacheConstant.COMMENT_CACHE_KEY_PREFIX));
         return re;
     }

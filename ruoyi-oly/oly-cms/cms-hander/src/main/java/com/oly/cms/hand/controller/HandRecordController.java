@@ -37,10 +37,10 @@ public class HandRecordController {
     @ResponseBody
     public AjaxResult addLikeRecord(WebRecordParam webRecordParam) {
         s(webRecordParam);
-        if (recordService.countRecord(RecordTableEnum.LIKE_RECORD, webRecordParam.getArticleId(),
+        if (recordService.getCountRecord(RecordTableEnum.LIKE_RECORD, webRecordParam.getArticleId(),
                 webRecordParam.getUserId()) != 0) {
             return AjaxResult.error("你已经点过赞！");
-        } else if (recordService.countRecord(RecordTableEnum.NASTY_RECORD, webRecordParam.getArticleId(),
+        } else if (recordService.getCountRecord(RecordTableEnum.NASTY_RECORD, webRecordParam.getArticleId(),
                 webRecordParam.getUserId()) != 0) {
             return AjaxResult.error("你已经踩过了！");
         } else {
@@ -61,10 +61,10 @@ public class HandRecordController {
     @ResponseBody
     public AjaxResult addNastyRecord(WebRecordParam webRecordParam) {
         s(webRecordParam);
-        if (recordService.countRecord(RecordTableEnum.LIKE_RECORD, webRecordParam.getArticleId(),
+        if (recordService.getCountRecord(RecordTableEnum.LIKE_RECORD, webRecordParam.getArticleId(),
                 webRecordParam.getUserId()) != 0) {
             return AjaxResult.error("你已经点过赞！");
-        } else if (recordService.countRecord(RecordTableEnum.NASTY_RECORD, webRecordParam.getArticleId(),
+        } else if (recordService.getCountRecord(RecordTableEnum.NASTY_RECORD, webRecordParam.getArticleId(),
                 webRecordParam.getUserId()) != 0) {
             return AjaxResult.error("你已经踩过了！");
         } else {
@@ -84,7 +84,7 @@ public class HandRecordController {
     @RequiresAuthentication
     @ResponseBody
     public AjaxResult addScoreRecord(WebRecordParam webRecordParam) {
-        if (recordService.countRecord(RecordTableEnum.SCORE_RECORD, webRecordParam.getArticleId(),
+        if (recordService.getCountRecord(RecordTableEnum.SCORE_RECORD, webRecordParam.getArticleId(),
                 webRecordParam.getUserId()) != 0) {
             return AjaxResult.error("你已经评过分了！");
         }
@@ -118,7 +118,7 @@ public class HandRecordController {
     @RequiresAuthentication
     @ResponseBody
     public AjaxResult addCollectRecord(WebRecordParam webRecordParam) {
-        if (recordService.countRecord(RecordTableEnum.COLLECT_RECORD, webRecordParam.getArticleId(),
+        if (recordService.getCountRecord(RecordTableEnum.COLLECT_RECORD, webRecordParam.getArticleId(),
                 webRecordParam.getUserId()) != 0) {
             return AjaxResult.error("你已经收藏过了！");
         }
