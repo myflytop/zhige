@@ -18,7 +18,7 @@
 - [主题zgblog预览地址](https://pingpinduo.site)
 - [主题butgo预览地址](https://pingpinduo.site/butgo/index) 
 - [后台预览地址](https://pingpinduo.site/admin)
-- 管理员账号admin/admin123  
+- 鉴于某些人会利用管理账号修改系统信息,以后不会提供管理账号  
 - 浏览账号viewer/admin123
 - 其中butgo基于hexo的主题butterfly
 ## 目录说明
@@ -171,7 +171,6 @@ ruoyi:
 </table>
 
 ## 注意事项
-- 预览账号为为管理账号，望千万不要手欠，随意修改删除预览数据。
 - 如果项目对你有帮助，请点下小红星⭐表示支持，谢谢！
 - qq群号：893754716
 
