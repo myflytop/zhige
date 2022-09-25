@@ -29,14 +29,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<insert id="updateCmsArticleCount">
-		insert into cms_article_count(article_id,${countColumn}) values (#{articleId},1)
+		insert into cms_article_count(article_id,article_${countColumn}) values (#{articleId},1)
 		ON DUPLICATE KEY UPDATE
 		<choose>
-			<when test="countColumn=='article_score'">
-				${countColumn}=(select AVG(score) from cms_score_record where article_id=#{articleId} and visible=1)
+			<when test="countColumn=='score'">
+				article_${countColumn}=(select AVG(score) from cms_score_record where article_id=#{articleId} and visible=1)
 			</when>
 			<otherwise>
-				 ${countColumn}=(select count(*) from concat(${countColumn}, '_', 'record')  where article_id=#{articleId} and visible=1)
+				 article_${countColumn}=(select count(*) from cms_${countColumn}_record  where article_id=#{articleId} and visible=1)
 			</otherwise>
 		</choose>
 	</insert>

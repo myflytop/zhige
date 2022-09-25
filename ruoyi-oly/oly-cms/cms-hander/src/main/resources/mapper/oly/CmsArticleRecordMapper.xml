@@ -44,9 +44,8 @@
         <result property="shareUrl" column="share_url" />
     </resultMap>
 
-
     <sql id="selectCmsArticleCountVo">
-        select b.article_id,article_title ,article_look, article_like, article_nasty, article_discuss, article_score, article_share, article_collect from cms_article_count as a left join cms_article as  b
+        select b.article_id,article_title ,article_look, article_like, article_nasty, article_discuss, article_score, article_share, article_collect from cms_article_count as a right join cms_article as  b
     </sql>
 
     <sql id="base_record_sql"> a.article_id,article_title, a.user_id, record_id,a.create_time,a.update_time, ip, user_system, user_bower,a.visible </sql>
@@ -61,7 +60,7 @@
 
     <select id="listCollectRecord" resultMap="CmsRecordResult" parameterType="com.oly.cms.hand.model.record.CmsCollectRecord">
         select
-        <include refid="base_record_sql" /> from cms_collect_record as a left join cms_article as b on a.article_id=b.article_id
+        <include refid="base_record_sql" /> from cms_collect_record as a right join cms_article as b on a.article_id=b.article_id
         <where>
             <if test="recordId!=null">and a.record_id=#{recordId}</if>
             <if test="articleId!=null">and a.article_id=#{articleId}</if>
@@ -83,7 +82,7 @@
 
     <select id="listLikeRecord" resultMap="CmsRecordResult" parameterType="com.oly.cms.hand.model.record.CmsLikeRecord">
         select
-        <include refid="base_record_sql" />from cms_like_record as a left join cms_article as b on a.article_id=b.article_id
+        <include refid="base_record_sql" />from cms_like_record as a right join cms_article as b on a.article_id=b.article_id
         <where>
             <if test="recordId!=null">and a.record_id=#{recordId}</if>
             <if test="articleId!=null">and a.article_id=#{articleId}</if>
@@ -104,7 +103,7 @@
     </select>
     <select id="listLookRecord" resultMap="CmsRecordResult" parameterType="com.oly.cms.general.model.record.CmsLookRecord">
         select
-        <include refid="base_record_sql" />from cms_look_record as a left join cms_article as b on a.article_id=b.article_id
+        <include refid="base_record_sql" />from cms_look_record as a right join cms_article as b on a.article_id=b.article_id
         <where>
             <if test="recordId!=null">and a.record_id=#{recordId}</if>
             <if test="articleId!=null">and a.article_id=#{articleId}</if>
@@ -125,7 +124,7 @@
     </select>
     <select id="listNastyRecord" resultMap="CmsRecordResult" parameterType="com.oly.cms.hand.model.record.CmsNastyRecord">
         select
-        <include refid="base_record_sql" /> from cms_nasty_record as  a left join cms_article as b on a.article_id=b.article_id
+        <include refid="base_record_sql" /> from cms_nasty_record as  a right join cms_article as b on a.article_id=b.article_id
         <where>
             <if test="recordId!=null">and a.record_id=#{recordId}</if>
             <if test="articleId!=null">and a.article_id=#{articleId}</if>
@@ -146,7 +145,7 @@
     </select>
     <select id="listScoreRecord" resultMap="ScoreRecordResult" parameterType="com.oly.cms.hand.model.record.CmsScoreRecord">
         select
-        <include refid="base_record_sql" />,score from cms_score_record as  a left join cms_article as b on a.article_id=b.article_id
+        <include refid="base_record_sql" />,score from cms_score_record as  a right join cms_article as b on a.article_id=b.article_id
         <where>
             <if test="recordId!=null">and a.record_id=#{recordId}</if>
             <if test="articleId!=null">and a.article_id=#{articleId}</if>
@@ -168,7 +167,7 @@
     </select>
     <select id="listShareRecord" resultMap="ShareRecordResult" parameterType="com.oly.cms.hand.model.record.CmsShareRecord">
         select
-        <include refid="base_record_sql" />,share_url from cms_share_record as  a left join cms_article as b on a.article_id=b.article_id
+        <include refid="base_record_sql" />,share_url from cms_share_record as  a right join cms_article as b on a.article_id=b.article_id
         <where>
             <if test="recordId!=null">and a.record_id=#{recordId}</if>
             <if test="articleId!=null">and a.article_id=#{articleId}</if>

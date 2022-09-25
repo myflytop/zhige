@@ -24,7 +24,8 @@ public class HandRecordServiceImpl implements IHandRecordService {
         recordParam.setScore(null);
         recordParam.setShareUrl(null);
         webRecordMapper.insertRecord(recordParam);
-        return webRecordMapper.updateCmsArticleCount(CountColumnEnum.LIKE.getValue(), recordParam.getArticleId());
+        return webRecordMapper.updateCmsArticleCount(CountColumnEnum.LIKE.name().toLowerCase(),
+                recordParam.getArticleId());
 
     }
 
@@ -35,7 +36,8 @@ public class HandRecordServiceImpl implements IHandRecordService {
         recordParam.setScore(null);
         recordParam.setShareUrl(null);
         webRecordMapper.insertRecord(recordParam);
-        return webRecordMapper.updateCmsArticleCount(CountColumnEnum.NASTY.getValue(), recordParam.getArticleId());
+        return webRecordMapper.updateCmsArticleCount(CountColumnEnum.NASTY.name().toLowerCase(),
+                recordParam.getArticleId());
     }
 
     @Transactional
@@ -45,7 +47,8 @@ public class HandRecordServiceImpl implements IHandRecordService {
         recordParam.setRecordTable(RecordTableEnum.SCORE_RECORD.getValue());
         recordParam.setShareUrl(null);
         webRecordMapper.insertRecord(recordParam);
-        return webRecordMapper.updateCmsArticleCount(CountColumnEnum.SCORE.getValue(), recordParam.getArticleId());
+        return webRecordMapper.updateCmsArticleCount(CountColumnEnum.SCORE.name().toLowerCase(),
+                recordParam.getArticleId());
 
     }
 
@@ -55,7 +58,8 @@ public class HandRecordServiceImpl implements IHandRecordService {
         recordParam.setRecordTable(RecordTableEnum.SHARE_RECORD.getValue());
         recordParam.setScore(null);
         webRecordMapper.insertRecord(recordParam);
-        return webRecordMapper.updateCmsArticleCount(CountColumnEnum.SHARE.getValue(), recordParam.getArticleId());
+        return webRecordMapper.updateCmsArticleCount(CountColumnEnum.SHARE.name().toLowerCase(),
+                recordParam.getArticleId());
     }
 
     @Transactional
@@ -66,7 +70,8 @@ public class HandRecordServiceImpl implements IHandRecordService {
         recordParam.setScore(null);
         recordParam.setShareUrl(null);
         webRecordMapper.insertRecord(recordParam);
-        return webRecordMapper.updateCmsArticleCount(CountColumnEnum.COLLECT.getValue(), recordParam.getArticleId());
+        return webRecordMapper.updateCmsArticleCount(CountColumnEnum.COLLECT.name().toLowerCase(),
+                recordParam.getArticleId());
     }
 
     @Override
