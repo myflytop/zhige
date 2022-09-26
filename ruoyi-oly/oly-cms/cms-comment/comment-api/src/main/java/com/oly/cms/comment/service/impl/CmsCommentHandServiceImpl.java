@@ -47,9 +47,9 @@ public class CmsCommentHandServiceImpl implements ICmsCommentHandService {
     }
 
     /**
-     * 新增评论记录
+     * 新增评论操作记录
      * 
-     * @param cmsCommentHand 评论记录
+     * @param cmsCommentHand 评论操作记录
      * @return 结果
      */
     @Override

@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where hand_id = #{handId}
     </select>
 
-    <insert id="insertCmsCommentHand" parameterType="com.oly.cms.comment.model.CmsCommentHand" useGeneratedKeys="true" keyProperty="commentId">
+    <insert id="insertCmsCommentHand" parameterType="com.oly.cms.comment.model.CmsCommentHand" useGeneratedKeys="true" keyProperty="handId">
         insert into cms_comment_hand
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="commentId != null">comment_id,</if>

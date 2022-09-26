@@ -97,7 +97,7 @@ public class CommentHandController {
      */
     @RequiresAuthentication
     @WebLog(title = "评论赞成", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
-    @PostMapping("/addcommentLike")
+    @PostMapping("/addCommentLike")
     public AjaxResult addCommentLike(long commentId) {
         CmsComment comment = cmsCommentService.selectCmsCommentVoById(commentId);
         if (comment == null || comment.getVisible().intValue() != CommentVisibleEnums.PASS.ordinal()) {
@@ -138,7 +138,7 @@ public class CommentHandController {
      */
     @RequiresAuthentication
     @WebLog(title = "评论反对", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
-    @PostMapping("/addcommentNasty")
+    @PostMapping("/addCommentNasty")
     public AjaxResult addCommentNasty(long commentId) {
         CmsCommentVo comment = cmsCommentService.selectCmsCommentVoById(commentId);
         if (comment == null || comment.getVisible().intValue() != CommentVisibleEnums.PASS.ordinal()) {
