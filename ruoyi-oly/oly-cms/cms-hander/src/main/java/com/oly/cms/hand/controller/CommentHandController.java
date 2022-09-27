@@ -125,7 +125,8 @@ public class CommentHandController {
                 aHand.setVisible(CommentHandVisibleEnums.LIKE.ordinal());
             }
             setHand(aHand);
-            return AjaxResult.success(cmsCommentHandService.updateCmsCommentHand(aHand));
+            cmsCommentHandService.updateCmsCommentHand(aHand);
+            return AjaxResult.success(aHand);
         }
     }
 
