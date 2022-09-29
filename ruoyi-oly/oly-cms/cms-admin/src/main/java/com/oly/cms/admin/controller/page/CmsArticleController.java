@@ -33,6 +33,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -132,7 +133,7 @@ public class CmsArticleController extends CmsCommonController {
 	@RequiresPermissions("cms:article:add")
 	@PostMapping("/add")
 	@ResponseBody
-	public AjaxResult add(ArticleVo artVo) {
+	public AjaxResult add(@Validated ArticleVo artVo) {
 		artVo.setCreateBy(ShiroUtils.getUserIdStr());
 		Integer cats[] = articleService.filterCats(artVo.getCats());
 		if (cats.length < 0) {
@@ -176,7 +177,7 @@ public class CmsArticleController extends CmsCommonController {
 	@RequiresPermissions("cms:article:edit")
 	@PostMapping("/edit")
 	@ResponseBody
-	public AjaxResult editSave(CmsArticle art) {
+	public AjaxResult editSave(@Validated CmsArticle art) {
 		art.setUpdateBy(ShiroUtils.getUserIdStr());
 		return toAjax(articleService.updateCmsArticleById(art));
 	}
