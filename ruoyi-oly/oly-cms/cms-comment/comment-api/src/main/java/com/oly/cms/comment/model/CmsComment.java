@@ -1,7 +1,11 @@
 package com.oly.cms.comment.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.Length;
 
 import com.oly.cms.common.model.support.PageData;
 import com.ruoyi.common.core.domain.BaseEntity;
@@ -71,6 +75,7 @@ public class CmsComment extends BaseEntity {
         this.typeId = typeId;
     }
 
+    @NotBlank(message = "类型ID不能为空")
     public String getTypeId() {
         return typeId;
     }
@@ -87,6 +92,7 @@ public class CmsComment extends BaseEntity {
         this.fromBy = fromBy;
     }
 
+    @NotNull(message = "评论人ID不能为空")
     public Long getFromBy() {
         return fromBy;
     }
@@ -103,6 +109,8 @@ public class CmsComment extends BaseEntity {
         this.content = content;
     }
 
+    @NotBlank(message = "内容不能为空")
+    @Length(min = 2, message = "评论最少二个字符")
     public String getContent() {
         return content;
     }

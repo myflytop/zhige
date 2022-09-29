@@ -12,14 +12,12 @@ import com.oly.cms.comment.mapper.CmsCommentMapper;
 import com.oly.cms.comment.model.CmsComment;
 import com.oly.cms.comment.model.enums.CommentTypeEnum;
 import com.oly.cms.comment.model.enums.CommentVisibleEnums;
-import com.oly.cms.comment.model.properties.OlyCommentProperties;
 import com.oly.cms.comment.model.vo.CmsCommentVo;
 import com.oly.cms.comment.service.ICmsCommentService;
 import com.oly.cms.common.constant.CacheConstant;
 import com.oly.cms.common.event.CacheWebRefreshAllEvent;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.exception.ServiceException;
-import com.ruoyi.system.config.service.ISysConfigService;
 
 /**
  * 评论Service业务层处理
@@ -31,9 +29,6 @@ import com.ruoyi.system.config.service.ISysConfigService;
 public class CmsCommentServiceImpl implements ICmsCommentService {
     @Autowired
     private CmsCommentMapper cmsCommentMapper;
-
-    @Autowired
-    private ISysConfigService configService;
 
     @Autowired
     private CmsCommentHandMapper cmsCommentHandMapper;
@@ -72,11 +67,8 @@ public class CmsCommentServiceImpl implements ICmsCommentService {
     @Override
     @Transactional
     public int insertCmsComment(CmsComment cmsComment) {
-        String value = configService.selectConfigDefauleValue(OlyCommentProperties.COMMENT_CONFIG_GROUP.defaultValue(),
-                OlyCommentProperties.COMMENT_DEFAULT_VISIBLE);
-        cmsComment.setVisible(CommentVisibleEnums.valueOf(value).ordinal());
         int re = cmsCommentMapper.insertCmsComment(cmsComment);
-        if (CommentVisibleEnums.PASS.name().equals(value)) {
+        if (CommentVisibleEnums.PASS.ordinal() == cmsComment.getVisible().intValue()) {
             if (cmsComment.getCommentType() == CommentTypeEnum.ARTICLE.ordinal()) {
                 cmsCommentMapper.updateCmsArticleCountByLook(Long.parseLong(cmsComment.getTypeId()));
             }

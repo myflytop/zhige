@@ -12,13 +12,15 @@ public enum OlyCommentProperties implements PropertyEnum {
     COMMENT_CONFIG_GROUP(SysConfigGroups.COMMENT_CONFIG.getValue(), String.class,
             SysConfigGroups.COMMENT_CONFIG.getValue()),
     // 前缀
-    COMMENT_PREIFX("oly.comment.", String.class, "oly.comment."),
+    COMMENT_PREFIX("oly.comment.", String.class, "oly.comment."),
     // 是否开启文章评论
     COMMENT_OPEN_ARTICLE("oly.comment.open.article", Boolean.class, "true"),
-    // 是否开启战斗评论
+    // 是否开站点评论
     COMMENT_OPEN_SITE("oly.comment.open.site", Boolean.class, "true"),
     // 是否开启链接评论
     COMMENT_OPEN_LINKS("oly.comment.open.links", Boolean.class, "true"),
+    // 最多评论数目
+    COMMENT_MAX_SIZE("oly.comment.max.size", Integer.class, "128"),
     // 是否开启邮件回复
     COMMENT_MAIL_RESTORE("oly.comment.mailRestore", Boolean.class, "true"),
     // 评论默认状态

@@ -31,7 +31,7 @@ public class CommonHandleController extends BaseController {
      * @return
      */
     @PostMapping("/addContact")
-    @WebLog(title = "添加评论", logType = WebLogType.CONTACT, businessType = WebBusinessType.INSERT)
+    @WebLog(title = "添加反馈", logType = WebLogType.CONTACT, businessType = WebBusinessType.INSERT)
     @ResponseBody
     public AjaxResult addContact(CmsContact cmsContact) {
         cmsContact.setCreateBy(ShiroUtils.getUserIdStr());

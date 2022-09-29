@@ -2,6 +2,7 @@ package com.oly.cms.hand.controller;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import com.oly.cms.comment.model.CmsCommentHand;
 import com.oly.cms.comment.model.enums.CommentHandVisibleEnums;
 import com.oly.cms.comment.model.enums.CommentTypeEnum;
 import com.oly.cms.comment.model.enums.CommentVisibleEnums;
+import com.oly.cms.comment.model.properties.OlyCommentProperties;
 import com.oly.cms.comment.model.vo.CmsCommentVo;
 import com.oly.cms.comment.service.impl.CmsCommentHandServiceImpl;
 import com.oly.cms.comment.service.impl.CmsCommentServiceImpl;
@@ -23,6 +25,9 @@ import com.oly.cms.hand.service.tadlib.CommentTag;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.ShiroUtils;
+import com.ruoyi.common.utils.html.EscapeUtil;
+import com.ruoyi.system.config.service.ISysConfigService;
+
 import eu.bitwalker.useragentutils.UserAgent;
 
 /**
@@ -37,6 +42,9 @@ public class CommentHandController {
 
     @Autowired
     private CmsCommentHandServiceImpl cmsCommentHandService;
+
+    @Autowired
+    private ISysConfigService configService;
 
     @Autowired
     private CommentTag commentTag;
@@ -54,7 +62,13 @@ public class CommentHandController {
     @PostMapping("/addComment")
     @WebLog(title = "添加评论", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
     @RequiresAuthentication
-    public AjaxResult addComment(CmsComment cmsComment, CommentTypeEnum type) {
+    public AjaxResult addComment(@Validated CmsComment cmsComment, CommentTypeEnum type) {
+        String maxSize = configService.selectConfigDefauleValue(
+                OlyCommentProperties.COMMENT_CONFIG_GROUP.defaultValue(),
+                OlyCommentProperties.COMMENT_MAX_SIZE);
+        if (Integer.parseInt(maxSize) < EscapeUtil.clean(cmsComment.getContent()).length()) {
+            return AjaxResult.error("内容超出大上限:" + maxSize + "个字符");
+        }
         if (commentTag.commentSupport(type)) {
             switch (type) {
                 case ARTICLE:
@@ -81,6 +95,10 @@ public class CommentHandController {
                 cmsComment.setFromBy(ShiroUtils.getUserId());
                 cmsComment.setUserSystem(userAgent.getOperatingSystem().getName());
                 cmsComment.setUserBower(userAgent.getBrowser().getName());
+                String value = configService.selectConfigDefauleValue(
+                        OlyCommentProperties.COMMENT_CONFIG_GROUP.defaultValue(),
+                        OlyCommentProperties.COMMENT_DEFAULT_VISIBLE);
+                cmsComment.setVisible(CommentVisibleEnums.valueOf(value).ordinal());
                 return AjaxResult.success(cmsCommentService.insertCmsComment(cmsComment));
             }
         } else {
@@ -92,7 +110,6 @@ public class CommentHandController {
      * 点赞|取消点赞
      * 
      * @param commentId
-     * @param visibleEnums
      * @return
      */
     @RequiresAuthentication
@@ -134,7 +151,6 @@ public class CommentHandController {
      * 反对|取消反对
      * 
      * @param commentId
-     * @param visibleEnums
      * @return
      */
     @RequiresAuthentication
