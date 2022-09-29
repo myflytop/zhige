@@ -63,12 +63,9 @@
                             class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" id="commentVisible">
-                        <li  data-id="CHECK"><a href="javascript:void(0)"
-                                >审核中</a></li>
-                        <li  data-id="CLOSE"><a href="javascript:void(0)"
-                                >不通过</a></li>
-                        <li  data-id="PASS"><a href="javascript:void(0)"
-                                >通过</a></li>
+                        <li data-id="CHECK"><a href="javascript:void(0)">审核中</a></li>
+                        <li data-id="CLOSE"><a href="javascript:void(0)">不通过</a></li>
+                        <li data-id="PASS"><a href="javascript:void(0)">通过</a></li>
                     </ul>
                 </div>
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
@@ -98,7 +95,7 @@
                 detailUrl: prefix + "/hand/{id}",
                 modalName: "评论",
                 sortName: "createTime",
-				sortOrder: "desc",
+                sortOrder: "desc",
                 columns: [{
                     checkbox: true
                 },
@@ -130,7 +127,8 @@
                 {
                     field: 'typeId',
                     title: '类型ID',
-                    align: 'left'
+                    align: 'left',
+                    visible: false
                 },
                 {
                     field: 'parentId',
@@ -139,20 +137,28 @@
                     visible: false
                 },
                 {
-                    field: 'fromBy',
+                    field: 'fromUser',
                     title: '发布人',
-                    align: 'left'
+                    align: 'left',
+                    formatter: function (value, row, index) {
+                        return value.userName;
+                    }
                 },
                 {
-                    field: 'replyBy',
+                    field: 'replyUser',
                     title: '回复的人',
-                    align: 'left'
+                    align: 'left',
+                    formatter: function (value, row, index) {
+                        if (value)
+                            return value.userName;
+                        else
+                        return '-';
+                    }
                 },
                 {
                     field: 'content',
                     title: '内容',
-                    align: 'left',
-                    visible: false
+                    align: 'left'
                 },
                 {
                     field: 'visible',
@@ -165,7 +171,8 @@
                 {
                     field: 'ip',
                     title: 'IP',
-                    align: 'left'
+                    align: 'left',
+                    visible: false
                 },
                 {
                     field: 'userSystem',
@@ -180,12 +187,14 @@
                 {
                     field: 'nastyCount',
                     title: '讨厌统计',
-                    align: 'left'
+                    align: 'left',
+                    visible: false
                 },
                 {
                     field: 'likeCount',
                     title: '喜欢统计',
-                    align: 'left'
+                    align: 'left',
+                    visible: false
                 },
 
                 {
