@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('评论记录列表')" />
+    <th:block th:include="include :: header('评论操作')" />
     <th:block th:include="include :: select2-css" />
 </head>
 <body class="gray-bg">
@@ -50,7 +50,7 @@
     <th:block th:include="include :: select2-js" />
     <script th:inline="javascript">
         var removeFlag = [[${@permission.hasPermi('cms:comment:hand')}]];
-        var hv = [[${@permission.hasPermi('cms_comment_hand_visible')}]];
+        var hv = [[${@dictTag.getType('cms_comment_hand_visible')}]];
         var prefix = ctx + "cms/comment";
         $(function() {
             var options = {
@@ -66,16 +66,11 @@
                 },
                 {
                     field: 'commentId',
-                    title: '评论id'
+                    title: '评论ID'
                 },
                 {
                     field: 'typeId',
                     title: '类型ID',
-                    align: 'left'
-                },
-                {
-                    field: 'handId',
-                    title: '操作ID',
                     align: 'left'
                 },
                 {
@@ -86,6 +81,7 @@
                     field: 'visible',
                     title: '状态',
                     formatter: function (value, row, index) {
+                        console.log(value+"dffff");
                         return $.table.selectDictLabel(hv, value);
                     }
                 },
