@@ -125,7 +125,7 @@ public class SysUserController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(@Validated SysUser user) {
-        if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user.getLoginName()))) {
+        if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user))) {
             return error("新增用户'" + user.getLoginName() + "'失败，登录账号已存在");
         } else if (StringUtils.isNotEmpty(user.getPhonenumber())
                 && UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
@@ -165,7 +165,9 @@ public class SysUserController extends BaseController {
     public AjaxResult editSave(@Validated SysUser user) {
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getUserId());
-        if (StringUtils.isNotEmpty(user.getPhonenumber())
+        if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user))) {
+            return error("修改用户'" + user.getLoginName() + "'失败，登录账号已存在");
+        } else if (StringUtils.isNotEmpty(user.getPhonenumber())
                 && UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
             return error("修改用户'" + user.getLoginName() + "'失败，手机号码已存在");
         } else if (StringUtils.isNotEmpty(user.getEmail())
@@ -247,7 +249,7 @@ public class SysUserController extends BaseController {
     @PostMapping("/checkLoginNameUnique")
     @ResponseBody
     public String checkLoginNameUnique(SysUser user) {
-        return userService.checkLoginNameUnique(user.getLoginName());
+        return userService.checkLoginNameUnique(user);
     }
 
     /**
