@@ -22,6 +22,7 @@ import com.oly.cms.general.model.enums.WebBusinessType;
 import com.oly.cms.general.model.enums.WebLogType;
 import com.oly.cms.general.taglib.ArticleTag;
 import com.oly.cms.hand.service.tadlib.CommentTag;
+import com.ruoyi.common.annotation.RepeatSubmit;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.ShiroUtils;
@@ -32,6 +33,8 @@ import eu.bitwalker.useragentutils.UserAgent;
 
 /**
  * 评论控制
+ * 
+ * 小于默认一分钟重复提交
  */
 @RestController
 @RequestMapping("/web/hand/comment")
@@ -58,7 +61,7 @@ public class CommentHandController {
      * @param cmsComment
      * @return
      */
-
+    @RepeatSubmit(interval = 60000)
     @PostMapping("/addComment")
     @WebLog(title = "添加评论", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
     @RequiresAuthentication
@@ -112,6 +115,7 @@ public class CommentHandController {
      * @param commentId
      * @return
      */
+    @RepeatSubmit(interval = 60000)
     @RequiresAuthentication
     @WebLog(title = "评论赞成", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
     @PostMapping("/addCommentLike")
@@ -153,6 +157,7 @@ public class CommentHandController {
      * @param commentId
      * @return
      */
+    @RepeatSubmit(interval = 60000)
     @RequiresAuthentication
     @WebLog(title = "评论反对", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
     @PostMapping("/addCommentNasty")
@@ -205,20 +210,13 @@ public class CommentHandController {
         return AjaxResult.success(cmsCommentHandService.listCmsCommentHand(cmsCommentHand));
     }
 
+    /**
+     * 获取请求头
+     * 
+     * @return
+     */
     private UserAgent getUserAgent() {
         return UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
-    }
-
-    void addComment() {
-
-    }
-
-    void addNasty() {
-
-    }
-
-    void addLike() {
-
     }
 
     private void setHand(CmsCommentHand commentHand) {

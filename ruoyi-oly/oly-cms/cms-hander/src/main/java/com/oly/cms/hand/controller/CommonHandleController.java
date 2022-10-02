@@ -2,6 +2,7 @@ package com.oly.cms.hand.controller;
 
 import com.oly.cms.common.domain.entity.CmsContact;
 import com.oly.cms.hand.service.impl.HandleServiceImpl;
+import com.ruoyi.common.annotation.RepeatSubmit;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.ShiroUtils;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 通用控制
+ * 默认小于一分钟为重复提交
  */
 @RestController
 @RequestMapping("/web/hand/common")
@@ -30,6 +32,7 @@ public class CommonHandleController extends BaseController {
      * 
      * @return
      */
+    @RepeatSubmit(interval = 60000)
     @PostMapping("/addContact")
     @WebLog(title = "添加反馈", logType = WebLogType.CONTACT, businessType = WebBusinessType.INSERT)
     @ResponseBody

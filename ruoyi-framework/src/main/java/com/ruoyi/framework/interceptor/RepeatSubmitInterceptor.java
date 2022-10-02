@@ -17,29 +17,23 @@ import com.ruoyi.common.utils.ServletUtils;
  * @author ruoyi
  */
 @Component
-public abstract class RepeatSubmitInterceptor implements HandlerInterceptor
-{
+public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
-    {
-        if (handler instanceof HandlerMethod)
-        {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+        if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
             RepeatSubmit annotation = method.getAnnotation(RepeatSubmit.class);
-            if (annotation != null)
-            {
-                if (this.isRepeatSubmit(request, annotation))
-                {
+            if (annotation != null) {
+                if (this.isRepeatSubmit(request, annotation)) {
                     AjaxResult ajaxResult = AjaxResult.error(annotation.message());
                     ServletUtils.renderString(response, JSON.marshal(ajaxResult));
                     return false;
                 }
             }
             return true;
-        }
-        else
-        {
+        } else {
             return true;
         }
     }
@@ -47,7 +41,7 @@ public abstract class RepeatSubmitInterceptor implements HandlerInterceptor
     /**
      * 验证是否重复提交由子类实现具体的防重复提交的规则
      *
-     * @param request 请求对象
+     * @param request    请求对象
      * @param annotation 防复注解
      * @return 结果
      */

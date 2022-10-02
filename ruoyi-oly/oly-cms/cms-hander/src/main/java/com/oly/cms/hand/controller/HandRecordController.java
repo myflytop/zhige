@@ -3,6 +3,7 @@ package com.oly.cms.hand.controller;
 import com.oly.cms.hand.model.enums.RecordTableEnum;
 import com.oly.cms.hand.model.param.WebRecordParam;
 import com.oly.cms.hand.service.impl.HandRecordServiceImpl;
+import com.ruoyi.common.annotation.RepeatSubmit;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.ShiroUtils;
@@ -19,6 +20,9 @@ import com.oly.cms.general.model.enums.WebLogType;
 
 import eu.bitwalker.useragentutils.UserAgent;
 
+/**
+ * 默认小于一分钟为重复提交
+ */
 @Controller
 @RequestMapping("/hand/record")
 public class HandRecordController {
@@ -31,6 +35,7 @@ public class HandRecordController {
      * @param webRecordParam
      * @return
      */
+    @RepeatSubmit(interval = 60000)
     @PostMapping("/addLikeRecord")
     @WebLog(title = "添加赞成", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
@@ -55,6 +60,7 @@ public class HandRecordController {
      * @param webRecordParam
      * @return
      */
+    @RepeatSubmit(interval = 60000)
     @PostMapping("/addNastyRecord")
     @WebLog(title = "添加反对", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
@@ -79,6 +85,7 @@ public class HandRecordController {
      * @param webRecordParam
      * @return
      */
+    @RepeatSubmit(interval = 60000)
     @PostMapping("/addScoreRecord")
     @WebLog(title = "添加评分", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
@@ -98,6 +105,7 @@ public class HandRecordController {
      * @param webRecordParam
      * @return
      */
+    @RepeatSubmit(interval = 60000)
     @PostMapping("/addShareRecord")
     @WebLog(title = "添加分享", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
@@ -113,6 +121,7 @@ public class HandRecordController {
      * @param webRecordParam
      * @return
      */
+    @RepeatSubmit(interval = 60000)
     @PostMapping("/addCollectRecord")
     @WebLog(title = "添加收藏", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
@@ -130,6 +139,7 @@ public class HandRecordController {
      *
      * 设置系统标识 浏览器
      */
+    @RepeatSubmit(interval = 60000)
     private void s(WebRecordParam webRecordParam) {
         UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
         String ip = ShiroUtils.getIp();
