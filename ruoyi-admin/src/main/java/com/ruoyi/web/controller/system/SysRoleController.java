@@ -6,6 +6,7 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.Ztree;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -14,6 +15,7 @@ import com.ruoyi.common.enums.OperateTitle;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.shiro.util.AuthorizationUtils;
 import com.ruoyi.system.core.domain.SysUserRole;
+import com.ruoyi.system.core.service.ISysDeptService;
 import com.ruoyi.system.core.service.ISysRoleService;
 import com.ruoyi.system.core.service.ISysUserService;
 
@@ -42,12 +44,26 @@ public class SysRoleController extends BaseController {
     private ISysRoleService roleService;
 
     @Autowired
+    private ISysDeptService deptService;
+
+    @Autowired
     private ISysUserService userService;
 
     @RequiresPermissions("system:role:view")
     @GetMapping()
     public String role() {
         return prefix + "/role";
+    }
+
+    /**
+     * 加载角色部门（数据权限）列表树
+     */
+    @RequiresPermissions("system:role:edit")
+    @GetMapping("/deptTreeData")
+    @ResponseBody
+    public List<Ztree> deptTreeData(SysRole role) {
+        List<Ztree> ztrees = deptService.roleDeptTreeData(role);
+        return ztrees;
     }
 
     @RequiresPermissions("system:role:list")

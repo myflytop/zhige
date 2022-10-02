@@ -28,11 +28,10 @@
 	<th:block th:include="include :: footer" />
 	<th:block th:include="include :: ztree-js" />
 	<script th:inline="javascript">
-	    var prefix = ctx + "system/dept"
+	    var prefix = ctx + "system/user"
 	    var deptId = [[${deptId}]];
-	    var excludeId = [[${excludeId}]];
 		$(function() {
-			var url = prefix + "/treeData/" + excludeId;
+			var url = prefix + "/deptTreeData";
 			var options = {
 		        url: url,
 		        expandLevel: 2,
