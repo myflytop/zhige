@@ -181,7 +181,7 @@ public class AjaxResult extends HashMap<String, Object> {
      * @return 结果
      */
     public boolean isError() {
-        return Objects.equals(Type.SUCCESS, this.get(CODE_TAG));
+        return Objects.equals(Type.ERROR.value, this.get(CODE_TAG));
     }
 
     /**
