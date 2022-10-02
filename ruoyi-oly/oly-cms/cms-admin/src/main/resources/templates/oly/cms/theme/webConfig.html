@@ -56,13 +56,6 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-3 control-label is-">作者：</label>
-                <div class="col-sm-8">
-                  <input name="oly.web.author" th:value="${webConfig['oly.web.author']}" class="form-control"
-                    type="text">
-                </div>
-              </div>
-              <div class="form-group">
                 <label class="col-sm-3 control-label is-">LOGO：</label>
                 <div class="col-sm-8">
                   <div class="upload-content" id="logo">
@@ -217,14 +210,21 @@
             </form>
           </div>
         </div>
-        <!-- 关于本站 -->
+        <!-- 关于作者 -->
         <div id="about-me" class="tab-pane">
           <div class="panel-body">
             <form class="form-horizontal m" id="form-about-me">
               <div class="form-group">
-                <label class="col-sm-3 control-label is-">关于本站：</label>
+                <label class="col-sm-3 control-label is-">作者：</label>
                 <div class="col-sm-8">
-                  <textarea name="oly.web.about.website" th:text="${webConfig['oly.web.about.website']}"
+                  <input name="oly.web.author" th:value="${webConfig['oly.web.author']}" class="form-control"
+                    type="text">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label is-">关于站点：</label>
+                <div class="col-sm-8">
+                  <textarea name="oly.web.aboutSite" th:text="${webConfig['oly.web.aboutSite']}"
                     class="form-control" type="text">
                                     </textarea>
                 </div>
@@ -232,7 +232,7 @@
               <div class="form-group">
                 <label class="col-sm-3 control-label is-">关于作者：</label>
                 <div class="col-sm-8">
-                  <textarea name="oly.web.about.author" th:text="${webConfig['oly.web.about.author']}"
+                  <textarea name="oly.web.aboutAuthor" th:text="${webConfig['oly.web.aboutAuthor']}"
                     class="form-control" type="text">
                                     </textarea>
                 </div>
@@ -240,15 +240,15 @@
               <div class="form-group">
                 <label class="col-sm-3 control-label is-">作者主页：</label>
                 <div class="col-sm-8">
-                  <textarea name="oly.web.about.index" th:text="${webConfig['oly.web.about.index']}"
+                  <textarea name="oly.web.authorIndex" th:text="${webConfig['oly.web.authorIndex']}"
                     class="form-control" type="text">
                                     </textarea>
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-3 control-label is-">联系我：</label>
+                <label class="col-sm-3 control-label is-">联系作者：</label>
                 <div class="col-sm-8">
-                  <textarea name="oly.web.about.callme" th:text="${webConfig['oly.web.about.callme']}"
+                  <textarea name="oly.web.authorCall" th:text="${webConfig['oly.web.authorCall']}"
                     class="form-control" type="text">
                                     </textarea>
                 </div>

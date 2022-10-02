@@ -15,8 +15,6 @@ public enum OlyWebConfigProperties implements PropertyEnum {
     TITLE("oly.web.title", String.class, "止戈"),
     // 主页
     INDEX("oly.web.index", String.class, "/index"),
-    // 作者
-    AUTHOR("oly.web.author", String.class, "ZG"),
     // LOGO
     LOGO("oly.web.logo", String.class, ""),
     // ICO
@@ -35,16 +33,21 @@ public enum OlyWebConfigProperties implements PropertyEnum {
     ARTICLE_ORDER("oly.web.articleOrderBy", String.class, "2"),
     // 默认请求条数
     ARTICLE_SIZE("oly.web.articleSize", Boolean.class, "20"),
-
     // 文章支持分类标签类型
     ARTICLE_TYPES("oly.web.article.supportType", String.class, ""),
 
-    // 关于站点
-    ABOUT_AUTHOR("oly.web.aboutAuthor", String.class, "true"),
-    // 关于作者主页
-    ABOUT_AUTHOR_INDEX("oly.web.aboutAuthorIndex", String.class, "true"),
+    // 作者
+    AUTHOR("oly.web.author", String.class, "ZG"),
+    // 关于作者
+    ABOUT_AUTHOR("oly.web.aboutAuthor", String.class, ""),
+    // 作者主页
+    ABOUT_AUTHOR_INDEX("oly.web.authorIndex", String.class, ""),
     // 联系作者
-    ABOUT_AUTHOR_CALL("oly.web.aboutAuthorCall", String.class, "true"),
+    ABOUT_AUTHOR_CALL("oly.web.authorCall", String.class, ""),
+    // 关于站点
+    ABOUT_SITE("oly.web.aboutSite", String.class, ""),
+
+    SITE_CREATE_TIME("oly.web.createTime", String.class, ""),
 
     PAGE_INDEX("oly.web.pageIndex", Long.class, "0"),
 
