@@ -5,6 +5,7 @@ import com.oly.cms.hand.model.param.WebRecordParam;
 import com.oly.cms.hand.service.impl.HandRecordServiceImpl;
 import com.ruoyi.common.annotation.RepeatSubmit;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.enums.CommonVisibleEnums;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.ShiroUtils;
 
@@ -35,22 +36,34 @@ public class HandRecordController {
      * @param webRecordParam
      * @return
      */
-    @RepeatSubmit(interval = 60000)
+    // @RepeatSubmit(interval = 60000)
     @PostMapping("/addLikeRecord")
     @WebLog(title = "添加赞成", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
     @ResponseBody
     public AjaxResult addLikeRecord(WebRecordParam webRecordParam) {
         s(webRecordParam);
-        if (recordService.getCountRecord(RecordTableEnum.LIKE_RECORD, webRecordParam.getArticleId(),
-                webRecordParam.getUserId()) != 0) {
-            return AjaxResult.error("你已经点过赞！");
-        } else if (recordService.getCountRecord(RecordTableEnum.NASTY_RECORD, webRecordParam.getArticleId(),
-                webRecordParam.getUserId()) != 0) {
-            return AjaxResult.error("你已经踩过了！");
+        webRecordParam.setRecordTable(RecordTableEnum.LIKE_RECORD.getValue());
+        webRecordParam.setScore(null);
+        webRecordParam.setShareUrl(null);
+        String likeVisible = recordService.selectRecordVisible(RecordTableEnum.LIKE_RECORD,
+                webRecordParam.getArticleId(),
+                webRecordParam.getUserId());
+        if ("1"
+                .equals(recordService.selectRecordVisible(RecordTableEnum.NASTY_RECORD, webRecordParam.getArticleId(),
+                        webRecordParam.getUserId()))) {
+            return AjaxResult.success("你已经踩过了！", "Already nasty it");
+        } else if ("1".equals(likeVisible)) {
+            webRecordParam.setVisible(CommonVisibleEnums.HIDE.ordinal());
+            recordService.updateCmsArticleRecord(webRecordParam);
+            return AjaxResult.success("取消点赞成功！", "cancel");
+        } else if ("0".equals(likeVisible)) {
+            webRecordParam.setVisible(CommonVisibleEnums.SHOW.ordinal());
+            recordService.updateCmsArticleRecord(webRecordParam);
+            return AjaxResult.success("点赞成功！", "update");
         } else {
-
-            return AjaxResult.success(recordService.insertLikeRecord(webRecordParam));
+            recordService.insertLikeRecord(webRecordParam);
+            return AjaxResult.success("点赞成功！", "add");
         }
     }
 
@@ -60,22 +73,34 @@ public class HandRecordController {
      * @param webRecordParam
      * @return
      */
-    @RepeatSubmit(interval = 60000)
+    // @RepeatSubmit(interval = 60000)
     @PostMapping("/addNastyRecord")
     @WebLog(title = "添加反对", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
     @ResponseBody
     public AjaxResult addNastyRecord(WebRecordParam webRecordParam) {
         s(webRecordParam);
-        if (recordService.getCountRecord(RecordTableEnum.LIKE_RECORD, webRecordParam.getArticleId(),
-                webRecordParam.getUserId()) != 0) {
-            return AjaxResult.error("你已经点过赞！");
-        } else if (recordService.getCountRecord(RecordTableEnum.NASTY_RECORD, webRecordParam.getArticleId(),
-                webRecordParam.getUserId()) != 0) {
-            return AjaxResult.error("你已经踩过了！");
+        webRecordParam.setRecordTable(RecordTableEnum.NASTY_RECORD.getValue());
+        webRecordParam.setScore(null);
+        webRecordParam.setShareUrl(null);
+        String nastyVisible = recordService.selectRecordVisible(RecordTableEnum.NASTY_RECORD,
+                webRecordParam.getArticleId(),
+                webRecordParam.getUserId());
+        if ("1".equals(recordService.selectRecordVisible(RecordTableEnum.LIKE_RECORD, webRecordParam.getArticleId(),
+                webRecordParam.getUserId()))) {
+            return AjaxResult.success("你已经点赞了", "Already liked it");
+        } else if ("1".equals(nastyVisible)) {
+            webRecordParam.setVisible(CommonVisibleEnums.HIDE.ordinal());
+            recordService.updateCmsArticleRecord(webRecordParam);
+            return AjaxResult.success("取消踩成功！", "cancel");
+        } else if ("0".equals(nastyVisible)) {
+            webRecordParam.setVisible(CommonVisibleEnums.SHOW.ordinal());
+            recordService.updateCmsArticleRecord(webRecordParam);
+            return AjaxResult.success("踩成功", "update");
         } else {
             s(webRecordParam);
-            return AjaxResult.success(recordService.insertNastyRecord(webRecordParam));
+            recordService.insertNastyRecord(webRecordParam);
+            return AjaxResult.success("踩成功！", "add");
         }
     }
 
@@ -91,12 +116,24 @@ public class HandRecordController {
     @RequiresAuthentication
     @ResponseBody
     public AjaxResult addScoreRecord(WebRecordParam webRecordParam) {
-        if (recordService.getCountRecord(RecordTableEnum.SCORE_RECORD, webRecordParam.getArticleId(),
-                webRecordParam.getUserId()) != 0) {
-            return AjaxResult.error("你已经评过分了！");
+        String scoreVisible = recordService.selectRecordVisible(RecordTableEnum.SCORE_RECORD,
+                webRecordParam.getArticleId(),
+                webRecordParam.getUserId());
+        webRecordParam.setShareUrl(null);
+        webRecordParam.setRecordTable(RecordTableEnum.SCORE_RECORD.getValue());
+        if ("1".equals(scoreVisible)) {
+            webRecordParam.setVisible(CommonVisibleEnums.HIDE.ordinal());
+            recordService.updateCmsArticleRecord(webRecordParam);
+            return AjaxResult.success("取消评分成功", "cancel");
+        } else if ("0".equals(scoreVisible)) {
+            webRecordParam.setVisible(CommonVisibleEnums.SHOW.ordinal());
+            recordService.updateCmsArticleRecord(webRecordParam);
+            return AjaxResult.success("添加评分成功", "update");
+        } else {
+            s(webRecordParam);
+            recordService.insertScoreRecord(webRecordParam);
+            return AjaxResult.success("添加评分成功", "add");
         }
-        s(webRecordParam);
-        return AjaxResult.success(recordService.insertScoreRecord(webRecordParam));
     }
 
     /**
@@ -112,6 +149,8 @@ public class HandRecordController {
     @ResponseBody
     public AjaxResult addShareRecord(WebRecordParam webRecordParam) {
         s(webRecordParam);
+        webRecordParam.setScore(null);
+        webRecordParam.setRecordTable(RecordTableEnum.SHARE_RECORD.getValue());
         return AjaxResult.success(recordService.insertShareRecord(webRecordParam));
     }
 
@@ -127,12 +166,26 @@ public class HandRecordController {
     @RequiresAuthentication
     @ResponseBody
     public AjaxResult addCollectRecord(WebRecordParam webRecordParam) {
-        if (recordService.getCountRecord(RecordTableEnum.COLLECT_RECORD, webRecordParam.getArticleId(),
-                webRecordParam.getUserId()) != 0) {
-            return AjaxResult.error("你已经收藏过了！");
-        }
         s(webRecordParam);
-        return AjaxResult.success(recordService.insertCollectRecord(webRecordParam));
+        webRecordParam.setRecordTable(RecordTableEnum.COLLECT_RECORD.getValue());
+        webRecordParam.setScore(null);
+        webRecordParam.setShareUrl(null);
+        String collectVisible = recordService.selectRecordVisible(RecordTableEnum.COLLECT_RECORD,
+                webRecordParam.getArticleId(),
+                webRecordParam.getUserId());
+        if ("1".equals(collectVisible)) {
+            webRecordParam.setVisible(CommonVisibleEnums.HIDE.ordinal());
+            recordService.updateCmsArticleRecord(webRecordParam);
+            return AjaxResult.success("取消收藏成功", "cancel");
+        } else if ("0".equals(collectVisible)) {
+            webRecordParam.setVisible(CommonVisibleEnums.SHOW.ordinal());
+            recordService.updateCmsArticleRecord(webRecordParam);
+            return AjaxResult.success("添加收藏成功", "update");
+        } else {
+
+            recordService.insertCollectRecord(webRecordParam);
+            return AjaxResult.success("添加收藏成功", "add");
+        }
     }
 
     /**

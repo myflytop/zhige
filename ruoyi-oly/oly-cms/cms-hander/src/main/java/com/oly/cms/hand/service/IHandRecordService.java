@@ -15,5 +15,7 @@ public interface IHandRecordService {
 
     int insertCollectRecord(WebRecordParam recordParam);
 
-    int getCountRecord(RecordTableEnum recordTable, Long articleId, Long userId);
+    String selectRecordVisible(RecordTableEnum recordTable, Long articleId, Long userId);
+
+    int updateCmsArticleRecord(WebRecordParam recordParam);
 }
