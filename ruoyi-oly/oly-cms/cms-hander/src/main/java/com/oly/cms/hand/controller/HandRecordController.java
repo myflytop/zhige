@@ -36,7 +36,7 @@ public class HandRecordController {
      * @param webRecordParam
      * @return
      */
-    // @RepeatSubmit(interval = 60000)
+    @RepeatSubmit(interval = 60000)
     @PostMapping("/addLikeRecord")
     @WebLog(title = "添加赞成", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
@@ -73,7 +73,7 @@ public class HandRecordController {
      * @param webRecordParam
      * @return
      */
-    // @RepeatSubmit(interval = 60000)
+    @RepeatSubmit(interval = 60000)
     @PostMapping("/addNastyRecord")
     @WebLog(title = "添加反对", logType = WebLogType.ARTICLE, businessType = WebBusinessType.INSERT)
     @RequiresAuthentication
