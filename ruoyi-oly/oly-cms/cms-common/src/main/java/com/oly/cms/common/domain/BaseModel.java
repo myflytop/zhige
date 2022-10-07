@@ -36,7 +36,6 @@ public class BaseModel extends BaseEntity {
         this.perms = perms;
     }
 
-    @NotNull(message = "状态不能为空")
     public Integer getVisible() {
         return visible;
     }
@@ -45,7 +44,6 @@ public class BaseModel extends BaseEntity {
         this.visible = visible;
     }
 
-    @NotNull(message = "排序不能为空")
     public Long getOrderNum() {
         return orderNum;
     }

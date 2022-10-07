@@ -99,7 +99,6 @@ public class CmsArticle extends SeoBaseModel {
         this.articleTop = articleTop;
     }
 
-    @NotNull(message = "顶置类型不能为空")
     public Integer getArticleTop() {
         return articleTop;
     }
@@ -125,7 +124,7 @@ public class CmsArticle extends SeoBaseModel {
         this.allowComment = allowComment;
     }
 
-    @NotNull(message = "评论类型不能为空")
+    @NotNull(message = "评论不能为空")
     public Boolean getAllowComment() {
         return allowComment;
     }
