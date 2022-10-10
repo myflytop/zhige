@@ -9,8 +9,7 @@
     <div class="container-div">
         <div class="row">
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success"  onclick="themeTab()"
-                    shiro:hasPermission="cms:link:add">
+                <a class="btn btn-success" onclick="themeTab()" shiro:hasPermission="cms:link:add">
                     <i class="fa fa-plus"></i> 备份
                 </a>
             </div>
@@ -24,20 +23,23 @@
         <div class="modal-dialog">
             <div class="modal-content animated bounceInRight">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
                     </button>
                     <h4 class="modal-title">发送到邮箱</h4>
                 </div>
                 <div class="modal-body">
-                   <div class="form-group">
-                        <label>Email</label>
-                        <input type="hidden" id="themeName">
-                        <input type="email" placeholder="请输入Email" id="toMail" class="form-control">
-                    </div>
+                    <form id="sendForm" class="form-horizontal m">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="hidden" id="themeName">
+                            <input type="email" name="toMail" placeholder="请输入Email" id="toMail" class="form-control">
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="sendMailBackTheme()" data-dismiss="modal" >发送</button>
+                    <button type="button" class="btn btn-primary" onclick="sendMailBackTheme()" >发送</button>
                 </div>
             </div>
         </div>
@@ -55,10 +57,10 @@
                 url: prefix + "/themeBackList",
                 modalName: "备份列表",
                 pagination: false,
-                showSearch:false,
-				showRefresh:false,
-				showColumns:false,
-				showToggle:false,
+                showSearch: false,
+                showRefresh: false,
+                showColumns: false,
+                showToggle: false,
                 pageSize: 100,
                 columns: [
                     {
@@ -91,40 +93,54 @@
             $.table.init(options);
         });
         function themeTab() {
-                var url = prefix;
-                $.modal.openTab("主题管理", url);
-            }
+            var url = prefix;
+            $.modal.openTab("主题管理", url);
+        }
         function removeBackTheme(themeName) {
-                var url = prefix;
-                $.modal.loading("删除中");
-                $.operate.save(prefix + "/removeBackTheme",{'themeName':themeName},function (result){
-                    if (result.code == web_status.SUCCESS) {
-						$.modal.alertSuccess(result.msg);
-					} else if (result.code == web_status.WARNING) {
-						$.modal.alertWarning(result.msg)
-					} else {
-						$.modal.alertError(result.msg);
-						
-					}
-					$.modal.closeLoading();
-                    location.reload();
-                });
-            }
-        function downloadBackTheme(themeName) {
-                var url = prefix;
-                $.modal.msg("下载中");
-                window.location.href =prefix + "/downloadBackTheme?themeName="+themeName;
-                
-            }
+            var url = prefix;
+            $.modal.loading("删除中");
+            $.operate.save(prefix + "/removeBackTheme", { 'themeName': themeName }, function (result) {
+                if (result.code == web_status.SUCCESS) {
+                    $.modal.alertSuccess(result.msg);
+                } else if (result.code == web_status.WARNING) {
+                    $.modal.alertWarning(result.msg)
+                } else {
+                    $.modal.alertError(result.msg);
 
-        function  setThemeName(themeName){
+                }
+                $.modal.closeLoading();
+                location.reload();
+            });
+        }
+        function downloadBackTheme(themeName) {
+            var url = prefix;
+            $.modal.msg("下载中");
+            window.location.href = prefix + "/downloadBackTheme?themeName=" + themeName;
+
+        }
+
+        function setThemeName(themeName) {
             $("#themeName").val(themeName);
         }
 
+
+        $("#sendForm").validate({
+            rules:{
+            toMail: {
+                required: true,
+                email: true
+            }},
+            focusCleanup: true
+        });
+
+
         function sendMailBackTheme() {
+            if ($.validate.form()) {
                 var url = prefix;
                 $.operate.post(prefix + "/sendMailBackTheme",{'themeName':$("#themeName").val(),'toMail':$("#toMail").val()});
-            }
+                $('#backModel').modal('hide');
+	        }
+        }
     </script>
 </body>
 

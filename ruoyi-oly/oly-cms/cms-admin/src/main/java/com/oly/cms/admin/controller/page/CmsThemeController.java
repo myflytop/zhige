@@ -49,6 +49,8 @@ import com.ruoyi.oss.domain.OlyOss;
 import com.ruoyi.system.config.service.impl.SysConfigServiceImpl;
 import com.ruoyi.template.utils.TemplatesUtil;
 
+import cn.hutool.core.lang.Validator;
+
 @Controller
 @RequestMapping("/cms/theme")
 public class CmsThemeController extends CmsCommonController {
@@ -295,6 +297,7 @@ public class CmsThemeController extends CmsCommonController {
 	 * 将主题发送到邮箱
 	 * 
 	 * @param themeName
+	 * @param toMail    需要发送的邮箱地址
 	 * @return
 	 */
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.EXPORT)
@@ -302,6 +305,9 @@ public class CmsThemeController extends CmsCommonController {
 	@RequiresPermissions("cms:theme:update")
 	@ResponseBody
 	public AjaxResult sendMailTheme(String themeName, String toMail) {
+		if (!Validator.isEmail(toMail)) {
+			return AjaxResult.error("请输入正确邮箱!");
+		}
 		OlyMail olyMail = new OlyMail();
 		String attachKeys = Paths.get(OlyStageRoot.BACK_DIR.getRoot(OlyStageRoot.THEME_DIR.getValue()), themeName)
 				.toString();
@@ -389,6 +395,7 @@ public class CmsThemeController extends CmsCommonController {
 
 	/**
 	 * 重建关联索引
+	 * 如果类型为空表示支持所有文章,不进行关联
 	 * 
 	 * @param themeName
 	 * @return
@@ -405,7 +412,8 @@ public class CmsThemeController extends CmsCommonController {
 	}
 
 	/**
-	 * 重建关联索引
+	 * 重建所有关联文章索引
+	 * 如果类型为空表示支持所有文章,不进行关联
 	 * 
 	 * @return
 	 */
@@ -418,7 +426,14 @@ public class CmsThemeController extends CmsCommonController {
 		return AjaxResult.success(themeService.buildAllArticleIndex());
 	}
 
-	// 支持html,yaml,json,text,js,css
+	/**
+	 * 支持html,yaml,json,text,js,css
+	 * 
+	 * @param path       上级路径
+	 * @param fileName   文件名
+	 * @param filePrefix 文件后缀
+	 * @return
+	 */
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.UPDATE)
 	@PostMapping("/addFile")
 	@RequiresPermissions("cms:theme:addFile")
@@ -440,7 +455,13 @@ public class CmsThemeController extends CmsCommonController {
 		}
 	}
 
-	// 支持html,yaml,json,text,js,css
+	/**
+	 * 限制删除html,yaml,json,text,js,css
+	 * 
+	 * @param path 需要删除文件路径
+	 * @return
+	 */
+
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.UPDATE)
 	@PostMapping("/deleteFile")
 	@RequiresPermissions("cms:theme:addFile")

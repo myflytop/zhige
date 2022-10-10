@@ -170,6 +170,18 @@ public class OlyOssAdminController extends BaseController {
         return tableDataInfo;
     }
 
+    /**
+     * 支持自定义返回参数
+     * 
+     * @param file 上传文件
+     * @param code 自定义返回状态
+     * @param url  自定义返回路径
+     * @param msg  自定义返回消息
+     * @return
+     * @throws FileSizeLimitExceededException
+     * @throws InvalidExtensionException
+     * @throws IOException
+     */
     @RequiresPermissions("oly:oss:upload")
     @Log(title = OperateTitle.SYS_OSS, businessType = BusinessType.INSERT)
     @PostMapping("/upload/{code}/{url}/{msg}")
