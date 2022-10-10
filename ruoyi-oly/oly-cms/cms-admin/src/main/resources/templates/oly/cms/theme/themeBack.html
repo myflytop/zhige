@@ -46,7 +46,6 @@
     </div>
 
     <th:block th:include="include :: footer" />
-    <th:block th:include="include :: bootstrap-typeahead-js" />
     <script th:inline="javascript">
         var removeFlag = [[${@permission.hasPermi('cms:themeBack:delete') }]];
         var sendFlag = [[${@permission.hasPermi('cms:themeBack:send') }]];
