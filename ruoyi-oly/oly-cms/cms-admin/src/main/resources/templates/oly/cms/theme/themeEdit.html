@@ -22,6 +22,10 @@
 							class="fa fa-chevron-down"></i></button>
 					<button type="button" class="btn btn-box-tool" id="btnRefresh" title="刷新树"><i
 							class="fa fa-refresh"></i></button>
+					<button shiro:hasPermission="cms:theme:addFile" type="button" class="btn btn-box-tool" id="btnAddFile" title="新建文件"><i
+							class="fa fa-file-code-o" aria-hidden="true"></i></button>
+					<button shiro:hasPermission="cms:theme:deleteFile" type="button" class="btn btn-box-tool" id="btnDeleteFile" title="删除文件"><i
+						    class="fa fa-trash-o" aria-hidden="true"></i></button>
 				</div>
 			</div>
 			<div class="ui-layout-content">
@@ -48,6 +52,24 @@
 				</div>
 			</div>
 		</div>
+		<div style="display: none;" id="addFileTemplate">
+			<div class="form-horizontal"> <div class="form-group">
+				<label class="col-sm-4 control-label">文件名称</label>
+				<div class="col-sm-8">
+					<input type="text" id="fileName" class="form-control"/>
+				</div>
+			</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">文件类型</label>
+					<div class="col-sm-8">
+						<select id="filePrefix" class="form-control" >
+							<option  th:each="opt:${supportTypes}" th:value="${opt}" th:text="${opt}"></option>
+							</select>
+					</div>
+				</div>
+			</div>
+
+		</div>
 		<th:block th:include="include :: footer" />
 		<th:block th:include="include :: layout-latest-js" />
 		<th:block th:include="include :: ztree-js" />
@@ -57,7 +79,7 @@
 			var removeFlag = [[${@permission.hasPermi('oly:theme:remove') }]];
 			var prefix = ctx + "cms/theme";
 			//编辑的文件路径
-			var editPath;
+			var editPath, folderPath;
 			var codeEditor = editormd("temCode", {
 				width: "100%",
 				height: 720,
@@ -103,7 +125,12 @@
 						$.get(prefix + "/themeContent", { path: treeNode.id }, function (result) {
 							codeEditor.setValue(result.msg);
 							editPath = treeNode.id;
+							folderPath = null;
 						});
+					}
+					else {
+						folderPath = treeNode.id;
+						editPath = null;
 					}
 				}
 			}
@@ -122,6 +149,46 @@
 
 			$('#btnRefresh').click(function () {
 				queryDeptTree();
+			});
+
+			$('#btnAddFile').click(function () {
+				if (folderPath != null) {
+					layer.confirm($("#addFileTemplate").html(), { title: '新建文件' }, function (index) {
+						let fileName = $.trim($("#fileName").val());
+						let filePrefix = ($("#filePrefix").val());
+						if (fileName.length > 0) {
+							$.post(prefix + "/addFile", { fileName: fileName, filePrefix: filePrefix, path: folderPath }, function (result) {
+								if (result.code == 0) {
+									layer.msg('添加成功', { icon: 6 });
+									queryDeptTree();
+									layer.close(index);
+								}
+								else {
+									layer.msg(result.msg, { icon: 6 });
+								}
+							});
+						}
+					});
+				}
+				else {
+					layer.msg('请选择上级文件夹', { icon: 6 });
+				}
+			});
+
+			$('#btnDeleteFile').click(function () {
+				if (editPath != null) {
+					$.post(prefix + "/deleteFile", { path: editPath }, function (result) {
+						if (result.code == 0) {
+							layer.msg('删除成功', { icon: 6 });
+							queryDeptTree();
+							editPath = null;
+							codeEditor.setValue('');
+						}
+						else {
+							layer.msg(result.msg, { icon: 6 });
+						}
+					});
+				}
 			});
 			/*保存*/
 			$("#save").click(function () {

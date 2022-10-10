@@ -36,10 +36,10 @@
                                 <div class="user-button">
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="addArticle()"><i class="fa fa-envelope"></i>添加文章</button>
+                                            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="articleAdd()"><i class="fa fa-envelope"></i>添加文章</button>
                                         </div>
                                         <div class="col-sm-6">
-                                            <button type="button" class="btn btn-default btn-sm btn-block" onclick="addConact()" ><i class="fa fa-coffee"></i>添加反馈</button>
+                                            <button type="button" class="btn btn-default btn-sm btn-block" onclick="addContact()" ><i class="fa fa-coffee"></i>添加反馈</button>
                                         </div>
                                     </div>
                                 </div>
@@ -458,24 +458,31 @@
             $.table.init(contactOptions);
         });
 
-    function  addArticle(){
-		
+
+
+    function articleAdd() {
+			let u = prefix + "/add/0";
 			layer.msg("编辑器选择", {
 				time: 4000,
-				btn: ['markdown', 'froala'],
+				btn: ['markdown', 'froala', 'tinymce'],
 				yes: function (index) {
-					$.modal.openTab('添加文章',  ctx+ "cms/article/add/1");
+					u = prefix + "/add/1";
+					$.modal.openTab('添加文章', u);
 					layer.close(index);
 				},
 				btn2: function (index) {
-					$.modal.openTab('添加文章',  ctx+ "cms/article/add/0");
+					$.modal.openTab('添加文章', u);
 					layer.close(index);
-				}
+				},
+				btn3: function (index) {
+					u = prefix + "/add/2";
+					$.modal.openTab('添加文章', u);
+					layer.close(index);
+				},
 			})
+		}
 
-    }
-
-    function  addConact(){
+    function  addContact(){
         $.modal.openTab('添加反馈',ctx+'cms/contact/add');       
     }
        

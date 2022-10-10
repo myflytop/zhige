@@ -2,9 +2,11 @@ package com.oly.cms.admin.controller.page;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ import com.oly.cms.admin.service.impl.CmsArticleServiceImpl;
 import com.oly.cms.admin.service.impl.CmsThemeServiceImpl;
 import com.oly.cms.admin.utils.CmsUtils;
 import com.oly.cms.admin.web.CmsCommonController;
+import com.oly.cms.common.constant.OlySystemConstant;
 import com.oly.cms.common.model.properties.OlyThemeConfigProperties;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -78,7 +81,8 @@ public class CmsThemeController extends CmsCommonController {
 	 */
 	@GetMapping("/themeEdit")
 	@RequiresPermissions("cms:theme:edit")
-	public String themeEdit() {
+	public String themeEdit(ModelMap mp) {
+		mp.put("supportTypes", OlySystemConstant.THEME_SUPPORT_PREFIX);
 		return prefix + "/themeEdit";
 	}
 
@@ -366,6 +370,14 @@ public class CmsThemeController extends CmsCommonController {
 		return AjaxResult.success(FileUtils.readFileContent(p));
 	}
 
+	/**
+	 * 保存内容
+	 * 
+	 * @param path
+	 * @param content
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.UPDATE)
 	@PostMapping("/themeContentSave")
 	@RequiresPermissions("cms:theme:edit")
@@ -375,6 +387,12 @@ public class CmsThemeController extends CmsCommonController {
 		return AjaxResult.success();
 	}
 
+	/**
+	 * 重建关联索引
+	 * 
+	 * @param themeName
+	 * @return
+	 */
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.UPDATE)
 	@PostMapping("/buildArticleIndex/{themeName}")
 	@RequiresPermissions("cms:theme:buildArticleIndex")
@@ -386,6 +404,11 @@ public class CmsThemeController extends CmsCommonController {
 		return AjaxResult.success(articleService.buildArticleIndex(themeName));
 	}
 
+	/**
+	 * 重建关联索引
+	 * 
+	 * @return
+	 */
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.UPDATE)
 	@PostMapping("/buildAllArticleIndex")
 	@RequiresPermissions("cms:theme:buildArticleIndex")
@@ -393,6 +416,46 @@ public class CmsThemeController extends CmsCommonController {
 	public AjaxResult buildAllArticleIndex() {
 
 		return AjaxResult.success(themeService.buildAllArticleIndex());
+	}
+
+	// 支持html,yaml,json,text,js,css
+	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.UPDATE)
+	@PostMapping("/addFile")
+	@RequiresPermissions("cms:theme:addFile")
+	@ResponseBody
+	public AjaxResult addFile(String path, String fileName, String filePrefix) {
+		if (Arrays.asList(OlySystemConstant.THEME_SUPPORT_PREFIX).contains(filePrefix)) {
+			File filePath = Paths.get(OlyStageRoot.THEME_DIR.getRoot(path)).toFile();
+			if (filePath.exists() && filePath.isDirectory()) {
+				try {
+					new File(filePath, fileName + "." + filePrefix).createNewFile();
+				} catch (IOException e) {
+					return AjaxResult.error(e.getMessage());
+				}
+				return AjaxResult.success();
+			}
+			return AjaxResult.error("上级文件夹不存在");
+		} else {
+			return AjaxResult.error("不支持类型");
+		}
+	}
+
+	// 支持html,yaml,json,text,js,css
+	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.UPDATE)
+	@PostMapping("/deleteFile")
+	@RequiresPermissions("cms:theme:addFile")
+	@ResponseBody
+	public AjaxResult removeHtmlFile(String path) {
+		if (Arrays.asList(OlySystemConstant.THEME_SUPPORT_PREFIX).contains(FilenameUtils.getExtension(path))) {
+			File filePath = Paths.get(OlyStageRoot.THEME_DIR.getRoot(path)).toFile();
+			if (filePath.exists() && filePath.isFile()) {
+				filePath.delete();
+				return AjaxResult.success();
+			}
+			return AjaxResult.error("文件不存在");
+		} else {
+			return AjaxResult.error("不支持删除文件类型");
+		}
 	}
 
 	/**
