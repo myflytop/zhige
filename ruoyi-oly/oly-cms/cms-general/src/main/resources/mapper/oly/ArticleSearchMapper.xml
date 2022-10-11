@@ -36,6 +36,7 @@
 		<result column="article_md" property="articleMd" jdbcType="LONGVARCHAR" />
 		<result column="keywords" property="keywords" />
 		<result column="description" property="description" />
+		<collection property="createUser" javaType="com.oly.cms.common.domain.vo.UserVo" select="com.oly.cms.general.mapper.CommonSearchMapper.selectUserVo" column="create_by" ofType="com.oly.cms.common.domain.vo.UserVo" />
 		<collection property="cmsCats" javaType="ArrayList" select="com.oly.cms.general.mapper.CategorySearchMapper.listCmsCatByArticleId" column="article_id" ofType="com.oly.cms.common.domain.entity.CmsCat" />
 		<collection property="cmsTags" javaType="ArrayList" select="com.oly.cms.general.mapper.TagSearchMapper.listCmsTagByArticleId" column="article_id" ofType="com.oly.cms.common.domain.entity.CmsTag" />
 		<collection property="cmsArticleCount" javaType="com.oly.cms.common.domain.entity.CmsArticleCount" select="getPostCountByArticleId" column="article_id" ofType="com.oly.cms.common.domain.entity.CmsArticleCount" />

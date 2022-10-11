@@ -22,15 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="likeCount" column="like_count" />
         <result property="remark" column="remark" />
         <result property="orderNum" column="order_num" />
-        <collection property="fromUser" javaType="com.oly.cms.common.domain.vo.UserVo" select="selectUser" column="from_by" ofType="com.oly.cms.common.domain.vo.UserVo" />
-		<collection property="replyUser" javaType="com.oly.cms.common.domain.vo.UserVo" select="selectUser" column="reply_by" ofType="com.oly.cms.common.domain.vo.UserVo" />
-    </resultMap>
-
-    <resultMap id="userVoMap" type="com.oly.cms.common.domain.vo.UserVo">
-        <result property="userId" column="user_id" />
-        <result property="userName" column="user_name" />
-        <result property="avatar" column="avatar" />
-
+        <collection property="fromUser" javaType="com.oly.cms.common.domain.vo.UserVo" select="com.oly.cms.general.mapper.CommonSearchMapper.selectUserVo" column="from_by" ofType="com.oly.cms.common.domain.vo.UserVo" />
+		<collection property="replyUser" javaType="com.oly.cms.common.domain.vo.UserVo" select="com.oly.cms.general.mapper.CommonSearchMapper.selectUserVo" column="reply_by" ofType="com.oly.cms.common.domain.vo.UserVo" />
     </resultMap>
 
     <sql id="selectCmsCommentVo">
@@ -54,10 +47,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="likeCount != null "> and like_count = #{likeCount}</if>
             <if test="orderNum != null "> and order_num = #{orderNum}</if>
         </where>
-    </select>
-
-    <select id="selectUser" resultMap="userVoMap" parameterType="long">
-      select user_id,user_name,avatar from sys_user where user_id=#{userId}
     </select>
 
     <select id="selectCmsCommentById" parameterType="Long" resultMap="CmsCommentVoResult">

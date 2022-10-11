@@ -6,6 +6,7 @@ import com.oly.cms.common.domain.entity.CmsArticle;
 import com.oly.cms.common.domain.entity.CmsArticleCount;
 import com.oly.cms.common.domain.entity.CmsCat;
 import com.oly.cms.common.domain.entity.CmsTag;
+import com.oly.cms.common.domain.vo.UserVo;
 
 /** 所有文章字段 */
 public class WebArticle extends CmsArticle {
@@ -17,6 +18,8 @@ public class WebArticle extends CmsArticle {
     private List<CmsTag> cmsTags;
 
     private CmsArticleCount cmsArticleCount;
+
+    private UserVo createUser;
 
     public CmsArticleCount getCmsArticleCount() {
         return cmsArticleCount;
@@ -40,6 +43,14 @@ public class WebArticle extends CmsArticle {
 
     public void setCmsTags(List<CmsTag> cmsTags) {
         this.cmsTags = cmsTags;
+    }
+
+    public UserVo getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(UserVo createUser) {
+        this.createUser = createUser;
     }
 
 }
