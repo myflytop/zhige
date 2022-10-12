@@ -37,10 +37,10 @@ server:
 # 日志配置
 logging:
   level:
-    root: info
-    com.ruoyi: info
-    org.springframework: info
-    com.oly: info
+    root: debug
+    com.ruoyi: debug
+    org.springframework: warn
+    com.oly: debug
 # 用户配置
 user:
   password:
@@ -83,8 +83,7 @@ spring:
        max-file-size:  1024MB
        # 设置总上传的文件大小
        max-request-size:  5120MB
-      
-      
+     
   # 服务模块
   devtools:
     restart:
@@ -105,10 +104,6 @@ shiro:
     loginUrl: /login
     # 权限认证失败地址
     unauthorizedUrl: /unauth
-    # 首页地址
-    indexUrl: /index
-    # 管理地址
-    adminUrl: /admin
     # 验证码开关
     captchaEnabled: true
     # 验证码类型 math 数组计算 char 字符
