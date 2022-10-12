@@ -302,7 +302,7 @@
 			let u = prefix + "/add/0";
 			layer.msg("编辑器选择", {
 				time: 4000,
-				btn: ['markdown', 'froala', 'tinymce'],
+				btn: ['markdown', 'tinymce'],
 				yes: function (index) {
 					u = prefix + "/add/1";
 					$.modal.openTab('添加文章', u);
@@ -311,12 +311,7 @@
 				btn2: function (index) {
 					$.modal.openTab('添加文章', u);
 					layer.close(index);
-				},
-				btn3: function (index) {
-					u = prefix + "/add/2";
-					$.modal.openTab('添加文章', u);
-					layer.close(index);
-				},
+				}
 			})
 		}
 		/*分类查询树*/

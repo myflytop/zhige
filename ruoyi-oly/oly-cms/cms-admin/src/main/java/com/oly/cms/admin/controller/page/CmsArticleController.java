@@ -114,12 +114,10 @@ public class CmsArticleController extends CmsCommonController {
 	public String add(ModelMap map, @PathVariable("build") Integer build) {
 		map.put("catId", 0L);
 		map.put("catName", "根类目");
-		if (build == 1) {
-			return prefix + "/editor/add_markdown";
-		} else if (build == 2) {
+		if (build == 0) {
 			return prefix + "/editor/add_tinymce";
 		} else {
-			return prefix + "/editor/add_froala";
+			return prefix + "/editor/add_markdown";
 		}
 	}
 
@@ -157,14 +155,11 @@ public class CmsArticleController extends CmsCommonController {
 		map.put("article", article);
 		map.put("cats", cmsCatService.listCmsCatByArticleId(articleId));
 		map.put("tags", cmsTagService.listCmsTagByArticleId(articleId));
-		if (article.getArticleBuild() == 1) {
-			return prefix + "/editor/edit_markdown";
-		} else if (article.getArticleBuild() == 2) {
+		if (article.getArticleBuild() == 0) {
 			return prefix + "/editor/edit_tinymce";
 		} else {
-			return prefix + "/editor/edit_froala";
+			return prefix + "/editor/edit_markdown";
 		}
-
 	}
 
 	/**
@@ -356,29 +351,6 @@ public class CmsArticleController extends CmsCommonController {
 	public String checkArticleUnique(CmsArticle cmsArticle) {
 
 		return articleService.checkArticleUnique(cmsArticle);
-	}
-
-	/**
-	 * 上传文章 图片 froala
-	 * 
-	 * @param file
-	 * @return
-	 * @throws IOException
-	 * @throws InvalidExtensionException
-	 * @throws FileSizeLimitExceededException
-	 */
-	@PostMapping("/articleImgByFroala")
-	@Log(title = OperateTitle.SYS_OSS, businessType = BusinessType.INSERT)
-	@ResponseBody
-	public String articleImgUploadFroala(@RequestParam("file") MultipartFile file)
-			throws FileSizeLimitExceededException, InvalidExtensionException, IOException {
-		Map<String, String> mp = new HashMap<>();
-		OlyOss resultData = uploadImg(file);
-		mp.put("uploaded", true + "");
-		mp.put("link", resultData.getDomain() + resultData.getFk());
-		mp.put("msg", "上传成功");
-		ObjectMapper mo = new ObjectMapper();
-		return mo.writeValueAsString(mp);
 	}
 
 	/**

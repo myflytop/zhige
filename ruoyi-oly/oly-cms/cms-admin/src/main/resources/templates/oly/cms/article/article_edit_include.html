@@ -84,8 +84,7 @@
 							th:include="oly/cms/article/article_edit_include :: editMark(articleMd=*{articleMd})" />
 						<th:block th:if="${edit=='tin'}"
 							th:include="oly/cms/article/article_edit_include :: editTin(articleContent=*{articleContent})" />
-						<th:block th:if="${edit=='fro'}"
-							th:include="oly/cms/article/article_edit_include :: editFro(articleContent=*{articleContent})" />
+						
 					</div>
 				</div>
 			</div>
@@ -582,6 +581,3 @@
 	<div id="editor" th:utext="${articleContent}"> </div>
 </div>
 
-<div th:fragment="editFro(articleContent)">
-	<div id="editor" th:utext="${articleContent}"> </div>
-</div>

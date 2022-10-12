@@ -23,9 +23,6 @@
 			images_file_types: 'jpg, jpeg, gif,png,bmp,webp',
 			content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
 			tableofcontents_class: 'markdown-toc',
-			// mediaembed_service_url: 'http://mydomain.com/mediaembed_service',
-			// linkchecker_service_url: 'http://mydomain.com/linkchecker',
-			// images_upload_handler: example_image_upload_handler,
 			images_upload_url: ctx + "oly/oss/upload/code/location/msg",
 			images_upload_credentials: true
 		});
@@ -97,7 +94,7 @@
 								data.push({ "name": "articleImg", "value": imgData.join(",") });
 							}
 							data.push({ "name": "articleContent", "value": editorData });
-							data.push({ "name": "articleBuild", "value": 2 });
+							data.push({ "name": "articleBuild", "value": 1 });
 							data.push({ "name": "articleSummary", "value": $("#articleSummary").val() });
 							console.log(data);
 							$.operate.saveTab(prefix + "/edit", data);

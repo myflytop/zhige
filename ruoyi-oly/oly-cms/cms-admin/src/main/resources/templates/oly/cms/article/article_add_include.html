@@ -91,8 +91,6 @@
 							th:include="oly/cms/article/article_add_include :: addEditMark" />
 						<th:block th:if="${edit=='tin'}"
 							th:include="oly/cms/article/article_add_include :: addEditTin" />
-						<th:block th:if="${edit=='fro'}"
-							th:include="oly/cms/article/article_add_include :: addEditFro" />
 					</div>
 				</div>
 			</div>
@@ -478,9 +476,4 @@
 
 <div th:fragment="addEditTin">
 	<div id="editor">Next, use our Get Started docs to setup Tiny!</div>
-</div>
-
-<div th:fragment="addEditFro">
-	<div id="editor">
-	</div>
 </div>
