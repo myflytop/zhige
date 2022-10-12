@@ -7,15 +7,18 @@
     <th:block th:include="include :: oly_markdown_css" />
     <th:block th:include="include :: bootstrap-fileinput-css" />
     <style>
-   .tHtml,.tData {
-               display: none;
-           }
-   </style>
+        .tData {
+            display: none;
+        }
+        .tHtml{
+         opacity: 0;
+        }
+    </style>
 </head>
 
 
 <body class="white-bg" th:object="${olyTemplate}">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <div class="wrapper wrapper-content ibox-content">
         <form class="form-horizontal m" id="form-template-edit" enctype="multipart/form-data">
             <input name="templateId" th:field="*{templateId}" type="hidden">
             <input name="templateUrl" th:field="*{templateUrl}" type="hidden">
@@ -59,13 +62,15 @@
             </div>
 
 
-            <div class="form-group tHtml">
+            <div class="form-group tHtml tr">
                 <label class="col-sm-3 control-label">模板内容：</label>
                 <div class="col-sm-8">
-                    <textarea id="foHtmlContent">
+                    <div class="tin-box">
+                        <textarea id="foHtmlContent">
 
 
-                    </textarea>
+                        </textarea>
+                    </div>
 
                     <div id="coHtmlContent">
                         <textarea style="display:none;"></textarea>
@@ -73,7 +78,7 @@
                 </div>
             </div>
 
-            <div class="form-group tData">
+            <div class="form-group tData tr">
                 <label class="col-sm-3 control-label">模板数据：</label>
                 <div class="col-sm-8">
                     <div id="templateParam"></div>
@@ -155,223 +160,224 @@
     <script th:inline="javascript">
         var prefix = ctx + "oly/template";
         var supportSuffix = "pdf,excel,jpg";
-            $("#form-template-edit").validate({
-                onkeyup: false,
-                rules: {
-                    templateType: {
-                        required: true
-                    },
-                    templateName: {
-                        required: true,
-                        rangelength: [2, 16],
-                    },
-                    orderNum: {
-                        digits: true
-                    },
-                    visible: {
-                        required: true
-                    },
-                    built: {
-                        required: true
+        $("#form-template-edit").validate({
+            onkeyup: false,
+            rules: {
+                templateType: {
+                    required: true
+                },
+                templateName: {
+                    required: true,
+                    rangelength: [2, 16],
+                },
+                orderNum: {
+                    digits: true
+                },
+                visible: {
+                    required: true
+                },
+                built: {
+                    required: true
+                }
+            },
+            messages: {
+                "templateName": {
+                    remote: "名称不能为空"
+                }
+            },
+            focusCleanup: true
+        });
+
+        $("input[name='templateType']").on('ifChecked', function (event) {
+            changeBox();
+        });
+
+        tinymce.init({
+            selector: '#foHtmlContent',
+            language: 'zh-Hans',
+            height: 800,
+            plugins: 'preview powerpaste casechange importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount a11ychecker editimage help formatpainter permanentpen pageembed charmap mentions quickbars  emoticons advtable export',
+            toolbar: 'undo redo tableofcontents | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed link anchor codesample | a11ycheck ltr rtl |',
+            images_file_types: 'jpg, jpeg, gif,png,bmp,webp',
+            tableofcontents_class: 'markdown-toc',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+            images_upload_url: ctx + "oly/oss/upload/code/location/msg",
+            images_upload_credentials: true
+        });
+
+        var coEditor = editormd("coHtmlContent", {
+            width: "100%",
+            height: 720,
+            watch: false,
+            toolbar: false,
+            codeFold: true,
+            searchReplace: true,
+            placeholder: "Enjoy coding!",
+            value: '',
+            theme: "dark",
+            mode: "text/html",
+            path: '/ajax/libs/oly_markdown/lib/',
+            onload: function () {
+                getCode();
+            }
+        });
+
+        /*olyTemplateType
+       0：为目录  目录 目录名 备注 用途
+       1：自定义html 多数据
+       2：以上需要上传 不支持修改*/
+        function changeBox() {
+            let tType = $("input[name='templateType']:checked").val()
+            $("#viewBtn").hide();
+            $(".tox").hide();
+            $("#coHtmlContent").hide();
+            if (tType == 0) {
+                $(".tr").hide();
+            }
+            else if (tType == 1) {
+                $(".tHtml").show();
+                $(".tUp").hide();
+                $(".tData").hide();
+                $(".tox").show();
+            }
+            else if (tType == 2) {
+                $(".tHtml").show();
+                $(".tData").show();
+                $(".tUp").hide();
+                $("#coHtmlContent").show();
+                $("#viewBtn").show();
+
+            }
+            else {
+                $(".tHtml").hide();
+                $(".tData").hide();
+                $(".tUp").show();
+            }
+           
+        }
+        setTimeout(() => {
+            changeBox();
+            $(".tHtml").css("opacity",1);
+        }, 1000);
+
+        function getHtml() {
+            if ($("input[name='templateType']:checked").val() == 1) {
+                return tinyMCE.activeEditor.getContent();
+            } else {
+                return coEditor.getValue();
+            }
+        }
+
+        function setHtml(res) {
+            let g = $("input[name='templateType']:checked").val();
+            if (g == 1) {
+                tinyMCE.activeEditor.setContent(res);
+            } else if (g == 2) {
+                coEditor.setValue(res);
+            }
+
+        }
+        function getCode() {
+            if (($("input[name='templateType']:checked").val() == 1 || $("input[name='templateType']:checked").val() == 2) && $("input[name='templateUrl']").val().length > 2) {
+                $.get(prefix + "/getContent", { 'templateUrl': $("input[name='templateUrl']").val() }, function (res) {
+                    setHtml(res.msg);
+                });
+            }
+        }
+
+        /*模板模型-新增-选择父树*/
+        function selectTemplateTree() {
+            var options = {
+                title: '模板模型选择',
+                width: "380",
+                url: prefix + "/selectTemplateTree/" + $("#treeId").val(),
+                callBack: doSubmit
+            };
+            $.modal.openOptions(options);
+        }
+
+        function doSubmit(index, layero) {
+            var body = $.modal.getChildFrame(index),
+                treeId = body.find('#treeId').val();
+            if (treeId == $("input[name='templateId']").val()) {
+                $.modal.msgError("不能选择自己为父节点");
+            }
+            else {
+                $("#treeId").val(treeId);
+                $("#treeName").val(body.find('#treeName').val());
+                $.modal.close(index);
+            }
+        }
+
+        const json = JSON.parse([[${ olyTemplate.templateParam }]]);
+        const options = {
+            mode: 'tree',
+            modes: ['code', 'form', 'text', 'tree', 'view', 'preview'], // allowed modes
+            onError: function (err) {
+                alert(err.toString())
+            },
+            onModeChange: function (newMode, oldMode) {
+                console.log('Mode switched from', oldMode, 'to', newMode)
+            },
+            templates: [
+                {
+                    text: 'Person',
+                    title: 'Insert a Person Node',
+                    className: 'jsoneditor-type-object',
+                    field: 'PersonTemplate',
+                    value: {
+                        'firstName': 'John',
+                        'lastName': 'Do',
+                        'age': 28
                     }
                 },
-                messages: {
-                    "templateName": {
-                        remote: "名称不能为空"
+                {
+                    text: 'Address',
+                    title: 'Insert a Address Node',
+                    field: 'AddressTemplate',
+                    value: {
+                        'street': '',
+                        'city': '',
+                        'state': '',
+                        'ZIP code': ''
                     }
-                },
-                focusCleanup: true
-            });
-
-            $("input[name='templateType']").on('ifChecked', function (event) {
-                changeBox();
-            });
-
-            tinymce.init({
-                selector: '#foHtmlContent',
-                language: 'zh-Hans',
-                height: 800,
-                plugins: 'preview powerpaste casechange importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount a11ychecker editimage help formatpainter permanentpen pageembed charmap mentions quickbars  emoticons advtable export',
-                toolbar: 'undo redo tableofcontents | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed link anchor codesample | a11ycheck ltr rtl |',
-                images_file_types: 'jpg, jpeg, gif,png,bmp,webp',
-                tableofcontents_class: 'markdown-toc',
-                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
-                images_upload_url: ctx + "oly/oss/upload/code/location/msg",
-                images_upload_credentials: true
-            });
-
-            var coEditor = editormd("coHtmlContent", {
-                width: "100%",
-                height: 720,
-                watch: false,
-                toolbar: false,
-                codeFold: true,
-                searchReplace: true,
-                placeholder: "Enjoy coding!",
-                value: '',
-                theme: "dark",
-                mode: "text/html",
-                path: '/ajax/libs/oly_markdown/lib/',
-                onload: function () {
-                    getCode();
                 }
-            });
+            ]
+        }
+        // create the editor
+        const container = document.getElementById('templateParam');
+        const jaonEditor = new JSONEditor(container, options, json);
+        jaonEditor.expandAll();
 
-            /*olyTemplateType
-           0：为目录  目录 目录名 备注 用途
-           1：自定义html 多数据
-           2：以上需要上传 不支持修改*/
-            function changeBox() {
-                let tType = $("input[name='templateType']:checked").val()
-                $("#viewBtn").hide();
-                $(".tox").hide();
-                $("#coHtmlContent").hide();
-                if (tType == 0) {
-                    $(".tr").hide();
-                }
-                else if (tType == 1) {
-                    $(".tHtml").show();
-                    $(".tUp").hide();
-                    $(".tData").hide();
-                    $(".tox").show();
-                }
-                else if (tType == 2) {
-                    $(".tHtml").show();
-                    $(".tData").show();
-                    $(".tUp").hide();
-                    $("#coHtmlContent").show();
-                    $("#viewBtn").show();
+        function okView() {
+            let data = jaonEditor.get();
+            data.content = getHtml();
+            $.post(prefix + "/example", data, function (res) {
+                $("#htmlView").empty();
+                $("#htmlView").append(res);
 
-                }
-                else {
-                    $(".tHtml").hide();
-                    $(".tData").hide();
-                    $(".tUp").show();
-                }
-        
-            }
-            setTimeout(() => {
-                changeBox();
-            }, 1000);
-
-            function getHtml() {
-                if ($("input[name='templateType']:checked").val() == 1) {
-                    return tinyMCE.activeEditor.getContent();
-                } else {
-                    return coEditor.getValue();
-                }
-            }
-
-            function setHtml(res) {
-                let g = $("input[name='templateType']:checked").val();
-                if (g == 1) {
-                    tinyMCE.activeEditor.setContent(res);
-                } else if (g == 2) {
-                    coEditor.setValue(res);
-                }
-
-            }
-            function getCode() {
-                if (($("input[name='templateType']:checked").val() == 1 || $("input[name='templateType']:checked").val() == 2) && $("input[name='templateUrl']").val().length > 2) {
-                    $.get(prefix + "/getContent", { 'templateUrl': $("input[name='templateUrl']").val() }, function (res) {
-                        setHtml(res.msg);
-                    });
-                }
-            }
-
-            /*模板模型-新增-选择父树*/
-            function selectTemplateTree() {
-                var options = {
-                    title: '模板模型选择',
-                    width: "380",
-                    url: prefix + "/selectTemplateTree/" + $("#treeId").val(),
-                    callBack: doSubmit
-                };
-                $.modal.openOptions(options);
-            }
-
-            function doSubmit(index, layero) {
-                var body = $.modal.getChildFrame(index),
-                    treeId = body.find('#treeId').val();
-                if (treeId == $("input[name='templateId']").val()) {
-                    $.modal.msgError("不能选择自己为父节点");
-                }
-                else {
-                    $("#treeId").val(treeId);
-                    $("#treeName").val(body.find('#treeName').val());
-                    $.modal.close(index);
-                }
-            }
-
-            const json = JSON.parse([[${ olyTemplate.templateParam }]]);
-            const options = {
-                mode: 'tree',
-                modes: ['code', 'form', 'text', 'tree', 'view', 'preview'], // allowed modes
-                onError: function (err) {
-                    alert(err.toString())
-                },
-                onModeChange: function (newMode, oldMode) {
-                    console.log('Mode switched from', oldMode, 'to', newMode)
-                },
-                templates: [
-                    {
-                        text: 'Person',
-                        title: 'Insert a Person Node',
-                        className: 'jsoneditor-type-object',
-                        field: 'PersonTemplate',
-                        value: {
-                            'firstName': 'John',
-                            'lastName': 'Do',
-                            'age': 28
-                        }
-                    },
-                    {
-                        text: 'Address',
-                        title: 'Insert a Address Node',
-                        field: 'AddressTemplate',
-                        value: {
-                            'street': '',
-                            'city': '',
-                            'state': '',
-                            'ZIP code': ''
-                        }
-                    }
-                ]
-            }
-            // create the editor
-            const container = document.getElementById('templateParam');
-            const jaonEditor = new JSONEditor(container, options, json);
-            jaonEditor.expandAll();
-
-            function okView() {
-                let data = jaonEditor.get();
-                data.content = getHtml();
-                $.post(prefix + "/example", data, function (res) {
-                    $("#htmlView").empty();
-                    $("#htmlView").append(res);
-
-                })
-            }
-
-            function submitHandler() {
-                if ($.validate.form()) {
-                    var data = $('#form-template-edit').serializeArray();
-                    data.push({ "name": "templateHtml", "value": getHtml() });
-                    data.push({ "name": "templateParam", "value": JSON.stringify(jaonEditor.get(), null, 2) });
-                    $.operate.saveTab(prefix + "/edit", data);
-                }
-            }
-
-            $("input[name='file']").fileinput({
-                rtl: true,
-                showPreview: false, //是否显示预览
-                hideThumbnailContent: true,//是否在缩略图中隐藏预览内容（图像，pdf内容，文本内容等）。
-                uploadUrl: prefix + "/templateUpload",
-                allowedFileExtensions: supportSuffix.split(",")
-            });
-            $("input[name='file']").on("fileuploaded", function (event, data, previewId, index) {
-                $("input[name='templateUrl']").val(data.response.data.msg);
             })
+        }
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                var data = $('#form-template-edit').serializeArray();
+                data.push({ "name": "templateHtml", "value": getHtml() });
+                data.push({ "name": "templateParam", "value": JSON.stringify(jaonEditor.get(), null, 2) });
+                $.operate.saveTab(prefix + "/edit", data);
+            }
+        }
+
+        $("input[name='file']").fileinput({
+            rtl: true,
+            showPreview: false, //是否显示预览
+            hideThumbnailContent: true,//是否在缩略图中隐藏预览内容（图像，pdf内容，文本内容等）。
+            uploadUrl: prefix + "/templateUpload",
+            allowedFileExtensions: supportSuffix.split(",")
+        });
+        $("input[name='file']").on("fileuploaded", function (event, data, previewId, index) {
+            $("input[name='templateUrl']").val(data.response.data.msg);
+        })
     </script>
 
 </body>

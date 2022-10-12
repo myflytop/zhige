@@ -7,9 +7,12 @@
     <th:block th:include="include :: oly_markdown_css" />
     <th:block th:include="include :: bootstrap-fileinput-css" />
     <style>
-        .tHtml,.tData {
-               display: none;
-           }
+        .tData {
+            display: none;
+        }
+        .tHtml{
+         opacity: 0;
+        }
    </style>
 </head>
 
@@ -77,21 +80,22 @@
             </div>
 
 
-            <div class="form-group tHtml">
+            <div class="form-group tHtml tr">
                 <label class="col-sm-3 control-label">模板内容：</label>
-                <div class="col-sm-8">     
+                <div class="col-sm-8">
+                    <div class="tin-box">   
                         <textarea id="foHtmlContent">
     
     
                         </textarea>
-    
+                    </div>  
                         <div id="coHtmlContent">
                             <textarea style="display:none;"></textarea>
                         </div>
                 </div>
             </div>
 
-            <div class="form-group tData">
+            <div class="form-group tData tr">
                 <label class="col-sm-3 control-label">模板数据：</label>
                 <div class="col-sm-8">
                     <div id="templateParam" class="json-editor"></div>
@@ -257,6 +261,7 @@
         }
         setTimeout(() => {
             changeBox();
+            $(".tHtml").css("opacity",1);
         }, 1000);
 
 
