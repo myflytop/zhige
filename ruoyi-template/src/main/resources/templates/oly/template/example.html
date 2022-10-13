@@ -14,7 +14,7 @@
 				<div class="col-md-12">
 					<div class="row search-collapse">
 						<div class="col-md-6 ">
-							<textarea readonly id="templateContent" class="form-control"  rows="20">
+							<textarea readonly id="templateContent" class="form-control" rows="20">
 							</textarea>
 						</div>
 						<div class="col-md-6">
@@ -23,7 +23,7 @@
 						</div>
 					</div>
 				</div>
-			
+
 				<div class="col-sm-12 select-table table-striped">
 					<div class="row">
 						<div class="col-sm-4">
@@ -34,7 +34,7 @@
 								<a class="btn btn-primary btn-rounded btn-sm" onclick="submit()"><i
 										class="fa fa-search"></i>确定</a>
 							</form>
-						</div>		
+						</div>
 					</div>
 				</div>
 			</div>
@@ -49,7 +49,16 @@
 				$.get(prefix + "/get/" + templateId, function (data, status) {
 					$("#json-div").empty();
 					getContent(data.data.templateUrl);
-					$.each(JSON.parse(data.data.templateParam), function (i, e) {//i是索引，e是json对象
+					myEach(JSON.parse(data.data.templateParam));
+				});
+			}
+
+			function myEach(ob) {		
+				if (Object.values(ob).length==1 && Object.values(ob)[0] instanceof Object) {
+                     myEach(Object.values(ob)[0]);		
+				}
+				else {
+					$.each(ob, function (i, e) {//i是索引，e是json对象
 						if (e == null) {
 							return;
 						}
@@ -62,27 +71,28 @@
 							'</div>';
 						$("#json-div").append(df);
 					});
-				});
+				}
 			}
+
 			function getContent(templateUrl) {
 				$.get(prefix + "/getContent?templateUrl=" + templateUrl, function (res, status) {
-					$("#templateContent").val(res);
+					$("#templateContent").val(res.msg);
 				});
 			}
 			initForme();
 			function submit() {
 				var formData = $("#json-form").serializeArray();
-				formData.push({ "name": "content", "value": $("#templateContent").val()});
+				formData.push({ "name": "content", "value": $("#templateContent").val() });
 				var formData1 = new FormData();
 				for (var p in formData) {
 					formData1.append(formData[p].name, formData[p].value);
 				}
-				  $.post(prefix + "/example", formData, function (res) {
+				$.post(prefix + "/example", formData, function (res) {
 					$("#show-exm").empty();
 					$("#show-exm").append(res);
 
-            })
-			
+				})
+
 			}
 		</script>
 	</body>

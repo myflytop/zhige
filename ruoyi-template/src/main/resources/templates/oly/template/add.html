@@ -156,7 +156,7 @@
     <th:block th:include="include :: bootstrap-fileinput-js" />
     <script th:inline="javascript">
         var prefix = ctx + "oly/template";
-        var supportSuffix = "pdf,excel,jpg"
+        var supportSuffix = "pdf,excel,html,jpg"
         $("#form-template-add").validate({
             onkeyup: false,
             rules: {
@@ -263,8 +263,6 @@
             changeBox();
             $(".tHtml").css("opacity",1);
         }, 1000);
-
-
         function getHtml() {
             if ($("input[name='templateType']:checked").val() == 1) {
               return tinyMCE.activeEditor.getContent();
@@ -272,7 +270,6 @@
                 return coEditor.getValue();
             }
         }
-
         /*模板模型-新增-选择父树*/
         function selectTemplateTree() {
             var options = {
@@ -330,7 +327,6 @@
                 }
             ]
         }
-
         // create the editor
         const container = document.getElementById('templateParam');
         const jaonEditor = new JSONEditor(container, options, json);
@@ -342,7 +338,6 @@
             $.post(prefix + "/example", data, function (res) {
                 $("#htmlView").empty();
                 $("#htmlView").append(res);
-
             })
         }
         $(document).ready(function () {

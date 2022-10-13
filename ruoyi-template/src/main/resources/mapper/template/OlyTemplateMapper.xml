@@ -36,6 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="visible != null "> and visible = #{visible}</if>
             <if test="templateType != null "> and template_type = #{templateType}</if>
         </where>
+        order by parent_id, order_num,create_time desc
     </select>
     
     <select id="selectOlyTemplateById" parameterType="Long" resultMap="OlyTemplateResult">
