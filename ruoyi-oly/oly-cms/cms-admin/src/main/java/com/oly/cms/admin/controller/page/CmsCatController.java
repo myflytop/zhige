@@ -64,7 +64,7 @@ public class CmsCatController extends CmsCommonController {
             : cmsCat.getParams().get("supportType").toString();
       if (StringUtils.isNotEmpty(configGroup)) {
          cmsCat.getParams().put("supportType",
-               configService.selectConfigDefauleValue(configGroup.toString(), OlyWebConfigProperties.ARTICLE_TYPES));
+               configService.selectConfigDefaultValue(configGroup.toString(), OlyWebConfigProperties.ARTICLE_TYPES));
       }
       List<CmsCat> cmsCats = cmsCatService.listCmsCatByCat(cmsCat);
       return cmsCats;

@@ -44,7 +44,7 @@ public class CmsToolController extends BaseController {
     @ResponseBody
     public AjaxResult siteMapXml(@PathVariable("themeName") String themeName) {
         String prefix = "";
-        if (themeName.equals(configService.selectConfigDefauleValue(
+        if (themeName.equals(configService.selectConfigDefaultValue(
                 OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(), OlyThemeConfigProperties.THEME_USED))) {
 
         } else {
@@ -64,7 +64,7 @@ public class CmsToolController extends BaseController {
         mnMap.put(OlyPagePrefix.linksPage, em);
         mnMap.put(OlyPagePrefix.aboutPage, em);
         GenerateMapUtils.generateBaiDuMap(basePath,
-                configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.DOMAIN), mnMap, themeName,
+                configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.DOMAIN), mnMap, themeName,
                 prefix);
         // 主页
         // 所有文章
@@ -84,7 +84,7 @@ public class CmsToolController extends BaseController {
     @ResponseBody
     public AjaxResult siteMapXmlByBeginTime(String beginTime, @PathVariable("themeName") String themeName) {
         String prefix = "";
-        if (themeName.equals(configService.selectConfigDefauleValue(
+        if (themeName.equals(configService.selectConfigDefaultValue(
                 OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(), OlyThemeConfigProperties.THEME_USED))) {
 
         } else {
@@ -103,7 +103,7 @@ public class CmsToolController extends BaseController {
         mnMap.put(OlyPagePrefix.aboutPage, em);
         mnMap.put(OlyPagePrefix.linksPage, em);
         GenerateMapUtils.generateBaiDuMap(basePath,
-                configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.DOMAIN), mnMap, themeName,
+                configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.DOMAIN), mnMap, themeName,
                 prefix);
         // 主页
         // 所有文章

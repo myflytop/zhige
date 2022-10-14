@@ -24,7 +24,7 @@ public class WebTag {
      */
     public Integer[] getThemeSupportType(String themeName) {
         return Convert.toIntArray(",",
-                configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
+                configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
     }
 
     /**

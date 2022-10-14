@@ -55,6 +55,7 @@ public interface ISysConfigService {
 
     /**
      * 查询参数配置列表转Map
+     * key config
      * 
      * @param config 参数配置信息
      * @return 参数配置集合
@@ -63,6 +64,7 @@ public interface ISysConfigService {
 
     /**
      * 查询参数配置列表转Map
+     * key value
      * 
      * @param config 参数配置信息
      * @return 参数配置集合
@@ -84,24 +86,6 @@ public interface ISysConfigService {
      * @return 参数配置集合
      */
     public Map<String, String> selectConfigMapValueByGroupName(String configGroup);
-
-    /**
-     * 查询参数配置列表转Map
-     * 
-     * @param configGroup 参数配置组
-     * @param configKey
-     * @return 参数配置集合
-     */
-    public Map<String, SysConfig> selectConfigMapByGf(String configGroup, String configKey);
-
-    /**
-     * 查询参数配置列表转Map
-     * 
-     * @param configGroup 参数配置组
-     * @param configKey
-     * @return 参数配置集合
-     */
-    public Map<String, String> selectConfigMapValueByGf(String configGroup, String configKey);
 
     /**
      * 新增参数配置
@@ -126,14 +110,14 @@ public interface ISysConfigService {
      * @return 结果
      */
     public int updateConfigByGk(SysConfig config);
-    
+
     /**
      * 批量修改参数配置
      * 
      * @param map
      * @return 结果
      */
-    public  int updatesByMap(Map<String, String> map); 
+    public int updatesByMap(Map<String, String> map);
 
     /**
      * 批量删除参数配置信息
@@ -188,5 +172,5 @@ public interface ISysConfigService {
      * @param propertyEnum
      * @return
      */
-    public String selectConfigDefauleValue(String groupName, PropertyEnum propertyEnum);
+    public String selectConfigDefaultValue(String groupName, PropertyEnum propertyEnum);
 }

@@ -131,7 +131,7 @@ public class CmsUnionServiceImpl implements ICmsUnionService {
                 if (StringUtils.isNull(u)) {
                     BeanValidators.validateWithException(validator, union);
                     union.setCreateBy(ShiroUtils.getLoginName());
-                    union.setVisible(Integer.parseInt(configService.selectConfigDefauleValue(
+                    union.setVisible(Integer.parseInt(configService.selectConfigDefaultValue(
                             OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
                             OlyCmsConfigProperties.UNION_VISIBLE_DEFAULT)));
                     cmsUnionMapper.insertCmsUnion(union);

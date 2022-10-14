@@ -31,7 +31,7 @@ public class OssFactory {
     }
 
     public OssHandler get() {
-        String scheme = configService.selectConfigDefauleValue(OssConfigProperties.OSS_CONFIG_GROUP.getValue(),
+        String scheme = configService.selectConfigDefaultValue(OssConfigProperties.OSS_CONFIG_GROUP.getValue(),
                 OssConfigProperties.OSS_USED);
         return fileRepoMap.get(scheme);
     }

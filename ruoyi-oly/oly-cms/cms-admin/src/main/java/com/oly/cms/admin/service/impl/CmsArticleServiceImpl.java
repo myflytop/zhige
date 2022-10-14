@@ -65,7 +65,7 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 			art.setArticleTop(OlySystemConstant.DEFAULT_POST_TOP);
 			// 状态默认审核中
 			art.setVisible(Integer.parseInt(
-					configService.selectConfigDefauleValue(OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
+					configService.selectConfigDefaultValue(OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
 							OlyCmsConfigProperties.ARTICLE_VISIBLE_DEFAULT)));
 			// 插入文章
 			int reInsertNum = articleMapper.insertCmsArticle(art);
@@ -186,7 +186,7 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 			throw new ServiceException("关联失败,关联分类可能不存在。分类ID" + catId);
 		}
 		if (cmsArticleLiquidMapper.countArticleCat(articleId) >= Integer
-				.parseInt(configService.selectConfigDefauleValue(OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
+				.parseInt(configService.selectConfigDefaultValue(OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
 						OlyCmsConfigProperties.ARTICLE_CAT_MAXNUM))) {
 			throw new ServiceException("关联失败,关联分类已达上限。文章Id" + articleId);
 		}
@@ -227,7 +227,7 @@ public class CmsArticleServiceImpl implements ICmsArticleService {
 			throw new ServiceException("关联失败,关联标签可能不存在");
 		}
 		if (cmsArticleLiquidMapper.countArticleTag(articleId) >= Integer
-				.parseInt(configService.selectConfigDefauleValue(OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
+				.parseInt(configService.selectConfigDefaultValue(OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
 						OlyCmsConfigProperties.ARTICLE_TAG_MAXNUM))) {
 			throw new ServiceException("关联失败,关联标签已达上限");
 		}

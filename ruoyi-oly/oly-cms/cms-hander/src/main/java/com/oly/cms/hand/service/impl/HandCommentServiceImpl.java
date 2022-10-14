@@ -87,7 +87,7 @@ public class HandCommentServiceImpl implements IHandCommentService {
 
     @Override
     public boolean commentSupport(CommentTypeEnum commentTypeEnum) {
-        return "true".equals(configService.selectConfigDefauleValue(
+        return "true".equals(configService.selectConfigDefaultValue(
                 OlyCommentProperties.COMMENT_CONFIG_GROUP.defaultValue(),
                 OlyCommentProperties.getEnum("COMMENT_OPEN_" + commentTypeEnum.name())));
 

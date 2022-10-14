@@ -24,7 +24,7 @@
         <li class=""><a data-toggle="tab" href="#siteMap" aria-expanded="false">SiteMap</a>
         </li>
       </ul>
-      <div class="tab-content" th:with="webConfig=${@configTag.getConfigMapValue(configName)}">
+      <div class="tab-content" th:with="webConfig=${@configTag.getConfigValueMap(configName)}">
         <!-- 网站常规 -->
         <div id="normal" class="tab-pane active">
           <div class="panel-body">

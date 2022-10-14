@@ -184,10 +184,10 @@ public class SysProfileController extends BaseController {
         try {
             if (!file.isEmpty()) {
                 String groupName = OssConfigProperties.OSS_CONFIG_GROUP.defaultValue();
-                int maxLength = Integer.parseInt(configService.selectConfigDefauleValue(groupName,
+                int maxLength = Integer.parseInt(configService.selectConfigDefaultValue(groupName,
                         OssConfigProperties.OSS_FILE_NAME_MAX_LENGTH));
                 long maxSize = Long.parseLong(
-                        configService.selectConfigDefauleValue(groupName, OssConfigProperties.OSS_FILE_MAX_SIZE));
+                        configService.selectConfigDefaultValue(groupName, OssConfigProperties.OSS_FILE_MAX_SIZE));
                 OssHandler.check(file, maxLength, maxSize,
                         new String[] { MimeExtensionEnum.IMAGE.name().toLowerCase() });
                 OssResult avat = ossHandler.get().ossAppointUpload(file, OlyStageRoot.HEARD_DIR, null);

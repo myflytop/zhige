@@ -58,7 +58,7 @@ public class CmsUnionController extends CmsCommonController {
     @RequiresPermissions("cms:union:view")
     @GetMapping()
     public String union(ModelMap map) {
-        String types = sysConfigService.selectConfigDefauleValue(OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
+        String types = sysConfigService.selectConfigDefaultValue(OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
                 OlyCmsConfigProperties.UNION_TYPE);
         CmsTag cmsTag = new CmsTag();
         cmsTag.setTagType(Convert.toInt(types, null));
@@ -105,13 +105,13 @@ public class CmsUnionController extends CmsCommonController {
             @RequestParam(value = "cats", required = false) String cats,
             @RequestParam(value = "tags", required = false) String tags) throws Exception {
         if (StringUtils.isNotEmpty(cats)
-                && Convert.toStrArray(cats).length > Convert.toInt(sysConfigService.selectConfigDefauleValue(
+                && Convert.toStrArray(cats).length > Convert.toInt(sysConfigService.selectConfigDefaultValue(
                         OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
                         OlyCmsConfigProperties.UNION_CAT_SIZE))) {
             return AjaxResult.error("关联分类超过上限!");
         }
         if (StringUtils.isNotEmpty(tags)
-                && Convert.toStrArray(tags).length > Convert.toInt(sysConfigService.selectConfigDefauleValue(
+                && Convert.toStrArray(tags).length > Convert.toInt(sysConfigService.selectConfigDefaultValue(
                         OlyCmsConfigProperties.CMS_CONFIG_GROUP.defaultValue(),
                         OlyCmsConfigProperties.UNION_TAG_SIZE))) {
             return AjaxResult.error("关联标签超过上限!");

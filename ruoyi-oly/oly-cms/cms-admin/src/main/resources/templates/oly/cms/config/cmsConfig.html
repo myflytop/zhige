@@ -15,7 +15,7 @@
                 <li><a data-toggle="tab" href="#shop" aria-expanded="false">联盟设置</a>
                 </li>
             </ul>
-            <div class="tab-content" th:with="cmsConfig=${@configTag.getConfigMapValue('cmsConfig')}">
+            <div class="tab-content" th:with="cmsConfig=${@configTag.getConfigValueMap('cmsConfig')}">
                 <!--文章发布设置-->
                 <div id="article" class="tab-pane active">
                     <div class="panel-body">

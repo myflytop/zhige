@@ -1,7 +1,7 @@
 package com.ruoyi.system.config.enums;
 
 public enum ConfigValueTypeEnum {
-    NUMBER("数值"), FLOAT("浮点"), BOOLEAN("布尔"), STRING("字符"), JSON("JSON"), HTML("HTML");
+    NUMBER("数值"), FLOAT("浮点"), BOOLEAN("布尔"), STRING("字符");
 
     private final String value;
 

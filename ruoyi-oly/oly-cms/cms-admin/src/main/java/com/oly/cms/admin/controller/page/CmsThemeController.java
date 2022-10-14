@@ -140,7 +140,7 @@ public class CmsThemeController extends CmsCommonController {
 	public String themeSetting(@PathVariable("themeName") String themeName, ModelMap map) {
 		map.put("themeName", themeName);
 		map.put("themeData",
-				JSONObject.toJSON(sysConfigService.selectConfigMapValueByGf(themeName, "oly.web.theme." + themeName)));
+				JSONObject.toJSON(sysConfigService.selectConfigValueMapByGk(themeName, "oly.web.theme." + themeName)));
 		return prefix + "/themeSetting";
 	}
 
@@ -184,7 +184,7 @@ public class CmsThemeController extends CmsCommonController {
 	@RequiresPermissions("cms:theme:edit")
 	@ResponseBody
 	public AjaxResult setTheme(String themeName) throws FileNotFoundException {
-		if (themeName.equals(sysConfigService.selectConfigDefauleValue(
+		if (themeName.equals(sysConfigService.selectConfigDefaultValue(
 				OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(), OlyThemeConfigProperties.THEME_USED))) {
 			return AjaxResult.error("使用的就是当前主题,无需切换!");
 		} else if (!checkThemeExist(themeName)) {
@@ -203,7 +203,7 @@ public class CmsThemeController extends CmsCommonController {
 	@RequiresPermissions("cms:theme:remove")
 	@ResponseBody
 	public AjaxResult deleteTheme(String themeName) throws FileNotFoundException {
-		if (themeName.equals(sysConfigService.selectConfigDefauleValue(
+		if (themeName.equals(sysConfigService.selectConfigDefaultValue(
 				OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(), OlyThemeConfigProperties.THEME_USED))) {
 			return AjaxResult.error("当前主题已经启用,不允许删除!");
 		}

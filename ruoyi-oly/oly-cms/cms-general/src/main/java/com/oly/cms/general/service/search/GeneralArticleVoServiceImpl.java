@@ -96,7 +96,7 @@ public class GeneralArticleVoServiceImpl implements IGeneralSearchService {
             return true;
         } else {
             return StringUtils
-                    .isEmpty(configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
+                    .isEmpty(configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
         }
     }
 

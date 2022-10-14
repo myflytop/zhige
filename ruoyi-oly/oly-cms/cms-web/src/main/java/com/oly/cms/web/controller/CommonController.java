@@ -29,14 +29,14 @@ public class CommonController extends BaseController {
         setParams(mp);
         if (StringUtils.isNotEmpty(themeName)) {
             boolean support = "true".equals(
-                    configService.selectConfigDefauleValue(OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(),
+                    configService.selectConfigDefaultValue(OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(),
                             OlyThemeConfigProperties.THEME_MORE_INSTALL));
             if (support) {
                 return themeName + page;
             }
             return "/web/jump";
         } else {
-            themeName = configService.selectConfigDefauleValue(
+            themeName = configService.selectConfigDefaultValue(
                     OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(), OlyThemeConfigProperties.THEME_USED);
             return themeName + page;
         }
@@ -48,18 +48,18 @@ public class CommonController extends BaseController {
     }
 
     protected String getSupportType(String themeName, PropertyEnum propertyEnum) {
-        return configService.selectConfigDefauleValue(getThemeName(themeName), propertyEnum);
+        return configService.selectConfigDefaultValue(getThemeName(themeName), propertyEnum);
     }
 
     protected CmsColumn getCmsColumn(String themeName, PropertyEnum propertyEnum) {
         CmsColumn cmsColumn = cmsColumnService.getCmsColumnById(
-                Long.parseLong(configService.selectConfigDefauleValue(getThemeName(themeName), propertyEnum)));
+                Long.parseLong(configService.selectConfigDefaultValue(getThemeName(themeName), propertyEnum)));
         return cmsColumn == null ? new CmsColumn() : cmsColumn;
     }
 
     protected String getThemeName(String themeName) {
         if (StringUtils.isEmpty(themeName)) {
-            themeName = configService.selectConfigDefauleValue(
+            themeName = configService.selectConfigDefaultValue(
                     OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(), OlyThemeConfigProperties.THEME_USED);
         }
         return themeName;

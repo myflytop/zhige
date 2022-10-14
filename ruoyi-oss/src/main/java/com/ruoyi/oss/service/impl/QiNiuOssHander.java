@@ -177,7 +177,7 @@ public class QiNiuOssHander implements OssHandler {
 
     @Override
     public String getThumbKey(String fk) {
-        return fk + configService.selectConfigDefauleValue(OssConfigProperties.OSS_CONFIG_GROUP.getValue(),
+        return fk + configService.selectConfigDefaultValue(OssConfigProperties.OSS_CONFIG_GROUP.getValue(),
                 QnYunProperties.OSS_STYLE_RULE);
     }
 

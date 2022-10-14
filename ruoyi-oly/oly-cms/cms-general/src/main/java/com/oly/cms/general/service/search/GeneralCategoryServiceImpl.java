@@ -85,7 +85,7 @@ public class GeneralCategoryServiceImpl implements IGeneralSearchService {
     }
 
     public int getCatNum(String themeName) {
-        String supportType = configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
+        String supportType = configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
         return categorySearchMapper.getCatNum(supportType);
     }
 
@@ -93,7 +93,7 @@ public class GeneralCategoryServiceImpl implements IGeneralSearchService {
         if (StringUtils.isEmpty(themeName)) {
             return;
         }
-        String supportType = configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
+        String supportType = configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
         if (StringUtils.isNotEmpty(supportType)) {
             cmsCat.getParams().put("supportType", supportType);
         }
@@ -103,7 +103,7 @@ public class GeneralCategoryServiceImpl implements IGeneralSearchService {
         CmsCat cat = categorySearchMapper.selectCmsCatById(catId);
         if (cat != null) {
             String[] types = StringUtils.split(
-                    configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES), ",");
+                    configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES), ",");
             if (StringUtils.isEmpty(types) || ArrayUtils.contains(types, cat.getCatType().toString())) {
                 return true;
             }

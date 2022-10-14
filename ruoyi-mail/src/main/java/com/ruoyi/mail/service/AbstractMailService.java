@@ -91,7 +91,7 @@ public abstract class AbstractMailService implements IOlyMailService {
 
         // 检查是否开启邮件服务
         Boolean emailEnabled = Boolean.valueOf(sysConfigService
-                .selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(), EmailProperties.ENABLED));
+                .selectConfigDefaultValue(EmailProperties.GROUP_NAME.getValue(), EmailProperties.ENABLED));
 
         if (!emailEnabled) {
             // If disabled
@@ -188,7 +188,7 @@ public abstract class AbstractMailService implements IOlyMailService {
 
         if (StringUtils.isBlank(this.cachedFromName)) {
             // set personal name
-            this.cachedFromName = sysConfigService.selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(),
+            this.cachedFromName = sysConfigService.selectConfigDefaultValue(EmailProperties.GROUP_NAME.getValue(),
                     EmailProperties.FROM_NAME);
         }
 
@@ -215,18 +215,18 @@ public abstract class AbstractMailService implements IOlyMailService {
             // create mail properties
             DefaultMailProperties mailProperties = new DefaultMailProperties(log.isDebugEnabled(),
                     Boolean.parseBoolean(
-                            sysConfigService.selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(),
+                            sysConfigService.selectConfigDefaultValue(EmailProperties.GROUP_NAME.getValue(),
                                     EmailProperties.STARTTLS)));
             // set properties
-            mailProperties.setHost(sysConfigService.selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(),
+            mailProperties.setHost(sysConfigService.selectConfigDefaultValue(EmailProperties.GROUP_NAME.getValue(),
                     EmailProperties.HOST));
             mailProperties.setPort(Integer.parseInt(sysConfigService
-                    .selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(), EmailProperties.SSL_PORT)));
-            mailProperties.setProtocol(sysConfigService.selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(),
+                    .selectConfigDefaultValue(EmailProperties.GROUP_NAME.getValue(), EmailProperties.SSL_PORT)));
+            mailProperties.setProtocol(sysConfigService.selectConfigDefaultValue(EmailProperties.GROUP_NAME.getValue(),
                     EmailProperties.PROTOCOL));
-            mailProperties.setPassword(sysConfigService.selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(),
+            mailProperties.setPassword(sysConfigService.selectConfigDefaultValue(EmailProperties.GROUP_NAME.getValue(),
                     EmailProperties.PASSWORD));
-            mailProperties.setUsername(sysConfigService.selectConfigDefauleValue(EmailProperties.GROUP_NAME.getValue(),
+            mailProperties.setUsername(sysConfigService.selectConfigDefaultValue(EmailProperties.GROUP_NAME.getValue(),
                     EmailProperties.USERNAME));
             this.cachedMailProperties = mailProperties;
         }

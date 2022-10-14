@@ -15,15 +15,7 @@ public interface SysConfigMapper {
      * @param config 参数配置信息
      * @return 参数配置信息
      */
-    public SysConfig selectConfigById(SysConfig config);
-
-    /**
-     * 查询参数配置信息
-     * 
-     * @param config 参数配置信息
-     * @return 参数配置信息
-     */
-    public SysConfig selectConfigByGk(SysConfig config);
+    public SysConfig selectConfig(SysConfig config);
 
     /**
      * 查询参数配置列表
@@ -39,14 +31,6 @@ public interface SysConfigMapper {
      * @return
      */
     public List<String> selectConfigGroupList();
-
-    /**
-     * 根据键名查询参数配置信息
-     * 
-     * @param config 参数配置信息
-     * @return 参数配置信息
-     */
-    public SysConfig checkConfigKeyUnique(SysConfig config);
 
     /**
      * 新增参数配置

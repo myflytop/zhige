@@ -89,6 +89,8 @@ public class SysConfig extends BaseEntity {
         this.configType = configType;
     }
 
+    @NotBlank(message = "配置组不能为空")
+    @Size(min = 0, max = 16, message = "参数键值长度不能超过16个字符")
     public String getConfigGroup() {
         return configGroup;
     }

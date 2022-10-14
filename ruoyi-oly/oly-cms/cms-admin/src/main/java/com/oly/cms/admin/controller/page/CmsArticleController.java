@@ -380,11 +380,11 @@ public class CmsArticleController extends CmsCommonController {
 			throws FileSizeLimitExceededException, InvalidExtensionException, IOException {
 		String groupName = OssConfigProperties.OSS_CONFIG_GROUP.defaultValue();
 		int maxLength = Integer.parseInt(
-				configService.selectConfigDefauleValue(groupName, OssConfigProperties.OSS_FILE_NAME_MAX_LENGTH));
+				configService.selectConfigDefaultValue(groupName, OssConfigProperties.OSS_FILE_NAME_MAX_LENGTH));
 		long maxSize = Long
-				.parseLong(configService.selectConfigDefauleValue(groupName, OssConfigProperties.OSS_FILE_MAX_SIZE));
+				.parseLong(configService.selectConfigDefaultValue(groupName, OssConfigProperties.OSS_FILE_MAX_SIZE));
 		boolean chan = Boolean.parseBoolean(
-				configService.selectConfigDefauleValue(groupName, OssConfigProperties.OSS_FILE_NAME_ZH_PY));
+				configService.selectConfigDefaultValue(groupName, OssConfigProperties.OSS_FILE_NAME_ZH_PY));
 		return ossHandler.get().ossUpload(file, maxLength, maxSize, chan,
 				new String[] { MimeExtensionEnum.IMAGE.name().toLowerCase() }).getData();
 	}

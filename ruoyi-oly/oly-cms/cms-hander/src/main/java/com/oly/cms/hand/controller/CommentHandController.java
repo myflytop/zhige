@@ -66,7 +66,7 @@ public class CommentHandController {
     @WebLog(title = "添加评论", logType = WebLogType.COMMENT, businessType = WebBusinessType.UPDATE)
     @RequiresAuthentication
     public AjaxResult addComment(@Validated CmsComment cmsComment, CommentTypeEnum type) {
-        String maxSize = configService.selectConfigDefauleValue(
+        String maxSize = configService.selectConfigDefaultValue(
                 OlyCommentProperties.COMMENT_CONFIG_GROUP.defaultValue(),
                 OlyCommentProperties.COMMENT_MAX_SIZE);
         if (Integer.parseInt(maxSize) < EscapeUtil.clean(cmsComment.getContent()).length()) {
@@ -98,7 +98,7 @@ public class CommentHandController {
                 cmsComment.setFromBy(ShiroUtils.getUserId());
                 cmsComment.setUserSystem(userAgent.getOperatingSystem().getName());
                 cmsComment.setUserBower(userAgent.getBrowser().getName());
-                String value = configService.selectConfigDefauleValue(
+                String value = configService.selectConfigDefaultValue(
                         OlyCommentProperties.COMMENT_CONFIG_GROUP.defaultValue(),
                         OlyCommentProperties.COMMENT_DEFAULT_VISIBLE);
                 cmsComment.setVisible(CommentVisibleEnums.valueOf(value).ordinal());

@@ -7,7 +7,7 @@
 </head>
 
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content" th:with="commentConfig=${@configTag.getConfigMapValue('commentConfig')}">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content" th:with="commentConfig=${@configTag.getConfigValueMap('commentConfig')}">
         <div class="tabs-container">
             <ul class="nav nav-tabs" id="config-title">
                 <li class="active"><a data-toggle="tab" href="#comment" aria-expanded="false">评论设置</a>

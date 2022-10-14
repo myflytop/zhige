@@ -88,7 +88,7 @@ public class CmsTagController extends CmsCommonController {
       String configGroup = cmsTag.getParams().get("supportType").toString();
       if (StringUtils.isNotEmpty(configGroup)) {
          cmsTag.getParams().put("supportType",
-               configService.selectConfigDefauleValue(configGroup.toString(), OlyWebConfigProperties.ARTICLE_TYPES));
+               configService.selectConfigDefaultValue(configGroup.toString(), OlyWebConfigProperties.ARTICLE_TYPES));
       }
       startPage();
       final List<CmsTag> cmsTags = cmsTagService.listCmsTagByTag(cmsTag);

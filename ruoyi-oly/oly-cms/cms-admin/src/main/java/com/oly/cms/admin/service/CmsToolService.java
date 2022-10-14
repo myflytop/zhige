@@ -19,16 +19,16 @@ public class CmsToolService {
     public List<String> listCatIds(String beginTime, String themeName) {
 
         return cmsToolMapper.listCatIds(beginTime,
-                configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
+                configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
     }
 
     public List<String> listTagIds(String beginTime, String themeName) {
         return cmsToolMapper.listTagIds(beginTime,
-                configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
+                configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
     }
 
     public List<String> listPostIds(String beginTime, String themeName) {
         return cmsToolMapper.listPostIds(beginTime,
-                configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
+                configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES));
     }
 }

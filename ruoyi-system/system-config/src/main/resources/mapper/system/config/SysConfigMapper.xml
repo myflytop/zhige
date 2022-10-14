@@ -35,13 +35,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</sql>
     
-    <select id="selectConfigById" parameterType="SysConfig" resultMap="SysConfigResult">
-        <include refid="selectConfigVo"/> where config_id = #{configId}
-       
-    </select>
-
-	 <select id="selectConfigByGk" parameterType="SysConfig" resultMap="SysConfigResult">
-        <include refid="selectConfigVo"/> where config_group = #{configGroup} and config_key = #{configKey}
+	 <select id="selectConfig" parameterType="SysConfig" resultMap="SysConfigResult">
+        <include refid="selectConfigVo"/>  <where>
+			<if test="configGroup != null and configGroup != '' and configKey != null and configKey != '' and configId ==null ">
+				config_group = #{configGroup} and config_key = #{configKey}
+			</if>
+			<if test="configId !=null">
+				and config_id = #{configId}
+			</if>
+		</where>
     </select>
     
     <select id="selectConfigList" parameterType="SysConfig" resultMap="SysConfigResult">
@@ -75,11 +77,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select config_group from sys_config group by config_group
     </select>
     
-    <select id="checkConfigKeyUnique" parameterType="SysConfig" resultMap="SysConfigResult">
-        <include refid="selectConfigVo"/>
-        where config_key = #{configKey} AND config_group = #{configGroup} limit 1
-    </select>
-
 
     
     <insert id="insertConfig" parameterType="SysConfig">

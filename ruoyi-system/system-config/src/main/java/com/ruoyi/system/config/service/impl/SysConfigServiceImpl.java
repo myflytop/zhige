@@ -51,7 +51,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     public SysConfig selectConfigById(Long configId) {
         SysConfig config = new SysConfig();
         config.setConfigId(configId);
-        return configMapper.selectConfigById(config);
+        return configMapper.selectConfig(config);
     }
 
     /**
@@ -70,7 +70,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         SysConfig config = new SysConfig();
         config.setConfigKey(configKey);
         config.setConfigGroup(configGroup);
-        SysConfig retConfig = configMapper.selectConfigByGk(config);
+        SysConfig retConfig = configMapper.selectConfig(config);
         if (StringUtils.isNotNull(retConfig)) {
             CacheUtils.put(getCacheName(), getCacheKey(configGroup, configKey), retConfig.getConfigValue());
             return retConfig.getConfigValue();
@@ -83,7 +83,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         SysConfig config = new SysConfig();
         config.setConfigKey(configKey);
         config.setConfigGroup(configGroup);
-        return configMapper.selectConfigByGk(config);
+        return configMapper.selectConfig(config);
     }
 
     /**
@@ -230,7 +230,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Override
     public String checkConfigGkUnique(SysConfig config) {
         Long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
-        SysConfig info = configMapper.checkConfigKeyUnique(config);
+        SysConfig info = configMapper.selectConfig(config);
         if (StringUtils.isNotNull(info) && info.getConfigId().longValue() != configId.longValue()) {
             return UserConstants.CONFIG_KEY_NOT_UNIQUE;
         }
@@ -304,7 +304,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     }
 
     @Override
-    public String selectConfigDefauleValue(String groupName, PropertyEnum propertyEnum) {
+    public String selectConfigDefaultValue(String groupName, PropertyEnum propertyEnum) {
         String value = selectConfigValueByGk(groupName, propertyEnum.getValue());
         return PropertyEnum.convertTo(value, propertyEnum).toString();
 
@@ -313,7 +313,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Override
     public Map<String, SysConfig> selectConfigMapByGroupName(String configGroup) {
         SysConfig config = new SysConfig();
-
         config.setConfigGroup(configGroup);
         return this.selectConfigMap(config);
     }
@@ -321,22 +320,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Override
     public Map<String, String> selectConfigMapValueByGroupName(String configGroup) {
         SysConfig config = new SysConfig();
-        config.setConfigGroup(configGroup);
-        return this.selectConfigMapValue(config);
-    }
-
-    @Override
-    public Map<String, SysConfig> selectConfigMapByGf(String configGroup, String configKey) {
-        SysConfig config = new SysConfig();
-        config.setConfigKey(configKey);
-        config.setConfigGroup(configGroup);
-        return this.selectConfigMap(config);
-    }
-
-    @Override
-    public Map<String, String> selectConfigMapValueByGf(String configGroup, String configKey) {
-        SysConfig config = new SysConfig();
-        config.setConfigKey(configKey);
         config.setConfigGroup(configGroup);
         return this.selectConfigMapValue(config);
     }

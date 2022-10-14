@@ -13,7 +13,7 @@
                 <li class="active"><a data-toggle="tab" href="#theme" aria-expanded="true">主题设置</a>
                 </li>
             </ul>
-            <div class="tab-content" th:with="themeConfig=${@configTag.getConfigMapValue('themeConfig')}">
+            <div class="tab-content" th:with="themeConfig=${@configTag.getConfigValueMap('themeConfig')}">
                 <!-- 主题 -->
                 <div class="tab-pane active" id="theme">
                     <form class="form-horizontal m" id="form-theme">

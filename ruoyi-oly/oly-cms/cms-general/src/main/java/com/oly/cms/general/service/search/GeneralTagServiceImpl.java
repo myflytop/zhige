@@ -42,7 +42,7 @@ public class GeneralTagServiceImpl implements IGeneralSearchService {
     }
 
     public int getTagNum(String themeName) {
-        String supportType = configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
+        String supportType = configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
         return tagSearchMapper.getTagNum(supportType);
     }
 
@@ -50,7 +50,7 @@ public class GeneralTagServiceImpl implements IGeneralSearchService {
         if (StringUtils.isEmpty(themeName)) {
             return;
         }
-        String supportType = configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
+        String supportType = configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES);
         if (StringUtils.isNotEmpty(supportType)) {
             cmsTag.getParams().put("supportType", supportType);
         }
@@ -61,7 +61,7 @@ public class GeneralTagServiceImpl implements IGeneralSearchService {
         CmsTag tag = tagSearchMapper.selectCmsTagById(tagId);
         if (tag != null) {
             String[] types = StringUtils.split(
-                    configService.selectConfigDefauleValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES), ",");
+                    configService.selectConfigDefaultValue(themeName, OlyWebConfigProperties.ARTICLE_TYPES), ",");
             if (StringUtils.isEmpty(types) || ArrayUtils.contains(types, tag.getTagType().toString())) {
                 return true;
             }

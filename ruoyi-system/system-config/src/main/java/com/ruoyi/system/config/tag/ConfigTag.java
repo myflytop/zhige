@@ -41,30 +41,8 @@ public class ConfigTag {
      * @param configGroup 参数配置组
      * @return 参数配置集合
      */
-    public Map<String, String> getConfigMapValue(String configGroup) {
+    public Map<String, String> getConfigValueMap(String configGroup) {
         return configService.selectConfigMapValueByGroupName(configGroup);
-    }
-
-    /**
-     * 查询参数配置列表转Map
-     * 
-     * @param configGroup 参数配置组
-     * @param configKey
-     * @return 参数配置集合
-     */
-    public Map<String, SysConfig> getConfigMap(String configGroup, String configKey) {
-        return configService.selectConfigMapByGf(configGroup, configKey);
-    }
-
-    /**
-     * 查询参数配置列表转Map
-     * 
-     * @param configGroup 参数配置组
-     * @param configKey
-     * @return 参数配置集合
-     */
-    public Map<String, String> getConfigMapValue(String configGroup, String configKey) {
-        return configService.selectConfigMapValueByGf(configGroup, configKey);
     }
 
     /**

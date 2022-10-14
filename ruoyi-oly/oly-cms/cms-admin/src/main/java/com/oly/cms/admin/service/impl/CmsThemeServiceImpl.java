@@ -137,7 +137,7 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	 */
 	@Override
 	public String getUseTheme() {
-		Object ob = sysConfigService.selectConfigDefauleValue(
+		Object ob = sysConfigService.selectConfigDefaultValue(
 				OlyThemeConfigProperties.THEME_CONFIG_GROUP.defaultValue(), OlyThemeConfigProperties.THEME_USED);
 		if (ob == null) {
 			String u = null;

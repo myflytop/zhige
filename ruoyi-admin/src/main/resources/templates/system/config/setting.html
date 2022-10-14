@@ -23,7 +23,7 @@
             <div class="tab-content">
                 <!-- 通用设置 设置-->
                 <div id="sysCommon" class="tab-pane active"
-                    th:with="sysCommon=${@configTag.getConfigMapValue('sysCommon')}">
+                    th:with="sysCommon=${@configTag.getConfigValueMap('sysCommon')}">
                     <div class="panel-body">
                         <form class="form-horizontal m" id="form-sysCommon">
                             <div class="form-group">
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <!-- 登录 设置-->
-                <div id="sysLogin" class="tab-pane" th:with="sysLogin=${@configTag.getConfigMapValue('sysLogin')}">
+                <div id="sysLogin" class="tab-pane" th:with="sysLogin=${@configTag.getConfigValueMap('sysLogin')}">
                     <div class="panel-body">
                         <form class="form-horizontal m" id="form-sysLogin">
                             <div class="form-group">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
                 <!-- 管理主题设置 -->
-                <div id="sysIndex" class="tab-pane" th:with="sysIndex=${@configTag.getConfigMapValue('sysIndex')}">
+                <div id="sysIndex" class="tab-pane" th:with="sysIndex=${@configTag.getConfigValueMap('sysIndex')}">
                     <div class="panel-body">
                         <form class="form-horizontal m" id="form-sysIndex">
                             <div class="form-group">
@@ -176,7 +176,7 @@
                     </div>
                 </div>
                 <!-- 用户 设置-->
-                <div id="sysUser" class="tab-pane" th:with="sysUser=${@configTag.getConfigMapValue('sysUser')}">
+                <div id="sysUser" class="tab-pane" th:with="sysUser=${@configTag.getConfigValueMap('sysUser')}">
                     <div class="panel-body">
                         <form class="form-horizontal m" id="form-sysUser">
                             <div class="form-group">
