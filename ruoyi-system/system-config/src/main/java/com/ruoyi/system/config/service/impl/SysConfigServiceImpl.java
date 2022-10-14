@@ -185,11 +185,16 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @return 结果
      */
     @Override
-    public int deleteConfigByGk(SysConfig config) {
-        if (SysConfigGroups.getValues().contains(config.getConfigGroup())) {
-            throw new ServiceException(String.format("【%1$s】为系统配置组,当前组成员不能删除 ", config.getConfigGroup()));
+    public int deleteConfigByGk(String configGroup, String configKey) {
+        if (SysConfigGroups.getValues().contains(configGroup)) {
+            throw new ServiceException(String.format("【%1$s】为系统配置组,当前组成员不能删除 ", configGroup));
+        } else {
+            SysConfig config = this.selectConfigByGk(configGroup, configKey);
+            int re = configMapper.deleteConfigByGk(config);
+            CacheUtils.remove(getCacheName(), getCacheKey(config.getConfigGroup(), config.getConfigKey()));
+            return re;
         }
-        return configMapper.deleteConfigByGk(config);
+
     }
 
     /**

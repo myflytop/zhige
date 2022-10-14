@@ -130,10 +130,11 @@ public interface ISysConfigService {
     /**
      * 删除参数配置
      * 
-     * @param config 参数配置信息ByGk
+     * @param configGroup 参数组
+     * @param configKey   参数键名
      * @return 结果
      */
-    public int deleteConfigByGk(SysConfig config);
+    public int deleteConfigByGk(String configGroup, String configKey);
 
     /**
      * 删除参数配置

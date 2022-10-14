@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.alibaba.fastjson.JSON;
@@ -69,11 +67,11 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	 */
 	@Override
 	public int deleteByName(String themeName) throws FileNotFoundException {
-		Map<String, SysConfig> sysConfigs = sysConfigService.selectConfigMapByGroupName(themeName);
-		Set<String> configSet = sysConfigs.keySet();
-		Iterator<String> configIt = configSet.iterator();
-		while (configIt.hasNext()) {
-			sysConfigService.deleteConfigByGk(sysConfigs.get(configIt.next()));
+		SysConfig sysConfig = new SysConfig();
+		sysConfig.setConfigGroup(themeName);
+		List<SysConfig> configs = sysConfigService.selectConfigList(sysConfig);
+		for (SysConfig iter : configs) {
+			sysConfigService.deleteConfigByGk(iter.getConfigGroup(), iter.getConfigKey());
 		}
 		// 删除主题包
 		CmsUtils.deleteThemeFile(themeName);
