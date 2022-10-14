@@ -140,7 +140,7 @@ public class CmsThemeController extends CmsCommonController {
 	public String themeSetting(@PathVariable("themeName") String themeName, ModelMap map) {
 		map.put("themeName", themeName);
 		map.put("themeData",
-				JSONObject.toJSON(sysConfigService.selectConfigValueMapByGk(themeName, "oly.web.theme." + themeName)));
+				JSONObject.toJSON(sysConfigService.selectConfigMapByGroupName(themeName)));
 		return prefix + "/themeSetting";
 	}
 
