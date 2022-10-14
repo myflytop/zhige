@@ -171,7 +171,8 @@ public class SysConfigServiceImpl implements ISysConfigService {
         for (Long configId : configIds) {
             SysConfig config = selectConfigById(configId);
             if (UserConstants.IS_SYSTEM == config.getConfigType()) {
-                throw new ServiceException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
+                throw new ServiceException(
+                        String.format("内置参数组【%1$s】的key:【%2$s】不能删除", config.getConfigGroup(), config.getConfigKey()));
             }
             configMapper.deleteConfigById(configId);
             CacheUtils.remove(getCacheName(), getCacheKey(config.getConfigGroup(), config.getConfigKey()));
@@ -193,14 +194,14 @@ public class SysConfigServiceImpl implements ISysConfigService {
             SysConfig config = this.selectConfigByGk(configGroup, configKey);
             if (config != null) {
                 if (UserConstants.IS_SYSTEM == config.getConfigType()) {
-                    throw new ServiceException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
+                    throw new ServiceException(String.format("内置参数组【%1$s】的key:【%2$s】不能删除", config.getConfigGroup(),
+                            config.getConfigKey()));
                 }
                 re = configMapper.deleteConfigById(config.getConfigId());
             }
             CacheUtils.remove(getCacheName(), getCacheKey(configGroup, configKey));
             return re;
         }
-
     }
 
     /**
