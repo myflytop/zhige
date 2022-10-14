@@ -67,14 +67,6 @@ public interface SysConfigMapper {
     /**
      * 删除参数配置
      * 
-     * @param config 参数配置信息ByGk
-     * @return 结果
-     */
-    public int deleteConfigByGk(SysConfig config);
-
-    /**
-     * 删除参数配置
-     * 
      * @param configGroup 参数配置组
      * @return 结果
      */

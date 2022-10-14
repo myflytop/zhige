@@ -186,12 +186,18 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public int deleteConfigByGk(String configGroup, String configKey) {
+        int re = 0;
         if (SysConfigGroups.getValues().contains(configGroup)) {
             throw new ServiceException(String.format("【%1$s】为系统配置组,当前组成员不能删除 ", configGroup));
         } else {
             SysConfig config = this.selectConfigByGk(configGroup, configKey);
-            int re = configMapper.deleteConfigByGk(config);
-            CacheUtils.remove(getCacheName(), getCacheKey(config.getConfigGroup(), config.getConfigKey()));
+            if (config != null) {
+                if (UserConstants.IS_SYSTEM == config.getConfigType()) {
+                    throw new ServiceException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
+                }
+                re = configMapper.deleteConfigById(config.getConfigId());
+            }
+            CacheUtils.remove(getCacheName(), getCacheKey(configGroup, configKey));
             return re;
         }
 
@@ -260,10 +266,14 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
     @Override
     public int deleteConfigByGroup(String configGroup) {
-        if (SysConfigGroups.getValues().contains(configGroup)) {
-            throw new ServiceException(String.format("【%1$s】为系统配置组,当前组不能删除 ", configGroup));
+        int re = 0;
+        SysConfig sysConfig = new SysConfig();
+        sysConfig.setConfigGroup(configGroup);
+        List<SysConfig> configs = this.selectConfigList(sysConfig);
+        for (SysConfig iter : configs) {
+            re += this.deleteConfigByGk(iter.getConfigGroup(), iter.getConfigKey());
         }
-        return configMapper.deleteConfigByGroup(configGroup);
+        return re;
     }
 
     /**

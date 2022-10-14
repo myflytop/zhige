@@ -67,12 +67,9 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	 */
 	@Override
 	public int deleteByName(String themeName) throws FileNotFoundException {
-		SysConfig sysConfig = new SysConfig();
-		sysConfig.setConfigGroup(themeName);
-		List<SysConfig> configs = sysConfigService.selectConfigList(sysConfig);
-		for (SysConfig iter : configs) {
-			sysConfigService.deleteConfigByGk(iter.getConfigGroup(), iter.getConfigKey());
-		}
+
+		// 删除配置参数
+		sysConfigService.deleteConfigByGroup(themeName);
 		// 删除主题包
 		CmsUtils.deleteThemeFile(themeName);
 		// 删除关联主题

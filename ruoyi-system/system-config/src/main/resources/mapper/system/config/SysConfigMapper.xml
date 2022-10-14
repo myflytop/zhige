@@ -132,10 +132,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteConfigById" parameterType="Long">
 		delete from sys_config where config_id = #{configId}
 	</delete>
-	
-	<delete id="deleteConfigByGk"  parameterType="SysConfig">
-		delete from sys_config where config_group = #{configGroup} and config_key = #{configKey}
-	</delete>
 
 	<delete id="deleteConfigByGroup" parameterType="String">
 		delete from sys_config where config_group = #{configGroup}
