@@ -121,7 +121,6 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 	 */
 	@Override
 	public Map<String, CmsTheme> listThemesToMap() {
-
 		Map<String, CmsTheme> themeMap = listThemes().stream()
 				.collect(Collectors.toMap(CmsTheme::getThemeName, a -> a, (k1, k2) -> k1));
 		return themeMap;
@@ -177,6 +176,9 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 		return themeMapper.updateThemeEnable(cmsTheme == null ? "" : cmsTheme.getThemeName(), themeName);
 	}
 
+	/**
+	 * 获取主题
+	 */
 	@Override
 	public CmsTheme selectByName(String themeName) {
 		return themeMapper.selectByName(themeName);
@@ -218,7 +220,6 @@ public class CmsThemeServiceImpl implements ICmsThemeService {
 			theme.setThemeName(themeName);
 			// 插入数据库上传主题
 			if (iSync) {
-
 				// 默认不开启
 				theme.setThemeEnabled(0);
 				theme.setCreateBy(ShiroUtils.getUserId());

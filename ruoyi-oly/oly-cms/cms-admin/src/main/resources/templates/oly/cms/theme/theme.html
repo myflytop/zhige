@@ -106,15 +106,15 @@
 		<div class="row">
 			<div class="col-sm-12 select-table table-striped">
 				<div class="btn-group-sm" id="toolbar" role="group">
-					<a class="btn-header"  href="javascript:void(0)" onclick="themeUpload()"> <i
+					<a class="btn-header"  href="javascript:void(0)" onclick="themeUpload()" shiro:hasPermission="cms:theme:install" > <i
 							class="fa fa-cloud-upload" aria-hidden="true"></i>安装主题
 					</a>
 					&nbsp;&nbsp;&nbsp;
-					<a class="btn-header"  href="javascript:void(0)" onclick="themeEdit()"> <i
+					<a class="btn-header"  href="javascript:void(0)" onclick="themeEdit()" shiro:hasPermission="cms:theme:edit"> <i
 							class="fa fa-pencil-square" aria-hidden="true"></i>主题编辑器
 					</a>
 					&nbsp;&nbsp;&nbsp;
-					<a class="btn-header" shiro:hasPermission="theme:config:view" href="javascript:void(0)" onclick="themeConfig()"> <i
+					<a class="btn-header" shiro:hasPermission="theme:config:edit" href="javascript:void(0)" onclick="themeConfig()"> <i
 						class="fa fa-edit" aria-hidden="true"></i>主题配置
 				    </a>
 				&nbsp;&nbsp;&nbsp;
@@ -122,11 +122,11 @@
 							class="fa fa-refresh" aria-hidden="true"></i>刷新
 					</a>
 				&nbsp;&nbsp;&nbsp;
-					<a class="btn-header"  href="javascript:void(0)" onclick="themeBack()"> <i
+					<a class="btn-header"  href="javascript:void(0)" onclick="themeBack()" shiro:hasPermission="cms:theme:back"> <i
 							class="fa fa-file-archive-o" aria-hidden="true"></i>备份管理
 					</a>
 				</div>
-				<ul class="note" th:if="${!#lists.isEmpty(themes)}">
+				<ul class="note" th:if="${themes!=null}">
 					<li th:each="theme : ${themes}" th:with="themeVal=${theme.value}">
 						<div class="im"
 							th:style="${themeVal.themeEnabled==0}? '':'box-shadow: 5px 5px 7px rgba(69, 89, 171, 0.7)'">
@@ -134,7 +134,7 @@
 								<img alt=""
 									th:src="@{/themes/{themeName}/screenshots/index.png(themeName=${themeVal.themeName})}">
 								<div class="theme-tit">
-									<button style="border: none; background: none"
+									<button style="border: none; background: none" shiro:hasPermission="cms:theme:edit"
 										th:class="${themeVal.themeEnabled==0}?'theme-enable btn':'theme-enable btn  disabled'"
 										th:disabled="${themeVal.themeEnabled==1}"
 										th:title="${themeVal.themeEnabled==0}? '启用':''"
@@ -144,16 +144,16 @@
 									</button>
 									<div class="theme-con">
 										[[${themeVal.themeName}]] <span>By&nbsp;[[${themeVal.themeAuthor}]]
-										</span> <span style="padding-top: 15px;"> <a title="删除"
+										</span> <span style="padding-top: 15px;"> <a title="删除" shiro:hasPermission="cms:theme:remove"
 												th:onclick="javascript:themeDelete([[${themeVal.themeName}]])"><i
-													class="fa fa-trash-o " aria-hidden="true"></i></a>
+													class="fa fa-trash-o " aria-hidden="true" ></i></a>
 											<a title="站点配置"
-												th:onclick="javascript:themeSetWebConfig([[${themeVal.themeName}]])" shiro:hasPermission="theme:config:view"><i
+												th:onclick="javascript:themeSetWebConfig([[${themeVal.themeName}]])" shiro:hasPermission="theme:config:edit"><i
 													class="fa fa-certificate" aria-hidden="true"></i></a>
 											<a title="主题配置"
-												th:onclick="javascript:themeSettingConfig([[${themeVal.themeName}]])" shiro:hasPermission="theme:config:view"><i
+												th:onclick="javascript:themeSettingConfig([[${themeVal.themeName}]])" shiro:hasPermission="theme:config:edit"><i
 													class="fa fa-cog" aria-hidden="true"></i></a>
-											<a title="主题备份"
+											<a title="主题备份" shiro:hasPermission="cms:theme:back"
 												th:onclick="javascript:themePackage([[${themeVal.themeName}]])"><i
 													class="fa fa-file-archive-o" aria-hidden="true"></i></a>
 											<a title="访问主页" 
@@ -168,8 +168,8 @@
 					</li>
 				</ul>
 				
-				<div class="alert alert-success" th:if="${#lists.isEmpty(themes)}">
-                    未安装任何主题,请联系管理员
+				<div class="alert alert-success" th:if="${themes!=null}">
+                    还未安装任何主题！
 				</div>
 
 			</div>
@@ -264,7 +264,6 @@
 		}
 
 		function themeConfig(themeName) {
-
             $.modal.openTab("主题设置" , prefix + "/themeConfig" );
         }
 

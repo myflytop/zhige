@@ -323,7 +323,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
     public String selectConfigDefaultValue(String groupName, PropertyEnum propertyEnum) {
         String value = selectConfigValueByGk(groupName, propertyEnum.getValue());
         return PropertyEnum.convertTo(value, propertyEnum).toString();
-
     }
 
     @Override

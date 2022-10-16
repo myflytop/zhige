@@ -98,7 +98,7 @@ public class CmsThemeController extends CmsCommonController {
 	 * @throws Throwable
 	 */
 	@PostMapping("/uploadTheme")
-	@RequiresPermissions("cms:theme:upload")
+	@RequiresPermissions("cms:theme:install")
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.INSERT)
 	@ResponseBody
 	public AjaxResult themeUpload(@RequestParam("themeFile") MultipartFile file, boolean cover, boolean coverConfig,
@@ -115,7 +115,7 @@ public class CmsThemeController extends CmsCommonController {
 	 * 主题配置
 	 */
 	@GetMapping("/themeConfig")
-	@RequiresPermissions("theme:config:view")
+	@RequiresPermissions("theme:config:edit")
 	public String themeConfig(ModelMap map) {
 		return prefix + "/themeConfig";
 	}
@@ -124,7 +124,7 @@ public class CmsThemeController extends CmsCommonController {
 	 * 站点配置
 	 */
 	@GetMapping("/webConfig/{configGroup}")
-	@RequiresPermissions("theme:config:view")
+	@RequiresPermissions("theme:config:edit")
 	public String webConfig(@PathVariable("configGroup") String configGroup, ModelMap map) {
 		map.put("configName", configGroup);
 		return prefix + "/webConfig";
@@ -136,7 +136,7 @@ public class CmsThemeController extends CmsCommonController {
 	 * @return
 	 */
 	@GetMapping("/themeSetting/{themeName}")
-	@RequiresPermissions("theme:config:setting")
+	@RequiresPermissions("theme:config:edit")
 	public String themeSetting(@PathVariable("themeName") String themeName, ModelMap map) {
 		map.put("themeName", themeName);
 		map.put("themeData",
@@ -230,13 +230,25 @@ public class CmsThemeController extends CmsCommonController {
 		return AjaxResult.success(themes.size());
 	}
 
+	/**
+	 * 主题备份
+	 * 
+	 * @param mp
+	 * @return
+	 */
 	@GetMapping("/themeBack")
-	@RequiresPermissions("cms:themeBack:view")
+	@RequiresPermissions("cms:theme:back")
 	public String themeBack(ModelMap mp) {
 		return prefix + "/themeBack";
 	}
 
-	@RequiresPermissions("cms:themeBack:view")
+	/**
+	 * 主题备份列表
+	 * 
+	 * @param mp
+	 * @return
+	 */
+	@RequiresPermissions("cms:theme:back")
 	@PostMapping("/themeBackList")
 	@ResponseBody
 	public TableDataInfo backList() {
@@ -256,7 +268,7 @@ public class CmsThemeController extends CmsCommonController {
 	 */
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.EXPORT)
 	@PostMapping("/packageTheme")
-	@RequiresPermissions("cms:theme:update")
+	@RequiresPermissions("cms:theme:back")
 	@ResponseBody
 	public AjaxResult packageTheme(String themeName) {
 		CmsUtils.backUpTheme(themeName);
@@ -271,7 +283,7 @@ public class CmsThemeController extends CmsCommonController {
 	 */
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.EXPORT)
 	@PostMapping("/removeBackTheme")
-	@RequiresPermissions("cms:theme:update")
+	@RequiresPermissions("cms:theme:back")
 	@ResponseBody
 	public AjaxResult deleteBackTheme(String themeName) {
 		CmsUtils.removeBackTheme(themeName);
@@ -288,7 +300,7 @@ public class CmsThemeController extends CmsCommonController {
 	 */
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.EXPORT)
 	@GetMapping("/downloadBackTheme")
-	@RequiresPermissions("cms:theme:update")
+	@RequiresPermissions("cms:theme:back")
 	public void downloadBackTheme(String themeName, HttpServletResponse response, HttpServletRequest request) {
 		CmsUtils.downloadBackTheme(themeName, response, request);
 	}
@@ -302,7 +314,7 @@ public class CmsThemeController extends CmsCommonController {
 	 */
 	@Log(title = OperateTitle.CMS_THEME, businessType = BusinessType.EXPORT)
 	@PostMapping("/sendMailBackTheme")
-	@RequiresPermissions("cms:theme:update")
+	@RequiresPermissions("cms:theme:back")
 	@ResponseBody
 	public AjaxResult sendMailTheme(String themeName, String toMail) {
 		if (!Validator.isEmail(toMail)) {
@@ -326,7 +338,7 @@ public class CmsThemeController extends CmsCommonController {
 	 * @return
 	 */
 	@GetMapping("/getThemeUsed")
-	@RequiresPermissions("cms:theme:update")
+	@RequiresPermissions("cms:theme:edit")
 	@ResponseBody
 	public AjaxResult getThemeUsed() {
 		return AjaxResult.success("获取使用的主题", themeService.selectThemeByUsed());
@@ -338,7 +350,7 @@ public class CmsThemeController extends CmsCommonController {
 	 * @throws FileNotFoundException
 	 */
 	@GetMapping("/treeData")
-	@RequiresPermissions("cms:theme:view")
+	@RequiresPermissions("cms:theme:edit")
 	@ResponseBody
 	public List<ThemeTreeNode> getThemeFiles(String path) throws FileNotFoundException {
 		if (StringUtils.isEmpty(path)) {
@@ -358,7 +370,7 @@ public class CmsThemeController extends CmsCommonController {
 	 * @return
 	 */
 	@GetMapping("/themeContent")
-	@RequiresPermissions("cms:theme:view")
+	@RequiresPermissions("cms:theme:edit")
 	@ResponseBody
 	public AjaxResult themeContent(String path) throws FileNotFoundException {
 		if (!"html|js|css|txt|json".contains(FilenameUtils.getExtension(path))) {
@@ -486,7 +498,7 @@ public class CmsThemeController extends CmsCommonController {
 	 * @param prefix
 	 * @param themeList
 	 */
-	public static void listFile(File dir, String prefix, List<ThemeTreeNode> themeList) {
+	private void listFile(File dir, String prefix, List<ThemeTreeNode> themeList) {
 		File[] files = dir.listFiles();
 		if (null != files) {
 			for (File file : files) {
