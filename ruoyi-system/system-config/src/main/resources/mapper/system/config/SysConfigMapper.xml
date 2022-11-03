@@ -35,6 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</sql>
     
+	<!-- 单个查询 -->
 	 <select id="selectConfig" parameterType="SysConfig" resultMap="SysConfigResult">
         <include refid="selectConfigVo"/>  <where>
 			<if test="configGroup != null and configGroup != '' and configKey != null and configKey != '' and configId ==null ">
@@ -46,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
     </select>
     
+	<!-- 列表查询 -->
     <select id="selectConfigList" parameterType="SysConfig" resultMap="SysConfigResult">
         <include refid="selectConfigVo"/>
         <where>
@@ -72,13 +74,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
     </select>
-
+    
+	<!-- 查询分组列表 -->
 	<select id="selectConfigGroupList" resultType="string">
         select config_group from sys_config group by config_group
     </select>
     
 
-    
+    <!-- 插入配置 -->
     <insert id="insertConfig" parameterType="SysConfig">
         insert into sys_config (
 			<if test="configName != null and configName != '' ">config_name,</if>
@@ -103,6 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
     </insert>
 	 
+	<!-- 更新配置通过ID -->
     <update id="updateConfigById" parameterType="SysConfig">
         update sys_config 
         <set>
@@ -119,6 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where config_id = #{configId}
     </update>
 	
+	<!-- 更新配置通过GK -->
      <update id="updateConfigByGk" parameterType="SysConfig">
         update sys_config
         <trim prefix="SET" suffixOverrides=",">
@@ -128,15 +133,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where config_group = #{configGroup} AND config_key = #{configKey}
     </update>
-
+    
+	<!-- 删除配置通过Id -->
 	<delete id="deleteConfigById" parameterType="Long">
 		delete from sys_config where config_id = #{configId}
 	</delete>
 
+	<!-- 批量删除通过配置组别 -->
 	<delete id="deleteConfigByGroup" parameterType="String">
 		delete from sys_config where config_group = #{configGroup}
 	</delete>
-
+    
+	<!-- 批量删除通过Ids -->
     <delete id="deleteConfigByIds" parameterType="String">
         delete from sys_config where config_id in 
         <foreach item="configId" collection="array" open="(" separator="," close=")">

@@ -154,7 +154,6 @@ public class FileUploadUtils {
     }
 
     public static final String getKey(String uploadDir, String fileName) throws IOException {
-
         return Paths.get(FilenameUtils.getBaseName(uploadDir), fileName).toString();
     }
 
