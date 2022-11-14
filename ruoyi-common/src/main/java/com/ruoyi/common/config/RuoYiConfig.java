@@ -112,6 +112,11 @@ public class RuoYiConfig {
         return getProfile() + "/upload";
     }
 
+    /**
+     * 获取用户工作目录
+     * 
+     * @return
+     */
     public static String getUserWork() {
         return System.getProperty("user.home");
     }

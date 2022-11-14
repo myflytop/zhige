@@ -34,6 +34,7 @@ public class InvalidExtensionException extends FileUploadException {
         return filename;
     }
 
+    // 图片异常
     public static class InvalidImageExtensionException extends InvalidExtensionException {
         private static final long serialVersionUID = 1L;
 
@@ -42,22 +43,16 @@ public class InvalidExtensionException extends FileUploadException {
         }
     }
 
-    public static class InvalidFlashExtensionException extends InvalidExtensionException {
+    // 音频异常
+    public static class InvalidMusicExtensionException extends InvalidExtensionException {
         private static final long serialVersionUID = 1L;
 
-        public InvalidFlashExtensionException(String[] allowedExtension, String extension, String filename) {
+        public InvalidMusicExtensionException(String[] allowedExtension, String extension, String filename) {
             super(allowedExtension, extension, filename);
         }
     }
 
-    public static class InvalidMediaExtensionException extends InvalidExtensionException {
-        private static final long serialVersionUID = 1L;
-
-        public InvalidMediaExtensionException(String[] allowedExtension, String extension, String filename) {
-            super(allowedExtension, extension, filename);
-        }
-    }
-
+    // 视频异常
     public static class InvalidVideoExtensionException extends InvalidExtensionException {
         private static final long serialVersionUID = 1L;
 
@@ -66,18 +61,20 @@ public class InvalidExtensionException extends FileUploadException {
         }
     }
 
-    public static class InvalidDocsExtensionException extends InvalidExtensionException {
-        private static final long serialVersionUID = 1L;
-
-        public InvalidDocsExtensionException(String[] allowedExtension, String extension, String filename) {
-            super(allowedExtension, extension, filename);
-        }
-    }
-
+    // 压缩异常
     public static class InvalidCompressExtensionException extends InvalidExtensionException {
         private static final long serialVersionUID = 1L;
 
         public InvalidCompressExtensionException(String[] allowedExtension, String extension, String filename) {
+            super(allowedExtension, extension, filename);
+        }
+    }
+
+    // 文档异常
+    public static class InvalidDocumentExtensionException extends InvalidExtensionException {
+        private static final long serialVersionUID = 1L;
+
+        public InvalidDocumentExtensionException(String[] allowedExtension, String extension, String filename) {
             super(allowedExtension, extension, filename);
         }
     }

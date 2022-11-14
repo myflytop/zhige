@@ -177,17 +177,14 @@ public class FileUploadUtils {
             if (allowedExtension == MimeTypeUtils.IMAGE_EXTENSION) {
                 throw new InvalidExtensionException.InvalidImageExtensionException(allowedExtension, extension,
                         fileName);
-            } else if (allowedExtension == MimeTypeUtils.FLASH_EXTENSION) {
-                throw new InvalidExtensionException.InvalidFlashExtensionException(allowedExtension, extension,
-                        fileName);
-            } else if (allowedExtension == MimeTypeUtils.MEDIA_EXTENSION) {
-                throw new InvalidExtensionException.InvalidMediaExtensionException(allowedExtension, extension,
+            } else if (allowedExtension == MimeTypeUtils.MUSIC_EXTENSION) {
+                throw new InvalidExtensionException.InvalidMusicExtensionException(allowedExtension, extension,
                         fileName);
             } else if (allowedExtension == MimeTypeUtils.VIDEO_EXTENSION) {
                 throw new InvalidExtensionException.InvalidVideoExtensionException(allowedExtension, extension,
                         fileName);
             } else if (allowedExtension == MimeTypeUtils.DOCUMENT_EXTENSION) {
-                throw new InvalidExtensionException.InvalidDocsExtensionException(allowedExtension, extension,
+                throw new InvalidExtensionException.InvalidDocumentExtensionException(allowedExtension, extension,
                         fileName);
             } else if (allowedExtension == MimeTypeUtils.COMPRESS_EXTENSION) {
                 throw new InvalidExtensionException.InvalidCompressExtensionException(allowedExtension, extension,

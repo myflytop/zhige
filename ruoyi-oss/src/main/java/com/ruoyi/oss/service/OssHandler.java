@@ -127,6 +127,7 @@ public interface OssHandler {
       fileSizeChick(file.getSize(), maxSize);
     }
   }
+  
 
   public static String pathToUrl(String path) {
     return path.replace("\\", "/");

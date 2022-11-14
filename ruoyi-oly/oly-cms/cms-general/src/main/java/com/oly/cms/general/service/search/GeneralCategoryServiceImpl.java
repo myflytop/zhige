@@ -42,6 +42,7 @@ public class GeneralCategoryServiceImpl implements IGeneralSearchService {
 
     public CmsCat selectCmsCatsTree(CmsCat cmsCat) {
         if (cmsCat == null || cmsCat.getCatId() == null) {
+            cmsCat = new CmsCat();
             cmsCat.setCatId(0L);
         }
         return CategoryTreeUtils.getCatTree(this.listCmsCats(cmsCat), cmsCat.getCatId());

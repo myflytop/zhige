@@ -50,9 +50,11 @@ public class GeneralColumnServiceImpl implements IGeneralSearchService {
     }
 
     public CmsColumn listCmsColumnsTree(CmsColumn cmsColumn) {
-        if (cmsColumn != null && cmsColumn.getColumnId() != null) {
+        if (cmsColumn == null || cmsColumn.getColumnId() == null) {
+            cmsColumn = new CmsColumn();
             cmsColumn.setColumnId(0L);
         }
+
         return MenuTreeUtils.getColumnTree(this.listCmsColumns(cmsColumn), cmsColumn.getColumnId());
     }
 

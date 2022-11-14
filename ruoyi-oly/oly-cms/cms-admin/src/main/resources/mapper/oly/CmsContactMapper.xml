@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="handleResult != null  and handleResult != ''">#{handleResult},</if>
             <if test="createBy != null ">#{createBy},</if>
             <if test="remark != null  and remark != ''">#{remark},</if>
-            <if test="userCall != null  and userCall != ''">#{uderCall},</if>
+            <if test="userCall != null  and userCall != ''">#{userCall},</if>
         </trim>
     </insert>
 
@@ -94,7 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="handleResult != null  and handleResult != ''">handle_result = #{handleResult},</if>
           handle_time = sysdate(),
             <if test="remark != null  and remark != ''">remark = #{remark},</if>
-            <if test="userCall != null  and userCall != ''">#{uderCall},</if>
+            <if test="userCall != null  and userCall != ''">user_call=#{userCall},</if>
         </trim>
         where contact_id = #{contactId}
     </update>
