@@ -173,7 +173,6 @@ public class CmsCatController extends CmsCommonController {
    public AjaxResult remove(@PathVariable("catId") Long catId) {
       CmsCat cmsCat = new CmsCat();
       cmsCat.setParentId(catId);
-      ;
       if (UserConstants.NOT_UNIQUE.equals(cmsCatService.checkCatUnique(cmsCat))) {
          return AjaxResult.warn("存在子节点不允许删除");
       }

@@ -16,9 +16,6 @@ public class ArticleVo extends CmsArticle {
 	// 用于查询
 	private Long tagId;
 
-	// catName
-	private String catName;
-
 	public Integer[] getTags() {
 		return tags;
 	}
@@ -88,8 +85,6 @@ public class ArticleVo extends CmsArticle {
 		builder.append(getParams());
 		builder.append(", catId=");
 		builder.append(catId);
-		builder.append(", catName=");
-		builder.append(catName);
 		builder.append(",tagId=");
 		builder.append(tagId);
 		builder.append("]");
@@ -102,14 +97,6 @@ public class ArticleVo extends CmsArticle {
 
 	public void setCatId(Long catId) {
 		this.catId = catId;
-	}
-
-	public String getCatName() {
-		return catName;
-	}
-
-	public void setCatName(String catName) {
-		this.catName = catName;
 	}
 
 }
