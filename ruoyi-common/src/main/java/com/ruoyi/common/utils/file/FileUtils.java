@@ -254,13 +254,13 @@ public class FileUtils {
             reader.close();
             return sbf.toString();
         } catch (IOException e) {
-            throw new ServiceException("读取模板内容失败 " + e.getMessage());
+            throw new ServiceException("读取内容失败 " + e.getMessage());
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e1) {
-                    throw new ServiceException("读取模板内容失败 " + e1.getMessage());
+                    throw new ServiceException("读取模内容失败 " + e1.getMessage());
                 }
             }
         }

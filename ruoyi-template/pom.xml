@@ -16,7 +16,8 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-oss</artifactId>
         </dependency>
-
+        
+        <!-- thymeleaf手动解析需要加入此依赖 -->
         <dependency>
             <groupId>ognl</groupId>
             <artifactId>ognl</artifactId>
