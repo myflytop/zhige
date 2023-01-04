@@ -169,3 +169,4 @@ ruoyi:
 - 如果项目对你有帮助，请点下小红星⭐表示支持，谢谢！
 - qq群号：893754716
 - [前后端分离后台地址](https://gitee.com/Getawy/zg-admin)
+- [前后端分离前端地址](https://gitee.com/Getawy/zg-vue3)
