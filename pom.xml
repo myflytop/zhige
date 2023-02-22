@@ -28,7 +28,7 @@
         <fastjson.version>1.2.83</fastjson.version>
         <oshi.version>6.2.2</oshi.version>
         <commons.io.version>2.11.0</commons.io.version>
-        <commons.fileupload.version>1.4</commons.fileupload.version>
+        <commons.fileupload.version>1.5</commons.fileupload.version>
         <poi.version>4.1.2</poi.version>
         <velocity.version>2.3</velocity.version>
         <py.version>2.5.0</py.version>
