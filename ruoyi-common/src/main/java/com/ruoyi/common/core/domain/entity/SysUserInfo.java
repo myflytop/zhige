@@ -17,9 +17,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class SysUserInfo extends SysUser {
     private static final long serialVersionUID = 1L;
 
-    /** 用户ID */
-    private Long userId;
-
     /** 标签 */
     @Excel(name = "标签")
     private String tags;
@@ -56,14 +53,6 @@ public class SysUserInfo extends SysUser {
     /** 更多展示 */
     @Excel(name = "更多展示")
     private String shows;
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
 
     public void setTags(String tags) {
         this.tags = tags;

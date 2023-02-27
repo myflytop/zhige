@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.oly.cms.comment.model.CmsComment;
 import com.oly.cms.comment.model.enums.CommentTypeEnum;
 import com.oly.cms.comment.model.vo.CmsCommentVo;
 import com.oly.cms.common.constant.CacheConstant;

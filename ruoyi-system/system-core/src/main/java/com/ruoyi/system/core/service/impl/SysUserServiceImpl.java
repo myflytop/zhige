@@ -509,4 +509,5 @@ public class SysUserServiceImpl implements ISysUserService {
     public int changeStatus(SysUser user) {
         return userMapper.updateUser(user);
     }
+
 }

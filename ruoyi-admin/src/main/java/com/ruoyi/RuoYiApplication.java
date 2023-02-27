@@ -22,9 +22,11 @@ import cn.hutool.core.util.BooleanUtil;
 @EnableCaching
 public class RuoYiApplication {
     static {
+        // 覆盖默认文件配置位置
         File ymlFile = Paths.get(RuoYiConfig.getUserWork(), "config", "application.yml").toFile();
-        String workPath;
+        String workPath = null;
         boolean appointProfile;
+        // 如果使用默认配置
         if (ymlFile.exists() && ymlFile.isFile()) {
             workPath = YamlUtil.yamlPropertiesByFile("zg.profile", ymlFile).toString();
             appointProfile = BooleanUtil
