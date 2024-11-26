@@ -32,7 +32,7 @@
         <poi.version>4.1.2</poi.version>
         <velocity.version>2.3</velocity.version>
         <py.version>2.5.0</py.version>
-        <huto.version>5.1.5</huto.version>
+        <huto.version>5.8.11</huto.version>
         <sitemap.version>1.1.2</sitemap.version>
         <tika.version>1.22</tika.version>
         <ognl.version>3.1.2</ognl.version>
